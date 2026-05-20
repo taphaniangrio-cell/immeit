@@ -534,10 +534,10 @@ img {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-  text-align: center;
+  text-align: left;
 }
 
 .hero__badge-track {
@@ -583,7 +583,7 @@ img {
 .hero__content p {
   font-size: clamp(0.85rem, 1.2vw, 0.95rem);
   color: var(--text-light);
-  margin: 0 auto 20px;
+  margin: 0 0 20px;
   max-width: 540px;
   line-height: 1.7;
 }
@@ -593,22 +593,45 @@ img {
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 24px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .hero__stats {
   display: flex;
   gap: 24px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .hero__badge-track {
   overflow: hidden;
-  margin: 0 auto 12px;
+  margin: 0 0 12px;
   width: 100%;
-  max-width: 500px;
   position: relative;
-  text-align: center;
+}
+
+.hero__badge-inner {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.hero__badge-inner.scroll {
+  animation: ticker 30s linear infinite;
+}
+
+.hero__badge-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-light);
+  letter-spacing: 0.5px;
+  padding-right: 48px;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .hero__actions {
@@ -1940,8 +1963,14 @@ img {
     padding: 0 16px;
   }
   .hero__content p {
-    margin: 0 auto 24px;
+    margin: 0 0 24px;
     max-width: 100%;
+  }
+  .hero__actions {
+    justify-content: flex-start;
+  }
+  .hero__stats {
+    justify-content: flex-start;
   }
   .about__grid {
     grid-template-columns: 1fr;

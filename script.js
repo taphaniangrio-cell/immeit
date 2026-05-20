@@ -31,11 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ===== Badge scroll =====
+  const badgeInner = document.getElementById('badgeInner');
   const badgeEl = document.getElementById('badgeText');
-  if (badgeEl) {
+  if (badgeInner && badgeEl) {
     const sentence = 'IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : Renault, Stellantis, SAFRAN, SUEZ, Air Liquide';
     badgeEl.textContent = sentence;
-    badgeEl.classList.add('scroll');
+    const clone = badgeEl.cloneNode(true);
+    clone.id = 'badgeTextClone';
+    clone.setAttribute('aria-hidden', 'true');
+    badgeInner.appendChild(clone);
+    badgeInner.classList.add('scroll');
   }
 
   // ===== Mobile menu =====
