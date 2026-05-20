@@ -193,6 +193,21 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  // ===== Toast notification =====
+  function showToast(message, type) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast toast--' + type;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('toast--visible'));
+    setTimeout(() => {
+      toast.classList.remove('toast--visible');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
   // ===== Contact form =====
   const form = document.getElementById('contactForm');
   if (!form) return;
@@ -203,8 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageInput = document.getElementById('message');
   const nameError = document.getElementById('nameError');
   const emailError = document.getElementById('emailError');
+  const subjectError = document.getElementById('subjectError');
   const messageError = document.getElementById('messageError');
-  const charCounter = document.getElementById('charCounter');
   const submitBtn = document.getElementById('submitBtn');
 
   function setFieldState(input, errorEl, isValid, message) {
@@ -236,6 +251,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
+  function validateSubject() {
+    const val = subjectInput.value.trim();
+    if (val.length === 0) { setFieldState(subjectInput, subjectError, null); return null; }
+    if (val.length > 200) { setFieldState(subjectInput, subjectError, false, 'Le sujet ne peut pas dépasser 200 caractères'); return false; }
+    setFieldState(subjectInput, subjectError, true);
+    return true;
+  }
+
   function validateMessage() {
     const val = messageInput.value.trim();
     if (val.length === 0) { setFieldState(messageInput, messageError, null); return null; }
@@ -255,25 +278,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (this.classList.contains('error') || this.classList.contains('success')) validateEmail();
   });
 
+  subjectInput.addEventListener('blur', validateSubject);
+  subjectInput.addEventListener('input', function () {
+    if (this.classList.contains('error') || this.classList.contains('success')) validateSubject();
+  });
+
   messageInput.addEventListener('blur', validateMessage);
   messageInput.addEventListener('input', function () {
     if (this.classList.contains('error') || this.classList.contains('success')) validateMessage();
-    updateCharCounter();
-  });
-
-  function updateCharCounter() {
-    const len = messageInput.value.length;
-    const max = 2000;
-    charCounter.textContent = len + ' / ' + max;
-    charCounter.classList.remove('warning', 'full');
-    if (len > max * 0.9) charCounter.classList.add('warning');
-    if (len >= max) charCounter.classList.add('full');
-  }
-
-  messageInput.addEventListener('input', updateCharCounter);
-
-  subjectInput.addEventListener('input', function () {
-    if (this.value.length > 200) this.value = this.value.slice(0, 200);
   });
 
   form.addEventListener('submit', (e) => {
@@ -281,12 +293,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isNameValid = validateName();
     const isEmailValid = validateEmail();
+    const isSubjectValid = validateSubject();
     const isMessageValid = validateMessage();
 
-    if (!isNameValid || !isEmailValid || !isMessageValid) {
-      if (nameInput.classList.contains('error')) nameInput.focus();
-      else if (emailInput.classList.contains('error')) emailInput.focus();
-      else if (messageInput.classList.contains('error')) messageInput.focus();
+    if (!isNameValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
+      if (nameInput.classList.contains('error')) {
+        nameInput.focus();
+        showToast('Veuillez remplir votre nom', 'error');
+      } else if (emailInput.classList.contains('error')) {
+        emailInput.focus();
+        showToast('Veuillez remplir votre email', 'error');
+      } else if (subjectInput.classList.contains('error')) {
+        subjectInput.focus();
+        showToast('Veuillez remplir le sujet', 'error');
+      } else if (messageInput.classList.contains('error')) {
+        messageInput.focus();
+        showToast('Veuillez remplir votre message', 'error');
+      } else {
+        if (!nameInput.value.trim()) {
+          nameInput.focus();
+          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+        } else if (!emailInput.value.trim()) {
+          emailInput.focus();
+          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+        } else if (!subjectInput.value.trim()) {
+          subjectInput.focus();
+          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+        } else {
+          messageInput.focus();
+          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+        }
+      }
       form.classList.add('shake');
       setTimeout(() => form.classList.remove('shake'), 500);
       return;
@@ -314,34 +351,32 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(result => {
       if (result.success) {
-        showFormMessage('Message envoyé !', '#10b981');
+        showFormMessage('Message envoyé !', '#10b981', true);
       } else {
         throw new Error(result.error || 'Erreur');
       }
     })
     .catch(() => {
-      showFormMessage('Échec de l\'envoi', '#ef4444');
+      showFormMessage('Échec de l\'envoi', '#ef4444', false);
     });
 
-    function showFormMessage(label, color) {
+    function showFormMessage(label, color, reset) {
       submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ' + label;
       submitBtn.style.background = 'linear-gradient(135deg, ' + color + ', ' + color + ')';
       submitBtn.style.boxShadow = '0 4px 16px ' + color + '59';
-      setTimeout(resetForm, 3000);
+      setTimeout(() => resetForm(reset), 3000);
     }
 
-    function resetForm() {
-      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
+    function resetForm(clearFields) {
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
       submitBtn.style.background = '';
       submitBtn.style.boxShadow = '';
       submitBtn.disabled = false;
-      form.reset();
-      [nameInput, emailInput, messageInput, subjectInput].forEach(el => {
-        el.classList.remove('success', 'error');
-      });
-      [nameError, emailError, messageError].forEach(el => el.textContent = '');
-      charCounter.textContent = '0 / 2000';
-      charCounter.classList.remove('warning', 'full');
+      if (clearFields) {
+        form.reset();
+        [nameInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
+        [nameError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
+      }
     }
   });
 
