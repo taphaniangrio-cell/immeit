@@ -4,17 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="IMMEIT - Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires. Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation. Basé à Dakar Sénégal et Paris France." />
-  <meta name="theme-color" content="#1F538C" />
+  <meta name="theme-color" content="#111927" />
   <title>IMMEIT | Installation, Méthodes, Maintenance</title>
   <link rel="icon" type="image/jpeg" href="logo-immeit.jpeg" />
   <link rel="apple-touch-icon" href="logo-immeit.jpeg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <div class="loader" id="loader">
+    <div class="loader__spinner"></div>
+  </div>
+
   <svg style="position:absolute;width:0;height:0" aria-hidden="true">
     <defs>
       <linearGradient id="perfGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -24,91 +27,56 @@
     </defs>
   </svg>
 
-  <div class="loader" id="loader">
-    <div class="loader__spinner"></div>
-  </div>
-
-  <header class="header" id="header">
-    <div class="container header__inner">
-      <a href="#" class="logo">
-        <span class="logo__frame">
-          <img src="logo-immeit.jpeg" alt="IMMEIT" class="logo__img" />
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <span class="nav__logo-frame">
+          <img src="logo-immeit.jpeg" alt="IMMEIT" />
         </span>
-        <div>
-          <span class="logo__text">IMMEIT</span>
-          <span class="logo__sub">Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires</span>
+        <div class="nav__logo-text">
+          <span>IMMEIT</span>
+          <small>Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires</small>
         </div>
       </a>
-      <nav class="nav" id="nav">
-        <ul class="nav__list">
-          <li><a href="#hero" class="nav__link active">Accueil</a></li>
-          <li><a href="#about" class="nav__link">À propos</a></li>
-          <li><a href="#services" class="nav__link">Services</a></li>
-          <li><a href="#methodo" class="nav__link">Méthodologie</a></li>
-          <li><a href="#engagement" class="nav__link">Engagements</a></li>
-          <li><a href="#contact" class="nav__link">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="nav-overlay" id="navOverlay"></div>
-      <div class="header__actions">
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#hero" class="nav__link active">Accueil</a></li>
+        <li><a href="#about" class="nav__link">À propos</a></li>
+        <li><a href="#services" class="nav__link">Services</a></li>
+        <li><a href="#methodo" class="nav__link">Méthodologie</a></li>
+        <li><a href="#engagement" class="nav__link">Engagements</a></li>
+        <li><a href="#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a href="#contact" class="btn btn--primary btn--sm">Devis</a>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
     </div>
-  </header>
+    <div class="nav-overlay" id="navOverlay"></div>
+  </nav>
 
   <main>
+    <!-- HERO -->
     <section class="hero" id="hero">
-      <div class="hero__bg">
-        <div class="hero__particles" id="particles"></div>
-        <div class="hero__gear hero__gear--1">
-          <svg viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="22" stroke="currentColor" stroke-width="2.5" opacity="0.12"/>
-            <circle cx="50" cy="50" r="6" fill="currentColor" opacity="0.08"/>
-            <g stroke="currentColor" stroke-width="2.5" opacity="0.12">
-              <rect x="46" y="8" width="8" height="14" rx="2"/>
-              <rect x="46" y="78" width="8" height="14" rx="2"/>
-              <rect x="8" y="46" width="14" height="8" rx="2"/>
-              <rect x="78" y="46" width="14" height="8" rx="2"/>
-              <rect x="17" y="17" width="8" height="14" rx="2" transform="rotate(-45 21 24)"/>
-              <rect x="75" y="17" width="8" height="14" rx="2" transform="rotate(45 79 24)"/>
-              <rect x="17" y="69" width="8" height="14" rx="2" transform="rotate(45 21 76)"/>
-              <rect x="75" y="69" width="8" height="14" rx="2" transform="rotate(-45 79 76)"/>
-            </g>
-          </svg>
-        </div>
-        <div class="hero__gear hero__gear--2">
-          <svg viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="18" stroke="currentColor" stroke-width="2" opacity="0.08"/>
-            <g stroke="currentColor" stroke-width="2" opacity="0.08">
-              <rect x="46" y="10" width="8" height="12" rx="2"/>
-              <rect x="46" y="78" width="8" height="12" rx="2"/>
-              <rect x="10" y="46" width="12" height="8" rx="2"/>
-              <rect x="78" y="46" width="12" height="8" rx="2"/>
-              <rect x="19" y="19" width="8" height="12" rx="2" transform="rotate(-45 23 25)"/>
-              <rect x="73" y="19" width="8" height="12" rx="2" transform="rotate(45 77 25)"/>
-              <rect x="19" y="69" width="8" height="12" rx="2" transform="rotate(45 23 75)"/>
-              <rect x="73" y="69" width="8" height="12" rx="2" transform="rotate(-45 77 75)"/>
-            </g>
-          </svg>
-        </div>
-      </div>
-      <div class="container hero__inner">
-        <div class="hero__content fade-in">
+      <div class="hero__particles" id="particles"></div>
+      <div class="hero__gradient"></div>
+      <div class="hero__inner">
+        <div class="hero__content">
           <div class="hero__badge-track">
-            <span class="hero__badge-text" id="badgeText">Méthodes maintenance et performance industrielle</span>
+            <span class="hero__badge-text" id="badgeText">Méthodes maintenance &amp; performance industrielle</span>
           </div>
-          <h1 class="hero__title">
-            <span class="typing-line">Méthodes fiables<br/>pour une </span><span class="typing-line-accent">production durable</span>
+          <h1>
+            Méthodes fiables<br/>
+            pour une <span class="hero__accent">production durable</span>
           </h1>
-          <p class="hero__desc">
+          <p>
             IMMEIT est spécialisée dans la méthode maintenance et la performance industrielle, la maintenance multi-technique et l'installation de systèmes de climatisation. Basée au Sénégal et en France, nous concevons des solutions sur mesure pour garantir la performance, la fiabilité et la longévité de vos équipements.
           </p>
           <div class="hero__actions">
             <a href="#contact" class="btn btn--primary">Demander un devis</a>
             <a href="#services" class="btn btn--ghost">Nos services <i class="fas fa-arrow-right"></i></a>
-            <button class="btn btn--ghost" id="mapBtn"><i class="fas fa-map-marker-alt"></i> Nous situer</button>
           </div>
           <div class="hero__stats">
             <div class="hero__stat">
@@ -125,10 +93,10 @@
             </div>
           </div>
         </div>
-        <div class="hero__visual fade-in-delay">
+        <div class="hero__visual">
           <div class="hero__card hero__card--1">
             <i class="fas fa-chart-line"></i>
-            <span>Méthodes & Performance</span>
+            <span>Méthodes &amp; Performance</span>
           </div>
           <div class="hero__card hero__card--2">
             <i class="fas fa-snowflake"></i>
@@ -140,14 +108,10 @@
           </div>
         </div>
       </div>
-      <div class="hero__wave">
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-          <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg)"/>
-        </svg>
-      </div>
     </section>
 
-    <section class="section about" id="about">
+    <!-- ABOUT -->
+    <section class="section" id="about">
       <div class="container">
         <div class="about__grid">
           <div class="about__media reveal">
@@ -192,6 +156,50 @@
       </div>
     </section>
 
+    <!-- SERVICES -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section__header reveal">
+          <span class="section__tag">Notre expertise</span>
+          <h2 class="section__title">Trois domaines d'<span class="text--accent">excellence opérationnelle</span></h2>
+          <p class="section__text">Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation — nous concevons des solutions adaptées à vos enjeux.</p>
+        </div>
+        <div class="services__grid">
+          <div class="service-card reveal">
+            <div class="service-card__icon"><i class="fas fa-chart-bar"></i></div>
+            <h3>Méthodes Maintenance &amp; Performance</h3>
+            <p>Plans de maintenance préventive et réglementaire, gammes d'intervention, AMDEC, KPI, tableaux de bord, bilans mensuels et pilotage de la performance.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-card__icon"><i class="fas fa-snowflake"></i></div>
+            <h3>Climatisation &amp; CVC</h3>
+            <p>Vente, installation, maintenance préventive et corrective de systèmes de climatisation pour les secteurs industriel, tertiaire et résidentiel.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-card__icon"><i class="fas fa-tools"></i></div>
+            <h3>Maintenance Multi-technique</h3>
+            <p>Maintenance industrielle et tertiaire : arrêts techniques, maintenance préventive et corrective, inspection, métrologie, maintenance réglementaire.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-card__icon"><i class="fas fa-laptop-code"></i></div>
+            <h3>GMAO &amp; Systèmes d'information</h3>
+            <p>Accompagnement GMAO (Coswin, SAP, Maximo, CARL), analyse de données, audit des ordres de travail, création des structures d'équipements.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-card__icon"><i class="fas fa-file-alt"></i></div>
+            <h3>Gestion Documentaire &amp; GED</h3>
+            <p>Docinfo, SharePoint, GED — procédures techniques, cahiers des charges, appels d'offres, gestion de l'obsolescence et des pièces de rechange.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-card__icon"><i class="fas fa-chart-pie"></i></div>
+            <h3>Audit, Qualité &amp; HSE</h3>
+            <p>Audit des processus de maintenance, fiabilisation des équipements, document unique, grilles d'audit HSE, réduction des arrêts non planifiés.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERFORMANCE -->
     <section class="section perf" id="perf">
       <div class="container">
         <div class="section__header reveal">
@@ -200,51 +208,51 @@
           <p class="section__text">Notre méthodologie se traduit par des indicateurs de performance clés : disponibilité, réduction des coûts, fiabilité et satisfaction.</p>
         </div>
         <div class="perf__grid">
-          <div class="perf__card reveal" style="--i:0">
+          <div class="perf__card reveal">
             <div class="perf__ring">
               <svg viewBox="0 0 150 150">
                 <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar1" cx="75" cy="75" r="60"
-                  data-target="98.5" data-decimal="1"/>
+                <circle class="perf__bar" id="perfBar1" cx="75" cy="75" r="60" data-target="98.5" data-decimal="1"/>
               </svg>
               <div class="perf__value"><span id="perfVal1">0</span><small>%</small></div>
             </div>
+            <div class="perf__icon"><i class="fas fa-chart-pie"></i></div>
             <h3>Taux de disponibilité</h3>
             <p>Disponibilité des équipements après optimisation de vos plans de maintenance.</p>
           </div>
-          <div class="perf__card reveal" style="--i:1">
+          <div class="perf__card reveal">
             <div class="perf__ring">
               <svg viewBox="0 0 150 150">
                 <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar2" cx="75" cy="75" r="60"
-                  data-target="35" data-decimal="0"/>
+                <circle class="perf__bar" id="perfBar2" cx="75" cy="75" r="60" data-target="35" data-decimal="0"/>
               </svg>
               <div class="perf__value"><span id="perfVal2">0</span><small>%</small></div>
             </div>
+            <div class="perf__icon"><i class="fas fa-coins"></i></div>
             <h3>Réduction des coûts</h3>
             <p>Baisse des coûts opérationnels grâce à une maintenance préventive optimisée.</p>
           </div>
-          <div class="perf__card reveal" style="--i:2">
+          <div class="perf__card reveal">
             <div class="perf__ring">
               <svg viewBox="0 0 150 150">
                 <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar3" cx="75" cy="75" r="60"
-                  data-target="45" data-decimal="0"/>
+                <circle class="perf__bar" id="perfBar3" cx="75" cy="75" r="60" data-target="45" data-decimal="0"/>
               </svg>
               <div class="perf__value"><span id="perfVal3">0</span><small>%</small></div>
             </div>
+            <div class="perf__icon"><i class="fas fa-shield-alt"></i></div>
             <h3>Fiabilité améliorée</h3>
             <p>Augmentation de la fiabilité et de la durée de vie de vos installations.</p>
           </div>
-          <div class="perf__card reveal" style="--i:3">
+          <div class="perf__card reveal">
             <div class="perf__ring">
               <svg viewBox="0 0 150 150">
                 <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar4" cx="75" cy="75" r="60"
-                  data-target="97" data-decimal="0"/>
+                <circle class="perf__bar" id="perfBar4" cx="75" cy="75" r="60" data-target="97" data-decimal="0"/>
               </svg>
               <div class="perf__value"><span id="perfVal4">0</span><small>%</small></div>
             </div>
+            <div class="perf__icon"><i class="fas fa-star"></i></div>
             <h3>Satisfaction client</h3>
             <p>Taux de satisfaction mesuré auprès de nos clients accompagnés.</p>
           </div>
@@ -252,61 +260,8 @@
       </div>
     </section>
 
-    <section class="section services" id="services">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag">Notre expertise</span>
-          <h2 class="section__title">Trois domaines d'<span class="text--accent">excellence opérationnelle</span></h2>
-          <p class="section__text">Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation — nous concevons des solutions adaptées à vos enjeux.</p>
-        </div>
-        <div class="services__grid">
-          <div class="service-card reveal" style="--i:0">
-            <div class="service-card__icon">
-              <i class="fas fa-chart-bar"></i>
-            </div>
-            <h3>Méthodes Maintenance & Performance</h3>
-            <p>Plans de maintenance préventive et réglementaire, gammes d'intervention, AMDEC, KPI, tableaux de bord, bilans mensuels et pilotage de la performance.</p>
-          </div>
-          <div class="service-card reveal" style="--i:1">
-            <div class="service-card__icon">
-              <i class="fas fa-snowflake"></i>
-            </div>
-            <h3>Climatisation & CVC</h3>
-            <p>Vente, installation, maintenance préventive et corrective de systèmes de climatisation pour les secteurs industriel, tertiaire et résidentiel.</p>
-          </div>
-          <div class="service-card reveal" style="--i:2">
-            <div class="service-card__icon">
-              <i class="fas fa-tools"></i>
-            </div>
-            <h3>Maintenance Multi-technique</h3>
-            <p>Maintenance industrielle et tertiaire : arrêts techniques, maintenance préventive et corrective, inspection, métrologie, maintenance réglementaire.</p>
-          </div>
-          <div class="service-card reveal" style="--i:3">
-            <div class="service-card__icon">
-              <i class="fas fa-laptop-code"></i>
-            </div>
-            <h3>GMAO & Systèmes d'information</h3>
-            <p>Accompagnement GMAO (Coswin, SAP, Maximo, CARL), analyse de données, audit des ordres de travail, création des structures d'équipements.</p>
-          </div>
-          <div class="service-card reveal" style="--i:4">
-            <div class="service-card__icon">
-              <i class="fas fa-file-alt"></i>
-            </div>
-            <h3>Gestion Documentaire & GED</h3>
-            <p>Docinfo, SharePoint, GED — procédures techniques, cahiers des charges, appels d'offres, gestion de l'obsolescence et des pièces de rechange.</p>
-          </div>
-          <div class="service-card reveal" style="--i:5">
-            <div class="service-card__icon">
-              <i class="fas fa-chart-pie"></i>
-            </div>
-            <h3>Audit, Qualité & HSE</h3>
-            <p>Audit des processus de maintenance, fiabilisation des équipements, document unique, grilles d'audit HSE, réduction des arrêts non planifiés.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section methodo" id="methodo">
+    <!-- METHODOLOGY -->
+    <section class="section" id="methodo">
       <div class="container">
         <div class="section__header reveal">
           <span class="section__tag">Notre méthodologie</span>
@@ -314,27 +269,32 @@
           <p class="section__text">Nous concevons et déployons des modèles de maintenance optimisés, garantissant un équilibre durable entre performance, fiabilité et maîtrise des coûts.</p>
         </div>
         <div class="methodo__grid">
-          <div class="methodo__card reveal" style="--i:0">
+          <div class="methodo__card reveal">
+            <div class="methodo__num">01</div>
             <div class="methodo__icon"><i class="fas fa-search"></i></div>
             <h3>Analyser</h3>
             <p>Analyse de criticité et hiérarchisation des actifs pour identifier les équipements prioritaires et les axes d'amélioration.</p>
           </div>
-          <div class="methodo__card reveal" style="--i:1">
+          <div class="methodo__card reveal">
+            <div class="methodo__num">02</div>
             <div class="methodo__icon"><i class="fas fa-tasks"></i></div>
             <h3>Stratégie</h3>
             <p>Définition de stratégies de maintenance adaptées aux enjeux spécifiques de chaque installation et processus.</p>
           </div>
-          <div class="methodo__card reveal" style="--i:2">
+          <div class="methodo__card reveal">
+            <div class="methodo__num">03</div>
             <div class="methodo__icon"><i class="fas fa-tools"></i></div>
             <h3>Optimiser</h3>
             <p>Optimisation des plans et standards d'intervention pour maximiser la disponibilité et réduire les coûts opérationnels.</p>
           </div>
-          <div class="methodo__card reveal" style="--i:3">
+          <div class="methodo__card reveal">
+            <div class="methodo__num">04</div>
             <div class="methodo__icon"><i class="fas fa-laptop-code"></i></div>
             <h3>Structurer</h3>
             <p>Structuration des données techniques et déploiement des outils GMAO pour une gestion centralisée et fiable.</p>
           </div>
-          <div class="methodo__card reveal" style="--i:4">
+          <div class="methodo__card reveal">
+            <div class="methodo__num">05</div>
             <div class="methodo__icon"><i class="fas fa-chart-line"></i></div>
             <h3>Piloter</h3>
             <p>Pilotage par indicateurs clairs et amélioration continue pour garantir la performance dans la durée.</p>
@@ -346,38 +306,31 @@
       </div>
     </section>
 
-    <section class="section engagement" id="engagement">
+    <!-- ENGAGEMENTS -->
+    <section class="section" id="engagement">
       <div class="container">
         <div class="section__header reveal">
           <span class="section__tag">Engagements</span>
           <h2 class="section__title">Une collaboration fondée sur <span class="text--accent">la confiance</span></h2>
         </div>
         <div class="engagement__grid">
-          <div class="engagement__card reveal" style="--i:0">
-            <div class="engagement__card-icon">
-              <i class="fas fa-euro-sign"></i>
-            </div>
+          <div class="engagement__card reveal">
+            <div class="engagement__card-icon"><i class="fas fa-euro-sign"></i></div>
             <h3>Tarifs compétitifs</h3>
             <p>Des prestations de qualité à prix justes, avec un excellent rapport qualité-prix et des devis clairs sans surprises.</p>
           </div>
-          <div class="engagement__card reveal" style="--i:1">
-            <div class="engagement__card-icon">
-              <i class="fas fa-file-invoice"></i>
-            </div>
+          <div class="engagement__card reveal">
+            <div class="engagement__card-icon"><i class="fas fa-file-invoice"></i></div>
             <h3>Transparence totale</h3>
             <p>Contrats et devis sans coûts cachés. Vous savez exactement ce que vous payez, en toute confiance.</p>
           </div>
-          <div class="engagement__card reveal" style="--i:2">
-            <div class="engagement__card-icon">
-              <i class="fas fa-rocket"></i>
-            </div>
+          <div class="engagement__card reveal">
+            <div class="engagement__card-icon"><i class="fas fa-rocket"></i></div>
             <h3>Réactivité</h3>
             <p>Actions rapides sur vos contrats et devis pour garantir une expérience client optimale et des délais tenus.</p>
           </div>
-          <div class="engagement__card reveal" style="--i:3">
-            <div class="engagement__card-icon">
-              <i class="fas fa-clipboard-check"></i>
-            </div>
+          <div class="engagement__card reveal">
+            <div class="engagement__card-icon"><i class="fas fa-clipboard-check"></i></div>
             <h3>Suivi rigoureux</h3>
             <p>Suivi quotidien des prestations, audits mensuels, formation continue de nos équipes pour une qualité constante.</p>
           </div>
@@ -385,8 +338,9 @@
       </div>
     </section>
 
-    <section class="section cta">
-      <div class="container cta__inner">
+    <!-- CTA -->
+    <section class="section cta-section">
+      <div class="container">
         <div class="cta__content reveal">
           <h2>En<span class="text--accent">vie</span> de performance ?</h2>
           <p>Contactez-nous dès aujourd'hui pour un devis gratuit et personnalisé. Présents au Sénégal et en France.</p>
@@ -395,7 +349,99 @@
       </div>
     </section>
 
-    <section class="section contact" id="contact">
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section__header reveal">
+          <span class="section__tag">FAQ</span>
+          <h2 class="section__title">Questions <span class="text--accent">fréquentes</span></h2>
+        </div>
+        <div class="faq__list reveal">
+          <div class="faq__item" onclick="toggleFaq(this)">
+            <div class="faq__question">
+              <span>Quels secteurs couvrez-vous ?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq__answer">Industriel, tertiaire et résidentiel. Nous travaillons avec des grands comptes (Renault, Stellantis, SAFRAN, SUEZ) comme avec des PME et particuliers pour la climatisation.</div>
+          </div>
+          <div class="faq__item" onclick="toggleFaq(this)">
+            <div class="faq__question">
+              <span>Intervenez-vous uniquement au Sénégal ?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq__answer">Non. Nous sommes présents au Sénégal (siège à Keur Massar), en France (Paris) et intervenons également au Mali et en Côte d'Ivoire.</div>
+          </div>
+          <div class="faq__item" onclick="toggleFaq(this)">
+            <div class="faq__question">
+              <span>Proposez-vous des contrats de maintenance ?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq__answer">Oui, nous proposons des contrats de maintenance préventive et corrective sur mesure, avec un suivi rigoureux et des rapports mensuels de performance.</div>
+          </div>
+          <div class="faq__item" onclick="toggleFaq(this)">
+            <div class="faq__question">
+              <span>Quels outils GMAO maîtrisez-vous ?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq__answer">Coswin, SAP, Maximo, CARL, DIMOMAINT — nous accompagnons nos clients sur le déploiement, la paramétrage et l'optimisation de leurs outils GMAO.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section testimonials-section">
+      <div class="container">
+        <div class="section__header reveal">
+          <span class="section__tag">Témoignages</span>
+          <h2 class="section__title">Ils nous <span class="text--accent">font confiance</span></h2>
+        </div>
+        <div class="testimonials__grid">
+          <div class="testimonial__card reveal">
+            <div class="testimonial__stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p>"Un accompagnement professionnel et une réelle expertise en méthodes maintenance. Nos indicateurs de performance se sont nettement améliorés."</p>
+            <div class="testimonial__author">
+              <div class="testimonial__avatar">RN</div>
+              <div>
+                <strong>Responsable Maintenance</strong>
+                <span>Groupe industriel, France</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial__card reveal">
+            <div class="testimonial__stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p>"Installation de climatisation réalisée dans les délais avec un excellent rapport qualité-prix. Je recommande vivement IMMEIT."</p>
+            <div class="testimonial__author">
+              <div class="testimonial__avatar">AK</div>
+              <div>
+                <strong>Directeur Administratif</strong>
+                <span>PME, Dakar</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial__card reveal">
+            <div class="testimonial__stars">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p>"Grâce à leur audit et à la mise en place d'une GMAO adaptée, nous avons réduit nos arrêts non planifiés de 40%."</p>
+            <div class="testimonial__author">
+              <div class="testimonial__avatar">MS</div>
+              <div>
+                <strong>Chef de Projet Maintenance</strong>
+                <span>Site industriel, Mali</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
       <div class="container">
         <div class="section__header reveal">
           <span class="section__tag">Contact</span>
@@ -412,17 +458,17 @@
               </div>
             </div>
             <div class="contact__card">
-              <div class="contact__card-icon"><img src="https://flagcdn.com/24x18/sn.png" alt="" class="flag-icon" /></div>
+              <div class="contact__card-icon"><img src="https://flagcdn.com/24x18/sn.png" alt="SN" class="contact__flag" /></div>
               <div>
-                <h4>Sénégal — Moustapha NIANG</h4>
-                <p>Responsable site & Méthodes — <a href="tel:+221778159245">+221 77 815 92 45</a></p>
+                <h4>Sénégal</h4>
+                <p><a href="tel:+221710338809">+221 71 033 88 09</a></p>
               </div>
             </div>
             <div class="contact__card">
-              <div class="contact__card-icon"><img src="https://flagcdn.com/24x18/fr.png" alt="" class="flag-icon" /></div>
+              <div class="contact__card-icon"><img src="https://flagcdn.com/24x18/fr.png" alt="FR" class="contact__flag" /></div>
               <div>
-                <h4>France — Yelli NIANG</h4>
-                <p>Président — <a href="tel:+33754011945">+33 7 54 01 19 45</a></p>
+                <h4>France</h4>
+                <p><a href="tel:+33754011945">+33 7 54 01 19 45</a></p>
               </div>
             </div>
             <div class="contact__card">
@@ -442,34 +488,27 @@
           </div>
           <form class="contact__form reveal" id="contactForm" novalidate>
             <div class="form__group">
-              <label for="name" class="form__label">Nom complet <span class="form__required">*</span></label>
-              <input type="text" id="name" name="name" placeholder="Votre nom" required
-                minlength="2" maxlength="100" autocomplete="name"
-                data-error="Veuillez entrer votre nom (min. 2 caractères)" />
+              <label for="name">Nom complet <span class="form__required">*</span></label>
+              <input type="text" id="name" name="name" placeholder="Votre nom" required minlength="2" maxlength="100" autocomplete="name" />
               <span class="form__error" id="nameError"></span>
             </div>
             <div class="form__group">
-              <label for="email" class="form__label">Email <span class="form__required">*</span></label>
-              <input type="email" id="email" name="email" placeholder="votre@email.com" required
-                autocomplete="email"
-                data-error="Veuillez entrer un email valide" />
+              <label for="email">Email <span class="form__required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="votre@email.com" required autocomplete="email" />
               <span class="form__error" id="emailError"></span>
             </div>
             <div class="form__group">
-              <label for="subject" class="form__label">Sujet</label>
-              <input type="text" id="subject" name="subject" placeholder="Sujet de votre message"
-                maxlength="200" />
+              <label for="subject">Sujet</label>
+              <input type="text" id="subject" name="subject" placeholder="Sujet de votre message" maxlength="200" />
             </div>
             <div class="form__group">
-              <label for="message" class="form__label">Message <span class="form__required">*</span></label>
-              <textarea id="message" name="message" rows="5" placeholder="Votre message" required
-                minlength="10" maxlength="2000"
-                data-error="Veuillez entrer un message (min. 10 caractères)"></textarea>
+              <label for="message">Message <span class="form__required">*</span></label>
+              <textarea id="message" name="message" rows="4" placeholder="Votre message" required minlength="10" maxlength="2000"></textarea>
               <span class="form__error" id="messageError"></span>
               <span class="form__counter" id="charCounter">0 / 2000</span>
             </div>
-            <button type="submit" class="btn btn--primary btn--lg btn--full" id="submitBtn">
-              Envoyer le message <i class="fas fa-paper-plane"></i>
+            <button type="submit" class="btn btn--primary" id="submitBtn">
+              <i class="fas fa-paper-plane"></i> Envoyer
             </button>
           </form>
         </div>
@@ -477,22 +516,21 @@
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__grid">
         <div class="footer__brand">
-          <a href="#" class="logo">
-            <span class="logo__frame">
-              <img src="logo-immeit.jpeg" alt="IMMEIT" class="logo__img" />
-            </span>
+          <a href="#" class="footer__logo">
+            <img src="logo-immeit.jpeg" alt="IMMEIT" />
             <div>
-              <span class="logo__text">IMMEIT</span>
-              <span class="logo__sub">Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires</span>
+              <span>IMMEIT</span>
+              <small>Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires</small>
             </div>
           </a>
           <p>Méthodes maintenance, climatisation, maintenance multi-technique — Cité Safco, Keur Massar, Sénégal & Paris, France.</p>
           <div class="footer__social">
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
           </div>
@@ -520,43 +558,25 @@
           <h4>Contact</h4>
           <ul class="footer__hours">
             <li><i class="fas fa-map-marker-alt"></i> Cité Safco Niacoulrab, villa N°40, 11515 Keur Massar</li>
-            <li><img src="https://flagcdn.com/24x18/sn.png" alt="" class="flag-icon flag-icon--sm" /> Moustapha NIANG — +221 77 815 92 45</li>
-            <li><img src="https://flagcdn.com/24x18/fr.png" alt="" class="flag-icon flag-icon--sm" /> Yelli NIANG — +33 7 54 01 19 45</li>
+            <li><img src="https://flagcdn.com/24x18/sn.png" alt="SN" class="footer__flag" /> +221 71 033 88 09</li>
+            <li><img src="https://flagcdn.com/24x18/fr.png" alt="FR" class="footer__flag" /> +33 7 54 01 19 45</li>
             <li><i class="fas fa-envelope"></i> demandes-p2m@immeit.com</li>
             <li><i class="fas fa-map-marker-alt"></i> Paris, France</li>
           </ul>
         </div>
       </div>
       <div class="footer__bottom">
-        <p>&copy; 2026 IMMEIT — Cité Safco Niacoulrab, villa N°40, 11515 Keur Massar, Dakar — SASU au capital de 5 collaborateurs</p>
+        <p>&copy; 2026 IMMEIT — Cité Safco Niacoulrab, villa N°40, 11515 Keur Massar, Dakar — SASU</p>
       </div>
     </div>
   </footer>
 
-  <div class="map-modal" id="mapModal">
-    <div class="map-modal__overlay" id="mapOverlay"></div>
-    <div class="map-modal__content">
-      <button class="map-modal__close" id="mapClose" aria-label="Fermer">&times;</button>
-      <div class="map-modal__header">
-        <i class="fas fa-map-marker-alt"></i>
-        <h3>IMMEIT — Cité Safco, Keur Massar, Dakar</h3>
-      </div>
-      <div class="map-modal__body">
-        <iframe
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-17.33%2C14.72%2C-17.27%2C14.78&amp;layer=transportmap&amp;marker=14.75%2C-17.30"
-          width="100%" height="400" style="border:0;border-radius:12px"
-          allowfullscreen loading="lazy"
-          title="Carte IMMEIT Keur Massar"></iframe>
-      </div>
-      <div class="map-modal__footer">
-        <p>Cité Safco Niacoulrab, Keur Massar — Sénégal</p>
-        <a href="https://www.openstreetmap.org/?mlat=14.75&mlon=-17.30#map=15/14.75/-17.30" target="_blank" rel="noopener" class="btn btn--sm btn--primary">
-          Ouvrir dans OpenStreetMap <i class="fas fa-external-link-alt"></i>
-        </a>
-      </div>
-    </div>
-  </div>
+  <!-- STICKY CTA -->
+  <a href="#contact" class="sticky-cta" id="stickyCta">
+    <i class="fas fa-paper-plane"></i> Devis rapide
+  </a>
 
+  <!-- BACK TO TOP -->
   <button class="back-to-top" id="backToTop" aria-label="Retour en haut">
     <i class="fas fa-chevron-up"></i>
   </button>

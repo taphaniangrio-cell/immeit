@@ -10,11 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Particles =====
   const particlesContainer = document.getElementById('particles');
   if (particlesContainer) {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 35; i++) {
       const p = document.createElement('div');
       p.className = 'hero__particle';
       p.style.left = Math.random() * 100 + '%';
-      p.style.width = (Math.random() * 4 + 2) + 'px';
+      p.style.width = (Math.random() * 3 + 2) + 'px';
       p.style.height = p.style.width;
       p.style.animationDelay = (Math.random() * 20) + 's';
       p.style.animationDuration = (15 + Math.random() * 15) + 's';
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ===== Header scroll effect =====
-  const header = document.getElementById('header');
+  // ===== Navbar scroll =====
+  const navbar = document.getElementById('navbar');
 
   window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 60);
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
   });
 
   // ===== Badge scroll =====
@@ -40,26 +40,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== Mobile menu =====
   const hamburger = document.getElementById('hamburger');
-  const nav = document.getElementById('nav');
+  const navLinks = document.getElementById('navLinks');
   const navOverlay = document.getElementById('navOverlay');
-  const navLinks = document.querySelectorAll('.nav__link');
+  const navLinkItems = document.querySelectorAll('.nav__link');
 
   function closeNav() {
     hamburger.classList.remove('active');
-    nav.classList.remove('active');
+    navLinks.classList.remove('active');
     navOverlay.classList.remove('active');
     document.body.style.overflow = '';
   }
 
   function openNav() {
     hamburger.classList.add('active');
-    nav.classList.add('active');
+    navLinks.classList.add('active');
     navOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
   hamburger.addEventListener('click', () => {
-    if (nav.classList.contains('active')) {
+    if (navLinks.classList.contains('active')) {
       closeNav();
     } else {
       openNav();
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   navOverlay.addEventListener('click', closeNav);
 
-  navLinks.forEach(link => {
+  navLinkItems.forEach(link => {
     link.addEventListener('click', closeNav);
   });
 
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          navLinks.forEach(link => link.classList.remove('active'));
+          navLinkItems.forEach(link => link.classList.remove('active'));
           const activeLink = document.querySelector(`.nav__link[href="#${entry.target.id}"]`);
           if (activeLink) activeLink.classList.add('active');
         }
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   counters.forEach(counter => counterObserver.observe(counter));
 
-  // ===== Performance circular bars =====
+  // ===== Performance bars =====
   const perfBars = document.querySelectorAll('.perf__bar');
   const perfValues = document.querySelectorAll('[id^="perfVal"]');
   const CIRCUMFERENCE = 2 * Math.PI * 60;
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     },
-    { threshold: 0.1 }
+    { threshold: 0.08 }
   );
 
   revealElements.forEach(el => revealObserver.observe(el));
@@ -368,9 +368,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== Keyboard shortcut =====
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('active')) {
+    if (e.key === 'Escape' && navLinks.classList.contains('active')) {
       closeNav();
     }
   });
 
 });
+
+// ===== FAQ toggle =====
+function toggleFaq(el) {
+  el.classList.toggle('open');
+}
