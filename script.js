@@ -41,20 +41,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Mobile menu =====
   const hamburger = document.getElementById('hamburger');
   const nav = document.getElementById('nav');
+  const navOverlay = document.getElementById('navOverlay');
   const navLinks = document.querySelectorAll('.nav__link');
 
+  function closeNav() {
+    hamburger.classList.remove('active');
+    nav.classList.remove('active');
+    navOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function openNav() {
+    hamburger.classList.add('active');
+    nav.classList.add('active');
+    navOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
   hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
-    document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+    if (nav.classList.contains('active')) {
+      closeNav();
+    } else {
+      openNav();
+    }
   });
 
+  navOverlay.addEventListener('click', closeNav);
+
   navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      nav.classList.remove('active');
-      document.body.style.overflow = '';
-    });
+    link.addEventListener('click', closeNav);
   });
 
   // ===== Active nav link on scroll =====
@@ -354,9 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Keyboard shortcut =====
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && nav.classList.contains('active')) {
-      hamburger.classList.remove('active');
-      nav.classList.remove('active');
-      document.body.style.overflow = '';
+      closeNav();
     }
   });
 
