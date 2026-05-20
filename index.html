@@ -61,7 +61,7 @@
     <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero__bg">
-        <img src="image de font page d'acceuil maintenance-industrielle-procedure.jpeg" alt="" class="hero__bg-img" />
+        <img src="indicateur-de-production.jpg" alt="" class="hero__bg-img" loading="lazy" />
         <div class="hero__gears">
           <div class="hero__gear hero__gear--1">
             <svg viewBox="0 0 100 100">
@@ -454,73 +454,50 @@
     </section>
 
     <!-- CONTACT -->
-    <section class="section" id="contact">
+    <section class="section section--compact" id="contact">
       <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag">Contact</span>
-          <h2 class="section__title">Parlons de votre <span class="text--accent">projet</span></h2>
-          <p class="section__text">Cité Safco Niacoulrab, Keur Massar, Dakar — présent au Sénégal, en France et à l'international.</p>
-        </div>
-        <div class="contact__grid">
-          <div class="contact__info reveal">
-            <div class="contact__card">
-              <div class="contact__card-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="contact__wrap reveal">
+          <div class="contact__info">
+            <div class="contact__info-head">
+              <div class="contact__icon-ring">
+                <i class="fas fa-envelope"></i>
+              </div>
               <div>
-                <h4>Siège social</h4>
-                <p>Cité Safco Niacoulrab, villa N°40, 11515 Keur Massar, Dakar</p>
+                <span class="section__tag">Contact</span>
+                <h2 class="section__title"><span class="text--accent">Écrivez-nous</span></h2>
               </div>
             </div>
-            <div class="contact__card">
-              <div class="contact__card-icon"><img src="https://flagcdn.com/24x18/sn.png" alt="SN" class="contact__flag" /></div>
-              <div>
-                <h4>Sénégal</h4>
-                <p><a href="tel:+221710338809">+221 71 033 88 09</a></p>
-              </div>
-            </div>
-            <div class="contact__card">
-              <div class="contact__card-icon"><img src="https://flagcdn.com/24x18/fr.png" alt="FR" class="contact__flag" /></div>
-              <div>
-                <h4>France</h4>
-                <p><a href="tel:+33754011945">+33 7 54 01 19 45</a></p>
-              </div>
-            </div>
-            <div class="contact__card">
-              <div class="contact__card-icon"><i class="fas fa-envelope"></i></div>
-              <div>
-                <h4>Email</h4>
-                <p><a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a></p>
-              </div>
-            </div>
-            <div class="contact__card">
-              <div class="contact__card-icon"><i class="fas fa-building"></i></div>
-              <div>
-                <h4>Entreprise</h4>
-                <p>Fondée en 2024 · 5 collaborateurs · SASU</p>
-              </div>
+            <p class="contact__info-text">Une question, un projet ? Notre équipe vous répond sous 24h.</p>
+            <div class="contact__links">
+              <a href="tel:+221710338809"><i class="fas fa-phone"></i> <img src="https://flagcdn.com/16x12/sn.png" alt="" class="contact__flag" /> +221 71 033 88 09</a>
+              <a href="tel:+33754011945"><i class="fas fa-phone"></i> <img src="https://flagcdn.com/16x12/fr.png" alt="" class="contact__flag" /> +33 7 54 01 19 45</a>
+              <a href="mailto:demandes-p2m@immeit.com"><i class="fas fa-envelope"></i> demandes-p2m@immeit.com</a>
             </div>
           </div>
           <form class="contact__form reveal" id="contactForm" novalidate>
-            <div class="form__group">
-              <label for="name">Nom complet <span class="form__required">*</span></label>
-              <input type="text" id="name" name="name" placeholder="Votre nom" required minlength="2" maxlength="100" autocomplete="name" />
-              <span class="form__error" id="nameError"></span>
+            <div class="form__row">
+              <div class="form__group">
+                <label for="name">Nom <span class="form__required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="Votre nom" required minlength="2" maxlength="100" autocomplete="name" />
+                <span class="form__error" id="nameError"></span>
+              </div>
+              <div class="form__group">
+                <label for="email">Email <span class="form__required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="votre@email.com" required autocomplete="email" />
+                <span class="form__error" id="emailError"></span>
+              </div>
             </div>
             <div class="form__group">
-              <label for="email">Email <span class="form__required">*</span></label>
-              <input type="email" id="email" name="email" placeholder="votre@email.com" required autocomplete="email" />
-              <span class="form__error" id="emailError"></span>
-            </div>
-            <div class="form__group">
-              <label for="subject">Sujet</label>
-              <input type="text" id="subject" name="subject" placeholder="Sujet de votre message" maxlength="200" />
+              <label for="subject">Sujet <span class="form__required">*</span></label>
+              <input type="text" id="subject" name="subject" placeholder="Sujet de votre message" required maxlength="200" />
+              <span class="form__error" id="subjectError"></span>
             </div>
             <div class="form__group">
               <label for="message">Message <span class="form__required">*</span></label>
-              <textarea id="message" name="message" rows="4" placeholder="Votre message" required minlength="10" maxlength="2000"></textarea>
+              <textarea id="message" name="message" rows="3" placeholder="Votre message" required minlength="10" maxlength="2000"></textarea>
               <span class="form__error" id="messageError"></span>
-              <span class="form__counter" id="charCounter">0 / 2000</span>
             </div>
-            <button type="submit" class="btn btn--primary" id="submitBtn">
+            <button type="submit" class="btn" id="submitBtn">
               <i class="fas fa-paper-plane"></i> Envoyer
             </button>
           </form>
@@ -531,65 +508,32 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__grid">
+    <div class="container">
+      <div class="footer__inner">
         <div class="footer__brand">
-          <a href="#" class="footer__logo">
-            <img src="logo-immeit.jpeg" alt="IMMEIT" />
-            <div>
-              <span>IMMEIT</span>
-              <small>Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires</small>
-            </div>
-          </a>
-          <p>Méthodes maintenance, climatisation, maintenance multi-technique — Cité Safco, Keur Massar, Sénégal & Paris, France.</p>
-          <div class="footer__social">
-            <a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <img src="logo-immeit.jpeg" alt="" class="footer__mark" />
+          <div>
+            <span>IMMEIT</span>
+            <small>Installation, Méthodes, Maintenance</small>
           </div>
         </div>
-        <div class="footer__col">
-          <h4>Services</h4>
-          <ul>
-            <li><a href="#">Méthodes maintenance & performance</a></li>
-            <li><a href="#">Climatisation & CVC</a></li>
-            <li><a href="#">Maintenance multi-technique</a></li>
-            <li><a href="#">GMAO & système d'information</a></li>
-            <li><a href="#">Audit, qualité & HSE</a></li>
-          </ul>
+        <div class="footer__links">
+          <a href="#about">À propos</a>
+          <a href="#services">Services</a>
+          <a href="#methodo">Méthodologie</a>
+          <a href="#contact">Contact</a>
         </div>
-        <div class="footer__col">
-          <h4>Liens</h4>
-          <ul>
-            <li><a href="#about">À propos</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#methodo">Méthodologie</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
+        <div class="footer__social">
+          <a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" aria-label="LinkedIn" class="footer__social-link footer__social-link--linkedin"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="Facebook" class="footer__social-link footer__social-link--facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="WhatsApp" class="footer__social-link footer__social-link--whatsapp"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <div class="footer__col">
-          <h4>Contact</h4>
-          <ul class="footer__hours">
-            <li><i class="fas fa-map-marker-alt"></i> Cité Safco Niacoulrab, villa N°40, 11515 Keur Massar</li>
-            <li><img src="https://flagcdn.com/24x18/sn.png" alt="SN" class="footer__flag" /> +221 71 033 88 09</li>
-            <li><img src="https://flagcdn.com/24x18/fr.png" alt="FR" class="footer__flag" /> +33 7 54 01 19 45</li>
-            <li><i class="fas fa-envelope"></i> demandes-p2m@immeit.com</li>
-            <li><i class="fas fa-map-marker-alt"></i> Paris, France</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer__bottom">
-        <p>&copy; 2026 IMMEIT — Cité Safco Niacoulrab, villa N°40, 11515 Keur Massar, Dakar — SASU</p>
+        <span class="footer__copy">&copy; 2026 IMMEIT</span>
       </div>
     </div>
   </footer>
 
-  <!-- STICKY CTA -->
-  <a href="#contact" class="sticky-cta" id="stickyCta">
-    <i class="fas fa-paper-plane"></i> Devis rapide
-  </a>
-
-  <!-- BACK TO TOP -->
+<!-- BACK TO TOP -->
   <button class="back-to-top" id="backToTop" aria-label="Retour en haut">
     <i class="fas fa-chevron-up"></i>
   </button>
