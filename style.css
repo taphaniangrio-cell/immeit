@@ -846,26 +846,43 @@ img {
   opacity: 1;
 }
 
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+  background: var(--bg-card-hover);
+}
+
+.service-card:hover .service-card__icon {
+  background: var(--gradient-primary);
+  color: #fff;
+  transform: scale(1.1);
+}
+
 .service-card__icon {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
   background: var(--accent-light);
-  border-radius: 12px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   color: var(--accent);
-  margin-bottom: 14px;
+  margin: 0 auto 16px;
   transition: var(--transition);
   flex-shrink: 0;
 }
 
+.service-card {
+  text-align: center;
+}
+
 .service-card h3 {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text);
+  margin-bottom: 10px;
+  color: var(--accent);
 }
 
 .service-card p {
@@ -1141,13 +1158,13 @@ img {
   width: 64px;
   height: 64px;
   margin: 0 auto 16px;
-  background: var(--primary-light);
+  background: var(--accent-light);
   border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: var(--primary);
+  color: var(--accent);
   transition: var(--transition);
 }
 
@@ -1161,6 +1178,7 @@ img {
   font-size: 1.05rem;
   font-weight: 600;
   margin-bottom: 10px;
+  color: var(--accent);
 }
 
 .methodo__card p {
@@ -1198,23 +1216,37 @@ img {
 }
 
 .engagement__card-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 10px;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
   background: var(--accent-light);
-  border-radius: 14px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: var(--accent);
   transition: var(--transition);
 }
 
 .engagement__card h3 {
-  font-size: 0.92rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  color: var(--accent);
+}
+
+.engagement__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+  background: var(--bg-card-hover);
+}
+
+.engagement__card:hover .engagement__card-icon {
+  background: var(--gradient-primary);
+  color: #fff;
+  transform: scale(1.1);
 }
 
 .engagement__card p {
