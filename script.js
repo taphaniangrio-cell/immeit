@@ -358,11 +358,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const API_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:3001/api/contact'
-    : null;
-
-  const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/demandes-p2m@immeit.com';
+  const API_URL = '/api/contact';
+  const FALLBACK_API = 'http://localhost:3001/api/contact';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -411,32 +408,34 @@ document.addEventListener('DOMContentLoaded', () => {
       name: nameInput.value.trim(),
       email: emailInput.value.trim(),
       subject: subjectInput.value.trim() || 'Nouveau message IMMEIT',
-      message: messageInput.value.trim(),
-      _captcha: 'false'
+      message: messageInput.value.trim()
     };
 
-    let sent = false;
-
-    const sendTo = async (url) => {
+    const sendTo = async (url, signal) => {
       try {
         const res = await fetch(url, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal
         });
-        const data = await res.json();
-        return data && (data.success === true || data.success === 'true');
+        if (!res.ok) return false;
+        return true;
       } catch {
         return false;
       }
     };
 
-    sent = await sendTo(FORMSUBMIT_URL);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
 
-    if (!sent && API_URL) {
-      sent = await sendTo(API_URL);
+    let sent = await sendTo(API_URL, controller.signal);
+
+    if (!sent && window.location.origin !== 'http://localhost:3001') {
+      sent = await sendTo(FALLBACK_API, controller.signal);
     }
 
+    clearTimeout(timeout);
     setLoading(false);
 
     if (sent) {
