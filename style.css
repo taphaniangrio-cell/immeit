@@ -1603,6 +1603,57 @@ img {
   transform: translateY(0) scale(0.97);
 }
 
+/* ===== Form banner ===== */
+.form-banner {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: bannerIn 0.35s ease-out;
+  margin-bottom: 12px;
+}
+
+.form-banner--success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.form-banner--success i {
+  color: #10b981;
+  font-size: 1.1rem;
+}
+
+.form-banner--error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.form-banner--error i {
+  color: #ef4444;
+  font-size: 1.1rem;
+}
+
+.form-banner--error a {
+  color: #991b1b;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.form-banner--hide {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+@keyframes bannerIn {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ===== FOOTER ===== */
 .footer {
   background: var(--bg-alt);

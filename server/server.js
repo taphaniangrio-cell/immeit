@@ -115,12 +115,15 @@ app.post('/api/contact', async (req, res) => {
 
     const info = await transporter.sendMail(mailOptions);
 
-    if (process.env.NODE_ENV !== 'production') {
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+
+    if (previewUrl) {
+      console.log('Email envoyé — preview:', previewUrl);
+    } else {
       console.log('Email envoyé:', info.messageId);
-      console.log('URL de preview (Ethereal):', nodemailer.getTestMessageUrl(info));
     }
 
-    res.json({ success: true, message: 'Message envoyé avec succès !' });
+    res.json({ success: true, previewUrl });
   } catch (error) {
     console.error('Erreur d\'envoi:', error);
     res.status(500).json({ error: 'Erreur lors de l\'envoi du message. Veuillez réessayer.' });
@@ -133,6 +136,11 @@ app.get('/api/health', (req, res) => {
 
 initTransporter().then(() => {
   app.listen(PORT, () => {
+    const mode = process.env.SMTP_USER ? 'SMTP (' + process.env.SMTP_USER + ')' :
+                 process.env.SMTP_HOST ? 'SMTP direct (' + process.env.SMTP_HOST + ':' + process.env.SMTP_PORT + ')' :
+                 'Ethereal (test)';
     console.log(`Serveur IMMEIT démarré sur http://localhost:${PORT}`);
+    console.log(` Mode email : ${mode}`);
+    console.log(` Recevant : ${process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com'}`);
   });
 });
