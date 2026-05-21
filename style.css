@@ -330,14 +330,15 @@ img {
 }
 
 .nav__link {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-light);
-  transition: var(--transition);
-  position: relative;
-  padding-bottom: 3px;
-  white-space: nowrap;
-}
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light);
+    transition: var(--transition);
+    position: relative;
+    padding-bottom: 3px;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
 
 .nav__link::after {
   content: '';
@@ -390,15 +391,17 @@ img {
 }
 
 .hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  z-index: 1002;
-}
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin: -10px;
+    z-index: 1002;
+    -webkit-tap-highlight-color: transparent;
+  }
 
 .hamburger span {
   width: 24px;
@@ -1585,14 +1588,16 @@ img {
   font-weight: 500;
 }
 
-#submitBtn {
-  align-self: flex-start;
-  font-size: 0.8rem;
-  padding: 8px 20px;
-  background: var(--gradient-primary);
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(31, 83, 140, 0.3);
-}
+  #submitBtn {
+    align-self: flex-start;
+    font-size: 0.8rem;
+    padding: 8px 20px;
+    background: var(--gradient-primary);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(31, 83, 140, 0.3);
+    min-height: 44px;
+    cursor: pointer;
+  }
 
 #submitBtn:hover {
   box-shadow: 0 6px 24px rgba(31, 83, 140, 0.45);
@@ -2130,6 +2135,12 @@ img {
     flex-direction: column;
     padding: 16px;
   }
+  #submitBtn {
+    align-self: stretch;
+    justify-content: center;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
   .footer__inner {
     flex-direction: column;
     text-align: center;
@@ -2148,6 +2159,15 @@ img {
 }
 
 @media (max-width: 768px) {
+  .hero__gear {
+    display: none;
+  }
+  .hero__particles {
+    display: none;
+  }
+  .floating-devis {
+    display: none;
+  }
   .section {
     padding: 28px 0;
   }
@@ -2196,8 +2216,8 @@ img {
     padding: 70px 0 0;
     min-height: auto;
   }
-  .hero__title {
-    font-size: 1.4rem;
+  .hero__content h1 {
+    font-size: 1.6rem;
     margin-bottom: 12px;
   }
   .hero__badge-text {
@@ -2289,7 +2309,7 @@ img {
     gap: 10px;
   }
   .perf__card {
-    padding: 18px 12px 14px;
+    padding: 16px 10px 12px;
   }
   .perf__ring {
     width: 90px;
@@ -2316,11 +2336,49 @@ img {
   .faq__question {
     font-size: 0.88rem;
   }
+  .nav__link {
+    font-size: 1.05rem;
+    padding: 10px 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .contact__info-text {
+    font-size: 0.85rem;
+  }
+  .contact__links a {
+    font-size: 0.88rem;
+    padding: 6px 0;
+  }
+  .btn {
+    padding: 14px 24px;
+    font-size: 0.95rem;
+  }
+  .form__group input,
+  .form__group textarea {
+    padding: 11px 12px;
+    font-size: 16px;
+  }
+  .form__group label {
+    font-size: 0.75rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .hero__gear {
+    display: none;
+  }
+  .hero__particles {
+    display: none;
+  }
+  .floating-devis {
+    display: none;
+  }
   .section {
     padding: 24px 0;
+  }
+  .hero {
+    padding: 60px 0 0;
   }
   .hero__actions {
     flex-direction: column;
@@ -2333,8 +2391,8 @@ img {
     padding: 11px 20px;
     font-size: 0.85rem;
   }
-  .hero__title {
-    font-size: 1.25rem;
+  .hero__content h1 {
+    font-size: 1.35rem;
   }
   .hero__stats {
     flex-direction: column;
@@ -2398,6 +2456,76 @@ img {
     font-size: 1.2rem;
   }
 
+  .contact__info {
+    text-align: center;
+    align-items: center;
+  }
+  .contact__info-head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .contact__links {
+    align-items: center;
+  }
+  .contact__form {
+    gap: 6px;
+  }
+
+  .about__grid {
+    gap: 16px;
+  }
+  .about__content .section__text {
+    font-size: 0.82rem;
+  }
+  .about__feature {
+    font-size: 0.8rem;
+  }
+
+  .methodo__card {
+    padding: 18px 14px;
+  }
+  .methodo__icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+  }
+  .methodo__card h3 {
+    font-size: 0.9rem;
+  }
+  .methodo__bottom {
+    font-size: 0.8rem;
+    padding: 14px 16px;
+  }
+
+  .engagement__card h3 {
+    font-size: 0.88rem;
+  }
+  .engagement__card p {
+    font-size: 0.78rem;
+  }
+
+  .cta__content h2 {
+    font-size: 1.3rem;
+  }
+  .cta__content p {
+    font-size: 0.85rem;
+  }
+
+  .testimonial__card {
+    padding: 20px 16px;
+  }
+  .testimonial__card p {
+    font-size: 0.82rem;
+  }
+
+  #submitBtn {
+    align-self: stretch;
+    justify-content: center;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
+
   .back-to-top {
     bottom: 70px;
     right: 16px;
@@ -2407,5 +2535,40 @@ img {
   .btn--lg {
     padding: 12px 24px;
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero__content h1 {
+    font-size: 1.2rem;
+  }
+  .hero__actions .btn {
+    font-size: 0.8rem;
+    padding: 10px 16px;
+  }
+  .container,
+  .nav__inner {
+    padding: 0 12px;
+  }
+  .section__title {
+    font-size: 1.05rem;
+  }
+  .section__text {
+    font-size: 0.82rem;
+  }
+  .nav__logo-text small {
+    max-width: 100px;
+    font-size: 0.4rem;
+  }
+  .nav__logo-text span {
+    font-size: 0.9rem;
+  }
+  .service-card h3,
+  .methodo__card h3 {
+    font-size: 0.85rem;
+  }
+  .service-card p,
+  .methodo__card p {
+    font-size: 0.78rem;
   }
 }
