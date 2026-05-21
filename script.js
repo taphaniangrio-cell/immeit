@@ -446,6 +446,9 @@ document.addEventListener('DOMContentLoaded', () => {
       clearForm();
     } else {
       showConfirmation(false);
+      const mailBody = 'Bonjour,\n\n' + payload.message + '\n\nCordialement,\n' + payload.name + '\n' + payload.email;
+      const mailto = 'mailto:demandes-p2m@immeit.com?subject=' + encodeURIComponent(payload.subject) + '&body=' + encodeURIComponent(mailBody);
+      setTimeout(() => { window.location.href = mailto; }, 1500);
     }
   });
 
