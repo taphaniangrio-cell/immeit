@@ -93,7 +93,7 @@ app.post('/api/contact', async (req, res) => {
     }
 
     const mailOptions = {
-      from: `"${name}" <${email}>`,
+      from: `"IMMEIT Contact" <${process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com'}>`,
       to: process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com',
       replyTo: email,
       subject: subject ? `${subject} - Site IMMEIT` : 'Nouveau message depuis le site IMMEIT',
