@@ -113,7 +113,7 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-function processRetryQueue() {
+async function processRetryQueue() {
   const messages = loadMessages();
   const pending = messages.filter(m => m.status === 'failed' && m.retry_count < 3);
 
@@ -122,35 +122,36 @@ function processRetryQueue() {
   console.log(`File d'attente: tentative de renvoi de ${pending.length} message(s)...`);
 
   for (const msg of pending) {
-    sendEmail(msg)
-      .then(info => {
-        const all = loadMessages();
-        const found = all.find(m => m.id === msg.id);
-        if (found) {
-          found.status = 'sent';
-          found.sent_at = new Date().toISOString();
-          found.error_message = null;
-          found.last_attempt = null;
-          saveMessages(all);
-          console.log(`Message #${msg.id} renvoyé avec succès (${info.messageId})`);
+    if (!transporter) continue;
+
+    try {
+      await sendEmail(msg);
+      const all = loadMessages();
+      const found = all.find(m => m.id === msg.id);
+      if (found) {
+        found.status = 'sent';
+        found.sent_at = new Date().toISOString();
+        found.error_message = null;
+        found.last_attempt = null;
+        saveMessages(all);
+        console.log(`Message #${msg.id} renvoyé avec succès`);
+      }
+    } catch (err) {
+      const all = loadMessages();
+      const found = all.find(m => m.id === msg.id);
+      if (found) {
+        found.retry_count = (found.retry_count || 0) + 1;
+        found.error_message = err.message;
+        found.last_attempt = new Date().toISOString();
+        if (found.retry_count >= 3) {
+          found.status = 'failed_permanent';
+          console.log(`Message #${msg.id} abandonné après 3 tentatives`);
+        } else {
+          console.log(`Échec renvoi #${msg.id} (tentative ${found.retry_count}/3)`);
         }
-      })
-      .catch(err => {
-        const all = loadMessages();
-        const found = all.find(m => m.id === msg.id);
-        if (found) {
-          found.retry_count = (found.retry_count || 0) + 1;
-          found.error_message = err.message;
-          found.last_attempt = new Date().toISOString();
-          if (found.retry_count >= 3) {
-            found.status = 'failed_permanent';
-            console.log(`Message #${msg.id} abandonné après 3 tentatives`);
-          } else {
-            console.log(`Échec renvoi #${msg.id} (tentative ${found.retry_count}/3): ${err.message}`);
-          }
-          saveMessages(all);
-        }
-      });
+        saveMessages(all);
+      }
+    }
   }
 }
 
@@ -246,7 +247,7 @@ app.post('/api/contact', async (req, res) => {
         msg.status = 'sent';
         msg.sent_at = new Date().toISOString();
         saveMessages(messages);
-        console.log(`Message #${msg.id} envoyé avec succès (${info.messageId})`);
+        console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
         return res.json({ success: true, id: msg.id });
       } catch (err) {
         msg.status = 'failed';
@@ -255,10 +256,10 @@ app.post('/api/contact', async (req, res) => {
         saveMessages(messages);
         console.log(`Message #${msg.id} échec SMTP: ${err.message}`);
         return res.json({
-          success: false,
+          success: true,
           stored: true,
           id: msg.id,
-          error: "Le message a été sauvegardé mais l'envoi email a échoué. Nous le renverrons automatiquement."
+          warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement."
         });
       }
     }
@@ -325,15 +326,11 @@ app.delete('/api/admin/messages/:id', requireAdmin, (req, res) => {
   res.json({ success: true });
 });
 
-app.post('/api/admin/messages/:id/retry', requireAdmin, (req, res) => {
+app.post('/api/admin/messages/:id/retry', requireAdmin, async (req, res) => {
   const messages = loadMessages();
   const msg = messages.find(m => m.id === parseInt(req.params.id));
   if (!msg) {
     return res.status(404).json({ error: 'Message introuvable' });
-  }
-
-  if (!transporter) {
-    return res.status(400).json({ error: 'SMTP non configuré' });
   }
 
   msg.status = 'pending';
@@ -342,30 +339,33 @@ app.post('/api/admin/messages/:id/retry', requireAdmin, (req, res) => {
   msg.last_attempt = null;
   saveMessages(messages);
 
-  sendEmail(msg)
-    .then(info => {
-      const all = loadMessages();
-      const found = all.find(m => m.id === msg.id);
-      if (found) {
-        found.status = 'sent';
-        found.sent_at = new Date().toISOString();
-        found.error_message = null;
-        saveMessages(all);
-      }
-      res.json({ success: true, messageId: info.messageId });
-    })
-    .catch(err => {
-      const all = loadMessages();
-      const found = all.find(m => m.id === msg.id);
-      if (found) {
-        found.status = 'failed';
-        found.retry_count = 1;
-        found.error_message = err.message;
-        found.last_attempt = new Date().toISOString();
-        saveMessages(all);
-      }
-      res.status(500).json({ error: err.message });
-    });
+  if (!transporter) {
+    return res.status(400).json({ error: 'SMTP non configuré' });
+  }
+
+  try {
+    const info = await sendEmail(msg);
+    const all = loadMessages();
+    const found = all.find(m => m.id === msg.id);
+    if (found) {
+      found.status = 'sent';
+      found.sent_at = new Date().toISOString();
+      found.error_message = null;
+      saveMessages(all);
+    }
+    return res.json({ success: true, messageId: info.messageId });
+  } catch (err) {
+    const all = loadMessages();
+    const found = all.find(m => m.id === msg.id);
+    if (found) {
+      found.status = 'failed';
+      found.retry_count = 1;
+      found.error_message = err.message;
+      found.last_attempt = new Date().toISOString();
+      saveMessages(all);
+    }
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 app.get('/api/health', (req, res) => {

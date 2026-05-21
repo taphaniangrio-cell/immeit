@@ -360,8 +360,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/demandes-p2m@immeit.com';
   const LOCAL_API = '/api/contact';
-  const LOCAL_API_FALLBACK = 'http://localhost:3001/api/contact';
-  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+  async function postForm(url, data, timeoutMs = 8000) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        signal: ctrl.signal
+      });
+      return res.ok;
+    } catch {
+      return false;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -413,47 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    const fetchWithTimeout = async (url, timeoutMs = 8000) => {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          signal: ctrl.signal
-        });
-        return res.ok;
-      } catch {
-        return false;
-      } finally {
-        clearTimeout(timer);
-      }
-    };
-
-    let sent = false;
-
-    if (isLocal) {
-      sent = await fetchWithTimeout(LOCAL_API);
-
-      if (!sent) {
-        sent = await fetchWithTimeout(LOCAL_API_FALLBACK);
-      }
-
-      if (!sent) {
-        sent = await fetchWithTimeout(FORMSUBMIT_URL);
-      }
-    } else {
-      sent = await fetchWithTimeout(FORMSUBMIT_URL);
-
-      if (!sent) {
-        sent = await fetchWithTimeout(LOCAL_API);
-      }
-    }
+    const [formsubmitOk, apiOk] = await Promise.all([
+      postForm(FORMSUBMIT_URL, { ...payload, _captcha: 'false' }),
+      postForm(LOCAL_API, payload)
+    ]);
 
     setLoading(false);
 
-    if (sent) {
+    if (formsubmitOk || apiOk) {
       showConfirmation(true);
       clearForm();
     } else {
