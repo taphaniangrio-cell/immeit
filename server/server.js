@@ -3,200 +3,403 @@ const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const nodemailer = require('nodemailer');
-const https = require('https');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'immeit-admin-2024';
 
-const path = require('path');
+const DATA_DIR = path.join(__dirname, 'data');
+const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
+
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(MESSAGES_FILE)) {
+    fs.writeFileSync(MESSAGES_FILE, '[]', 'utf-8');
+  }
+}
+
+function loadMessages() {
+  ensureDataDir();
+  try {
+    return JSON.parse(fs.readFileSync(MESSAGES_FILE, 'utf-8'));
+  } catch {
+    return [];
+  }
+}
+
+function saveMessages(messages) {
+  ensureDataDir();
+  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
+}
+
+function nextId(messages) {
+  return messages.length > 0 ? Math.max(...messages.map(m => m.id)) + 1 : 1;
+}
+
+let transporter = null;
+
+async function initTransporter() {
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const port = parseInt(process.env.SMTP_PORT || '587');
+    const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: port,
+      secure: secure,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      },
+      tls: {
+        rejectUnauthorized: process.env.SMTP_TLS_REJECT === 'true'
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 5000
+    });
+    console.log(`SMTP configuré: ${process.env.SMTP_USER}@${process.env.SMTP_HOST}:${port}`);
+  } else {
+    console.log('SMTP non configuré - les messages seront stockés sans envoi');
+  }
+}
+
+async function sendEmail(msg) {
+  if (!transporter) {
+    throw new Error('SMTP non configuré');
+  }
+
+  const mailOptions = {
+    from: `"IMMEIT Contact" <${CONTACT_EMAIL}>`,
+    to: CONTACT_EMAIL,
+    replyTo: msg.email,
+    subject: msg.subject
+      ? `${msg.subject} - Site IMMEIT`
+      : 'Nouveau message depuis le site IMMEIT',
+    text: `Nom : ${msg.name}\nEmail : ${msg.email}\n\nMessage :\n${msg.message}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #f9fafb; border-radius: 8px;">
+        <div style="text-align: center; margin-bottom: 24px; padding: 16px; background: linear-gradient(135deg, #1F538C, #0A2540); border-radius: 8px;">
+          <h1 style="color: #C99A3E; margin: 0; font-size: 20px;">IMMEIT</h1>
+          <p style="color: white; margin: 4px 0 0; font-size: 12px; opacity: 0.8;">Nouveau message de contact</p>
+        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px; width: 80px;">Nom</td><td style="padding: 8px 0; font-size: 14px; color: #111827; font-weight: 600;">${escapeHtml(msg.name)}</td></tr>
+          <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px;">Email</td><td style="padding: 8px 0; font-size: 14px; color: #1F538C;"><a href="mailto:${escapeHtml(msg.email)}" style="color: #1F538C;">${escapeHtml(msg.email)}</a></td></tr>
+          <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px;">Sujet</td><td style="padding: 8px 0; font-size: 14px; color: #111827;">${escapeHtml(msg.subject)}</td></tr>
+        </table>
+        <div style="margin-top: 16px; padding: 16px; background: white; border: 1px solid #e5e7eb; border-radius: 6px;">
+          <p style="margin: 0 0 8px; font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px;">Message</p>
+          <p style="margin: 0; font-size: 14px; color: #111827; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(msg.message)}</p>
+        </div>
+      </div>
+    `
+  };
+
+  const info = await transporter.sendMail(mailOptions);
+  return info;
+}
+
+function escapeHtml(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function processRetryQueue() {
+  const messages = loadMessages();
+  const pending = messages.filter(m => m.status === 'failed' && m.retry_count < 3);
+
+  if (pending.length === 0) return;
+
+  console.log(`File d'attente: tentative de renvoi de ${pending.length} message(s)...`);
+
+  for (const msg of pending) {
+    sendEmail(msg)
+      .then(info => {
+        const all = loadMessages();
+        const found = all.find(m => m.id === msg.id);
+        if (found) {
+          found.status = 'sent';
+          found.sent_at = new Date().toISOString();
+          found.error_message = null;
+          found.last_attempt = null;
+          saveMessages(all);
+          console.log(`Message #${msg.id} renvoyé avec succès (${info.messageId})`);
+        }
+      })
+      .catch(err => {
+        const all = loadMessages();
+        const found = all.find(m => m.id === msg.id);
+        if (found) {
+          found.retry_count = (found.retry_count || 0) + 1;
+          found.error_message = err.message;
+          found.last_attempt = new Date().toISOString();
+          if (found.retry_count >= 3) {
+            found.status = 'failed_permanent';
+            console.log(`Message #${msg.id} abandonné après 3 tentatives`);
+          } else {
+            console.log(`Échec renvoi #${msg.id} (tentative ${found.retry_count}/3): ${err.message}`);
+          }
+          saveMessages(all);
+        }
+      });
+  }
+}
+
+setInterval(processRetryQueue, 5 * 60 * 1000);
 
 const allowedOrigins = [
   'http://localhost:3000',
+  'http://localhost:3001',
   'http://localhost:5500',
   'http://127.0.0.1:5500',
   'http://localhost:8080',
+  'http://127.0.0.1:8080',
   ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])
 ];
 
 app.use(cors({
   origin: allowedOrigins,
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 
 app.use(express.static(path.join(__dirname, '..')));
 
-const limiter = rateLimit({
+const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
   message: { error: 'Trop de requêtes, réessayez dans 15 minutes.' }
 });
-app.use('/api/contact', limiter);
+app.use('/api/contact', contactLimiter);
 
-let transporter;
-
-async function initTransporter() {
-  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-      },
-      tls: { rejectUnauthorized: false }
-    });
-    console.log('SMTP configuré avec', process.env.SMTP_USER + ' sur ' + process.env.SMTP_HOST + ':' + process.env.SMTP_PORT);
-  } else if (process.env.SMTP_HOST && !process.env.SMTP_USER) {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT),
-      secure: false,
-      ignoreTLS: true
-    });
-    console.log('SMTP sans auth sur', process.env.SMTP_HOST + ':' + process.env.SMTP_PORT);
-  } else {
-    const testAccount = await nodemailer.createTestAccount();
-    transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass
-      }
-    });
-    console.log('🔧 Mode test Ethereal activé');
-    console.log('   Les emails sont visibles sur https://ethereal.email');
-  }
-}
+const adminLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  message: { error: 'Trop de requêtes.' }
+});
+app.use('/api/admin', adminLimiter);
 
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function requireAdmin(req, res, next) {
+  const auth = req.headers.authorization;
+  if (!auth || auth !== `Bearer ${ADMIN_TOKEN}`) {
+    return res.status(401).json({ error: 'Non autorisé' });
+  }
+  next();
 }
 
 app.post('/api/contact', async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
 
-    if (!name || name.trim().length < 2 || name.trim().length > 100) {
+    if (!name || typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100) {
       return res.status(400).json({ error: 'Nom invalide (2-100 caractères)' });
     }
-    if (!email || !validateEmail(email)) {
+    if (!email || typeof email !== 'string' || !validateEmail(email)) {
       return res.status(400).json({ error: 'Email invalide' });
     }
-    if (!message || message.trim().length < 10 || message.trim().length > 2000) {
+    if (!message || typeof message !== 'string' || message.trim().length < 10 || message.trim().length > 2000) {
       return res.status(400).json({ error: 'Message invalide (10-2000 caractères)' });
     }
-    if (subject && subject.length > 200) {
+    if (subject && typeof subject === 'string' && subject.length > 200) {
       return res.status(400).json({ error: 'Sujet trop long (max 200 caractères)' });
     }
 
-    console.log(`Tentative d'envoi: ${name} <${email}>`);
-
-    const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
-
-    const mailOptions = {
-      from: `"IMMEIT Contact" <${CONTACT_EMAIL}>`,
-      to: CONTACT_EMAIL,
-      replyTo: email,
-      subject: subject ? `${subject} - Site IMMEIT` : 'Nouveau message depuis le site IMMEIT',
-      text: `Nom : ${name}\nEmail : ${email}\n\nMessage :\n${message}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #f9fafb; border-radius: 8px;">
-          <div style="text-align: center; margin-bottom: 24px; padding: 16px; background: linear-gradient(135deg, #1F538C, #0A2540); border-radius: 8px;">
-            <h1 style="color: #C99A3E; margin: 0; font-size: 20px;">IMMEIT</h1>
-            <p style="color: white; margin: 4px 0 0; font-size: 12px; opacity: 0.8;">Nouveau message de contact</p>
-          </div>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px; width: 80px;">Nom</td><td style="padding: 8px 0; font-size: 14px; color: #111827; font-weight: 600;">${name}</td></tr>
-            <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px;">Email</td><td style="padding: 8px 0; font-size: 14px; color: #1F538C;"><a href="mailto:${email}" style="color: #1F538C;">${email}</a></td></tr>
-            ${subject ? `<tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px;">Sujet</td><td style="padding: 8px 0; font-size: 14px; color: #111827;">${subject}</td></tr>` : ''}
-          </table>
-          <div style="margin-top: 16px; padding: 16px; background: white; border: 1px solid #e5e7eb; border-radius: 6px;">
-            <p style="margin: 0 0 8px; font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px;">Message</p>
-            <p style="margin: 0; font-size: 14px; color: #111827; line-height: 1.6; white-space: pre-wrap;">${message}</p>
-          </div>
-        </div>
-      `
+    const msg = {
+      id: 0,
+      name: name.trim(),
+      email: email.trim(),
+      subject: subject ? subject.trim() : 'Nouveau message IMMEIT',
+      message: message.trim(),
+      status: 'pending',
+      error_message: null,
+      retry_count: 0,
+      created_at: new Date().toISOString(),
+      sent_at: null,
+      read_at: null,
+      last_attempt: null
     };
 
-    let sent = false;
+    const messages = loadMessages();
+    msg.id = nextId(messages);
+    messages.push(msg);
+    saveMessages(messages);
+
+    console.log(`Message #${msg.id} reçu de ${msg.name} <${msg.email}>`);
 
     if (transporter) {
       try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email envoyé via SMTP:', info.messageId);
-        sent = true;
-      } catch (smtpErr) {
-        console.log('SMTP indisponible:', smtpErr.message?.slice(0, 80));
-      }
-    }
-
-    if (!sent) {
-      try {
-        const formData = JSON.stringify({ name, email, subject, message, _captcha: 'false' });
-        await new Promise((resolve, reject) => {
-          const req = https.request({
-            hostname: 'formsubmit.co',
-            path: '/ajax/' + encodeURIComponent(CONTACT_EMAIL),
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(formData) }
-          }, (res) => {
-            let body = '';
-            res.on('data', d => body += d);
-            res.on('end', () => {
-              try {
-                const data = JSON.parse(body);
-                if (data.success === true || data.success === 'true') {
-                  console.log('Email envoyé via formsubmit.co (serveur)');
-                  sent = true;
-                } else {
-                  console.log('formsubmit.co a refusé:', data.message);
-                }
-              } catch { console.log('Réponse formsubmit.co:', body); }
-              resolve();
-            });
-          });
-          req.on('error', reject);
-          req.write(formData);
-          req.end();
+        const info = await sendEmail(msg);
+        msg.status = 'sent';
+        msg.sent_at = new Date().toISOString();
+        saveMessages(messages);
+        console.log(`Message #${msg.id} envoyé avec succès (${info.messageId})`);
+        return res.json({ success: true, id: msg.id });
+      } catch (err) {
+        msg.status = 'failed';
+        msg.error_message = err.message;
+        msg.last_attempt = new Date().toISOString();
+        saveMessages(messages);
+        console.log(`Message #${msg.id} échec SMTP: ${err.message}`);
+        return res.json({
+          success: false,
+          stored: true,
+          id: msg.id,
+          error: "Le message a été sauvegardé mais l'envoi email a échoué. Nous le renverrons automatiquement."
         });
-      } catch (fsErr) {
-        console.log('formsubmit.co serveur indisponible:', fsErr.message?.slice(0, 80));
       }
     }
 
-    if (sent) {
-      res.json({ success: true });
-    } else {
-      console.error('Échec total d\'envoi pour', email);
-      res.status(500).json({ error: 'Erreur lors de l\'envoi du message. Veuillez réessayer.' });
-    }
+    return res.json({
+      success: true,
+      stored: true,
+      id: msg.id,
+      warning: 'Message sauvegardé (SMTP non configuré)'
+    });
+
   } catch (error) {
     console.error('Erreur serveur:', error);
     res.status(500).json({ error: 'Erreur interne du serveur.' });
   }
 });
 
+app.get('/api/admin/messages', requireAdmin, (req, res) => {
+  const messages = loadMessages();
+  const { status, limit } = req.query;
+  let filtered = messages;
+
+  if (status && status !== 'all') {
+    filtered = filtered.filter(m => m.status === status);
+  }
+
+  filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  if (limit) {
+    filtered = filtered.slice(0, parseInt(limit));
+  }
+
+  res.json(filtered);
+});
+
+app.get('/api/admin/messages/:id', requireAdmin, (req, res) => {
+  const messages = loadMessages();
+  const msg = messages.find(m => m.id === parseInt(req.params.id));
+  if (!msg) {
+    return res.status(404).json({ error: 'Message introuvable' });
+  }
+  res.json(msg);
+});
+
+app.put('/api/admin/messages/:id/read', requireAdmin, (req, res) => {
+  const messages = loadMessages();
+  const msg = messages.find(m => m.id === parseInt(req.params.id));
+  if (!msg) {
+    return res.status(404).json({ error: 'Message introuvable' });
+  }
+  msg.read_at = msg.read_at || new Date().toISOString();
+  saveMessages(messages);
+  res.json({ success: true });
+});
+
+app.delete('/api/admin/messages/:id', requireAdmin, (req, res) => {
+  let messages = loadMessages();
+  const index = messages.findIndex(m => m.id === parseInt(req.params.id));
+  if (index === -1) {
+    return res.status(404).json({ error: 'Message introuvable' });
+  }
+  messages.splice(index, 1);
+  saveMessages(messages);
+  res.json({ success: true });
+});
+
+app.post('/api/admin/messages/:id/retry', requireAdmin, (req, res) => {
+  const messages = loadMessages();
+  const msg = messages.find(m => m.id === parseInt(req.params.id));
+  if (!msg) {
+    return res.status(404).json({ error: 'Message introuvable' });
+  }
+
+  if (!transporter) {
+    return res.status(400).json({ error: 'SMTP non configuré' });
+  }
+
+  msg.status = 'pending';
+  msg.retry_count = 0;
+  msg.error_message = null;
+  msg.last_attempt = null;
+  saveMessages(messages);
+
+  sendEmail(msg)
+    .then(info => {
+      const all = loadMessages();
+      const found = all.find(m => m.id === msg.id);
+      if (found) {
+        found.status = 'sent';
+        found.sent_at = new Date().toISOString();
+        found.error_message = null;
+        saveMessages(all);
+      }
+      res.json({ success: true, messageId: info.messageId });
+    })
+    .catch(err => {
+      const all = loadMessages();
+      const found = all.find(m => m.id === msg.id);
+      if (found) {
+        found.status = 'failed';
+        found.retry_count = 1;
+        found.error_message = err.message;
+        found.last_attempt = new Date().toISOString();
+        saveMessages(all);
+      }
+      res.status(500).json({ error: err.message });
+    });
+});
+
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    smtp: !!transporter,
+    messages: loadMessages().length
+  });
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+app.get('/api/*', (req, res) => {
+  res.status(404).json({ error: 'Not found' });
 });
 
 app.get('*', (req, res) => {
-  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Not found' });
   res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 initTransporter().then(() => {
+  ensureDataDir();
+  processRetryQueue();
   app.listen(PORT, () => {
-    const mode = process.env.SMTP_USER ? 'SMTP (' + process.env.SMTP_USER + ')' :
-                 process.env.SMTP_HOST ? 'SMTP direct (' + process.env.SMTP_HOST + ':' + process.env.SMTP_PORT + ')' :
-                 'Ethereal (test)';
-    console.log(`Serveur IMMEIT démarré sur http://localhost:${PORT}`);
-    console.log(` Mode email : ${mode}`);
-    console.log(` Recevant : ${process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com'}`);
+    const mode = transporter ? `SMTP (${process.env.SMTP_USER})` : 'Stockage local seulement';
+    console.log('═══════════════════════════════════════');
+    console.log(`  IMMEIT - Serveur démarré`);
+    console.log(`  Adresse : http://localhost:${PORT}`);
+    console.log(`  Email   : ${mode}`);
+    console.log(`  Contact : ${CONTACT_EMAIL}`);
+    console.log(`  Admin   : http://localhost:${PORT}/admin`);
+    console.log('═══════════════════════════════════════');
   });
 });
