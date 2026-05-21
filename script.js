@@ -331,7 +331,40 @@ document.addEventListener('DOMContentLoaded', () => {
     if (this.classList.contains('error') || this.classList.contains('success')) validateMessage();
   });
 
-  form.addEventListener('submit', (e) => {
+  // ===== Form submission =====
+  function setLoading(loading) {
+    if (loading) {
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+      submitBtn.disabled = true;
+    } else {
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
+      submitBtn.disabled = false;
+    }
+  }
+
+  function clearForm() {
+    form.reset();
+    [nameInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
+    [nameError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
+  }
+
+  function showConfirmation(success) {
+    const banner = document.createElement('div');
+    banner.className = 'form-banner form-banner--' + (success ? 'success' : 'error');
+    banner.innerHTML = success
+      ? '<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.'
+      : '<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vous pouvez nous écrire à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>';
+    submitBtn.parentNode.insertBefore(banner, submitBtn);
+    setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
+  }
+
+  const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:3001/api/contact'
+    : '/api/contact';
+
+  const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/demandes-p2m@immeit.com';
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const isNameValid = validateName();
@@ -372,54 +405,47 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-    submitBtn.disabled = true;
+    setLoading(true);
 
     const payload = {
       name: nameInput.value.trim(),
       email: emailInput.value.trim(),
-      subject: subjectInput.value.trim(),
-      message: messageInput.value.trim()
+      subject: subjectInput.value.trim() || 'Nouveau message IMMEIT',
+      message: messageInput.value.trim(),
+      _captcha: 'false'
     };
 
-    const API = window.location.hostname === 'localhost'
-      ? 'http://localhost:3001/api/contact'
-      : '/api/contact';
+    let sent = false;
 
-    fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(result => {
-      if (result.success) {
-        showFormMessage('Message envoyé !', '#10b981', true);
-      } else {
-        throw new Error(result.error || 'Erreur');
-      }
-    })
-    .catch(() => {
-      showFormMessage('Échec de l\'envoi', '#ef4444', false);
-    });
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) sent = true;
+    } catch (_) {}
 
-    function showFormMessage(label, color, reset) {
-      submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> ' + label;
-      submitBtn.style.background = 'linear-gradient(135deg, ' + color + ', ' + color + ')';
-      submitBtn.style.boxShadow = '0 4px 16px ' + color + '59';
-      setTimeout(() => resetForm(reset), 3000);
+    if (!sent) {
+      try {
+        const res = await fetch(FORMSUBMIT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) sent = true;
+      } catch (_) {}
     }
 
-    function resetForm(clearFields) {
-      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
-      submitBtn.style.background = '';
-      submitBtn.style.boxShadow = '';
-      submitBtn.disabled = false;
-      if (clearFields) {
-        form.reset();
-        [nameInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
-        [nameError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
-      }
+    setLoading(false);
+
+    if (sent) {
+      showConfirmation(true);
+      clearForm();
+    } else {
+      showConfirmation(false);
     }
   });
 
