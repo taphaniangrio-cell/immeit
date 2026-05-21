@@ -353,13 +353,15 @@ document.addEventListener('DOMContentLoaded', () => {
     banner.className = 'form-banner form-banner--' + (success ? 'success' : 'error');
     banner.innerHTML = success
       ? '<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.'
-      : '<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vous pouvez nous écrire à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>';
+      : '<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vérifiez que le serveur est démarré ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>';
     submitBtn.parentNode.insertBefore(banner, submitBtn);
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const API_URL = '/api/contact';
-  const FALLBACK_API = 'http://localhost:3001/api/contact';
+  const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/demandes-p2m@immeit.com';
+  const LOCAL_API = '/api/contact';
+  const LOCAL_API_FALLBACK = 'http://localhost:3001/api/contact';
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -411,31 +413,44 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    const sendTo = async (url, signal) => {
+    const fetchWithTimeout = async (url, timeoutMs = 8000) => {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), timeoutMs);
       try {
         const res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
-          signal
+          signal: ctrl.signal
         });
-        if (!res.ok) return false;
-        return true;
+        return res.ok;
       } catch {
         return false;
+      } finally {
+        clearTimeout(timer);
       }
     };
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    let sent = false;
 
-    let sent = await sendTo(API_URL, controller.signal);
+    if (isLocal) {
+      sent = await fetchWithTimeout(LOCAL_API);
 
-    if (!sent && window.location.origin !== 'http://localhost:3001') {
-      sent = await sendTo(FALLBACK_API, controller.signal);
+      if (!sent) {
+        sent = await fetchWithTimeout(LOCAL_API_FALLBACK);
+      }
+
+      if (!sent) {
+        sent = await fetchWithTimeout(FORMSUBMIT_URL);
+      }
+    } else {
+      sent = await fetchWithTimeout(FORMSUBMIT_URL);
+
+      if (!sent) {
+        sent = await fetchWithTimeout(LOCAL_API);
+      }
     }
 
-    clearTimeout(timeout);
     setLoading(false);
 
     if (sent) {
@@ -443,9 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
       clearForm();
     } else {
       showConfirmation(false);
-      const mailBody = 'Bonjour,\n\n' + payload.message + '\n\nCordialement,\n' + payload.name + '\n' + payload.email;
-      const mailto = 'mailto:demandes-p2m@immeit.com?subject=' + encodeURIComponent(payload.subject) + '&body=' + encodeURIComponent(mailBody);
-      setTimeout(() => { window.location.href = mailto; }, 1500);
     }
   });
 
