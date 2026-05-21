@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(payload)
         });
         const data = await res.json();
-        return data && (data.success || data.success === 'true');
+        return data && (data.success === true || data.success === 'true');
       } catch {
         return false;
       }
