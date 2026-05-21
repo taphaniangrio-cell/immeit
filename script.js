@@ -95,6 +95,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(section => observer.observe(section));
 
+  // ===== Footer fixed on contact =====
+  const contactSection = document.getElementById('contact');
+  const footerEl = document.querySelector('.footer');
+
+  if (contactSection && footerEl) {
+    function pinFooter() {
+      const h = footerEl.offsetHeight + 80;
+      footerEl.style.setProperty('--footer-h', h + 'px');
+      footerEl.classList.add('footer--fixed');
+      contactSection.classList.add('footer-pinned');
+    }
+
+    function unpinFooter() {
+      footerEl.classList.remove('footer--fixed');
+      contactSection.classList.remove('footer-pinned');
+    }
+
+    const footerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          entry.isIntersecting ? pinFooter() : unpinFooter();
+        });
+      },
+      { threshold: 0 }
+    );
+    footerObserver.observe(contactSection);
+
+    document.querySelectorAll('a[href="#contact"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        pinFooter();
+        window.scrollTo({
+          top: Math.max(0, contactSection.offsetTop - 10),
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      if (footerEl.classList.contains('footer--fixed')) pinFooter();
+    });
+  }
+
   // ===== Counter animation =====
   const counters = document.querySelectorAll('[data-count]');
 

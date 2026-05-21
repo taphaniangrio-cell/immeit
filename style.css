@@ -35,7 +35,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 70px;
+  scroll-padding-top: 90px;
 }
 
 body {
@@ -1416,7 +1416,7 @@ img {
 
 /* ===== CONTACT ===== */
 .section--compact {
-  padding: 20px 0;
+  padding: 16px 0;
 }
 
 .contact__wrap {
@@ -1727,6 +1727,24 @@ img {
   font-size: 0.65rem;
   color: var(--text-muted);
   flex-shrink: 0;
+}
+
+.footer--fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  animation: footerSlideUp 0.3s ease-out;
+}
+
+#contact.footer-pinned {
+  padding-bottom: var(--footer-h, 80px);
+}
+
+@keyframes footerSlideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
 }
 
 /* ===== FLOATING DEVIS ===== */
