@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const nodemailer = require('nodemailer');
+const https = require('https');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -136,7 +137,6 @@ app.post('/api/contact', async (req, res) => {
 
     if (!sent) {
       try {
-        const https = require('https');
         const formData = JSON.stringify({ name, email, subject, message, _captcha: 'false' });
         await new Promise((resolve, reject) => {
           const req = https.request({
@@ -150,7 +150,7 @@ app.post('/api/contact', async (req, res) => {
             res.on('end', () => {
               try {
                 const data = JSON.parse(body);
-                if (data.success || data.success === 'true') {
+                if (data.success === true || data.success === 'true') {
                   console.log('Email envoyé via formsubmit.co (serveur)');
                   sent = true;
                 } else {
