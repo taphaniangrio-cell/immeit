@@ -7,6 +7,8 @@ const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const path = require('path');
+
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5500',
@@ -17,10 +19,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: allowedOrigins,
-  methods: ['POST'],
+  methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, '..')));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -132,6 +136,11 @@ app.post('/api/contact', async (req, res) => {
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Not found' });
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 initTransporter().then(() => {
