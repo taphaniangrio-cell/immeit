@@ -417,26 +417,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let sent = false;
 
-    try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      if (data.success) sent = true;
-    } catch (_) {}
-
-    if (!sent) {
+    const sendTo = async (url) => {
       try {
-        const res = await fetch(FORMSUBMIT_URL, {
+        const res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify(payload)
         });
         const data = await res.json();
-        if (data.success) sent = true;
-      } catch (_) {}
+        return data && (data.success || data.success === 'true');
+      } catch {
+        return false;
+      }
+    };
+
+    sent = await sendTo(FORMSUBMIT_URL);
+
+    if (!sent && API_URL) {
+      sent = await sendTo(API_URL);
     }
 
     setLoading(false);
