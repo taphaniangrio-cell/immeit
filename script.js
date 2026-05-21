@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const API_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:3001/api/contact'
-    : '/api/contact';
+    : null;
 
   const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/demandes-p2m@immeit.com';
 
