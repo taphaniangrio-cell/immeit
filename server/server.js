@@ -39,14 +39,15 @@ async function initTransporter() {
   if (process.env.SMTP_USER && process.env.SMTP_PASS) {
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT),
-      secure: process.env.SMTP_SECURE === 'true',
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: false,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
-      }
+      },
+      tls: { rejectUnauthorized: false }
     });
-    console.log('SMTP configuré avec', process.env.SMTP_USER);
+    console.log('SMTP configuré avec', process.env.SMTP_USER + ' sur ' + process.env.SMTP_HOST + ':' + process.env.SMTP_PORT);
   } else if (process.env.SMTP_HOST && !process.env.SMTP_USER) {
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -92,9 +93,13 @@ app.post('/api/contact', async (req, res) => {
       return res.status(400).json({ error: 'Sujet trop long (max 200 caractères)' });
     }
 
+    console.log(`Tentative d'envoi: ${name} <${email}>`);
+
+    const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
+
     const mailOptions = {
-      from: `"IMMEIT Contact" <${process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com'}>`,
-      to: process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com',
+      from: `"IMMEIT Contact" <${CONTACT_EMAIL}>`,
+      to: CONTACT_EMAIL,
       replyTo: email,
       subject: subject ? `${subject} - Site IMMEIT` : 'Nouveau message depuis le site IMMEIT',
       text: `Nom : ${name}\nEmail : ${email}\n\nMessage :\n${message}`,
@@ -117,20 +122,62 @@ app.post('/api/contact', async (req, res) => {
       `
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    let sent = false;
 
-    const previewUrl = nodemailer.getTestMessageUrl(info);
-
-    if (previewUrl) {
-      console.log('Email envoyé — preview:', previewUrl);
-    } else {
-      console.log('Email envoyé:', info.messageId);
+    if (transporter) {
+      try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email envoyé via SMTP:', info.messageId);
+        sent = true;
+      } catch (smtpErr) {
+        console.log('SMTP indisponible:', smtpErr.message?.slice(0, 80));
+      }
     }
 
-    res.json({ success: true, previewUrl });
+    if (!sent) {
+      try {
+        const https = require('https');
+        const formData = JSON.stringify({ name, email, subject, message, _captcha: 'false' });
+        await new Promise((resolve, reject) => {
+          const req = https.request({
+            hostname: 'formsubmit.co',
+            path: '/ajax/' + encodeURIComponent(CONTACT_EMAIL),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(formData) }
+          }, (res) => {
+            let body = '';
+            res.on('data', d => body += d);
+            res.on('end', () => {
+              try {
+                const data = JSON.parse(body);
+                if (data.success || data.success === 'true') {
+                  console.log('Email envoyé via formsubmit.co (serveur)');
+                  sent = true;
+                } else {
+                  console.log('formsubmit.co a refusé:', data.message);
+                }
+              } catch { console.log('Réponse formsubmit.co:', body); }
+              resolve();
+            });
+          });
+          req.on('error', reject);
+          req.write(formData);
+          req.end();
+        });
+      } catch (fsErr) {
+        console.log('formsubmit.co serveur indisponible:', fsErr.message?.slice(0, 80));
+      }
+    }
+
+    if (sent) {
+      res.json({ success: true });
+    } else {
+      console.error('Échec total d\'envoi pour', email);
+      res.status(500).json({ error: 'Erreur lors de l\'envoi du message. Veuillez réessayer.' });
+    }
   } catch (error) {
-    console.error('Erreur d\'envoi:', error);
-    res.status(500).json({ error: 'Erreur lors de l\'envoi du message. Veuillez réessayer.' });
+    console.error('Erreur serveur:', error);
+    res.status(500).json({ error: 'Erreur interne du serveur.' });
   }
 });
 
