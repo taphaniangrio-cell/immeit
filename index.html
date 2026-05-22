@@ -531,15 +531,20 @@
           <form class="contact__form reveal" id="contactForm" novalidate>
             <div class="form__row">
               <div class="form__group">
-                <label for="name">Nom <span class="form__required">*</span></label>
-                <input type="text" id="name" name="name" placeholder="Votre nom" required minlength="2" maxlength="100" autocomplete="name" />
-                <span class="form__error" id="nameError"></span>
+                <label for="prenom">Prénom <span class="form__required">*</span></label>
+                <input type="text" id="prenom" name="prenom" placeholder="Jean" required minlength="2" maxlength="50" autocomplete="given-name" />
+                <span class="form__error" id="prenomError"></span>
               </div>
               <div class="form__group">
-                <label for="email">Email <span class="form__required">*</span></label>
-                <input type="email" id="email" name="email" placeholder="votre@email.com" required autocomplete="email" />
-                <span class="form__error" id="emailError"></span>
+                <label for="nom">Nom <span class="form__required">*</span></label>
+                <input type="text" id="nom" name="nom" placeholder="Dupont" required minlength="2" maxlength="50" autocomplete="family-name" />
+                <span class="form__error" id="nomError"></span>
               </div>
+            </div>
+            <div class="form__group">
+              <label for="email">Email <span class="form__required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="votre@email.com" required autocomplete="email" />
+              <span class="form__error" id="emailError"></span>
             </div>
             <div class="form__group">
               <label for="subject">Sujet <span class="form__required">*</span></label>
@@ -548,7 +553,7 @@
             </div>
             <div class="form__group">
               <label for="message">Message <span class="form__required">*</span></label>
-              <textarea id="message" name="message" rows="3" placeholder="Votre message" required minlength="10" maxlength="2000"></textarea>
+              <textarea id="message" name="message" rows="2" placeholder="Votre message" required minlength="10" maxlength="2000"></textarea>
               <span class="form__error" id="messageError"></span>
             </div>
             <button type="submit" class="btn" id="submitBtn">

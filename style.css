@@ -1530,16 +1530,16 @@ img {
 
 /* ===== CONTACT ===== */
 .section--compact {
-  padding: 24px 0;
+  padding: 16px 0;
 }
 
 .contact__wrap {
   display: flex;
-  gap: 32px;
+  gap: 24px;
   background: linear-gradient(135deg, var(--bg-card) 0%, color-mix(in srgb, var(--bg-card) 95%, var(--accent)) 100%);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 36px 40px;
+  padding: 24px 28px;
   position: relative;
   overflow: hidden;
 }
@@ -1557,23 +1557,23 @@ img {
 
 .contact__info {
   flex: 1;
-  min-width: 280px;
+  min-width: 240px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 8px 0;
+  gap: 8px;
+  padding: 2px 0;
   justify-content: center;
 }
 
 .contact__info-head {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .contact__icon-ring {
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--accent-light), color-mix(in srgb, var(--accent-light) 80%, var(--primary-light)));
   border: 2px solid var(--accent);
@@ -1581,7 +1581,7 @@ img {
   align-items: center;
   justify-content: center;
   color: var(--accent);
-  font-size: 1.35rem;
+  font-size: 1rem;
   flex-shrink: 0;
   box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 8%, transparent);
   transition: var(--transition);
@@ -1597,22 +1597,22 @@ img {
 }
 
 .contact__info .section__title {
-  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   margin-bottom: 0;
   line-height: 1.3;
 }
 
 .contact__info-text {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
-  line-height: 1.6;
-  padding-left: 72px;
-  margin-top: -4px;
+  line-height: 1.5;
+  padding-left: 52px;
+  margin-top: -2px;
 }
 
 .contact__flag {
-  width: 18px;
-  height: 13px;
+  width: 16px;
+  height: 11px;
   border-radius: 2px;
   display: inline-block;
   vertical-align: middle;
@@ -1621,48 +1621,48 @@ img {
 .contact__links {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-left: 72px;
+  gap: 2px;
+  padding-left: 52px;
 }
 
 .contact__links a {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--text-light);
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: var(--transition);
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
   width: fit-content;
 }
 
 .contact__links a:hover {
   color: var(--text);
   background: var(--primary-light);
-  padding: 6px 10px;
+  padding: 4px 8px;
 }
 
 .contact__links a i {
-  width: 18px;
+  width: 16px;
   color: var(--primary);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   text-align: center;
 }
 
 .contact__form {
   flex: 1;
-  min-width: 320px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   position: relative;
-  padding: 4px 0;
+  padding: 2px 0;
 }
 
 .form__row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .form__row .form__group {
@@ -1673,11 +1673,11 @@ img {
   position: relative;
 }
 
-.form__group label {
+.contact__form .form__group label {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 500;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
   color: var(--text);
 }
 
@@ -1685,60 +1685,60 @@ img {
   color: var(--error);
 }
 
-.form__group input,
-.form__group textarea {
+.contact__form .form__group input,
+.contact__form .form__group textarea {
   width: 100%;
-  padding: 11px 14px;
+  padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   transition: var(--transition);
   background: var(--bg);
   color: var(--text);
   box-sizing: border-box;
 }
 
-.form__group input::placeholder,
-.form__group textarea::placeholder {
+.contact__form .form__group input::placeholder,
+.contact__form .form__group textarea::placeholder {
   color: var(--text-muted);
 }
 
-.form__group input:focus,
-.form__group textarea:focus {
+.contact__form .form__group input:focus,
+.contact__form .form__group textarea:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
-.form__group input.error,
-.form__group textarea.error {
+.contact__form .form__group input.error,
+.contact__form .form__group textarea.error {
   border-color: var(--error);
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-.form__group textarea {
+.contact__form .form__group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 52px;
 }
 
-.form__error {
+.contact__form .form__error {
   display: block;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--error);
-  margin-top: 2px;
-  min-height: 14px;
+  margin-top: 1px;
+  min-height: 0;
   font-weight: 500;
 }
 
 #submitBtn {
   align-self: flex-end;
-  font-size: 0.85rem;
-  padding: 11px 28px;
+  font-size: 0.8rem;
+  padding: 9px 22px;
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
   box-shadow: 0 4px 20px rgba(201, 154, 62, 0.3);
-  min-height: 44px;
+  min-height: 38px;
   cursor: pointer;
   transition: var(--transition);
 }
@@ -2276,10 +2276,12 @@ img {
   }
   .contact__wrap {
     flex-direction: column;
-    padding: 24px 20px;
+    padding: 18px 16px;
+    gap: 14px;
   }
   .contact__info {
     min-width: 0;
+    gap: 6px;
   }
   .contact__info-text,
   .contact__links {
@@ -2287,12 +2289,13 @@ img {
   }
   .contact__form {
     min-width: 0;
+    gap: 5px;
   }
   #submitBtn {
     align-self: stretch;
     justify-content: center;
-    font-size: 0.9rem;
-    padding: 12px 20px;
+    font-size: 0.82rem;
+    padding: 10px 20px;
   }
   .footer__inner {
     flex-direction: column;
