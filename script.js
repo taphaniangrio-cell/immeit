@@ -26,8 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Navbar scroll =====
   const navbar = document.getElementById('navbar');
 
+  let scrollTicking = false;
   window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
+    if (!scrollTicking) {
+      requestAnimationFrame(() => {
+        navbar.classList.toggle('scrolled', window.scrollY > 60);
+        backToTop?.classList.toggle('visible', window.scrollY > 400);
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
   });
 
   // ===== Badge scroll =====
@@ -231,13 +239,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Back to top =====
   const backToTop = document.getElementById('backToTop');
 
-  window.addEventListener('scroll', () => {
-    backToTop.classList.toggle('visible', window.scrollY > 400);
-  });
-
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  if (backToTop) {
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
   // ===== Toast notification =====
   function showToast(message, type) {
@@ -481,32 +487,6 @@ document.addEventListener('DOMContentLoaded', () => {
       showConfirmation(false);
     }
   });
-
-  // ===== Map modal =====
-  const mapBtn = document.getElementById('mapBtn');
-  const mapModal = document.getElementById('mapModal');
-  const mapOverlay = document.getElementById('mapOverlay');
-  const mapClose = document.getElementById('mapClose');
-
-  if (mapBtn && mapModal) {
-    function openMap() {
-      mapModal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeMap() {
-      mapModal.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    mapBtn.addEventListener('click', openMap);
-    mapOverlay.addEventListener('click', closeMap);
-    mapClose.addEventListener('click', closeMap);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mapModal.classList.contains('open')) closeMap();
-    });
-  }
 
   // ===== Keyboard shortcut =====
   document.addEventListener('keydown', (e) => {

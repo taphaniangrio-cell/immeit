@@ -1,15 +1,23 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
+const https = require('https');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'immeit-admin-2024';
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+if (!ADMIN_TOKEN) {
+  console.error('ERREUR: ADMIN_TOKEN non défini dans .env');
+  process.exit(1);
+}
+const isDev = process.env.NODE_ENV !== 'production';
 
 const DATA_DIR = path.join(__dirname, 'data');
 const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
@@ -185,6 +193,22 @@ const allowedOrigins = [
   ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : [])
 ];
 
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'", "https://formsubmit.co"],
+      frameAncestors: ["'none'"],
+      formAction: ["'self'", "https://formsubmit.co"],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+}));
+
 app.use(cors({
   origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -192,7 +216,11 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '10kb' }));
 
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, '..'), {
+  dotfiles: 'ignore',
+  index: false,
+}));
+app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));
 
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -411,20 +439,41 @@ app.get('/api/*', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
+  if (req.accepts('html')) {
+    res.status(404).sendFile(path.join(__dirname, '404.html'));
+  } else if (req.accepts('json')) {
+    res.status(404).json({ error: 'Not found' });
+  } else {
+    res.status(404).type('txt').send('Not found');
+  }
 });
+
+function startServer(protocol, server) {
+  const mode = transporter ? `SMTP (${process.env.SMTP_USER})` : 'Stockage local seulement';
+  console.log('═══════════════════════════════════════');
+  console.log(`  IMMEIT - Serveur démarré`);
+  console.log(`  Protocole : ${protocol}`);
+  console.log(`  Adresse   : ${protocol}://localhost:${PORT}`);
+  console.log(`  Email     : ${mode}`);
+  console.log(`  Contact   : ${CONTACT_EMAIL}`);
+  console.log(`  Admin     : ${protocol}://localhost:${PORT}/admin`);
+  console.log('═══════════════════════════════════════');
+}
 
 initTransporter().then(() => {
   ensureDataDir();
   processRetryQueue();
-  app.listen(PORT, () => {
-    const mode = transporter ? `SMTP (${process.env.SMTP_USER})` : 'Stockage local seulement';
-    console.log('═══════════════════════════════════════');
-    console.log(`  IMMEIT - Serveur démarré`);
-    console.log(`  Adresse : http://localhost:${PORT}`);
-    console.log(`  Email   : ${mode}`);
-    console.log(`  Contact : ${CONTACT_EMAIL}`);
-    console.log(`  Admin   : http://localhost:${PORT}/admin`);
-    console.log('═══════════════════════════════════════');
-  });
+
+  const sslKeyPath = process.env.SSL_KEY;
+  const sslCertPath = process.env.SSL_CERT;
+
+  if (sslKeyPath && sslCertPath && fs.existsSync(sslKeyPath) && fs.existsSync(sslCertPath)) {
+    const options = {
+      key: fs.readFileSync(sslKeyPath),
+      cert: fs.readFileSync(sslCertPath),
+    };
+    https.createServer(options, app).listen(PORT, () => startServer('https', 'HTTPS'));
+  } else {
+    http.createServer(app).listen(PORT, () => startServer('http', 'HTTP'));
+  }
 });

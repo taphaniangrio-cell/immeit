@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://immeit.com/sitemap.xml

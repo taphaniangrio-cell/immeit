@@ -5,17 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="IMMEIT - Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires. Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation. Basé à Dakar Sénégal et Paris France." />
   <meta name="theme-color" content="#111927" />
+  <meta property="og:title" content="IMMEIT | Installation, Méthodes, Maintenance" />
+  <meta property="og:description" content="IMMEIT - Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation. Basé à Dakar Sénégal et Paris France." />
+  <meta property="og:image" content="https://immeit.com/logo-immeit.jpeg" />
+  <meta property="og:url" content="https://immeit.com" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IMMEIT | Installation, Méthodes, Maintenance" />
+  <meta name="twitter:description" content="IMMEIT - Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation." />
+  <link rel="canonical" href="https://immeit.com" />
+  <link rel="robots" href="/robots.txt" />
   <title>IMMEIT | Installation, Méthodes, Maintenance</title>
   <link rel="icon" type="image/jpeg" href="logo-immeit.jpeg" />
   <link rel="apple-touch-icon" href="logo-immeit.jpeg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="preload" as="image" href="indicateur-de-production.jpg" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{font-family:Poppins,-apple-system,BlinkMacSystemFont,sans-serif;color:#f1f5f9;background:#111927;line-height:1.7;overflow-x:hidden}
+    .nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(17,25,39,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(36,48,68,.6)}
+    .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+    .hero__bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .hero__overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(17,25,39,.92),rgba(17,25,39,.6) 50%,rgba(17,25,39,.85))}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+  </style>
+  <link rel="stylesheet" href="style.css" media="print" onload="this.media='all';this.onload=null" onerror="this.media='all'" />
+  <noscript><link rel="stylesheet" href="style.css" /></noscript>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "IMMEIT",
+    "description": "Installation, Méthodes, Maintenance des Equipements Industriels et Tertiaires",
+    "url": "https://immeit.com",
+    "logo": "https://immeit.com/logo-immeit.jpeg",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Cité Safco Niacoulrab, villa N°40",
+      "addressLocality": "Keur Massar, Dakar",
+      "addressCountry": "SN"
+    },
+    "contactPoint": [
+      { "@type": "ContactPoint", "telephone": "+221-71-033-88-09", "contactType": "customer service" },
+      { "@type": "ContactPoint", "telephone": "+33-7-54-01-19-45", "contactType": "customer service" }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/"
+    ]
+  }
+  </script>
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZR5ML3JB"></script>
   <script>
@@ -45,7 +92,7 @@
     <div class="nav__inner">
       <a href="#" class="nav__logo">
         <span class="nav__logo-frame">
-          <img src="logo-immeit.jpeg" alt="IMMEIT" />
+          <img src="logo-immeit.jpeg" alt="IMMEIT" width="120" height="40" />
         </span>
         <div class="nav__logo-text">
           <span>IMMEIT</span>
@@ -74,7 +121,7 @@
     <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero__bg">
-        <img src="indicateur-de-production.jpg" alt="" class="hero__bg-img" loading="lazy" />
+        <img src="indicateur-de-production.jpg" alt="" width="1080" height="675" class="hero__bg-img" fetchpriority="high" />
         <div class="hero__gears">
           <div class="hero__gear hero__gear--1">
             <svg viewBox="0 0 100 100">
@@ -143,7 +190,7 @@
           <div class="about__media reveal">
             <div class="about__logo-showcase">
               <div class="about__logo-ring">
-                <img src="logo-immeit.jpeg" alt="IMMEIT" class="about__logo-img" />
+                <img src="logo-immeit.jpeg" alt="IMMEIT" width="100" height="100" loading="lazy" class="about__logo-img" />
               </div>
               <div class="about__orbit about__orbit--1"></div>
               <div class="about__orbit about__orbit--2"></div>
@@ -426,11 +473,34 @@
           <h2 class="section__title">Questions <span class="text--accent">fréquentes</span></h2>
         </div>
         <div class="faq__list reveal">
-          <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')event.preventDefault();toggleFaq(this)">
             <div class="faq__question">
               <span>Quels secteurs couvrez-vous ?</span>
               <i class="fas fa-chevron-down"></i>
             </div>
+            <div class="faq__answer">Industriel, tertiaire et résidentiel. Nous travaillons avec des grands comptes (Renault, Stellantis, SAFRAN, SUEZ) comme avec des PME et particuliers pour la climatisation.</div>
+          </div>
+          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')event.preventDefault();toggleFaq(this)">
+            <div class="faq__question">
+              <span>Intervenez-vous uniquement au Sénégal ?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq__answer">Non. Nous sommes présents au Sénégal (siège à Keur Massar), en France (Paris) et intervenons également au Mali et en Côte d'Ivoire.</div>
+          </div>
+          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')event.preventDefault();toggleFaq(this)">
+            <div class="faq__question">
+              <span>Proposez-vous des contrats de maintenance ?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq__answer">Oui, nous proposons des contrats de maintenance préventive et corrective sur mesure, avec un suivi rigoureux et des rapports mensuels de performance.</div>
+          </div>
+          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')event.preventDefault();toggleFaq(this)">
+            <div class="faq__question">
+              <span>Quels logiciels GMAO maîtrisez-vous ?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq__answer">Coswin, SAP, Maximo, CARL, DIMOMAINT — nous accompagnons nos clients sur le déploiement, la paramétrage et l'optimisation de leurs outils GMAO.</div>
+          </div>
             <div class="faq__answer">Industriel, tertiaire et résidentiel. Nous travaillons avec des grands comptes (Renault, Stellantis, SAFRAN, SUEZ) comme avec des PME et particuliers pour la climatisation.</div>
           </div>
           <div class="faq__item" onclick="toggleFaq(this)">
@@ -570,7 +640,7 @@
     <div class="container">
       <div class="footer__inner">
         <div class="footer__brand">
-          <img src="logo-immeit.jpeg" alt="" class="footer__mark" />
+          <img src="logo-immeit.jpeg" alt="IMMEIT" width="60" height="60" class="footer__mark" />
         </div>
         <div class="footer__links">
           <a href="#about">À propos</a>
@@ -581,7 +651,7 @@
         </div>
         <div class="footer__social">
           <a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer__social-link footer__social-link--linkedin"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" target="_blank" rel="noopener" aria-label="Facebook" class="footer__social-link footer__social-link--facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.facebook.com/immeit" target="_blank" rel="noopener" aria-label="Facebook" class="footer__social-link footer__social-link--facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="https://wa.me/221710338809" target="_blank" rel="noopener" aria-label="WhatsApp" class="footer__social-link footer__social-link--whatsapp"><i class="fab fa-whatsapp"></i></a>
         </div>
         <span class="footer__copy">&copy; 2026 IMMEIT</span>
