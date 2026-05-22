@@ -127,10 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         pinFooter();
         const form = document.getElementById('contactForm');
-        const target = form
-          ? form.getBoundingClientRect().top + window.scrollY - 80
-          : contactSection.offsetTop - 10;
-        window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+        if (form) {
+          const target = form.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: Math.max(0, contactSection.offsetTop - 10), behavior: 'smooth' });
+        }
       });
     });
 
