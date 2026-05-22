@@ -441,8 +441,12 @@ document.addEventListener('DOMContentLoaded', () => {
       clearForm();
       if (typeof gtag === 'function') {
         gtag('event', 'generate_lead', {
+          value: 1,
+          currency: 'EUR',
           event_category: 'Contact',
-          event_label: 'Formulaire envoyé'
+          event_label: payload.subject,
+          subject: payload.subject,
+          lead_source: 'Formulaire site web'
         });
       }
     } else {
@@ -481,6 +485,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && navLinks.classList.contains('active')) {
       closeNav();
     }
+  });
+
+  // ===== GA tracking — contact links =====
+  document.querySelectorAll('.contact__links a').forEach(el => {
+    el.addEventListener('click', function () {
+      if (typeof gtag !== 'function') return;
+      const href = this.getAttribute('href') || '';
+      if (href.startsWith('tel:+221')) {
+        gtag('event', 'phone_click_sn', { event_category: 'Contact', event_label: 'Téléphone Sénégal' });
+      } else if (href.startsWith('tel:+33')) {
+        gtag('event', 'phone_click_fr', { event_category: 'Contact', event_label: 'Téléphone France' });
+      } else if (href.startsWith('mailto:')) {
+        gtag('event', 'email_click', { event_category: 'Contact', event_label: 'Email cliqué' });
+      }
+    });
   });
 
 });
