@@ -81,19 +81,37 @@ async function sendEmail(msg) {
       : 'Nouveau message depuis le site IMMEIT',
     text: `Nom : ${msg.name}\nEmail : ${msg.email}\n\nMessage :\n${msg.message}`,
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #f9fafb; border-radius: 8px;">
-        <div style="text-align: center; margin-bottom: 24px; padding: 16px; background: linear-gradient(135deg, #1F538C, #0A2540); border-radius: 8px;">
-          <h1 style="color: #C99A3E; margin: 0; font-size: 20px;">IMMEIT</h1>
-          <p style="color: white; margin: 4px 0 0; font-size: 12px; opacity: 0.8;">Nouveau message de contact</p>
+      <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1a365d 100%); padding: 28px 32px; text-align: center;">
+          <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #C99A3E, #d4a843); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px;">
+            <span style="color: white; font-size: 22px; font-weight: 700;">${escapeHtml(msg.name.charAt(0).toUpperCase())}</span>
+          </div>
+          <h1 style="color: #C99A3E; margin: 0 0 4px; font-size: 20px; font-weight: 700;">Nouveau message</h1>
+          <p style="color: rgba(255,255,255,0.6); margin: 0; font-size: 13px;">provenant du site IMMEIT</p>
         </div>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px; width: 80px;">Nom</td><td style="padding: 8px 0; font-size: 14px; color: #111827; font-weight: 600;">${escapeHtml(msg.name)}</td></tr>
-          <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px;">Email</td><td style="padding: 8px 0; font-size: 14px; color: #1F538C;"><a href="mailto:${escapeHtml(msg.email)}" style="color: #1F538C;">${escapeHtml(msg.email)}</a></td></tr>
-          <tr><td style="padding: 8px 0; color: #6b7280; font-size: 13px;">Sujet</td><td style="padding: 8px 0; font-size: 14px; color: #111827;">${escapeHtml(msg.subject)}</td></tr>
-        </table>
-        <div style="margin-top: 16px; padding: 16px; background: white; border: 1px solid #e5e7eb; border-radius: 6px;">
-          <p style="margin: 0 0 8px; font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px;">Message</p>
-          <p style="margin: 0; font-size: 14px; color: #111827; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(msg.message)}</p>
+        <div style="padding: 28px 32px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 12px 8px 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; width: 80px; vertical-align: top;">Nom</td>
+              <td style="padding: 8px 0; font-size: 15px; color: #1e293b; font-weight: 600;">${escapeHtml(msg.name)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 12px 8px 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; width: 80px; vertical-align: top;">Email</td>
+              <td style="padding: 8px 0; font-size: 14px; color: #1F538C;"><a href="mailto:${escapeHtml(msg.email)}" style="color: #1F538C; text-decoration: none; font-weight: 500;">${escapeHtml(msg.email)}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 12px 8px 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; width: 80px; vertical-align: top;">Sujet</td>
+              <td style="padding: 8px 0; font-size: 14px; color: #1e293b;">${escapeHtml(msg.subject)}</td>
+            </tr>
+          </table>
+          <div style="margin-top: 20px; padding: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <p style="margin: 0 0 10px; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Message</p>
+            <p style="margin: 0; font-size: 14px; color: #334155; line-height: 1.8; white-space: pre-wrap;">${escapeHtml(msg.message)}</p>
+          </div>
+        </div>
+        <div style="background: #f8fafc; padding: 16px 32px; text-align: center; border-top: 1px solid #e2e8f0;">
+          <p style="margin: 0; font-size: 12px; color: #94a3b8;">IMMEIT — Installation, Méthodes, Maintenance</p>
+          <p style="margin: 4px 0 0; font-size: 11px; color: #cbd5e1;">Ce message a été envoyé depuis le formulaire de contact du site <a href="https://immeit.com" style="color: #C99A3E; text-decoration: none;">immeit.com</a></p>
         </div>
       </div>
     `
