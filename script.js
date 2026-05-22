@@ -439,6 +439,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formsubmitOk || apiOk) {
       showConfirmation(true);
       clearForm();
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          event_category: 'Contact',
+          event_label: 'Formulaire envoyé'
+        });
+      }
     } else {
       showConfirmation(false);
     }
