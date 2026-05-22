@@ -222,9 +222,14 @@ function requireAdmin(req, res, next) {
 
 app.post('/api/contact', async (req, res) => {
   try {
-    const { name, email, subject, message } = req.body;
+    const { name, prenom, nom, email, subject, message } = req.body;
 
-    if (!name || typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100) {
+    const safeName = (name || '').trim();
+    const safePrenom = (prenom || '').trim();
+    const safeNom = (nom || '').trim();
+    const displayName = safeName || `${safePrenom} ${safeNom}`.trim();
+
+    if (!displayName || displayName.length < 2 || displayName.length > 100) {
       return res.status(400).json({ error: 'Nom invalide (2-100 caractères)' });
     }
     if (!email || typeof email !== 'string' || !validateEmail(email)) {
@@ -239,7 +244,9 @@ app.post('/api/contact', async (req, res) => {
 
     const msg = {
       id: 0,
-      name: name.trim(),
+      name: displayName,
+      prenom: safePrenom || undefined,
+      nom: safeNom || undefined,
       email: email.trim(),
       subject: subject ? subject.trim() : 'Nouveau message IMMEIT',
       message: message.trim(),

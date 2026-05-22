@@ -126,10 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         pinFooter();
-        window.scrollTo({
-          top: Math.max(0, contactSection.offsetTop - 10),
-          behavior: 'smooth'
-        });
+        const form = document.getElementById('contactForm');
+        const target = form
+          ? form.getBoundingClientRect().top + window.scrollY - 80
+          : contactSection.offsetTop - 10;
+        window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
       });
     });
 
@@ -255,11 +256,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
-  const nameInput = document.getElementById('name');
+  const prenomInput = document.getElementById('prenom');
+  const nomInput = document.getElementById('nom');
   const emailInput = document.getElementById('email');
   const subjectInput = document.getElementById('subject');
   const messageInput = document.getElementById('message');
-  const nameError = document.getElementById('nameError');
+  const prenomError = document.getElementById('prenomError');
+  const nomError = document.getElementById('nomError');
   const emailError = document.getElementById('emailError');
   const subjectError = document.getElementById('subjectError');
   const messageError = document.getElementById('messageError');
@@ -276,12 +279,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function validateName() {
-    const val = nameInput.value.trim();
-    if (val.length === 0) { setFieldState(nameInput, nameError, null); return null; }
-    if (val.length < 2) { setFieldState(nameInput, nameError, false, 'Le nom doit contenir au moins 2 caractères'); return false; }
-    if (val.length > 100) { setFieldState(nameInput, nameError, false, 'Le nom ne peut pas dépasser 100 caractères'); return false; }
-    setFieldState(nameInput, nameError, true);
+  function validatePrenom() {
+    const val = prenomInput.value.trim();
+    if (val.length === 0) { setFieldState(prenomInput, prenomError, null); return null; }
+    if (val.length < 2) { setFieldState(prenomInput, prenomError, false, 'Le prénom doit contenir au moins 2 caractères'); return false; }
+    if (val.length > 50) { setFieldState(prenomInput, prenomError, false, 'Le prénom ne peut pas dépasser 50 caractères'); return false; }
+    setFieldState(prenomInput, prenomError, true);
+    return true;
+  }
+
+  function validateNom() {
+    const val = nomInput.value.trim();
+    if (val.length === 0) { setFieldState(nomInput, nomError, null); return null; }
+    if (val.length < 2) { setFieldState(nomInput, nomError, false, 'Le nom doit contenir au moins 2 caractères'); return false; }
+    if (val.length > 50) { setFieldState(nomInput, nomError, false, 'Le nom ne peut pas dépasser 50 caractères'); return false; }
+    setFieldState(nomInput, nomError, true);
     return true;
   }
 
@@ -311,9 +323,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  nameInput.addEventListener('blur', validateName);
-  nameInput.addEventListener('input', function () {
-    if (this.classList.contains('error') || this.classList.contains('success')) validateName();
+  prenomInput.addEventListener('blur', validatePrenom);
+  prenomInput.addEventListener('input', function () {
+    if (this.classList.contains('error') || this.classList.contains('success')) validatePrenom();
+  });
+
+  nomInput.addEventListener('blur', validateNom);
+  nomInput.addEventListener('input', function () {
+    if (this.classList.contains('error') || this.classList.contains('success')) validateNom();
   });
 
   emailInput.addEventListener('blur', validateEmail);
@@ -344,8 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function clearForm() {
     form.reset();
-    [nameInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
-    [nameError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
+    [prenomInput, nomInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
+    [prenomError, nomError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
   }
 
   function showConfirmation(success) {
@@ -382,14 +399,18 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const isNameValid = validateName();
+    const isPrenomValid = validatePrenom();
+    const isNomValid = validateNom();
     const isEmailValid = validateEmail();
     const isSubjectValid = validateSubject();
     const isMessageValid = validateMessage();
 
-    if (!isNameValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
-      if (nameInput.classList.contains('error')) {
-        nameInput.focus();
+    if (!isPrenomValid || !isNomValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
+      if (prenomInput.classList.contains('error')) {
+        prenomInput.focus();
+        showToast('Veuillez remplir votre prénom', 'error');
+      } else if (nomInput.classList.contains('error')) {
+        nomInput.focus();
         showToast('Veuillez remplir votre nom', 'error');
       } else if (emailInput.classList.contains('error')) {
         emailInput.focus();
@@ -401,8 +422,11 @@ document.addEventListener('DOMContentLoaded', () => {
         messageInput.focus();
         showToast('Veuillez remplir votre message', 'error');
       } else {
-        if (!nameInput.value.trim()) {
-          nameInput.focus();
+        if (!prenomInput.value.trim()) {
+          prenomInput.focus();
+          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+        } else if (!nomInput.value.trim()) {
+          nomInput.focus();
           showToast('Veuillez remplir tous les champs obligatoires', 'error');
         } else if (!emailInput.value.trim()) {
           emailInput.focus();
@@ -423,7 +447,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setLoading(true);
 
     const payload = {
-      name: nameInput.value.trim(),
+      name: `${prenomInput.value.trim()} ${nomInput.value.trim()}`,
+      prenom: prenomInput.value.trim(),
+      nom: nomInput.value.trim(),
       email: emailInput.value.trim(),
       subject: subjectInput.value.trim() || 'Nouveau message IMMEIT',
       message: messageInput.value.trim()
