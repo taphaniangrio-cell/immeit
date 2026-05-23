@@ -637,6 +637,10 @@ img {
   align-items: center;
   justify-content: center;
   gap: 24px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
 .hero__partner-link {
@@ -644,7 +648,12 @@ img {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  opacity: 0.7;
+  opacity: 0.85;
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 12px 20px;
+  width: 100%;
+  border: 1px solid rgba(212, 175, 55, 0.12);
 }
 
 .hero__partner-link:hover {
@@ -652,10 +661,23 @@ img {
   transform: translateY(-2px);
 }
 
+.hero__partners-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  opacity: 0.6;
+}
+
 .hero__partner-img {
-  max-width: 150px;
+  max-width: 160px;
+  width: 100%;
   height: auto;
+  max-height: 80px;
   object-fit: contain;
+  display: block;
+  border-radius: 6px;
 }
 
 .hero__stats {
