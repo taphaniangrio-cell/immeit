@@ -557,8 +557,8 @@ img {
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr;
+  gap: 0;
   align-items: center;
   position: relative;
   z-index: 1;
@@ -567,6 +567,10 @@ img {
   margin: 0 auto;
   padding: 0 24px;
   text-align: left;
+}
+
+.hero__content {
+  position: relative;
 }
 
 .hero__content h1 {
@@ -632,10 +636,13 @@ img {
 }
 
 .hero__partners {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 24px;
 }
 
@@ -2080,14 +2087,6 @@ img {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  .hero__partners {
-    flex-direction: row;
-    justify-content: center;
-    gap: 16px;
-  }
-  .hero__partner-img {
-    max-width: 100px;
-  }
   .hero__content p {
     margin: 0 0 24px;
     max-width: 100%;
@@ -2156,6 +2155,17 @@ img {
   }
   .floating-devis {
     display: none;
+  }
+  .hero__partners {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 16px;
+  }
+  .hero__partner-img {
+    max-width: 100px;
   }
   .section {
     padding: 28px 0;
