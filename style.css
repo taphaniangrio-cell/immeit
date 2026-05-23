@@ -626,9 +626,39 @@ img {
 
 .hero__actions {
   display: flex;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 24px;
+}
+
+.hero__actions-partners {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  padding-left: 16px;
+  border-left: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.hero__actions-partner-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.hero__actions-partner-link:hover {
+  background: rgba(212, 175, 55, 0.08);
+  transform: translateY(-1px);
+}
+
+.hero__actions-partner-img {
+  max-width: 70px;
+  height: auto;
+  object-fit: contain;
 }
 
 .hero__partners {
@@ -2388,6 +2418,12 @@ img {
     justify-content: center;
     padding: 11px 20px;
     font-size: 0.85rem;
+  }
+  .hero__actions-partners {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    padding-top: 8px;
   }
   .hero__content h1 {
     font-size: 1.35rem;
