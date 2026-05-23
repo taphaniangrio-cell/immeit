@@ -1,0 +1,38 @@
+2026-05-23 10:24:11 +00:00: SMTP configuré: demandes-p2m@immeit.com@smtp.securemail.pro:587
+2026-05-23 10:24:11 +00:00: ═══════════════════════════════════════
+2026-05-23 10:24:11 +00:00:   IMMEIT - Serveur démarré
+2026-05-23 10:24:11 +00:00:   Protocole : http
+2026-05-23 10:24:11 +00:00:   Adresse   : http://localhost:3001
+2026-05-23 10:24:11 +00:00:   Email     : SMTP (demandes-p2m@immeit.com)
+2026-05-23 10:24:11 +00:00:   Contact   : demandes-p2m@immeit.com
+2026-05-23 10:24:11 +00:00:   Admin     : http://localhost:3001/admin
+2026-05-23 10:24:11 +00:00: ═══════════════════════════════════════
+2026-05-23 10:24:49 +00:00: SMTP configuré: demandes-p2m@immeit.com@smtp.securemail.pro:587
+2026-05-23 10:24:49 +00:00: ═══════════════════════════════════════
+2026-05-23 10:24:49 +00:00:   IMMEIT - Serveur démarré
+2026-05-23 10:24:49 +00:00:   Protocole : http
+2026-05-23 10:24:49 +00:00:   Adresse   : http://localhost:3001
+2026-05-23 10:24:49 +00:00:   Email     : SMTP (demandes-p2m@immeit.com)
+2026-05-23 10:24:49 +00:00:   Contact   : demandes-p2m@immeit.com
+2026-05-23 10:24:49 +00:00:   Admin     : http://localhost:3001/admin
+2026-05-23 10:24:49 +00:00: ═══════════════════════════════════════
+2026-05-23 10:34:32 +00:00: SMTP configuré: demandes-p2m@immeit.com@smtp.securemail.pro:587
+2026-05-23 10:34:32 +00:00: ═══════════════════════════════════════
+2026-05-23 10:34:32 +00:00:   IMMEIT - Serveur démarré
+2026-05-23 10:34:32 +00:00:   Protocole : http
+2026-05-23 10:34:32 +00:00:   Adresse   : http://localhost:3001
+2026-05-23 10:34:32 +00:00:   Email     : SMTP (demandes-p2m@immeit.com)
+2026-05-23 10:34:32 +00:00:   Contact   : demandes-p2m@immeit.com
+2026-05-23 10:34:32 +00:00:   Admin     : http://localhost:3001/admin
+2026-05-23 10:34:32 +00:00: ═══════════════════════════════════════
+2026-05-23 10:35:45 +00:00: Message #1 reçu de Test Final <test@immeit.com>
+2026-05-23 10:35:47 +00:00: Message #1 envoyé SMTP (<c603ad74-a221-7003-737b-ba726ea88f12@immeit.com>)
+2026-05-23 11:10:01 +00:00: SMTP configuré: demandes-p2m@immeit.com@smtp.securemail.pro:587
+2026-05-23 11:10:01 +00:00: ═══════════════════════════════════════
+2026-05-23 11:10:01 +00:00:   IMMEIT - Serveur démarré
+2026-05-23 11:10:01 +00:00:   Protocole : http
+2026-05-23 11:10:01 +00:00:   Adresse   : http://localhost:3001
+2026-05-23 11:10:01 +00:00:   Email     : SMTP (demandes-p2m@immeit.com)
+2026-05-23 11:10:01 +00:00:   Contact   : demandes-p2m@immeit.com
+2026-05-23 11:10:01 +00:00:   Admin     : http://localhost:3001/admin
+2026-05-23 11:10:01 +00:00: ═══════════════════════════════════════
