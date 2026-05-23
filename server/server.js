@@ -216,6 +216,16 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '10kb' }));
 
+const SOCIAL_BOTS = /facebookexternalhit|Facebot|WhatsApp|Twitterbot|LinkedInBot|TelegramBot|Slackbot|Discordbot|Googlebot|Pinterest|Slurp|BingPreview|embedly|quora|outbrain|pocket|bitlybot/i;
+
+app.use((req, res, next) => {
+  const ua = req.headers['user-agent'] || '';
+  if (req.path === '/' && SOCIAL_BOTS.test(ua)) {
+    return res.sendFile(path.join(__dirname, 'og-share.html'));
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '..'), {
   dotfiles: 'ignore',
   index: false,
