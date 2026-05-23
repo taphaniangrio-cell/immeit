@@ -76,6 +76,17 @@ img {
   position: relative;
 }
 
+#about {
+  padding: 12px 0;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+}
+
+#about .container {
+  width: 100%;
+}
+
 .section__tag {
   display: inline-block;
   font-size: 0.72rem;
