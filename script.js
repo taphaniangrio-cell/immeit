@@ -383,7 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/demandes-p2m@immeit.com';
   const LOCAL_API = '/api/contact';
 
   async function postForm(url, data, timeoutMs = 8000) {
@@ -463,14 +462,11 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    const [formsubmitOk, apiOk] = await Promise.all([
-      postForm(FORMSUBMIT_URL, { ...payload, _captcha: 'false' }),
-      postForm(LOCAL_API, payload)
-    ]);
+    const apiOk = await postForm(LOCAL_API, payload);
 
     setLoading(false);
 
-    if (formsubmitOk || apiOk) {
+    if (apiOk) {
       showConfirmation(true);
       clearForm();
       if (typeof gtag === 'function') {
