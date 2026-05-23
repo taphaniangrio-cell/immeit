@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const badgeInner = document.getElementById('badgeInner');
   const badgeEl = document.getElementById('badgeText');
   if (badgeInner && badgeEl) {
-    const sentence = 'IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : Renault, Stellantis, SAFRAN, SUEZ, Air Liquide';
+    const sentence = 'IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : P2M et INDUSTRELEC';
     badgeEl.textContent = sentence;
     const clone = badgeEl.cloneNode(true);
     clone.id = 'badgeTextClone';
