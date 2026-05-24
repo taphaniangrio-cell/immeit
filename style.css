@@ -77,12 +77,28 @@ img {
 }
 
 #about {
-  padding: 5px 0 0;
+  padding: 0 0 90px;
   margin-bottom: 0;
 }
 
 #about .container {
   width: 100%;
+}
+
+#services {
+  padding: 0 0 90px;
+}
+
+#methodo {
+  padding: 0 0 90px;
+}
+
+#piliers {
+  padding: 0 0 90px;
+}
+
+#engagement {
+  padding: 0 0 90px;
 }
 
 .section__tag {
