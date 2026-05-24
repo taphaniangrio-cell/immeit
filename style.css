@@ -2620,7 +2620,7 @@ img {
 }
 
 .service-detail__section {
-  padding: 80px 0;
+  padding: 20px 0 50px;
 }
 
 .service-detail__section .section__header {
@@ -2628,10 +2628,9 @@ img {
 }
 
 .service-detail__hero {
-  min-height: 40vh;
   display: flex;
   align-items: center;
-  padding-top: 100px;
+  padding: 80px 0 0;
   position: relative;
   overflow: hidden;
 }
