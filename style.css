@@ -637,11 +637,14 @@ img {
   gap: 24px;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .hero__stats-group {
   display: flex;
   gap: 24px;
+  width: 100%;
+  max-width: fit-content;
 }
 
 .hero__stat {
