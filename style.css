@@ -836,6 +836,12 @@ img {
   margin-bottom: 10px;
 }
 
+.service-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .service-card__chips {
   margin-top: auto;
   padding-top: 10px;
