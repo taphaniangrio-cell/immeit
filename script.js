@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const API_URL = '/api/contact';
-  const WEB3FORMS_KEY = '1ab9a3f0-c552-4d33-8d3a-88872d7b547c';
+  const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -443,23 +443,10 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    let ok = false;
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 8000);
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-      ok = res.ok;
-    } catch {
-      ok = false;
-    }
+    let web3Ok = false;
+    let localOk = false;
 
-    if (!ok && WEB3FORMS_KEY) {
+    if (WEB3FORMS_KEY) {
       try {
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
@@ -467,20 +454,37 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({
             access_key: WEB3FORMS_KEY,
             name: payload.name,
+            prenom: payload.prenom,
+            nom: payload.nom,
             email: payload.email,
             subject: payload.subject + ' - Site IMMEIT',
             message: payload.message
           })
         });
-        ok = res.ok;
+        web3Ok = res.ok;
       } catch {
-        ok = false;
+        web3Ok = false;
       }
+    }
+
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 5000);
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: ctrl.signal
+      });
+      clearTimeout(timer);
+      localOk = res.ok;
+    } catch {
+      localOk = false;
     }
 
     setLoading(false);
 
-    if (ok) {
+    if (web3Ok || localOk) {
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') {
