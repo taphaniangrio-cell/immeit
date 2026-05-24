@@ -1,9 +1,7 @@
 import { chromium } from 'playwright';
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join } from 'path';
-
-const USERNAME = '';
-const PASSWORD = '';
+import { USERNAME, PASSWORD } from './scripts/amen-credentials.mjs';
 const PROFILE_DIR = join('.', 'playwright-profile');
 
 if (!existsSync(PROFILE_DIR)) {

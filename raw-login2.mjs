@@ -1,8 +1,6 @@
 import https from 'https';
 import { writeFileSync } from 'fs';
-
-const USERNAME = '';
-const PASSWORD = '';
+import { USERNAME, PASSWORD } from './scripts/amen-credentials.mjs';
 
 function makeRequest(hostname, path, method, cookie, postData) {
   return new Promise((resolve, reject) => {

@@ -1,8 +1,6 @@
 import https from 'https';
 import { writeFileSync } from 'fs';
-
-const USERNAME = '';
-const PASSWORD = '';
+import { USERNAME, PASSWORD } from './scripts/amen-credentials.mjs';
 
 // Step 1: Login and get session cookies (before they're deleted)
 function login() {

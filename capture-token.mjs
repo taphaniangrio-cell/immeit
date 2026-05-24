@@ -1,7 +1,5 @@
 import { chromium } from 'playwright';
-
-const USERNAME = '';
-const PASSWORD = '';
+import { USERNAME, PASSWORD } from './scripts/amen-credentials.mjs';
 
 async function main() {
   const browser = await chromium.launch({ headless: true });

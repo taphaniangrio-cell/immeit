@@ -1,9 +1,7 @@
 import https from 'https';
 import http from 'http';
 import { writeFileSync } from 'fs';
-
-const USERNAME = '';
-const PASSWORD = '';
+import { USERNAME, PASSWORD } from './scripts/amen-credentials.mjs';
 
 // Step 1: Login with raw HTTPS request
 function login() {
