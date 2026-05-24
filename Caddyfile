@@ -1,4 +1,8 @@
-immeit.com, www.immeit.com {
+immeit.com {
+	redir https://www.immeit.com{uri} 301
+}
+
+www.immeit.com {
 	reverse_proxy localhost:3001
 
 	header {
