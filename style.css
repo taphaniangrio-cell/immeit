@@ -2712,4 +2712,11 @@ img {
   contain-intrinsic-size: 600px;
 }
 
-
+/* Blink animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.blink-text {
+  animation: blink 1s step-end infinite;
+}
