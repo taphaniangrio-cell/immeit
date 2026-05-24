@@ -14,7 +14,6 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
-const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY;
 if (!ADMIN_TOKEN) {
   console.error('ERREUR: ADMIN_TOKEN non défini dans .env');
   process.exit(1);
@@ -97,41 +96,6 @@ async function sendEmail(msg) {
   return info;
 }
 
-function sendViaWeb3Forms(msg) {
-  return new Promise((resolve, reject) => {
-    const payload = JSON.stringify({
-      access_key: WEB3FORMS_KEY,
-      name: msg.name,
-      email: msg.email,
-      subject: msg.subject ? `${msg.subject} - Site IMMEIT` : 'Nouveau message IMMEIT',
-      message: msg.message
-    });
-
-    const options = {
-      hostname: 'api.web3forms.com',
-      path: '/submit',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payload)
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      let body = '';
-      res.on('data', chunk => body += chunk);
-      res.on('end', () => {
-        if (res.statusCode === 200) resolve();
-        else reject(new Error(`Web3Forms: ${res.statusCode} ${body}`));
-      });
-    });
-
-    req.on('error', reject);
-    req.write(payload);
-    req.end();
-  });
-}
-
 function escapeHtml(str) {
   if (typeof str !== 'string') return '';
   return str
@@ -205,9 +169,9 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"],
+      connectSrc: ["'self'", "https://api.web3forms.com"],
       frameAncestors: ["'none'"],
-      formAction: ["'self'"],
+      formAction: ["'self'", "https://api.web3forms.com"],
     },
   },
   crossOriginEmbedderPolicy: false,
@@ -320,25 +284,9 @@ app.post('/api/contact', async (req, res) => {
         console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
         return res.json({ success: true, id: msg.id });
       } catch (err) {
-        console.log(`Message #${msg.id} échec SMTP: ${err.message}`);
+        msg.status = 'failed';
         msg.error_message = err.message;
         msg.last_attempt = new Date().toISOString();
-
-        if (WEB3FORMS_KEY) {
-          try {
-            await sendViaWeb3Forms(msg);
-            msg.status = 'sent';
-            msg.sent_at = new Date().toISOString();
-            msg.error_message = null;
-            saveMessages(messages);
-            console.log(`Message #${msg.id} envoyé via Web3Forms`);
-            return res.json({ success: true, id: msg.id });
-          } catch (w3err) {
-            console.log(`Message #${msg.id} échec Web3Forms: ${w3err.message}`);
-          }
-        }
-
-        msg.status = 'failed';
         saveMessages(messages);
         return res.json({
           success: true,
