@@ -469,35 +469,55 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const dateStr = now.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) + ' à ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
         const firstLetter = payload.name.charAt(0).toUpperCase();
-        const separator = '─'.repeat(72);
+        const escapedMsg = payload.message.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+        const escapedName = payload.name.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const escapedEmail = payload.email.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const escapedSubject = payload.subject.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-        const textMessage = [
-          separator,
-          '  IMMEIT                                    NOUVEAU CONTACT',
-          separator,
-          '',
-          '  ' + payload.subject,
-          '',
-          separator,
-          '  ' + firstLetter,
-          '  ' + payload.name,
-          '  ' + payload.email,
-          '  ' + dateStr,
-          '',
-          separator,
-          '  MESSAGE',
-          separator,
-          '',
-          '  ' + payload.message.replace(/\n/g, '\n  '),
-          '',
-          separator,
-          '  IMMEIT — Installation, Méthodes & Maintenance',
-          '  Ce message a été envoyé depuis le formulaire de',
-          '  contact du site immeit.com',
-          '',
-          '  Répondre à ' + payload.name + ' : mailto:' + payload.email,
-          separator,
-        ].join('\n');
+        const htmlMessage = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+body{margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrapper{background-color:#f0f2f5;padding:32px 16px}
+.container{max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.header{background:#0f172a;padding:24px 32px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#C99A3E;font-size:18px;font-weight:700}
+.header-badge{background:rgba(201,154,62,0.15);color:#C99A3E;padding:2px 12px;border-radius:12px;font-size:11px;font-weight:600;margin-left:auto}
+.subject-bar{background:#f8fafc;padding:16px 32px;border-bottom:1px solid #e8eaed}
+.subject-bar h2{margin:0;font-size:16px;font-weight:600;color:#202124}
+.meta{padding:20px 32px;border-bottom:1px solid #e8eaed}
+.meta-flex{display:flex;align-items:flex-start;gap:14px}
+.avatar{width:44px;height:44px;min-width:44px;border-radius:50%;background:linear-gradient(135deg,#C99A3E,#d4a843);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff}
+.meta-info{flex:1;min-width:0}
+.meta-name{font-size:15px;font-weight:600;color:#202124}
+.meta-email{font-size:13px;color:#5f6368}
+.meta-email a{color:#1a73e8;text-decoration:none}
+.meta-date{font-size:12px;color:#5f6368;margin-top:2px}
+.body{padding:24px 32px 20px}
+.body-label{font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.8px;margin:0 0 12px}
+.body-text{margin:0;font-size:15px;color:#3c4043;line-height:1.7}
+.footer{background:#f8fafc;padding:16px 32px;text-align:center;border-top:1px solid #e8eaed}
+.footer-brand{font-size:13px;font-weight:600;color:#0f172a;margin:0 0 2px}
+.footer-brand span{color:#C99A3E}
+.footer-text{font-size:11px;color:#5f6368;margin:0}
+.footer-text a{color:#C99A3E;text-decoration:none}
+.btn-reply{display:inline-block;padding:8px 20px;background:#1a73e8;color:#fff!important;text-decoration:none;font-size:13px;font-weight:600;border-radius:6px;margin-top:8px}
+</style></head><body>
+<div class="wrapper"><div class="container">
+<div class="header"><div class="header-logo"><span>IMMEIT</span><span class="header-badge">NOUVEAU CONTACT</span></div></div>
+<div class="subject-bar"><h2>${escapedSubject}</h2></div>
+<div class="meta"><div class="meta-flex">
+<div class="avatar">${firstLetter}</div>
+<div class="meta-info"><div class="meta-name">${escapedName}</div>
+<div class="meta-email"><a href="mailto:${escapedEmail}">${escapedEmail}</a></div></div>
+<div class="meta-date">${dateStr}</div>
+</div></div>
+<div class="body"><p class="body-label">Message</p><p class="body-text">${escapedMsg}</p></div>
+<div class="footer">
+<p class="footer-brand">IMMEIT <span>—</span> Installation, Méthodes &amp; Maintenance</p>
+<p class="footer-text">Ce message a été envoyé depuis le formulaire de contact du site <a href="https://immeit.com">immeit.com</a></p>
+<a href="mailto:${escapedEmail}?subject=Re%3A%20${encodeURIComponent(payload.subject)}" class="btn-reply">Répondre à ${escapedName}</a>
+</div>
+</div></div></body></html>`;
 
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
@@ -507,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: payload.name,
             email: payload.email,
             subject: payload.subject + ' - Site IMMEIT',
-            message: textMessage
+            message: htmlMessage
           })
         });
         ok = res.ok;
