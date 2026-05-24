@@ -8,7 +8,6 @@ const path = require('path');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-const lt = require('localtunnel');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -508,10 +507,6 @@ initTransporter().then(() => {
 
   function listen(protocol) {
     startServer(protocol);
-    lt({ port: PORT, subdomain: 'immeit-api' }).then(tunnel => {
-      console.log(`  Tunnel    : ${tunnel.url}`);
-      console.log('  (utilisé par le formulaire en ligne)');
-    }).catch(() => {});
   }
 
   const sslKeyPath = process.env.SSL_KEY;
