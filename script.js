@@ -382,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const API_URL = '/api/contact';
+  const WEB3FORMS_KEY = '1ab9a3f0-c552-4d33-8d3a-88872d7b547c';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -456,6 +457,25 @@ document.addEventListener('DOMContentLoaded', () => {
       ok = res.ok;
     } catch {
       ok = false;
+    }
+
+    if (!ok && WEB3FORMS_KEY) {
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            name: payload.name,
+            email: payload.email,
+            subject: payload.subject + ' - Site IMMEIT',
+            message: payload.message
+          })
+        });
+        ok = res.ok;
+      } catch {
+        ok = false;
+      }
     }
 
     setLoading(false);
