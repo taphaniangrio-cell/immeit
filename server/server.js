@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
+const lt = require('localtunnel');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -146,7 +147,7 @@ async function sendEmail(msg) {
           '</div>',
           '<div class="footer">',
             '<p class="footer-brand">IMMEIT <span>—</span> Installation, Méthodes &amp; Maintenance</p>',
-            '<p class="footer-text">Ce message a été envoyé depuis le formulaire de contact du site <a href="https://immeit.com">immeit.com</a></p>',
+            '<p class="footer-text">Ce message a été envoyé depuis le formulaire de contact du site <a href="https://www.immeit.com">www.immeit.com</a></p>',
             '<a href="mailto:', escapeHtml(msg.email), '?subject=Re%3A%20', encodeURIComponent(msg.subject), '" class="btn-reply">R&eacute;pondre &agrave; ', escapeHtml(msg.name), '</a>',
           '</div>',
         '</div>',
@@ -489,7 +490,7 @@ app.get('*', (req, res) => {
   }
 });
 
-function startServer(protocol, server) {
+function startServer(protocol) {
   const mode = transporter ? `SMTP (${process.env.SMTP_USER})` : 'Stockage local seulement';
   console.log('═══════════════════════════════════════');
   console.log(`  IMMEIT - Serveur démarré`);
@@ -505,16 +506,21 @@ initTransporter().then(() => {
   ensureDataDir();
   processRetryQueue();
 
+  function listen(protocol) {
+    startServer(protocol);
+    lt({ port: PORT, subdomain: 'immeit-api' }).then(tunnel => {
+      console.log(`  Tunnel    : ${tunnel.url}`);
+      console.log('  (utilisé par le formulaire en ligne)');
+    }).catch(() => {});
+  }
+
   const sslKeyPath = process.env.SSL_KEY;
   const sslCertPath = process.env.SSL_CERT;
 
   if (sslKeyPath && sslCertPath && fs.existsSync(sslKeyPath) && fs.existsSync(sslCertPath)) {
-    const options = {
-      key: fs.readFileSync(sslKeyPath),
-      cert: fs.readFileSync(sslCertPath),
-    };
-    https.createServer(options, app).listen(PORT, () => startServer('https', 'HTTPS'));
+    const httpsOpts = { key: fs.readFileSync(sslKeyPath), cert: fs.readFileSync(sslCertPath) };
+    https.createServer(httpsOpts, app).listen(PORT, () => listen('https'));
   } else {
-    http.createServer(app).listen(PORT, () => startServer('http', 'HTTP'));
+    http.createServer(app).listen(PORT, () => listen('http'));
   }
 });
