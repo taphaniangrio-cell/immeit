@@ -88,41 +88,71 @@ async function sendEmail(msg) {
       ? `${msg.subject} - Site IMMEIT`
       : 'Nouveau message depuis le site IMMEIT',
     text: `Nom : ${msg.name}\nEmail : ${msg.email}\n\nMessage :\n${msg.message}`,
-    html: `
-      <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
-        <div style="background: linear-gradient(135deg, #0f172a 0%, #1a365d 100%); padding: 28px 32px; text-align: center;">
-          <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #C99A3E, #d4a843); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px;">
-            <span style="color: white; font-size: 22px; font-weight: 700;">${escapeHtml(msg.name.charAt(0).toUpperCase())}</span>
-          </div>
-          <h1 style="color: #C99A3E; margin: 0 0 4px; font-size: 20px; font-weight: 700;">Nouveau message</h1>
-          <p style="color: rgba(255,255,255,0.6); margin: 0; font-size: 13px;">provenant du site IMMEIT</p>
-        </div>
-        <div style="padding: 28px 32px;">
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 12px 8px 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; width: 80px; vertical-align: top;">Nom</td>
-              <td style="padding: 8px 0; font-size: 15px; color: #1e293b; font-weight: 600;">${escapeHtml(msg.name)}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 12px 8px 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; width: 80px; vertical-align: top;">Email</td>
-              <td style="padding: 8px 0; font-size: 14px; color: #1F538C;"><a href="mailto:${escapeHtml(msg.email)}" style="color: #1F538C; text-decoration: none; font-weight: 500;">${escapeHtml(msg.email)}</a></td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 12px 8px 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; width: 80px; vertical-align: top;">Sujet</td>
-              <td style="padding: 8px 0; font-size: 14px; color: #1e293b;">${escapeHtml(msg.subject)}</td>
-            </tr>
-          </table>
-          <div style="margin-top: 20px; padding: 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <p style="margin: 0 0 10px; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Message</p>
-            <p style="margin: 0; font-size: 14px; color: #334155; line-height: 1.8; white-space: pre-wrap;">${escapeHtml(msg.message)}</p>
-          </div>
-        </div>
-        <div style="background: #f8fafc; padding: 16px 32px; text-align: center; border-top: 1px solid #e2e8f0;">
-          <p style="margin: 0; font-size: 12px; color: #94a3b8;">IMMEIT — Installation, Méthodes, Maintenance</p>
-          <p style="margin: 4px 0 0; font-size: 11px; color: #cbd5e1;">Ce message a été envoyé depuis le formulaire de contact du site <a href="https://immeit.com" style="color: #C99A3E; text-decoration: none;">immeit.com</a></p>
-        </div>
-      </div>
-    `
+    html: [
+      '<!DOCTYPE html>',
+      '<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
+      '<style>',
+        'body{margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}',
+        '.wrapper{background-color:#f0f2f5;padding:32px 16px}',
+        '.container{max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08)}',
+        '.header{background:#0f172a;padding:24px 32px}',
+        '.header-logo{display:flex;align-items:center;gap:10px}',
+        '.header-logo span{color:#C99A3E;font-size:18px;font-weight:700;letter-spacing:-0.3px}',
+        '.header-badge{background:rgba(201,154,62,0.15);color:#C99A3E;padding:2px 12px;border-radius:12px;font-size:11px;font-weight:600;margin-left:auto}',
+        '.subject-bar{background:#f8fafc;padding:16px 32px;border-bottom:1px solid #e8eaed}',
+        '.subject-bar h2{margin:0;font-size:16px;font-weight:600;color:#202124}',
+        '.meta{padding:20px 32px;border-bottom:1px solid #e8eaed}',
+        '.meta-flex{display:flex;align-items:flex-start;gap:14px}',
+        '.avatar{width:44px;height:44px;min-width:44px;border-radius:50%;background:linear-gradient(135deg,#C99A3E,#d4a843);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff}',
+        '.meta-info{flex:1;min-width:0}',
+        '.meta-name{font-size:15px;font-weight:600;color:#202124}',
+        '.meta-email{font-size:13px;color:#5f6368}',
+        '.meta-email a{color:#1a73e8;text-decoration:none}',
+        '.meta-email a:hover{text-decoration:underline}',
+        '.meta-date{font-size:12px;color:#5f6368;white-space:nowrap;margin-top:2px}',
+        '.body{padding:24px 32px 20px}',
+        '.body-label{font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.8px;margin:0 0 12px}',
+        '.body-text{margin:0;font-size:15px;color:#3c4043;line-height:1.7;white-space:pre-wrap}',
+        '.footer{background:#f8fafc;padding:16px 32px;text-align:center;border-top:1px solid #e8eaed}',
+        '.footer-brand{font-size:13px;font-weight:600;color:#0f172a;margin:0 0 2px}',
+        '.footer-brand span{color:#C99A3E}',
+        '.footer-text{font-size:11px;color:#5f6368;margin:0}',
+        '.footer-text a{color:#C99A3E;text-decoration:none}',
+        '.btn-reply{display:inline-block;margin-top:8px;padding:8px 20px;background:#1a73e8;color:#fff !important;text-decoration:none;font-size:13px;font-weight:600;border-radius:6px}',
+        '@media(max-width:480px){.wrapper{padding:16px 8px}.header{padding:20px 20px}.subject-bar,.meta,.body,.footer{padding-left:20px;padding-right:20px}}',
+      '</style></head><body>',
+      '<div class="wrapper">',
+        '<div class="container">',
+          '<div class="header">',
+            '<div class="header-logo">',
+              '<span>IMMEIT</span>',
+              '<span class="header-badge">NOUVEAU CONTACT</span>',
+            '</div>',
+          '</div>',
+          '<div class="subject-bar"><h2>', escapeHtml(msg.subject), '</h2></div>',
+          '<div class="meta">',
+            '<div class="meta-flex">',
+              '<div class="avatar">', escapeHtml(msg.name.charAt(0).toUpperCase()), '</div>',
+              '<div class="meta-info">',
+                '<div class="meta-name">', escapeHtml(msg.name), '</div>',
+                '<div class="meta-email"><a href="mailto:', escapeHtml(msg.email), '">', escapeHtml(msg.email), '</a></div>',
+              '</div>',
+              '<div class="meta-date">', new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }), '</div>',
+            '</div>',
+          '</div>',
+          '<div class="body">',
+            '<p class="body-label">Message</p>',
+            '<p class="body-text">', escapeHtml(msg.message), '</p>',
+          '</div>',
+          '<div class="footer">',
+            '<p class="footer-brand">IMMEIT <span>—</span> Installation, Méthodes &amp; Maintenance</p>',
+            '<p class="footer-text">Ce message a été envoyé depuis le formulaire de contact du site <a href="https://immeit.com">immeit.com</a></p>',
+            '<a href="mailto:', escapeHtml(msg.email), '?subject=Re%3A%20', encodeURIComponent(msg.subject), '" class="btn-reply">R&eacute;pondre &agrave; ', escapeHtml(msg.name), '</a>',
+          '</div>',
+        '</div>',
+      '</div>',
+      '</body></html>'
+    ].join('')
   };
 
   const info = await transporter.sendMail(mailOptions);
