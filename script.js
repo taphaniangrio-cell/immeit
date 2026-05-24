@@ -381,26 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/demandes-p2m@immeit.com';
   const LOCAL_API = '/api/contact';
-
-  async function postForm(url, data, timeoutMs = 8000) {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-        signal: ctrl.signal
-      });
-      return { ok: res.ok, status: res.status };
-    } catch {
-      return { ok: false, status: 0 };
-    } finally {
-      clearTimeout(timer);
-    }
-  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -461,12 +442,25 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    const apiRes = await postForm(LOCAL_API, payload);
-    const fallbackOk = !apiRes.ok ? await postForm(FORMSUBMIT_URL, { ...payload, _captcha: 'false' }) : false;
+    let apiRes;
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 8000);
+      const res = await fetch(LOCAL_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: ctrl.signal
+      });
+      clearTimeout(timer);
+      apiRes = { ok: res.ok, status: res.status };
+    } catch {
+      apiRes = { ok: false, status: 0 };
+    }
 
     setLoading(false);
 
-    if (apiRes.ok || fallbackOk) {
+    if (apiRes.ok) {
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') {

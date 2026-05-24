@@ -225,15 +225,16 @@ const allowedOrigins = [
 
 app.use(helmet({
   contentSecurityPolicy: {
+    useDefaults: false,
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://cdnjs.cloudflare.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'", "https://formsubmit.co"],
+      connectSrc: ["'self'"],
       frameAncestors: ["'none'"],
-      formAction: ["'self'", "https://formsubmit.co"],
+      formAction: ["'self'"],
     },
   },
   crossOriginEmbedderPolicy: false,
