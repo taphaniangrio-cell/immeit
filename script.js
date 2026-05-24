@@ -382,7 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const LOCAL_API = '/api/contact';
-  const TUNNEL_API = 'https://immeit-api.loca.lt/api/contact';
   const WEB3FORMS_KEY = '1ab9a3f0-c552-4d33-8d3a-88872d7b547c';
 
   form.addEventListener('submit', async (e) => {
@@ -464,32 +463,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Try local server (SMTP direct + beau template HTML)
     let ok = await postTo(LOCAL_API, payload);
 
-    // Try tunnel API (pour le site en ligne)
-    if (!ok) {
-      ok = await postTo(TUNNEL_API, payload);
-    }
-
     // Fallback: Web3Forms
     if (!ok) {
       try {
-        const formattedMessage = [
-          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-          '  NOUVEAU CONTACT - IMMEIT',
-          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) + ' à ' + now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        const firstLetter = payload.name.charAt(0).toUpperCase();
+        const separator = '─'.repeat(72);
+
+        const textMessage = [
+          separator,
+          '  IMMEIT                                    NOUVEAU CONTACT',
+          separator,
           '',
-          '  Nom      : ' + payload.name,
-          '  Email    : ' + payload.email,
-          '  Sujet    : ' + payload.subject,
+          '  ' + payload.subject,
           '',
-          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          separator,
+          '  ' + firstLetter,
+          '  ' + payload.name,
+          '  ' + payload.email,
+          '  ' + dateStr,
+          '',
+          separator,
           '  MESSAGE',
-          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          separator,
           '',
-          payload.message,
+          '  ' + payload.message.replace(/\n/g, '\n  '),
           '',
-          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-          '  Envoyé depuis le site immeit.com',
-          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          separator,
+          '  IMMEIT — Installation, Méthodes & Maintenance',
+          '  Ce message a été envoyé depuis le formulaire de',
+          '  contact du site immeit.com',
+          '',
+          '  Répondre à ' + payload.name + ' : mailto:' + payload.email,
+          separator,
         ].join('\n');
 
         const res = await fetch('https://api.web3forms.com/submit', {
@@ -500,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: payload.name,
             email: payload.email,
             subject: payload.subject + ' - Site IMMEIT',
-            message: formattedMessage
+            message: textMessage
           })
         });
         ok = res.ok;
