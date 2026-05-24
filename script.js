@@ -382,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const LOCAL_API = '/api/contact';
+  const TUNNEL_API = 'https://immeit-api.loca.lt/api/contact';
   const WEB3FORMS_KEY = '1ab9a3f0-c552-4d33-8d3a-88872d7b547c';
 
   form.addEventListener('submit', async (e) => {
@@ -443,24 +444,32 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    // Try local server first (SMTP direct)
-    let ok = false;
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 5000);
-      const res = await fetch(LOCAL_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-      ok = res.ok;
-    } catch {
-      ok = false;
+    async function postTo(url, data) {
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 5000);
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+          signal: ctrl.signal
+        });
+        clearTimeout(timer);
+        return res.ok;
+      } catch {
+        return false;
+      }
     }
 
-    // Fallback: Web3Forms (for online / GitHub Pages)
+    // Try local server (SMTP direct + beau template HTML)
+    let ok = await postTo(LOCAL_API, payload);
+
+    // Try tunnel API (pour le site en ligne)
+    if (!ok) {
+      ok = await postTo(TUNNEL_API, payload);
+    }
+
+    // Fallback: Web3Forms
     if (!ok) {
       try {
         const formattedMessage = [
