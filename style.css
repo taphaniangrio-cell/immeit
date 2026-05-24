@@ -101,6 +101,10 @@ img {
   padding: 0 0 90px;
 }
 
+#perf {
+  padding-bottom: 90px;
+}
+
 .section__tag {
   display: inline-block;
   font-size: 0.72rem;
