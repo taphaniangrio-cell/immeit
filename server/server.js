@@ -264,7 +264,7 @@ app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '..', 'index.html'
 
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 30,
   message: { error: 'Trop de requêtes, réessayez dans 15 minutes.' }
 });
 app.use('/api/contact', contactLimiter);
