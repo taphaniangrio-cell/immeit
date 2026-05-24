@@ -635,6 +635,13 @@ img {
 .hero__stats {
   display: flex;
   gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero__stats-group {
+  display: flex;
+  gap: 24px;
 }
 
 .hero__stat {
@@ -2048,7 +2055,13 @@ img {
     justify-content: flex-start;
   }
   .hero__stats {
-    justify-content: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .hero__stats-group {
+    display: flex;
+    gap: 24px;
   }
   .about__grid {
     grid-template-columns: 1fr;
