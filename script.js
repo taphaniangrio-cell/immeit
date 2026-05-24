@@ -373,12 +373,10 @@ document.addEventListener('DOMContentLoaded', () => {
     [prenomError, nomError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
   }
 
-  function showConfirmation(success) {
+  function showConfirmation(bannerHtml) {
     const banner = document.createElement('div');
-    banner.className = 'form-banner form-banner--' + (success ? 'success' : 'error');
-    banner.innerHTML = success
-      ? '<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.'
-      : '<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vérifiez que le serveur est démarré ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>';
+    banner.className = 'form-banner form-banner--' + (bannerHtml.includes('check-circle') ? 'success' : 'error');
+    banner.innerHTML = bannerHtml;
     submitBtn.parentNode.insertBefore(banner, submitBtn);
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
@@ -396,9 +394,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(data),
         signal: ctrl.signal
       });
-      return res.ok;
+      return { ok: res.ok, status: res.status };
     } catch {
-      return false;
+      return { ok: false, status: 0 };
     } finally {
       clearTimeout(timer);
     }
@@ -463,13 +461,13 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    const apiOk = await postForm(LOCAL_API, payload);
-    const fallbackOk = !apiOk ? await postForm(FORMSUBMIT_URL, { ...payload, _captcha: 'false' }) : false;
+    const apiRes = await postForm(LOCAL_API, payload);
+    const fallbackOk = !apiRes.ok ? await postForm(FORMSUBMIT_URL, { ...payload, _captcha: 'false' }) : false;
 
     setLoading(false);
 
-    if (apiOk || fallbackOk) {
-      showConfirmation(true);
+    if (apiRes.ok || fallbackOk) {
+      showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') {
         gtag('event', 'generate_lead', {
@@ -481,8 +479,10 @@ document.addEventListener('DOMContentLoaded', () => {
           lead_source: 'Formulaire site web'
         });
       }
+    } else if (apiRes.status === 429) {
+      showConfirmation('<i class="fas fa-hourglass-half"></i> Trop de tentatives. Veuillez réessayer dans 15 minutes.');
     } else {
-      showConfirmation(false);
+      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vérifiez que le serveur est démarré ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
     }
   });
 
