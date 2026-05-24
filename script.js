@@ -382,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const LOCAL_API = '/api/contact';
+  const WEB3FORMS_KEY = '1ab9a3f0-c552-4d33-8d3a-88872d7b547c';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -442,10 +443,11 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageInput.value.trim()
     };
 
-    let apiRes;
+    // Try local server first (SMTP direct)
+    let ok = false;
     try {
       const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 8000);
+      const timer = setTimeout(() => ctrl.abort(), 5000);
       const res = await fetch(LOCAL_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -453,14 +455,28 @@ document.addEventListener('DOMContentLoaded', () => {
         signal: ctrl.signal
       });
       clearTimeout(timer);
-      apiRes = { ok: res.ok, status: res.status };
+      ok = res.ok;
     } catch {
-      apiRes = { ok: false, status: 0 };
+      ok = false;
+    }
+
+    // Fallback: Web3Forms (for online / GitHub Pages)
+    if (!ok) {
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ access_key: WEB3FORMS_KEY, ...payload })
+        });
+        ok = res.ok;
+      } catch {
+        ok = false;
+      }
     }
 
     setLoading(false);
 
-    if (apiRes.ok) {
+    if (ok) {
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') {
@@ -473,10 +489,8 @@ document.addEventListener('DOMContentLoaded', () => {
           lead_source: 'Formulaire site web'
         });
       }
-    } else if (apiRes.status === 429) {
-      showConfirmation('<i class="fas fa-hourglass-half"></i> Trop de tentatives. Veuillez réessayer dans 15 minutes.');
     } else {
-      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vérifiez que le serveur est démarré ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
     }
   });
 
