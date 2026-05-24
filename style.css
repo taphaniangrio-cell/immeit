@@ -77,7 +77,7 @@ img {
 }
 
 #about {
-  padding: 0 0 90px;
+  padding: 0 0 100px;
   margin-bottom: 0;
 }
 
@@ -86,23 +86,23 @@ img {
 }
 
 #services {
-  padding: 0 0 90px;
+  padding: 0 0 100px;
 }
 
 #methodo {
-  padding: 0 0 90px;
+  padding: 0 0 100px;
 }
 
 #piliers {
-  padding: 0 0 90px;
+  padding: 0 0 100px;
 }
 
 #engagement {
-  padding: 0 0 90px;
+  padding: 0 0 100px;
 }
 
 #perf {
-  padding-bottom: 90px;
+  padding-bottom: 100px;
 }
 
 .section__tag {
@@ -462,7 +462,7 @@ img {
   position: relative;
   background: var(--bg);
   overflow: hidden;
-  padding: 90px 0 90px;
+  padding: 90px 0 100px;
 }
 
 .hero__bg {
@@ -2192,7 +2192,7 @@ img {
   }
 
   .hero {
-    padding: 70px 0 90px;
+    padding: 70px 0 100px;
     min-height: auto;
   }
   .hero__content h1 {
@@ -2349,7 +2349,7 @@ img {
     padding: 24px 0;
   }
   .hero {
-    padding: 60px 0 90px;
+    padding: 60px 0 100px;
   }
   .hero__actions {
     flex-direction: column;
