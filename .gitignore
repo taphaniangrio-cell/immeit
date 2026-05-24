@@ -4,3 +4,7 @@ server/data/
 server/logs/
 .env
 node_modules/
+amen-*-debug.html
+amen-domains-raw.html
+amen-raw-cookies.txt
+playwright-profile/
