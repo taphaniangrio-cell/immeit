@@ -463,10 +463,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fallback: Web3Forms (for online / GitHub Pages)
     if (!ok) {
       try {
+        const formattedMessage = [
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          '  NOUVEAU CONTACT - IMMEIT',
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          '',
+          '  Nom      : ' + payload.name,
+          '  Email    : ' + payload.email,
+          '  Sujet    : ' + payload.subject,
+          '',
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          '  MESSAGE',
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          '',
+          payload.message,
+          '',
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+          '  Envoyé depuis le site immeit.com',
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+        ].join('\n');
+
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ access_key: WEB3FORMS_KEY, ...payload })
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            name: payload.name,
+            email: payload.email,
+            subject: payload.subject + ' - Site IMMEIT',
+            message: formattedMessage
+          })
         });
         ok = res.ok;
       } catch {
