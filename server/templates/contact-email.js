@@ -36,7 +36,7 @@ function buildContactEmail(msg) {
       '.container{max-width:600px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.06)}',
       '.header{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);padding:32px 40px 28px}',
       '.header-brand{display:flex;align-items:center;justify-content:space-between}',
-      '.header-logo img{display:block;height:40px;width:auto;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15)}',
+      '.header-logo img{display:block;height:40px;width:auto}',
       '.header-tag{background:rgba(201,154,62,0.1);color:#C99A3E;padding:4px 16px;border-radius:100px;font-size:11px;font-weight:600;letter-spacing:0.5px;border:1px solid rgba(201,154,62,0.15)}',
       '.header-divider{height:1px;margin-top:24px;background:linear-gradient(90deg,rgba(201,154,62,0.4),rgba(201,154,62,0.1) 60%,transparent)}',
       '.subject-section{padding:24px 40px 0}',
