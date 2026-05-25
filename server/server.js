@@ -150,6 +150,14 @@ async function processRetryQueue() {
 
 setInterval(processRetryQueue, 5 * 60 * 1000);
 
+function readTunnelUrl() {
+  try {
+    const f = path.join(__dirname, '.tunnel-url');
+    if (fs.existsSync(f)) return fs.readFileSync(f, 'utf8').trim();
+  } catch {}
+  return null;
+}
+
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
@@ -157,7 +165,8 @@ const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:8080',
   'http://127.0.0.1:8080',
-  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : [])
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : []),
+  ...(readTunnelUrl() ? [readTunnelUrl()] : [])
 ];
 
 app.use(helmet({
