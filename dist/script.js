@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const API_URL = '/api/contact';
+  const API_URL = (window.SERVER_API_URL || '') + '/api/contact';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -450,36 +450,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
 
-    function buildWeb3Html() {
-      const d = new Date().toLocaleDateString('fr-FR', { day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit' });
-      return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0;padding:0;background:#f4f6f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
-<div style="max-width:600px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.06)">
-<div style="background:linear-gradient(135deg,#0f172a,#1e293b);padding:32px 40px 24px">
-<div style="color:#C99A3E;font-size:11px;font-weight:600;letter-spacing:0.5px;text-align:right;border:1px solid rgba(201,154,62,0.15);display:inline-block;padding:4px 16px;border-radius:100px;float:right">NOUVEAU CONTACT</div>
-<div style="clear:both;height:1px;background:linear-gradient(90deg,rgba(201,154,62,0.4),rgba(201,154,62,0.1) 60%,transparent);margin-top:20px"></div>
-</div>
-<div style="padding:24px 40px 0"><h2 style="margin:0;font-size:18px;color:#0f172a">${subjectVal}</h2><p style="font-size:13px;color:#94a3b8;margin:6px 0 0">Re\u00e7u le ${d}</p></div>
-<div style="height:1px;background:#e2e8f0;margin:0 40px"></div>
-<div style="padding:24px 40px">
-<table cellpadding="0" cellspacing="0"><tr>
-<td style="width:52px;height:52px;border-radius:50%;background:#1F538C;font-size:20px;font-weight:700;color:#fff;text-align:center;vertical-align:middle">${(prenomVal+' '+nomVal).charAt(0).toUpperCase()}</td>
-<td style="padding-left:12px"><div style="font-size:17px;font-weight:700;color:#0f172a">${prenomVal} ${nomVal}</div><div style="font-size:14px;color:#1F538C"><a href="mailto:${emailVal}" style="color:#1F538C;text-decoration:none;font-weight:500">${emailVal}</a></div></td>
-</tr></table>
-</div>
-<div style="height:1px;background:#e2e8f0;margin:0 40px"></div>
-<div style="padding:24px 40px 20px">
-<p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.2px;margin:0 0 12px">Message</p>
-<div style="background:#f8fafc;border-radius:12px;padding:24px;border:1px solid #e2e8f0">
-<p style="margin:0;font-size:15px;color:#334155;line-height:1.8;white-space:pre-wrap">${messageVal}</p>
-</div>
-</div>
-<div style="background:#f8fafc;padding:24px 40px;text-align:center;border-top:1px solid #e2e8f0">
-<p style="font-size:15px;font-weight:700;color:#0f172a;margin:0 0 4px">IMM<span style="color:#C99A3E">EIT</span></p>
-<p style="font-size:12px;color:#94a3b8;margin:0">Installation, M\u00e9thodes &amp; Maintenance des \u00c9quipements Industriels et Tertiaires</p>
-</div>
-</div></body></html>`;
-    }
-
     let sent = false;
 
     const serverPromise = (async () => {
@@ -505,9 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fd.append('access_key', WEB3FORMS_KEY);
         fd.append('subject', `${subjectVal} - Site IMMEIT`);
         fd.append('message', `Nom : ${prenomVal} ${nomVal}\nEmail : ${emailVal}\n\nMessage :\n${messageVal}`);
-        fd.append('html', buildWeb3Html());
-        fd.append('from_name', `${prenomVal} ${nomVal}`);
-        fd.append('from_email', emailVal);
         const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
         const data = await res.json();
         return data.success === true;

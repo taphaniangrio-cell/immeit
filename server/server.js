@@ -210,7 +210,59 @@ app.use(express.static(path.join(__dirname, '..'), {
   dotfiles: 'ignore',
   index: false,
 }));
-app.get('/', (_req, res) => res.sendFile(path.join(__dirname, '..', 'index.html')));
+app.get('/api/config', (req, res) => {
+  const tunnelUrl = readTunnelUrl();
+  res.json({
+    tunnelUrl,
+    smtp: !!transporter,
+    contactEmail: CONTACT_EMAIL,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/info', (req, res) => {
+  const tunnelUrl = readTunnelUrl();
+  res.type('html').send(`<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>IMMEIT - Status</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px}
+.card{background:#1e293b;border-radius:16px;padding:40px;max-width:520px;width:100%;box-shadow:0 25px 50px rgba(0,0,0,0.4)}
+h1{color:#C99A3E;font-size:24px;margin:0 0 8px}
+p{color:#94a3b8;margin:4px 0 16px;font-size:14px}
+.url{background:#0f172a;border-radius:10px;padding:16px 20px;word-break:break-all;margin:16px 0;border:1px solid #334155}
+.url a{color:#60a5fa;text-decoration:none;font-size:15px;font-weight:500}
+.url a:hover{text-decoration:underline}
+.label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin:16px 0 4px}
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600}
+.badge-ok{background:rgba(34,197,94,0.15);color:#22c55e}
+.badge-err{background:rgba(239,68,68,0.15);color:#ef4444}
+.btn{display:inline-block;margin-top:20px;padding:12px 24px;background:linear-gradient(135deg,#1F538C,#2a6bb5);color:#fff;text-decoration:none;font-size:14px;font-weight:600;border-radius:100px;text-align:center}
+.footer{font-size:11px;color:#475569;margin-top:20px;text-align:center}</style></head>
+<body><div class="card">
+<h1>IMMEIT — Status</h1>
+<p>Serveur en ligne</p>
+<div class="label">Adresse du tunnel</div>
+<div class="url">${tunnelUrl ? `<a href="${tunnelUrl}" target="_blank">${tunnelUrl}</a>` : 'Aucun tunnel actif'}</div>
+<div class="label">Email</div>
+<p style="margin:4px 0">${transporter ? '<span class="badge badge-ok">SMTP OK</span>' : '<span class="badge badge-err">SMTP non configuré</span>'}</p>
+<div class="label">Contact</div>
+<p style="margin:4px 0;color:#e2e8f0;font-size:14px">${CONTACT_EMAIL}</p>
+<a href="${tunnelUrl || '/'}" class="btn">Ouvrir le site</a>
+<div class="footer">${new Date().toISOString()}</div>
+</div></body></html>`);
+});
+
+app.get('/', (_req, res) => {
+  const tunnelUrl = readTunnelUrl();
+  const indexPath = path.join(__dirname, '..', 'index.html');
+  if (tunnelUrl) {
+    let html = fs.readFileSync(indexPath, 'utf-8');
+    html = html.replace('</head>', `<script>window.SERVER_API_URL=${JSON.stringify(tunnelUrl)}</script></head>`);
+    res.type('html').send(html);
+  } else {
+    res.sendFile(indexPath);
+  }
+});
 
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
