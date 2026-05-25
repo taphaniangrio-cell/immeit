@@ -434,34 +434,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(true);
 
+    const prenomVal = prenomInput.value.trim();
+    const nomVal = nomInput.value.trim();
+    const emailVal = emailInput.value.trim();
+    const subjectVal = subjectInput.value.trim() || 'Nouveau message IMMEIT';
+    const messageVal = messageInput.value.trim();
+
     const payload = {
-      name: `${prenomInput.value.trim()} ${nomInput.value.trim()}`,
-      prenom: prenomInput.value.trim(),
-      nom: nomInput.value.trim(),
-      email: emailInput.value.trim(),
-      subject: subjectInput.value.trim() || 'Nouveau message IMMEIT',
-      message: messageInput.value.trim()
+      name: `${prenomVal} ${nomVal}`,
+      email: emailVal,
+      subject: subjectVal,
+      message: messageVal
     };
 
+    const formattedMsg = [
+      messageVal,
+      '',
+      '---',
+      `Expéditeur : ${prenomVal} ${nomVal}`,
+      `Email : ${emailVal}`,
+      `Sujet : ${subjectVal}`,
+      '---',
+      'IMMEIT — Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires'
+    ].join('\n');
+
     let web3Ok = false;
-    let localOk = false;
 
     if (WEB3FORMS_KEY) {
       try {
+        const fd = new FormData();
+        fd.append('access_key', WEB3FORMS_KEY);
+        fd.append('name', payload.name);
+        fd.append('email', payload.email);
+        fd.append('subject', `${subjectVal} - Site IMMEIT`);
+        fd.append('message', formattedMsg);
+
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            access_key: WEB3FORMS_KEY,
-            name: payload.name,
-            prenom: payload.prenom,
-            nom: payload.nom,
-            email: payload.email,
-            subject: payload.subject + ' - Site IMMEIT',
-            message: payload.message
-          })
+          body: fd
         });
-        web3Ok = res.ok;
+        const data = await res.json();
+        web3Ok = data.success;
       } catch {
         web3Ok = false;
       }
@@ -470,21 +483,18 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), 5000);
-      const res = await fetch(API_URL, {
+      await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         signal: ctrl.signal
       });
       clearTimeout(timer);
-      localOk = res.ok;
-    } catch {
-      localOk = false;
-    }
+    } catch {}
 
     setLoading(false);
 
-    if (web3Ok || localOk) {
+    if (web3Ok) {
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') {
