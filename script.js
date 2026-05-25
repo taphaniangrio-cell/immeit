@@ -462,20 +462,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let sent = false;
 
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 5000);
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-      sent = res.ok;
-    } catch {}
+    const localPromise = (async () => {
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 5000);
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: ctrl.signal
+        });
+        clearTimeout(timer);
+        const data = await res.json().catch(() => ({}));
+        sent = sent || data.success === true;
+      }
+    })();
 
-    if (!sent && WEB3FORMS_KEY) {
+    const web3Promise = WEB3FORMS_KEY ? (async () => {
       try {
         const fd = new FormData();
         fd.append('access_key', WEB3FORMS_KEY);
@@ -488,9 +491,11 @@ document.addEventListener('DOMContentLoaded', () => {
           body: fd
         });
         const data = await res.json();
-        sent = data.success;
+        sent = sent || data.success;
       } catch {}
-    }
+    })() : Promise.resolve();
+
+    await Promise.all([localPromise, web3Promise]);
 
     setLoading(false);
 
