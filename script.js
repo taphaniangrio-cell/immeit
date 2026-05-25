@@ -442,6 +442,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const payload = {
       name: `${prenomVal} ${nomVal}`,
+      prenom: prenomVal,
+      nom: nomVal,
       email: emailVal,
       subject: subjectVal,
       message: messageVal
@@ -458,9 +460,22 @@ document.addEventListener('DOMContentLoaded', () => {
       'IMMEIT — Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires'
     ].join('\n');
 
-    let web3Ok = false;
+    let sent = false;
 
-    if (WEB3FORMS_KEY) {
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 5000);
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: ctrl.signal
+      });
+      clearTimeout(timer);
+      sent = res.ok;
+    } catch {}
+
+    if (!sent && WEB3FORMS_KEY) {
       try {
         const fd = new FormData();
         fd.append('access_key', WEB3FORMS_KEY);
@@ -468,33 +483,18 @@ document.addEventListener('DOMContentLoaded', () => {
         fd.append('email', payload.email);
         fd.append('subject', `${subjectVal} - Site IMMEIT`);
         fd.append('message', formattedMsg);
-
         const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           body: fd
         });
         const data = await res.json();
-        web3Ok = data.success;
-      } catch {
-        web3Ok = false;
-      }
+        sent = data.success;
+      } catch {}
     }
-
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 5000);
-      await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal
-      });
-      clearTimeout(timer);
-    } catch {}
 
     setLoading(false);
 
-    if (web3Ok) {
+    if (sent) {
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') {
