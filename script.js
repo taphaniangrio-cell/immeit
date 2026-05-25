@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(timer);
         const data = await res.json().catch(() => ({}));
         sent = sent || data.success === true;
-      }
+      } catch {}
     })();
 
     const web3Promise = WEB3FORMS_KEY ? (async () => {
