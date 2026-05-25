@@ -11,13 +11,14 @@ body{margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,Blink
 .subject-bar{background:#f8fafc;padding:16px 32px;border-bottom:1px solid #e8eaed}
 .subject-bar h2{margin:0;font-size:16px;font-weight:600;color:#202124}
 .meta{padding:20px 32px;border-bottom:1px solid #e8eaed}
-.meta-flex{display:flex;align-items:flex-start;gap:14px}
-.avatar{width:44px;height:44px;min-width:44px;border-radius:50%;background:linear-gradient(135deg,#C99A3E,#d4a843);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff}
-.meta-info{flex:1;min-width:0}
-.meta-name{font-size:15px;font-weight:600;color:#202124}
-.meta-email{font-size:13px;color:#5f6368}
+.meta-table{width:100%;border-collapse:collapse}
+.meta-table td{padding:0;vertical-align:middle}
+.avatar-cell{width:58px}
+.avatar{width:44px;height:44px;border-radius:50%;background-color:#C99A3E;font-size:17px;font-weight:700;color:#ffffff;text-align:center;line-height:44px;display:inline-block}
+.meta-name{font-size:15px;font-weight:600;color:#202124;margin:0 0 2px}
+.meta-email{font-size:13px;color:#5f6368;margin:0}
 .meta-email a{color:#1a73e8;text-decoration:none}
-.meta-date{font-size:12px;color:#5f6368;white-space:nowrap;margin-top:2px}
+.meta-date{font-size:12px;color:#5f6368;white-space:nowrap}
 .body{padding:24px 32px 20px}
 .body-label{font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.8px;margin:0 0 12px}
 .body-text{margin:0;font-size:15px;color:#3c4043;line-height:1.7;white-space:pre-wrap}
@@ -39,14 +40,16 @@ body{margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,Blink
 </div>
 <div class="subject-bar"><h2>{{subject}}</h2></div>
 <div class="meta">
-<div class="meta-flex">
-<div class="avatar">{{firstLetter}}</div>
-<div class="meta-info">
+<table class="meta-table" cellpadding="0" cellspacing="0" role="presentation">
+<tr>
+<td class="avatar-cell"><span class="avatar">{{firstLetter}}</span></td>
+<td>
 <div class="meta-name">{{name}}</div>
 <div class="meta-email"><a href="mailto:{{email}}">{{email}}</a></div>
-</div>
-<div class="meta-date">{{date}}</div>
-</div>
+</td>
+<td style="text-align:right"><span class="meta-date">{{date}}</span></td>
+</tr>
+</table>
 </div>
 <div class="body">
 <p class="body-label">Message</p>
