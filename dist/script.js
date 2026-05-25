@@ -382,7 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const API_URL = '/api/contact';
-  const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -449,53 +448,23 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageVal
     };
 
-    const formattedMsg = [
-      messageVal,
-      '',
-      '---',
-      `Expéditeur : ${prenomVal} ${nomVal}`,
-      `Email : ${emailVal}`,
-      `Sujet : ${subjectVal}`,
-      '---',
-      'IMMEIT — Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires'
-    ].join('\n');
-
     let sent = false;
 
-    const localPromise = (async () => {
-      try {
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 5000);
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          signal: ctrl.signal
-        });
-        clearTimeout(timer);
-        const data = await res.json().catch(() => ({}));
-        sent = sent || data.success === true;
-      } catch {}
-    })();
-
-    const web3Promise = WEB3FORMS_KEY ? (async () => {
-      try {
-        const fd = new FormData();
-        fd.append('access_key', WEB3FORMS_KEY);
-        fd.append('name', payload.name);
-        fd.append('email', payload.email);
-        fd.append('subject', `${subjectVal} - Site IMMEIT`);
-        fd.append('message', formattedMsg);
-        const res = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          body: fd
-        });
-        const data = await res.json();
-        sent = sent || data.success;
-      } catch {}
-    })() : Promise.resolve();
-
-    await Promise.all([localPromise, web3Promise]);
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 20000);
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: ctrl.signal
+      });
+      clearTimeout(timer);
+      const data = await res.json().catch(() => ({}));
+      sent = data.success === true;
+    } catch (err) {
+      console.error('Erreur envoi serveur:', err);
+    }
 
     setLoading(false);
 
