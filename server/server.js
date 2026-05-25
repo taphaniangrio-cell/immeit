@@ -82,7 +82,7 @@ async function sendEmail(msg) {
   }
 
   const mailOptions = {
-    from: `"IMMEIT Contact" <${CONTACT_EMAIL}>`,
+    from: `"IMMEIT Contact" <${process.env.SMTP_USER}>`,
     to: CONTACT_EMAIL,
     replyTo: msg.email,
     subject: msg.subject
