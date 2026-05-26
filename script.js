@@ -33,14 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(() => {
         navbar.classList.toggle('scrolled', window.scrollY > 60);
         backToTop?.classList.toggle('visible', window.scrollY > 400);
-        if (floatingCta) {
-          floatingCta.style.display = window.scrollY < window.innerHeight ? 'inline-flex' : 'none';
-        }
         scrollTicking = false;
       });
       scrollTicking = true;
     }
   });
+
+  if (floatingCta) {
+    const hero = document.getElementById('hero');
+    const ctaObserver = new IntersectionObserver(([entry]) => {
+      floatingCta.style.display = entry.isIntersecting ? 'inline-flex' : 'none';
+    }, { threshold: 0 });
+    if (hero) ctaObserver.observe(hero);
+  }
 
   // ===== Badge scroll =====
   const badgeInner = document.getElementById('badgeInner');
