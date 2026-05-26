@@ -491,7 +491,7 @@ img {
 }
 
 .hero__gear {
-  opacity: 0.2;
+  opacity: 0.05;
   mix-blend-mode: soft-light;
   will-change: transform;
 }
