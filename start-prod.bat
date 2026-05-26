@@ -1,8 +1,6 @@
 @echo off
 cd /d "%~dp0"
 
-set CADDY_PATH=%USERPROFILE%\AppData\Local\Microsoft\WinGet\Packages\CaddyServer.Caddy_Microsoft.Winget.Source_8wekyb3d8bbwe\caddy.exe
-
 echo.
 echo  ╔══════════════════════════════════════════╗
 echo  ║      IMMEIT - Mode Production           ║
@@ -22,19 +20,20 @@ call pm2 start ecosystem.config.cjs --update-env 2>nul
 call pm2 save
 cd ..
 
-:: Démarrage de Caddy (reverse proxy HTTPS)
-start "Caddy IMMEIT" "%CADDY_PATH%" run --config "%~dp0Caddyfile"
-
 echo.
 echo  ╔══════════════════════════════════════════╗
 echo  ║      IMMEIT - Production OK              ║
 echo  ╠══════════════════════════════════════════╣
-echo  ║  Local  : http://localhost:3001          ║
-echo  ║  Site   : https://immeit.com             ║
+echo  ║  Serveur: http://localhost:3001          ║
 echo  ║  Admin  : http://localhost:3001/admin    ║
 echo  ╠══════════════════════════════════════════╣
+if exist "server\.tunnel-url" (
+    set /p TUNNEL_URL=<"server\.tunnel-url"
+    echo  ║  Tunnel : %TUNNEL_URL%
+    echo  ╠══════════════════════════════════════════╣
+)
 echo  ║  Commandes :                             ║
-echo  ║  pm2 status       - Etat Node.js         ║
+echo  ║  pm2 status       - Etat PM2             ║
 echo  ║  pm2 logs immeit  - Logs Node.js         ║
 echo  ║  pm2 stop immeit  - Arreter Node.js      ║
 echo  ╚══════════════════════════════════════════╝

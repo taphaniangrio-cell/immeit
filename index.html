@@ -146,7 +146,14 @@
       <div class="hero__gradient"></div>
       <div class="hero__inner">
         <div class="hero__logos">
-          <span class="hero__logos-title">Nos partenaires</span>
+          <svg class="hero__logos-title" viewBox="0 0 200 70" width="200" height="70">
+            <defs>
+              <path id="heroArcPath" d="M 15,55 Q 100,-10 185,55" fill="none" />
+            </defs>
+            <text text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="600" letter-spacing="3" fill="currentColor" font-family="Poppins, sans-serif">
+              <textPath href="#heroArcPath" startOffset="50%">Nos partenaires</textPath>
+            </text>
+          </svg>
           <div class="hero__logos-group">
             <a href="#" target="_blank" rel="noopener" class="hero__logo-link" id="p2mLogo">
               <img src="logo-immeit.jpeg" alt="P2M" class="hero__logo-duplicate" />

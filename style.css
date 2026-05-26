@@ -661,16 +661,10 @@ img {
 }
 
 .hero__logos-title {
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 2px;
   color: var(--text-muted);
-  white-space: nowrap;
-  padding: 4px 12px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.03);
+  display: block;
+  width: 200px;
+  height: 70px;
 }
 
 .hero__logos-group {
