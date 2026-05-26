@@ -22,118 +22,106 @@ document.addEventListener('DOMContentLoaded', () => {
       particlesContainer.appendChild(p);
     }
   }
-
-  // ===== Realistic Incremented Gears =====
-  (function initGears() {
-    const container = document.getElementById('heroGears');
-    if (!container) return;
-
-    function createGearSVG(teeth, innerR, outerR, boreR, stroke, opacity) {
-      const cx = 50, cy = 50;
-      const toothAngle = (2 * Math.PI) / teeth;
-      const gapAngle = toothAngle * 0.4;
-      const stepAngle = toothAngle * 0.5;
-
-      let path = '';
-      for (let i = 0; i < teeth; i++) {
-        const a0 = i * toothAngle - Math.PI / 2;
-        const a1 = a0 + gapAngle * 0.3;
-        const a2 = a0 + gapAngle * 0.7;
-        const a3 = a0 + toothAngle - gapAngle * 0.3;
-        const a4 = a0 + toothAngle - gapAngle * 0.7;
-        const a5 = a0 + toothAngle;
-
-        const pts = [
-          [cx + innerR * Math.cos(a0), cy + innerR * Math.sin(a0)],
-          [cx + outerR * Math.cos(a1), cy + outerR * Math.sin(a1)],
-          [cx + outerR * Math.cos(a2), cy + outerR * Math.sin(a2)],
-          [cx + innerR * Math.cos(a3), cy + innerR * Math.sin(a3)],
-          [cx + innerR * Math.cos(a4), cy + innerR * Math.sin(a4)],
-          [cx + outerR * Math.cos(a5), cy + outerR * Math.sin(a5)],
-        ];
-
-        if (i === 0) path += `M ${pts[0][0].toFixed(2)},${pts[0][1].toFixed(2)}`;
-        path += ` L ${pts[1][0].toFixed(2)},${pts[1][1].toFixed(2)}`;
-        path += ` L ${pts[2][0].toFixed(2)},${pts[2][1].toFixed(2)}`;
-        path += ` L ${pts[3][0].toFixed(2)},${pts[3][1].toFixed(2)}`;
-
-        if (i < teeth - 1) {
-          const next = i + 1;
-          const nA0 = next * toothAngle - Math.PI / 2;
-          const nA4 = next * toothAngle - gapAngle * 0.7;
-          const nA5 = next * toothAngle;
-          const p4 = [cx + innerR * Math.cos(nA4), cy + innerR * Math.sin(nA4)];
-          path += ` L ${p4[0].toFixed(2)},${p4[1].toFixed(2)}`;
-        }
-      }
-      path += ' Z';
-
-      const svgNS = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(svgNS, 'svg');
-      svg.setAttribute('viewBox', '0 0 100 100');
-
-      const gearPath = document.createElementNS(svgNS, 'path');
-      gearPath.setAttribute('d', path);
-      gearPath.setAttribute('fill', 'none');
-      gearPath.setAttribute('stroke', stroke);
-      gearPath.setAttribute('stroke-width', '1.5');
-
-      const hub = document.createElementNS(svgNS, 'circle');
-      hub.setAttribute('cx', '50');
-      hub.setAttribute('cy', '50');
-      hub.setAttribute('r', String(boreR));
-      hub.setAttribute('fill', 'none');
-      hub.setAttribute('stroke', stroke);
-      hub.setAttribute('stroke-width', '1.2');
-
-      svg.appendChild(gearPath);
-      svg.appendChild(hub);
-      return svg;
-    }
-
-    const gears = [
-      { teeth: 12, innerR: 32, outerR: 44, boreR: 6, stroke: 'rgba(255,255,255,0.08)', speed: 1, size: 120, top: '15%', right: '8%', delay: 0 },
-      { teeth: 10, innerR: 30, outerR: 40, boreR: 5, stroke: 'rgba(255,255,255,0.05)', speed: 1.5, size: 90, bottom: '25%', left: '5%', delay: 0.3 },
-      { teeth: 8,  innerR: 28, outerR: 36, boreR: 4, stroke: 'rgba(255,255,255,0.04)', speed: 2, size: 60, top: '40%', left: '20%', delay: 0.6 },
-    ];
-
-    const gearEls = gears.map((cfg, idx) => {
-      const div = document.createElement('div');
-      div.className = 'hero__gear';
-      div.style.cssText = `
-        position: absolute;
-        opacity: 0.5;
-        ${cfg.top ? `top: ${cfg.top};` : ''}
-        ${cfg.right ? `right: ${cfg.right};` : ''}
-        ${cfg.bottom ? `bottom: ${cfg.bottom};` : ''}
-        ${cfg.left ? `left: ${cfg.left};` : ''}
-        width: ${cfg.size}px;
-        height: ${cfg.size}px;
-      `;
-
-      const svg = createGearSVG(cfg.teeth, cfg.innerR, cfg.outerR, cfg.boreR, cfg.stroke);
-      svg.style.width = '100%';
-      svg.style.height = '100%';
-      div.appendChild(svg);
-      container.appendChild(div);
-
-      return { el: div, cfg, angle: 0, step: (2 * Math.PI) / cfg.teeth };
-    });
-
-    let lastTime = 0;
-    function animateGears(time) {
-      const dt = (time - lastTime) / 1000;
-      lastTime = time;
-
-      gearEls.forEach((g) => {
-        g.angle += g.step * g.cfg.speed * dt;
-        g.angle %= 2 * Math.PI;
-        g.el.style.transform = `rotate(${(g.angle * 180 / Math.PI).toFixed(1)}deg)`;
+  // ===== Gear SVG =====
+  (function initGear() {
+    var c = document.getElementById('heroGears');
+    if (!c) return;
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 200 200');
+    svg.style.cssText = 'position:absolute;top:2%;right:2%;width:260px;height:260px;display:block;overflow:visible';
+    svg.style.animation = 'spin 24s linear infinite';
+    svg.classList.add('hero__gear');
+    var defs = document.createElementNS(ns, 'defs');
+    function addGrad(id, cx, cy, r, stops) {
+      var g = document.createElementNS(ns, 'radialGradient');
+      g.setAttribute('id', id);
+      if (cx !== undefined) { g.setAttribute('cx', cx); g.setAttribute('cy', cy); g.setAttribute('r', r); }
+      stops.forEach(function (s) {
+        var el = document.createElementNS(ns, 'stop');
+        el.setAttribute('offset', s[0]); el.setAttribute('stop-color', s[1]);
+        g.appendChild(el);
       });
-
-      requestAnimationFrame(animateGears);
+      defs.appendChild(g);
     }
-    requestAnimationFrame(animateGears);
+    addGrad('m1', '35%', '30%', '75%', [['0%','#f5f5f5'],['25%','#d4d4d4'],['55%','#9a9a9a'],['80%','#707070'],['100%','#555555']]);
+    addGrad('m2', '60%', '65%', '72%', [['0%','#b8b8b8'],['40%','#888888'],['80%','#606060'],['100%','#444444']]);
+    addGrad('m3', '40%', '40%', '70%', [['0%','#e0e0e0'],['50%','#a0a0a0'],['100%','#6a6a6a']]);
+    addGrad('m4', undefined, undefined, undefined, [['0%','#7a7a7a'],['100%','#4a4a4a']]);
+    svg.appendChild(defs);
+    // shadow
+    var sh = document.createElementNS(ns, 'ellipse');
+    sh.setAttribute('cx', '104'); sh.setAttribute('cy', '104');
+    sh.setAttribute('rx', '90'); sh.setAttribute('ry', '88');
+    sh.setAttribute('fill', 'rgba(0,0,0,0.18)');
+    svg.appendChild(sh);
+    // teeth (12)
+    var tg = document.createElementNS(ns, 'g');
+    for (var i = 0; i < 12; i++) {
+      var t = document.createElementNS(ns, 'path');
+      t.setAttribute('d', 'M87,4 L113,4 L115,16 Q115,20 110,20 L90,20 Q85,20 85,16 Z');
+      t.setAttribute('fill', 'url(#m1)');
+      t.setAttribute('transform', 'rotate(' + (i * 30) + ' 100 100)');
+      tg.appendChild(t);
+    }
+    svg.appendChild(tg);
+    // outer rim
+    var rim = document.createElementNS(ns, 'circle');
+    rim.setAttribute('cx', '100'); rim.setAttribute('cy', '100');
+    rim.setAttribute('r', '82'); rim.setAttribute('fill', 'url(#m1)');
+    svg.appendChild(rim);
+    // bevel
+    var bev = document.createElementNS(ns, 'circle');
+    bev.setAttribute('cx', '100'); bev.setAttribute('cy', '100');
+    bev.setAttribute('r', '78'); bev.setAttribute('fill', 'url(#m2)');
+    svg.appendChild(bev);
+    // inner face
+    var face = document.createElementNS(ns, 'circle');
+    face.setAttribute('cx', '100'); face.setAttribute('cy', '100');
+    face.setAttribute('r', '74'); face.setAttribute('fill', 'url(#m3)');
+    svg.appendChild(face);
+    // thin highlight ring
+    var hr = document.createElementNS(ns, 'circle');
+    hr.setAttribute('cx', '100'); hr.setAttribute('cy', '100');
+    hr.setAttribute('r', '76'); hr.setAttribute('fill', 'none');
+    hr.setAttribute('stroke', 'rgba(255,255,255,0.25)');
+    hr.setAttribute('stroke-width', '1');
+    svg.appendChild(hr);
+    // cutout zone (bg color)
+    var cut = document.createElementNS(ns, 'circle');
+    cut.setAttribute('cx', '100'); cut.setAttribute('cy', '100');
+    cut.setAttribute('r', '48'); cut.setAttribute('fill', '#111927');
+    svg.appendChild(cut);
+    // 6 spokes
+    var sg = document.createElementNS(ns, 'g');
+    for (var i = 0; i < 6; i++) {
+      var sp = document.createElementNS(ns, 'path');
+      sp.setAttribute('d', 'M95,50 L105,50 L105,90 L95,90 Z');
+      sp.setAttribute('fill', 'url(#m4)');
+      sp.setAttribute('transform', 'rotate(' + (i * 60) + ' 100 100)');
+      sg.appendChild(sp);
+    }
+    svg.appendChild(sg);
+    // hub
+    var hub = document.createElementNS(ns, 'circle');
+    hub.setAttribute('cx', '100'); hub.setAttribute('cy', '100');
+    hub.setAttribute('r', '22'); hub.setAttribute('fill', 'url(#m1)');
+    svg.appendChild(hub);
+    var hub2 = document.createElementNS(ns, 'circle');
+    hub2.setAttribute('cx', '100'); hub2.setAttribute('cy', '100');
+    hub2.setAttribute('r', '18'); hub2.setAttribute('fill', 'url(#m2)');
+    svg.appendChild(hub2);
+    // bore
+    var bore = document.createElementNS(ns, 'circle');
+    bore.setAttribute('cx', '100'); bore.setAttribute('cy', '100');
+    bore.setAttribute('r', '7'); bore.setAttribute('fill', '#111927');
+    svg.appendChild(bore);
+    // keyway
+    var kw = document.createElementNS(ns, 'path');
+    kw.setAttribute('d', 'M96,100 L96,108 L104,108 L104,100 Z');
+    kw.setAttribute('fill', '#111927');
+    svg.appendChild(kw);
+    c.appendChild(svg);
   })();
 
   // ===== Navbar scroll =====

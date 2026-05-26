@@ -476,6 +476,7 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 70%;
   opacity: 0.08;
   filter: grayscale(100%);
 }
@@ -490,13 +491,9 @@ img {
 }
 
 .hero__gear {
-  position: absolute;
-  opacity: 0.5;
-}
-
-.hero__gear svg {
-  width: 100%;
-  height: 100%;
+  opacity: 0.2;
+  mix-blend-mode: soft-light;
+  will-change: transform;
 }
 
 .hero__gradient {
