@@ -649,6 +649,22 @@ img {
   margin-bottom: 24px;
 }
 
+.hero__logos {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.hero__logo-duplicate {
+  width: 80px;
+  height: auto;
+  opacity: 0.15;
+}
+
 .hero__stats {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -818,10 +834,12 @@ img {
   padding: 24px 20px;
   border: 1px solid var(--border);
   transition: var(--transition);
-  cursor: default;
+  cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  height: 100%;
 }
 
 .service-card:hover {
@@ -874,6 +892,31 @@ img {
   text-decoration: none;
   color: inherit;
   display: block;
+}
+
+.service-card__cta {
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: #fff;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+.service-card:hover .service-card__cta {
+  opacity: 1;
+}
+
+.service-card__cta i {
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-card__cta i {
+  transform: translateX(4px);
 }
 
 .service-card__chips {
