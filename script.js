@@ -23,6 +23,119 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // ===== Realistic Incremented Gears =====
+  (function initGears() {
+    const container = document.getElementById('heroGears');
+    if (!container) return;
+
+    function createGearSVG(teeth, innerR, outerR, boreR, stroke, opacity) {
+      const cx = 50, cy = 50;
+      const toothAngle = (2 * Math.PI) / teeth;
+      const gapAngle = toothAngle * 0.4;
+      const stepAngle = toothAngle * 0.5;
+
+      let path = '';
+      for (let i = 0; i < teeth; i++) {
+        const a0 = i * toothAngle - Math.PI / 2;
+        const a1 = a0 + gapAngle * 0.3;
+        const a2 = a0 + gapAngle * 0.7;
+        const a3 = a0 + toothAngle - gapAngle * 0.3;
+        const a4 = a0 + toothAngle - gapAngle * 0.7;
+        const a5 = a0 + toothAngle;
+
+        const pts = [
+          [cx + innerR * Math.cos(a0), cy + innerR * Math.sin(a0)],
+          [cx + outerR * Math.cos(a1), cy + outerR * Math.sin(a1)],
+          [cx + outerR * Math.cos(a2), cy + outerR * Math.sin(a2)],
+          [cx + innerR * Math.cos(a3), cy + innerR * Math.sin(a3)],
+          [cx + innerR * Math.cos(a4), cy + innerR * Math.sin(a4)],
+          [cx + outerR * Math.cos(a5), cy + outerR * Math.sin(a5)],
+        ];
+
+        if (i === 0) path += `M ${pts[0][0].toFixed(2)},${pts[0][1].toFixed(2)}`;
+        path += ` L ${pts[1][0].toFixed(2)},${pts[1][1].toFixed(2)}`;
+        path += ` L ${pts[2][0].toFixed(2)},${pts[2][1].toFixed(2)}`;
+        path += ` L ${pts[3][0].toFixed(2)},${pts[3][1].toFixed(2)}`;
+
+        if (i < teeth - 1) {
+          const next = i + 1;
+          const nA0 = next * toothAngle - Math.PI / 2;
+          const nA4 = next * toothAngle - gapAngle * 0.7;
+          const nA5 = next * toothAngle;
+          const p4 = [cx + innerR * Math.cos(nA4), cy + innerR * Math.sin(nA4)];
+          path += ` L ${p4[0].toFixed(2)},${p4[1].toFixed(2)}`;
+        }
+      }
+      path += ' Z';
+
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', '0 0 100 100');
+
+      const gearPath = document.createElementNS(svgNS, 'path');
+      gearPath.setAttribute('d', path);
+      gearPath.setAttribute('fill', 'none');
+      gearPath.setAttribute('stroke', stroke);
+      gearPath.setAttribute('stroke-width', '1.5');
+
+      const hub = document.createElementNS(svgNS, 'circle');
+      hub.setAttribute('cx', '50');
+      hub.setAttribute('cy', '50');
+      hub.setAttribute('r', String(boreR));
+      hub.setAttribute('fill', 'none');
+      hub.setAttribute('stroke', stroke);
+      hub.setAttribute('stroke-width', '1.2');
+
+      svg.appendChild(gearPath);
+      svg.appendChild(hub);
+      return svg;
+    }
+
+    const gears = [
+      { teeth: 12, innerR: 32, outerR: 44, boreR: 6, stroke: 'rgba(255,255,255,0.08)', speed: 1, size: 120, top: '15%', right: '8%', delay: 0 },
+      { teeth: 10, innerR: 30, outerR: 40, boreR: 5, stroke: 'rgba(255,255,255,0.05)', speed: 1.5, size: 90, bottom: '25%', left: '5%', delay: 0.3 },
+      { teeth: 8,  innerR: 28, outerR: 36, boreR: 4, stroke: 'rgba(255,255,255,0.04)', speed: 2, size: 60, top: '40%', left: '20%', delay: 0.6 },
+    ];
+
+    const gearEls = gears.map((cfg, idx) => {
+      const div = document.createElement('div');
+      div.className = 'hero__gear';
+      div.style.cssText = `
+        position: absolute;
+        opacity: 0.5;
+        ${cfg.top ? `top: ${cfg.top};` : ''}
+        ${cfg.right ? `right: ${cfg.right};` : ''}
+        ${cfg.bottom ? `bottom: ${cfg.bottom};` : ''}
+        ${cfg.left ? `left: ${cfg.left};` : ''}
+        width: ${cfg.size}px;
+        height: ${cfg.size}px;
+      `;
+
+      const svg = createGearSVG(cfg.teeth, cfg.innerR, cfg.outerR, cfg.boreR, cfg.stroke);
+      svg.style.width = '100%';
+      svg.style.height = '100%';
+      div.appendChild(svg);
+      container.appendChild(div);
+
+      return { el: div, cfg, angle: 0, step: (2 * Math.PI) / cfg.teeth };
+    });
+
+    let lastTime = 0;
+    function animateGears(time) {
+      const dt = (time - lastTime) / 1000;
+      lastTime = time;
+
+      gearEls.forEach((g) => {
+        g.angle += g.step * g.cfg.speed * dt;
+        g.angle %= 2 * Math.PI;
+        g.el.style.transform = `rotate(${(g.angle * 180 / Math.PI).toFixed(1)}deg)`;
+      });
+
+      requestAnimationFrame(animateGears);
+    }
+    requestAnimationFrame(animateGears);
+  })();
+
   // ===== Navbar scroll =====
   const navbar = document.getElementById('navbar');
   const floatingCta = document.getElementById('floatingCta');
