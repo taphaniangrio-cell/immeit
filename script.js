@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           window.scrollTo({ top: Math.max(0, contactSection.offsetTop - 10), behavior: 'smooth' });
         }
+        history.pushState(null, '', '#contact');
       });
     });
 
