@@ -39,14 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  if (floatingCta) {
-    const hero = document.getElementById('hero');
-    const ctaObserver = new IntersectionObserver(([entry]) => {
-      floatingCta.style.display = entry.isIntersecting ? 'inline-flex' : 'none';
-    }, { threshold: 0 });
-    if (hero) ctaObserver.observe(hero);
-  }
-
   // ===== Badge scroll =====
   const badgeInner = document.getElementById('badgeInner');
   const badgeEl = document.getElementById('badgeText');
@@ -104,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
           navLinkItems.forEach(link => link.classList.remove('active'));
           const activeLink = document.querySelector(`.nav__link[href="#${entry.target.id}"]`);
           if (activeLink) activeLink.classList.add('active');
+          if (floatingCta) {
+            floatingCta.style.display = entry.target.id === 'hero' ? 'inline-flex' : 'none';
+          }
         }
       });
     },
