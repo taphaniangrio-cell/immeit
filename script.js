@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navbar.classList.toggle('scrolled', window.scrollY > 60);
         backToTop?.classList.toggle('visible', window.scrollY > 400);
         if (floatingCta) {
-          floatingCta.style.display = window.scrollY < window.innerHeight * 0.9 ? 'inline-flex' : 'none';
+          floatingCta.style.display = window.scrollY < window.innerHeight ? 'inline-flex' : 'none';
         }
         scrollTicking = false;
       });
