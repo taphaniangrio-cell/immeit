@@ -656,13 +656,21 @@ img {
   transform: translateY(-50%);
   display: flex;
   gap: 16px;
-  pointer-events: none;
+}
+
+.hero__logo-link {
+  display: block;
+  transition: var(--transition);
+}
+
+.hero__logo-link:hover {
+  transform: scale(1.08);
+  opacity: 0.85;
 }
 
 .hero__logo-duplicate {
   width: 80px;
   height: auto;
-  opacity: 0.15;
 }
 
 .hero__stats {
