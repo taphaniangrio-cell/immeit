@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== Navbar scroll =====
   const navbar = document.getElementById('navbar');
+  const floatingCta = document.getElementById('floatingCta');
 
   let scrollTicking = false;
   window.addEventListener('scroll', () => {
@@ -32,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(() => {
         navbar.classList.toggle('scrolled', window.scrollY > 60);
         backToTop?.classList.toggle('visible', window.scrollY > 400);
+        if (floatingCta) {
+          floatingCta.style.display = window.scrollY < window.innerHeight * 0.9 ? 'inline-flex' : 'none';
+        }
         scrollTicking = false;
       });
       scrollTicking = true;
