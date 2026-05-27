@@ -2815,7 +2815,7 @@ img {
 
 .flip-card {
   perspective: 1000px;
-  height: 280px;
+  height: 320px;
 }
 
 .flip-card__inner {
@@ -2840,13 +2840,13 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 24px 20px;
+  padding: 20px 16px;
   text-align: center;
   transition: var(--transition);
 }
 
 .flip-card__front {
+  justify-content: center;
   background: var(--bg-card);
 }
 
@@ -2855,22 +2855,24 @@ img {
 }
 
 .flip-card__back {
+  justify-content: center;
+  overflow: hidden;
   background: var(--bg-card-hover);
   transform: rotateY(180deg);
   border-color: var(--primary);
 }
 
 .flip-card__icon {
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   background: var(--accent-light);
-  border-radius: 18px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--accent);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   transition: var(--transition);
   flex-shrink: 0;
 }
@@ -2884,8 +2886,8 @@ img {
 
 .flip-card__back p {
   color: var(--text-light);
-  font-size: 0.85rem;
-  line-height: 1.7;
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .flip-card__back ul {
@@ -2893,14 +2895,16 @@ img {
   padding: 0;
   margin: 0;
   text-align: left;
+  width: 100%;
 }
 
 .flip-card__back li {
   color: var(--text-light);
-  font-size: 0.82rem;
-  line-height: 1.5;
-  padding: 3px 0 3px 18px;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  padding: 2px 0 2px 16px;
   position: relative;
+  word-break: break-word;
 }
 
 .flip-card__back li::before {
@@ -2999,7 +3003,7 @@ img {
     grid-template-columns: repeat(2, 1fr);
   }
   .flip-card {
-    height: 260px;
+    height: 300px;
   }
   .service-detail__hero .section__title {
     font-size: 1.8rem;
@@ -3011,7 +3015,7 @@ img {
     grid-template-columns: 1fr;
   }
   .flip-card {
-    height: 250px;
+    height: 280px;
   }
   .service-detail__hero .section__title {
     font-size: 1.4rem;
