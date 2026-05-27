@@ -1,0 +1,3023 @@
+<!DOCTYPE html><html lang="fr" style="overflow: hidden;"><head><meta http-equiv="origin-trial" content="A7vZI3v+Gz7JfuRolKNM4Aff6zaGuT7X0mf3wtoZTnKv6497cVMnhy03KDqX7kBz/q/iidW7srW31oQbBt4VhgoAAACUeyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGUuY29tOjQ0MyIsImZlYXR1cmUiOiJEaXNhYmxlVGhpcmRQYXJ0eVN0b3JhZ2VQYXJ0aXRpb25pbmczIiwiZXhwaXJ5IjoxNzU3OTgwODAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==">
+            <title>Espace client</title>
+            <meta http-equiv="content-type" content="text/html; charset=UTF-8;">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">            <meta name="copyright" content="amen.fr">
+            <meta name="description" content="">
+            <meta name="keywords" content="">
+            <link rel="shortcut icon" href="https://www.amen.fr/favicon.ico" type="image/x-icon">
+            <script async="" src="https://cs.iubenda.com/cookie-solution/confs/js/50217743.js"></script><script src="https://cdn.iubenda.com/cookie_solution/iubenda_cs/1.100.0/core-fr.js" charset="UTF-8"></script><script async="" src="//static.ads-twitter.com/uwt.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-3QB87M2H5C&amp;cx=c&amp;gtm=4e65m1"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=AW-1066231251&amp;cx=c&amp;gtm=4e65m1"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-HLLG4KTGYF&amp;cx=c&amp;gtm=4e65m1"></script><script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-THDLBP"></script><script type="text/javascript" async="" charset="utf-8" src="https://www.gstatic.com/recaptcha/releases/Br0hYqpfWeFzYCAXLD4UuCIV/recaptcha__fr.js" crossorigin="anonymous" integrity="sha384-ON8QoP1lgJ4ZmAnHYYwuUvk7KwzBxuLp17WUOj2kvtOZpCBOiQxIjYuHqtICCrHT"></script><script type="text/javascript" src="/static/js/jquery/v3.6.3/jquery-3.6.3.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery/v3.6.3/jquery-browserPatch.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=fr"></script>
+<script type="text/javascript" src="https://www.amen.fr/_js/dp_common//v3.0.2/dp_common.min.js"></script>
+                <link rel="stylesheet" href="/serve.php?file=firstLevel/header,firstLevel/headerInner,social/login,standardLogin/login,firstLevel/footer,welcome&amp;lang=fra" type="text/css" xmlns="http://www.w3.org/1999/html">
+                            <script type="text/javascript">
+                //<![CDATA[
+                                    var hierarch = {};
+                
+if (hierarch == null)
+ window.hierarch = new Object();
+if (hierarch.firstLevel == null)
+{
+ hierarch.firstLevel = new Object();
+}
+ 
+hierarch.firstLevel.header = {
+ registerDomainForm: function(mainDiv, dummyText)
+ {
+ var obj = new Object();
+ obj.mainDiv = mainDiv;
+ obj.dummyText = dummyText;
+ obj.buildPath = function(data, operation) 
+ {
+ if(jQuery('.whoisinput', this.mainDiv).val() != this.dummyText)
+ {
+ switch(operation)
+ {
+ case "tra":
+ data.location = "https://www.amen.fr/domains/start.html";
+ break;
+ 
+ case "reg":
+ if(jQuery('.tlds', this.mainDiv).val() == "0") //GEO
+ {
+ data.preset_domain= jQuery('.whoisinput', this.mainDiv).val();
+ data.location = "https://www.amen.fr/domains/domain.html";
+ window.location = data.location + '?preset_domain=' + data.preset_domain;
+ }
+ else if(jQuery('.tlds', this.mainDiv).val() == "-1") //NEWGTLDS
+ {
+ data.preset_domain= jQuery('.whoisinput', this.mainDiv).val();
+ data.location = "https://www.amen.fr/domains/new-gtlds.html";
+ window.location = data.location + '?preset_domain=' + data.preset_domain;
+ }
+ else
+ {
+ data.location = "https://search.amen.fr/search";
+ window.location = data.location + '?domain=' + data['domain[hostname]'];
+ }
+ break;
+ default:
+ return false;
+ break;
+ }
+ return true;
+ } 
+ else
+ {
+ dp_common.warning("Merci de préciser le nom de domaine");
+ }
+ };
+ 
+ 
+ 
+ dp_common.createForm(
+ {
+ 'domain[hostname]': {},
+ 'domain[tld]': {}
+ },
+ jQuery(mainDiv),
+ jQuery('.buttonwhois', mainDiv), 
+ function(data, form) {data.check = '0'; obj.buildPath(data, "reg")}
+ )
+ 
+ dp_common.createForm(
+ {
+ 'domain[hostname]': {},
+ 'domain[tld]': {}
+ },
+ jQuery(mainDiv),
+ jQuery('.buttowhoistrasf', mainDiv), 
+ function(data, form) {data.check = '1'; obj.buildPath(data, "tra")}
+ )
+ 
+ dp_common.setDummyText(jQuery('.whoisinput', mainDiv), dummyText);
+ },
+ 
+ 
+ setup: function()
+ {
+ var objTLD = {}, valtlds = [], txttlds = [], domName = jQuery('#whoistext').text();
+ 
+ jQuery('.headerMessageContainer .feedback').each(
+ function()
+ {
+ var obj = this;
+ jQuery('.close', this).click(function(){jQuery(obj).slideUp()}); 
+ }
+ );
+ 
+ jQuery('.close', jQuery('.csiteFeedback')).click(function(){jQuery.get("https://controlpanel.amen.fr/async/setpreference.html", {v: '1', t: 'b', p: "hide-csite-message"});});
+ 
+ var obj = this;
+ jQuery('.headerWhoisForm').each(function() {obj.registerDomainForm(this, "Nom de domaine")});
+ 
+ objTLD = {tlds: ["com","fr","eu","net","org","info","be"]};
+ for(var i=0; i<objTLD.tlds.length; i++)
+ {
+ valtlds.push(objTLD.tlds[i]);
+ txttlds.push(objTLD.tlds[i]);
+ }
+ 
+ valtlds.push("0");
+ txttlds.push("Géographiques");
+ valtlds.push("-1");
+ txttlds.push("Nouveaux domaines");
+
+ dp_common.setSelectOptions(jQuery('.headerWhoisForm .tlds'), valtlds, txttlds, txttlds[0]);
+ 
+ dp_common.bindEvent('click', jQuery('.icon', jQuery('.headpageExpiring')), 'onClickToolTip', hierarch.firstLevel.header , null, true);
+ dp_common.bindEvent('click', jQuery('.tooltip-close', jQuery('.headpageExpiring')), 'onCloseToolTip', hierarch.firstLevel.header , null, true);
+ dp_common.bindEvent('click', jQuery('.tooltip-baloon', jQuery('.headpageExpiring')), 'onTooltipBaloon', hierarch.firstLevel.header, null, true);
+ dp_common.bindEvent('click', jQuery(jQuery('body')), 'onCloseToolTip', hierarch.firstLevel.header , null, false);
+ },
+ onTooltipBaloon: function(element, event)
+ {
+ if (event) event.stopPropagation();
+ },
+ onClickToolTip: function(element, event)
+ {
+ dp_common.debugLog(element);
+ jQuery('.icon', jQuery('.headpageExpiring')).toggleClass('opened');
+ if (jQuery('.icon', jQuery('.headpageExpiring')).hasClass('opened'))
+ {
+ jQuery('.tooltip-top', jQuery('.headpageExpiring')).show(); 
+ }else{
+ jQuery('.tooltip-top', jQuery('.headpageExpiring')).hide(); 
+ }
+ 
+ if (event) event.stopPropagation();
+ },
+ onCloseToolTip: function(element, event)
+ {
+ jQuery('.tooltip-top', jQuery('.headpageExpiring')).hide();
+ jQuery('.icon', jQuery('.headpageExpiring')).removeClass('opened');
+ },
+ // Handling dp_common warnings, info and errors
+ handleMessage: function(level, message)
+ {
+ if (level == 'error' )
+ { 
+ var dialog = jQuery('body').append(
+ dp_common.htmlSnippets.modalDialog("Erreur", message, level + '_popup')
+ ).children(':last');
+ dp_common.doModal(null, null, dialog, 300, 400);
+ dp_common.bindEvent('click', jQuery('.close', dialog), 'exitModal', dp_common, dialog);
+ }
+ else if (level== 'warning')
+ { 
+ var dialog = jQuery('body').append(
+ dp_common.htmlSnippets.modalDialog("", message, level + '_popup')
+ ).children(':last');
+ dp_common.doModal(null, null, dialog, 300, 400);
+ dp_common.bindEvent('click', jQuery('.close', dialog), 'exitModal', dp_common, dialog);
+ }
+ else if (level=='info' || level=='success')
+ {
+ var success = jQuery('.success_popup').append('<div class="item '+level+'">' +
+ '<\/div>').children(':last');
+ success.fadeIn('fast');
+ setTimeout(function() {success.fadeOut('slow')}, 2500);
+ 
+ }
+ else if (level=='session-expired')
+ {
+ var dialog = jQuery('body').append(
+ dp_common.htmlSnippets.modalDialog("Session expirée", "Session expirée", 'error_popup')
+ ).children(':last');
+ dp_common.doModal(null, null, dialog, 300, 400);
+ dp_common.bindEvent('click', jQuery('.close', dialog),function(){window.location= '/';} , null, dialog);
+ }
+ else
+ {
+ jQuery('.headerMessageContainer').append(
+ '<div class="feedback ' + level + 'Feedback">'+
+ '<p><span>' + level + '<\/span> ' + message + '<\/p>'+
+ '<p class="close clickMe">X<\/p>'+
+ '<\/div>');
+ this.setup();
+ }
+ }
+}
+
+jQuery(function() {
+ dp_common.registerMessageHandler(hierarch.firstLevel.header);
+ hierarch.firstLevel.header.setup();
+ 
+ jQuery(".language").click(function(){ //change lang
+ if( jQuery(".language").hasClass("opened")){
+ jQuery(".language").removeClass("opened");
+ jQuery(".otherlang").css({'display' : 'none'});
+ } else {
+ jQuery(".language").addClass("opened");
+ jQuery(".otherlang").css({'display' : 'block'});
+ }
+ }); 
+ 
+ //function servicenavlogin( ){
+ jQuery("#hdLoglink").click(function(){ //login
+ if( jQuery("#hdLoglink").hasClass("opened")){
+ jQuery("#hdLoglink").removeClass("opened");
+ jQuery("#hd_loginbox").css({'display' : 'none'});
+ } else { 
+ jQuery("#hdLoglink").addClass("opened");
+ jQuery("#hd_loginbox").css({'display' : 'block'});
+ } 
+ });
+
+ jQuery('#header .language .otherlang a').click(function()
+ {
+ var arr = this.href.split('?');
+ var tmp = arr[0] + '?' + arr[1];
+ for (var i = 2; i < arr.length; i++)
+ tmp += '&' + arr[i];
+ window.location = tmp;
+ });
+ 
+ 
+ 
+  
+ jQuery(".tooltip-info a").click(function(){
+ if (jQuery(this).hasClass("opened")) {
+ jQuery(this).removeClass('opened');
+ jQuery(this).next().hide(250).fadeTo(1, 0);
+ } else {
+ jQuery(this).addClass('opened');
+ jQuery(this).next().fadeTo(1, 0.80).show(250);
+ }
+ return false;
+ });
+ 
+ jQuery(".tooltip-info h6 span").click(function(){
+ jQuery(this).parent().parent().prev().removeClass('opened');
+ jQuery(this).parent().parent().hide(250).fadeTo(1, 0);
+ });
+
+});
+jQuery(document).ready(function(){
+ jQuery('.obp').hover(
+ function() {
+ let other = jQuery('.obp');
+ other.not(this).css('color: #444');
+ other.not(this).css('font-size','13px');
+ jQuery(this).css('font-size','16px');
+ jQuery(this).find('i').hide();
+ },
+ function() {
+ let other = jQuery('.obp');
+ other.not(this).css('color: #222');
+ other.not(this).css('font-size','14px');
+ jQuery(this).css('font-size','14px');
+ // jQuery(this).find('i').show();
+ });
+
+})//; dp_common.assureInstantiability("hierarch.firstLevel.headerInner")
+//hierarch.firstLevel.headerInner = function() { return {}; };
+
+$(document).ready(function(){
+
+ // console.log('document ready Hinner');
+
+ //header tooltip code
+ jQuery('.nav .nav_menu li a:not(.dropdown a)').append('<span class="backcolor"><\/span>');
+ jQuery('.nav li a').children('.backcolor').fadeOut(0);
+ 
+ jQuery('.panels li.renewal').hover(function(){
+ 
+ jQuery(this).children('.tooltip-rn').animate( {fontSize : '19px'},75).animate( {fontSize : '15px'} ,75);;
+ jQuery(this).children('.tooltip-rn').children('.number').animate({paddingLeft :'8px',paddingRight :'8px'},75);
+ }, function(){
+ jQuery(this).children('.tooltip-rn').animate( {fontSize : '12px'},75);
+ jQuery(this).children('.tooltip-rn').children('.number').animate({paddingLeft :'6px',paddingRight :'6px'},75);
+ });
+
+ // subDropdowns
+ jQuery('div.js_dropMaster').mouseover( function(){
+ $(this).addClass('btnTransform');
+
+ jQuery('div.js_drop').removeClass('hide');
+ jQuery('div.js_drop').show();
+ });
+ jQuery('li.subDrop').mouseout( function(){
+ $(this).find('js_drop').hide();
+ jQuery('div.js_drop').addClass('hide');
+ var master=$(this).find('div.js_dropMaster');
+ master.removeClass('btnTransform');
+ });
+
+
+ // subDropdowns
+ jQuery('div.js_dropMasterSupt').mouseover( function(){
+ $(this).addClass('btnTransform');
+
+ jQuery('div.js_dropSupt').removeClass('hide');
+ jQuery('div.js_dropSupt').show();
+ });
+ jQuery('li.subDropSupt').mouseout( function(){
+ $(this).find('js_dropSupt').hide();
+ jQuery('div.js_dropSupt').addClass('hide');
+ var master=$(this).find('div.js_dropMasterSupt');
+ master.removeClass('btnTransform');
+ });
+
+});
+; hierarch.social = new Object(); hierarch.social.login = new Object();
+
+hierarch.social.login = function() { 
+ var form = {};
+ form.setup = function() {
+ $('.fb-social-btn').click(function(){
+ window.top.location.replace('https://controlpanel.amen.fr/social/association.html?&socialType=Facebook');
+ })
+ $('.google-social-btn').click(function(){
+ window.top.location.replace('https://controlpanel.amen.fr/social/association.html?&socialType=Google');
+ })
+ $('.twitter-social-btn').click(function(){
+ window.top.location.replace('https://controlpanel.amen.fr/social/association.html?&socialType=Twitter');
+ })
+ $('.linkedin-social-btn').click(function(){
+ window.top.location.replace('https://controlpanel.amen.fr/social/association.html?&socialType=LinkedIn');
+ })
+ }
+ 
+ return form;
+;}
+
+jQuery(function(){ var socialModule = new hierarch.social.login(); socialModule.setup();});
+
+jQuery(document).ready(function() {
+
+ var socialContainer = jQuery('.social-login-buttons');
+ var socialButton = jQuery('button', socialContainer);
+
+ if( socialButton.length > 0 ) {
+ socialButton.each(function (i) {
+ if(i >= 2)
+ jQuery(this).css('display','none');
+ });
+ if( socialButton.length > 2 ) {
+ socialContainer.append('<a hreF="#" class="text-center title-xs" data-show="social">Autres réseaux sociaux <i class="fa fa-angle-down" aria-hidden="true"></i></a>');
+ }
+ }
+
+ jQuery('[data-show="social"]').click(function() {
+ socialButton.slideDown();
+ jQuery(this).slideUp();
+ return false;
+ });
+
+});
+; dp_common.assureInstantiability("hierarch.async.biTrk")
+
+
+hierarch.async.biTrk = {
+ track: function(element, event)
+ {
+ var id = '', re = /bitrk_id_(\w+)/,
+ classes = element.getAttribute('class').split(' '), other =[];
+ for (var i in classes)
+ {
+ var id = classes[i].match(re); 
+ if (id != null && id[1] != null)
+ {
+ id = id[1];
+ }
+ else if (classes[i].substring(0,6) != 'bitrk_' && classes[i] != '')
+ other.push(classes[i]);
+ }
+ 
+ data = {elemenId:id, event: event.type, 'other[]': other}
+ jQuery.post('https://controlpanel.amen.fr/async/biTrk.html', data);
+ }
+}
+
+
+jQuery(function(){
+ dp_common.bindEvent('click', jQuery('.bitrk_click'), 'track', hierarch.async.biTrk);
+ dp_common.bindEvent('hover', jQuery('.bitrk_hover'), 'track', hierarch.async.biTrk);
+ });
+
+if (hierarch == null)
+ window.hierarch = new Object();
+if (hierarch.firstLevel == null)
+{
+ hierarch.firstLevel = new Object();
+ 
+
+}
+
+hierarch.firstLevel.footer = hierarch.firstLevel.footer = {}
+
+ function googleTrackEvent(category, action, label) {
+ dataLayer.push({
+ 'event': 'GAevent',
+ 'eventCategory': category,
+ 'eventAction': action,
+ 'eventLabel': label
+ });
+ }
+
+
+<!-- CSRF TOKEN MANAGEMENT -->
+let csrfFieldName = "X-CSRF-TOKEN-7559";
+let csrfTokenValue = "02f44bd6883b57a778279742ed0f1220";
+let enabledOnForms = true;
+let enabledOnAjax = true;
+let enabledMethods = ['POST','PUT','DELETE'];
+
+MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+let config = { subtree: true, childList: true };
+
+let observer = new MutationObserver(function(mutations, observer) {
+ observer.disconnect();
+ if (enabledOnForms) {
+ addCsrfInputToFormsIfMissed();
+ }
+ observer.observe(document, config);
+});
+observer.observe(document, config);
+
+XMLHttpRequest.prototype.open = (function(open) {
+ return function(method,url,async) {
+ open.apply(this,arguments);
+ if (enabledOnAjax && enabledMethods.includes(method) && isInternalCall(url)) {
+ this.setRequestHeader(csrfFieldName, csrfTokenValue);
+ }
+ };
+})(XMLHttpRequest.prototype.open);
+
+function addCsrfInputToFormsIfMissed() {
+ let forms = document.getElementsByTagName('form');
+ for (let i = 0; i < forms.length; i++) {
+ let tokenInputs = forms[i].querySelector("[name='" + csrfFieldName + "']");
+ if (tokenInputs == null && isInternalCall(forms[i].action)) {
+ let input = document.createElement("input");
+ input.type = "hidden";
+ input.name = csrfFieldName;
+ input.value = csrfTokenValue;
+ forms[i].appendChild(input);
+ }
+ }
+}
+
+function isInternalCall(url) {
+ try {
+ return url.toString().startsWith("/") || url.toString().indexOf(window.location.host) > -1;
+ } catch (error) {
+ return false;
+ }
+}
+<!-- END CSRF TOKEN MANAGEMENT -->
+
+
+jQuery(function () {
+ var tabView = dp_common.TabView(jQuery('#promoTab'), 'slide');
+});
+
+var captchaFormCompleted = function () {
+ jQuery("#formLogin").submit();
+};
+
+jQuery(document).ready(function () {
+ jQuery("#formLogin").submit(function (event) {
+ if (jQuery("input[name='userName']").val() == '' || jQuery("input[name='password']").val() == '') {
+ return false;
+ }
+ if (!grecaptcha.getResponse()) {
+ event.preventDefault();
+ grecaptcha.execute();
+ }
+ });
+});
+; dp_common.assureInstantiability("hierarch.firstLevel.login");
+
+hierarch.firstLevel.login = function() {
+
+ var htmlPasswordEye = '<span class="glyphicon glyphicon-eye-open eye-visibility form-control-feedback password-visibility"></span>';
+ jQuery('.standard-login-module [name="password"]').after(htmlPasswordEye);
+
+ jQuery("#formLogin")
+ .on("click",".glyphicon-eye-open",function(){
+ $(this).removeClass("glyphicon-eye-open").addClass("glyphicon-eye-close").prev("input").attr("type","text");
+ })
+ .on("click",".glyphicon-eye-close",function(){
+ $(this).removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open").prev("input").attr("type","password");
+ });
+
+};
+
+jQuery(function(){
+ hierarch.firstLevel.login(jQuery());
+});
+                //]]>
+            </script>
+        
+            <link href="https://www.amen.fr/_css/base_buttons.css" rel="stylesheet">
+            <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <script type="text/javascript" charset="UTF-8" src="https://srv.cmp-teamblue.services/js/cmp_all.min.js?v=1.1.39" async=""></script><script type="text/javascript" charset="UTF-8">var _iub = _iub || [];  
+            _iub.csConfiguration = {
+              "askConsentAtCookiePolicyUpdate": true,
+              "enableTcf": false,
+              "consentOnContinuedBrowsing": false,
+              "cookiePolicyInOtherWindow": true,
+              "floatingPreferencesButtonCaptionColor": "#FFFFFF",
+              "floatingPreferencesButtonColor": "#333333",
+              "floatingPreferencesButtonDisplay": "bottom-right",
+              "floatingPreferencesButtonIcon": false,
+              "googleAdditionalConsentMode":true,
+              "invalidateConsentWithoutLog": true,
+              "perPurposeConsent": true, "lang": "fr",
+              "purposes": "1,4,5",
+              "preferenceCookie": {
+                "expireAfter": 182
+              },
+              "tcfPurposes":{"2":"consent_only","7":"consent_only","8":"consent_only","9":"consent_only","10":"consent_only","11":"consent_only"},
+              "siteId": 2656153 ,
+              "cookiePolicyId": 50217743,
+              "cookiePolicyUrl": "https://www.amen.fr/a-propos/information-legale/politique-de-cookies/",
+              "callback": {
+                  "onPreferenceExpressed": function(preference) { window.dispatchEvent(new CustomEvent("IUB_PREFERENCE_EXPRESSED_EVENT", { detail: preference }))},
+                  "onBannerShown": function(preference) { window.dispatchEvent(new CustomEvent("IUB_BANNER_SHOW_EVENT", { detail: preference }))},
+                  "onConsentRejected": function(preference) { window.dispatchEvent(new CustomEvent("IUB_ON_CONSENT_REJECTED_EVENT", { detail: preference }))},
+                  "onConsentGiven": function(preference) { window.dispatchEvent(new CustomEvent("IUB_ON_CONSENT_GIVEN_EVENT", { detail: preference }))}
+              },
+              "langConsent": false,
+              "floatingPreferencesButtonCaption": true,
+              "banner": {
+                "acceptButtonCaptionColor": "#FFFFFF",
+                "acceptButtonColor": "#0099CC",
+                "acceptButtonDisplay": true,
+                "applyStyles": false,
+                "backgroundColor": "#FFFFFF",
+                "backgroundOverlay": true,
+                "brandBackgroundColor": "#333333",
+                "closeButtonDisplay":  false,
+                "closeButtonRejects": true,
+                "customizeButtonCaptionColor": "#0099CC",
+                "customizeButtonColor": "#FFFFFF",
+                "customizeButtonDisplay": true,
+                "explicitWithdrawal": true,
+                "fontSize": "16px",
+                "listPurposes": true,
+                "logo": null,
+                "position": "float-center",
+                "prependOnBody": true,
+                "rejectButtonCaptionColor": "#333333",
+                "rejectButtonColor": "#FFFFFF",
+                "rejectButtonDisplay": true,
+                "textColor": "#333333",
+                "content": "<div class=\"iubenda-cs-counter\"\n style=\"box-shadow: rgb(255, 255, 255) 0px 32px 16px !important; display: none;\">Appuyez à nouveau pour\n continuer 0/2</div>\n <div class=\"iubenda-banner-content iubenda-custom-content\" role=\"document\">\n <div id=\"iubenda-cs-title\">Ce site web utilise des cookies</div>\n <div id=\"iubenda-cs-paragraph\">AMEN ainsi que des prestataires tiers sélectionnés, utilisent des cookies ou des technologies similaires à des fins purement techniques et, avec votre consentement, à d’autres fins (« les statistiques » et « le ciblage et la publicité »), comme décrit\n dans la <a href=\"https://www.amen.fr/a-propos/information-legale/politique-de-cookies/\"\n class=\"iubenda-cs-cookie-policy-lnk\">politique relative aux cookies</a>.<br>Vous pouvez\n librement donner, refuser ou retirer votre consentement à tout moment.</div>\n </div>",
+              },
+              "i18n": {"fr":{"2nd_layer":{"widget_intro":"Dans ce panneau, vous pouvez exprimer certaines préférences relatives au traitement de vos informations personnelles.<br>Vous pouvez revoir et modifier les choix exprimés à tout moment en faisant réapparaître ce panneau grâce au lien fourni.<br>Pour refuser votre consentement[if usprApplies], ou vous opposer le cas échéant,[/if] aux activités de traitement spécifiques décrites ci-dessous, basculez les touches sur la position « désactivé » ou utilisez le bouton « Tout refuser » et confirmez que vous voulez enregistrer vos choix.","widget_title":"Vos choix en matière de confidentialité"},"banner":{"accept_button_caption":"[if not banner.showPurposesToggles]Accepter[/if][if banner.showPurposesToggles]Tout accepter[/if]","reject_button_caption":"Refuser[if banner.showPurposesToggles] tout[/if]","cookie_policy_caption":"politique relative aux cookies","privacy_policy_caption":"politique de confidentialité","customize_button_caption":"En savoir plus[if perPurposeConsent or (enableTcf and gdprApplies) or usprApplies] et personnaliser[/if]"},"footer":{"btnCaption":"Enregistrer et continuer"},"modal":{"back":"Retour","save_and_go_back":"Enregistrer et retourner à l’écran précédent","see_full_cookie_policy":"Voir toute la Politique relative aux cookies","see_full_privacy_policy":"Voir toute la Politique de confidentialité"},"per_purpose":{"widget_intro":"Le panneau suivant vous permet de personnaliser vos préférences en matière de consentement pour toute technologie de suivi utilisée pour nous permettre et permettre à nos partenaires de réaliser les fonctionnalités et de mener à bien les activités décrites ci-dessous.[if hasCookiePolicy] Pour en savoir plus sur la façon dont ces cookies sont utilisés et comment ils fonctionnent, veuillez consulter la <button style=\"cursor: pointer; text-decoration: underline !important;\" class=\"open-cp\">politique relative aux cookies</button>.[/if] Vous pouvez revoir et modifier vos choix à tout moment. Gardez à l’esprit que le refus de consentement à une finalité précise peut entraîner l’indisponibilité de certaines fonctionnalités. <a href=\"https://www.amen.fr/a-propos/information-legale/politique-de-cookies/\"> Liste des sociétés utilisant des cookies sur notre site </a>","widget_title":"Préférences en matière de consentement","approve_all":"Tout accepter","reject_all":"Tout refuser","see_description":"Voir la description","see_description_customize":"Voir la description","hide_description":"Cacher la description","purposes":{"1":{"name":"Nécessaire et fonctionnel","bannerName":"les activités strictement nécessaires et fonctionnel","description":"Ces traqueurs sont utilisés pour des activités strictement nécessaires au fonctionnement ou à la prestation des services que vous nous avez demandée et, par conséquent, n’exigent pas votre consentement."},"2":{"name":"Interactions et fonctionnalités de base","bannerName":"les interactions et les fonctionnalités de base","description":"Ces traqueurs permettent des interactions et des fonctionnalités de base vous donnant accès à certaines fonctionnalités de notre service et facilitant vos communications avec nos services."},"3":{"name":"Amélioration de l’expérience","bannerName":"l'amélioration de l'expérience","description":"Ces traqueurs nous permettent d’offrir une expérience utilisateur personnalisée en améliorant la qualité de vos options de gestion des préférences et en interagissant avec les réseaux et les plateformes externes."},"4":{"name":"Statistiques","bannerName":"les statistiques","description":"Ces traqueurs nous permettent de mesurer le trafic et d’analyser votre comportement dans le but d’améliorer notre service."},"5":{"name":"Ciblage et publicité","bannerName":"le ciblage et la publicité","description":"Ces cookies ou autres identifiants nous permettent de vous fournir un contenu de marketing personnalisé en fonction de votre comportement et d’exploiter, de diffuser et de suivre des publicités."}}}},"en-GB":{"2nd_layer":{"widget_intro":"In this panel you can express some preferences related to the processing of your personal information.<br>You may review and change expressed choices at any time by resurfacing this panel via the provided link.<br>To deny your consent to[if usprApplies], or where applicable opt out of,[/if] the specific processing activities described below, switch the toggles to off or use the “Reject all” button and confirm you want to save your choices.","widget_title":"Your Privacy Choices"},"banner":{"accept_button_caption":"Accept[if banner.showPurposesToggles] all[/if]","reject_button_caption":"Reject[if banner.showPurposesToggles] all[/if]","cookie_policy_caption":"cookie policy","privacy_policy_caption":"privacy policy","customize_button_caption":"Learn more[if (perPurpos…les] and customize[/if]"},"footer":{"btnCaption":"Save and continue"},"modal":{"back":"Back","save_and_go_back":"Save and go back","see_full_cookie_policy":"See full Cookie Policy","see_full_privacy_policy":"See full Privacy Policy"},"per_purpose":{"widget_intro":"The following panel allows you to customise your consent preferences for any tracking technology used to enable us and our partners to perform the features and activities described below. [if hasCookiePolicy]To learn more about how these cookies are used and how they work, please see the <button style=\"cursor: pointer; text-decoration: underline !important;\" class=\"open-cp\">cookie policy</button>[/if]. You can review and change your choices at any time. Keep in mind that refusal to consent to a specific purpose may result in the unavailability of certain features. <a href=\"https://www.amen.fr/a-propos/information-legale/politique-de-cookies/\">List of companies using cookies on our site</a>","widget_title":"Consent preferences","approve_all":"Accept all","reject_all":"Reject all","see_description":"See description","see_description_customize":"See description","hide_description":"Hide description","purposes":{"1":{"name":"Necessary and functionals","bannerName":"necessary and functional activities","description":"These trackers are used for activities that are strictly necessary to operate or deliver the service you requested from us and, therefore, do not require you to consent."},"2":{"name":"Basic interactions & functionalities","bannerName":"basic interactions & functionalities","description":"These trackers enable basic interactions and functionalities that allow you to access selected features of our service and facilitate your communication with us."},"3":{"name":"Experience enhancement","bannerName":"experience enhancement","description":"These trackers help us to provide a personalized user experience by improving the quality of your preference management options, and by enabling the interaction with external networks and platforms."},"4":{"name":"Statistics","bannerName":"statistics","description":"These trackers help us to measure traffic and analyze your behavior with the goal of improving our service."},"5":{"name":"Targeting & Advertising","bannerName":"targeting & advertising","description":"These trackers help us to deliver personalized marketing content to you based on your behavior and to operate, serve and track ads."}}}},"en":{"2nd_layer":{"widget_intro":"In this panel you can express some preferences related to the processing of your personal information.<br>You may review and change expressed choices at any time by resurfacing this panel via the provided link.<br>To deny your consent to[if usprApplies], or where applicable opt out of,[/if] the specific processing activities described below, switch the toggles to off or use the “Reject all” button and confirm you want to save your choices.","widget_title":"Your Privacy Choices"},"banner":{"accept_button_caption":"Accept[if banner.showPurposesToggles] all[/if]","reject_button_caption":"Reject[if banner.showPurposesToggles] all[/if]","cookie_policy_caption":"cookie policy","privacy_policy_caption":"privacy policy","customize_button_caption":"Learn more[if (perPurpos…les] and customize[/if]"},"footer":{"btnCaption":"Save and continue"},"modal":{"back":"Back","save_and_go_back":"Save and go back","see_full_cookie_policy":"See full Cookie Policy","see_full_privacy_policy":"See full Privacy Policy"},"per_purpose":{"widget_intro":"The following panel allows you to customise your consent preferences for any tracking technology used to enable us and our partners to perform the features and activities described below. [if hasCookiePolicy]To learn more about how these cookies are used and how they work, please see the <button style=\"cursor: pointer; text-decoration: underline !important;\" class=\"open-cp\">cookie policy</button>[/if]. You can review and change your choices at any time. Keep in mind that refusal to consent to a specific purpose may result in the unavailability of certain features. <a href=\"https://www.amen.fr/a-propos/information-legale/politique-de-cookies/\">List of companies using cookies on our site</a>","widget_title":"Consent preferences","approve_all":"Accept all","reject_all":"Reject all","see_description":"See description","see_description_customize":"See description","hide_description":"Hide description","purposes":{"1":{"name":"Necessary and functionals","bannerName":"necessary and functional activities","description":"These trackers are used for activities that are strictly necessary to operate or deliver the service you requested from us and, therefore, do not require you to consent."},"2":{"name":"Basic interactions & functionalities","bannerName":"basic interactions & functionalities","description":"These trackers enable basic interactions and functionalities that allow you to access selected features of our service and facilitate your communication with us."},"3":{"name":"Experience enhancement","bannerName":"experience enhancement","description":"These trackers help us to provide a personalized user experience by improving the quality of your preference management options, and by enabling the interaction with external networks and platforms."},"4":{"name":"Statistics","bannerName":"statistics","description":"These trackers help us to measure traffic and analyze your behavior with the goal of improving our service."},"5":{"name":"Targeting & Advertising","bannerName":"targeting & advertising","description":"These trackers help us to deliver personalized marketing content to you based on your behavior and to operate, serve and track ads."}}}}}
+         }</script><link rel="stylesheet" href="https://srv.cmp-teamblue.services/js/cmp_iub_style.min.css?v=1.1.39"><script type="text/javascript" charset="UTF-8" src="//cdn.iubenda.com/cs/iubenda_cs.js?v=1.1.39" async=""></script><script type="text/javascript" charset="utf-8" async="" src="//trk.amen.fr/js/he-man_all.min.js?v=2.1.77&amp;ma=ma_enabled"></script><script type="text/javascript" src="https://tracker.metricool.com/resources/be.js"></script></head>
+        
+        <body id="welcome" class="amen_fr agent_name_chrome agent_version_148"><div id="iubenda-cs-banner" class="iubenda-cs-default-floating iubenda-cs-center iubenda-cs-overlay iubenda-cs-slidein iubenda-cs-no-heading iubenda-cs-visible"><div class="iubenda-cs-container" role="alertdialog" aria-describedby="iubenda-cs-paragraph" aria-label="Avis"><div class="iubenda-cs-content" style=""><div class="iubenda-cs-rationale"><button type="button" class="iubenda-cs-close-btn" tabindex="0" role="button" aria-label="Fermer cet avis" style="display:none!important;">
+      <span aria-hidden="true">×</span>
+      </button><div class="iubenda-banner-content iubenda-custom-content" role="document"><div class="iubenda-cs-counter" style="box-shadow: rgb(255, 255, 255) 0px 32px 16px !important; display: none;">Appuyez à nouveau pour continuer 0/2</div>
+ <div class="iubenda-banner-content iubenda-custom-content" role="document">
+ <div id="iubenda-cs-title">Ce site web utilise des cookies</div>
+ <div id="iubenda-cs-paragraph">AMEN ainsi que des prestataires tiers sélectionnés, utilisent des cookies ou des technologies similaires à des fins purement techniques et, avec votre consentement, à d’autres fins (« les statistiques » et « le ciblage et la publicité »), comme décrit
+ dans la <a href="https://www.amen.fr/a-propos/information-legale/politique-de-cookies/" class="iubenda-cs-cookie-policy-lnk">politique relative aux cookies</a>.<br>Vous pouvez
+ librement donner, refuser ou retirer votre consentement à tout moment.</div>
+ </div></div><div class="iubenda-cs-counter"></div><div class="iubenda-cs-opt-group" style="color:#FFFFFF!important;"><div class="iubenda-cs-opt-group-custom"><button class="iubenda-cs-customize-btn" tabindex="0" role="button">En savoir plus et personnaliser</button></div><div class="iubenda-cs-opt-group-consent"><button class="iubenda-cs-reject-btn iubenda-cs-btn-primary" tabindex="0" role="button">Refuser</button><button class="iubenda-cs-accept-btn iubenda-cs-btn-primary" tabindex="0" role="button">Accepter</button></div></div></div></div></div></div>
+            <!--[if lt IE 9]>
+<script src="https://www.amen.fr/_js/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://www.amen.fr/_js/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+            
+<div id="header">
+	<div class="header_wrapper">
+				<script type="text/javascript">
+				CMP = {
+					company: "amen.fr"				};
+			</script>
+			<script type="text/javascript" src="https://srv.cmp-teamblue.services/js/cmp_standalone.min.js"></script>
+			
+
+<div class="inner revamp">&nbsp;</div>
+<a class="logo" href="https://www.amen.fr/index.html?chglng=fra"> Amen.fr </a>
+<ul class="panels">
+			<li class="webmail">
+			<a href="https://webmail.amen.fr/?chglng=fra">WebMail</a>
+		</li>
+                <li class="reseller">
+            <a href="https://www.amen.fr/partners/">Revendeurs</a>
+        </li>
+    	<li class="renewal">
+		<div class="tooltip-rn" style="display: none;">
+			<div class="baloon">&nbsp;</div>
+			<a class="number" href="https://controlpanel.amen.fr/renews/index.html"></a>
+		</div>
+		<a href="https://controlpanel.amen.fr/renews/index.html">Renouvellements</a>
+	</li>
+	        <li class="support subDropSupt">
+            <div class="js_dropMasterSupt js_dropSupport">Assistance <span class="arrow"></span>
+                <div class="js_dropSupt dropSupport hide">
+                    <a class="topnav-icon-knowledge support" href="http://www.amen.fr/help/?lang=fr">Centre de Support</a>
+                    <a class="topnav-icon-service support-status" href="https://www.amen.fr/support/incidents-en-cours/">État des Services</a>
+                                    </div>
+            </div>
+        </li>
+        	<li id="hd_loginbox" class="login">
+		<div class="loggedstyle" style="display: none;">
+						<span class="icon">&nbsp;</span>
+						<a class="name" href="https://controlpanel.amen.fr/"></a>
+			<a class="logout" href="https://controlpanel.amen.fr/welcome.html?logout=true">Déconnexion</a>
+		</div>
+					<div class="unloggedstyle" style="">
+				<a href="https://controlpanel.amen.fr/welcome.html" title="Espace client">
+					<span class="icon">&nbsp;</span>
+					<span>Espace client</span>
+									</a>
+			</div>
+				</li>
+</ul>
+
+
+
+
+	</div>
+</div>
+
+
+
+<div class="shadow"></div>
+
+<div class="success_popup"></div>
+
+
+
+
+<div id="content">
+	<div class="wrapper">
+				
+		
+				
+		<div id="hostingUserMessage"><span><!----></span></div>
+
+<!-- ~~~~~~~~~~~~~~~~~~~ START HeaderStyle ~~~~~~~~~~~~~~~~~~ -->
+<!-- ~~~~~~~~~~~~~~~~~~~ END HeaderStyle ~~~~~~~~~~~~~~~~~~ -->
+
+<h1 class="title-lg text-center">Connexion à l'Espace Client</h1>
+
+
+<div class="welcome-container-block">
+	<div class="container">
+		<div class="col-signin col-sm-6 base-font standard-login-block">
+
+		<div class="social-login-buttons text-center">
+			<button data-social="facebookLogin" class=" btn btn-lg btn-primary fb-social-btn" type="button"><i class="fa fa-2x fa-fw fa-facebook fb-connect-logo pull-left"></i>Continuer via Facebook</button> 
+<button data-social="googleLogin" class=" btn btn-lg btn-primary google-social-btn" type="button"><i class="fa fa-2x fa-fw fa-google google-connect-logo pull-left"></i>Continuer via Google</button> 
+
+<button data-social="linkedinLogin" class=" btn btn-lg btn-primary linkedin-social-btn" type="button" style="display: none;"><i class="fa fa-2x fa-fw fa-linkedin linkedin-connect-logo pull-left"></i>Continuer via LinkedIn</button> 
+		<a href="#" class="text-center title-xs" data-show="social">Autres réseaux sociaux <i class="fa fa-angle-down" aria-hidden="true"></i></a></div>
+
+		<div class="login-separator">
+			<span class="separator-line"></span>
+			<span class="separator-text title-xs">Ou</span>
+			<span class="separator-line"></span>
+		</div>
+
+	<div class="standard-login-area">
+
+		<h3 class="standard-login-title text-center title-xs">Connexion à l'aide de vos identifiants</h3>
+
+		<form id="formLogin" method="post" action="https://controlpanel.amen.fr/welcome.html" role="form" class="form-horizontal text-center">
+			<div class="form-group">
+							</div>
+<div id="recaptcha" class="g-recaptcha" data-action="login_pdc" data-sitekey="6Lc0d5wUAAAAAI19ULrgr5-LFrPP0Nx3AMrKm4_H" data-callback="captchaFormCompleted" data-size="invisible"><div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;"><div class="grecaptcha-logo"><iframe title="reCAPTCHA" width="256" height="60" role="presentation" name="a-esb0jx4asrdp" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Lc0d5wUAAAAAI19ULrgr5-LFrPP0Nx3AMrKm4_H&amp;co=aHR0cHM6Ly9jb250cm9scGFuZWwuYW1lbi5mcjo0NDM.&amp;hl=fr&amp;v=Br0hYqpfWeFzYCAXLD4UuCIV&amp;size=invisible&amp;sa=login_pdc&amp;anchor-ms=20000&amp;execute-ms=30000&amp;cb=l3hg6ioiz4q1"></iframe></div><div class="grecaptcha-error"></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div>	<style>
+		/*	BASIC	*/
+
+body { background: #E5E6E4; }
+body > .shadow { display: none; }
+
+/*Quick float/center*/
+.pull-right { float: right !important; }
+.pull-left { float: left !important; }
+.center-block { display: block; margin-left: auto; margin-right: auto; }
+.clear-fix { clear: both; }
+
+/*Visibility*/
+.show { display: block !important; }
+.hidden { display: none !important; visibility: hidden !important; }
+.invisible { visibility: hidden; }
+.noMargin { margin: 0 !important; }
+.marginRight { margin-right: 10px !important; }
+.marginLeft { margin-left: 10px !important; }
+
+
+.clearfix:before,
+.clearfix:after,
+.dl-horizontal dd:before,
+.dl-horizontal dd:after,
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:before,
+.btn-group-vertical > .btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after {
+	display: table;
+	content: " ";
+}
+.clearfix:after,
+.dl-horizontal dd:after,
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-footer:after {
+	clear: both;
+}
+.center-block {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+.pull-right {
+	float: right !important;
+}
+.pull-left {
+	float: left !important;
+}
+.hide {
+	display: none !important;
+}
+.show {
+	display: block !important;
+}
+.invisible {
+	visibility: hidden;
+}
+.text-hide {
+	font: 0/0 a;
+	color: transparent;
+	text-shadow: none;
+	background-color: transparent;
+	border: 0;
+}
+.hidden {
+	display: none !important;
+	visibility: hidden !important;
+}
+.affix {
+	position: fixed;
+	-webkit-transform: translate3d(0, 0, 0);
+	-o-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+}		
+/*	GRID	*/
+/*
+ * Columns
+ * Offsetting columns
+*/
+
+.col-12 { padding: 20px; }
+
+
+.col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col-xs-1,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12 {
+  float: left;
+}
+
+.col-xs-12 {
+  width: 100%;
+}
+
+.col-xs-11 {
+  width: 91.66666666666666%;
+}
+
+.col-xs-10 {
+  width: 83.33333333333334%;
+}
+
+.col-xs-9 {
+  width: 75%;
+}
+
+.col-xs-8 {
+  width: 66.66666666666666%;
+}
+
+.col-xs-7 {
+  width: 58.333333333333336%;
+}
+
+.col-xs-6 {
+  width: 50%;
+}
+
+.col-xs-5 {
+  width: 41.66666666666667%;
+}
+
+.col-xs-4 {
+  width: 33.33333333333333%;
+}
+
+.col-xs-3 {
+  width: 25%;
+}
+
+.col-xs-2 {
+  width: 16.666666666666664%;
+}
+
+.col-xs-1 {
+  width: 8.333333333333332%;
+}
+
+.col-xs-pull-12 {
+  right: 100%;
+}
+
+.col-xs-pull-11 {
+  right: 91.66666666666666%;
+}
+
+.col-xs-pull-10 {
+  right: 83.33333333333334%;
+}
+
+.col-xs-pull-9 {
+  right: 75%;
+}
+
+.col-xs-pull-8 {
+  right: 66.66666666666666%;
+}
+
+.col-xs-pull-7 {
+  right: 58.333333333333336%;
+}
+
+.col-xs-pull-6 {
+  right: 50%;
+}
+
+.col-xs-pull-5 {
+  right: 41.66666666666667%;
+}
+
+.col-xs-pull-4 {
+  right: 33.33333333333333%;
+}
+
+.col-xs-pull-3 {
+  right: 25%;
+}
+
+.col-xs-pull-2 {
+  right: 16.666666666666664%;
+}
+
+.col-xs-pull-1 {
+  right: 8.333333333333332%;
+}
+
+.col-xs-pull-0 {
+  right: 0;
+}
+
+.col-xs-push-12 {
+  left: 100%;
+}
+
+.col-xs-push-11 {
+  left: 91.66666666666666%;
+}
+
+.col-xs-push-10 {
+  left: 83.33333333333334%;
+}
+
+.col-xs-push-9 {
+  left: 75%;
+}
+
+.col-xs-push-8 {
+  left: 66.66666666666666%;
+}
+
+.col-xs-push-7 {
+  left: 58.333333333333336%;
+}
+
+.col-xs-push-6 {
+  left: 50%;
+}
+
+.col-xs-push-5 {
+  left: 41.66666666666667%;
+}
+
+.col-xs-push-4 {
+  left: 33.33333333333333%;
+}
+
+.col-xs-push-3 {
+  left: 25%;
+}
+
+.col-xs-push-2 {
+  left: 16.666666666666664%;
+}
+
+.col-xs-push-1 {
+  left: 8.333333333333332%;
+}
+
+.col-xs-push-0 {
+  left: 0;
+}
+
+.col-xs-offset-12 {
+  margin-left: 100%;
+}
+
+.col-xs-offset-11 {
+  margin-left: 91.66666666666666%;
+}
+
+.col-xs-offset-10 {
+  margin-left: 83.33333333333334%;
+}
+
+.col-xs-offset-9 {
+  margin-left: 75%;
+}
+
+.col-xs-offset-8 {
+  margin-left: 66.66666666666666%;
+}
+
+.col-xs-offset-7 {
+  margin-left: 58.333333333333336%;
+}
+
+.col-xs-offset-6 {
+  margin-left: 50%;
+}
+
+.col-xs-offset-5 {
+  margin-left: 41.66666666666667%;
+}
+
+.col-xs-offset-4 {
+  margin-left: 33.33333333333333%;
+}
+
+.col-xs-offset-3 {
+  margin-left: 25%;
+}
+
+.col-xs-offset-2 {
+  margin-left: 16.666666666666664%;
+}
+
+.col-xs-offset-1 {
+  margin-left: 8.333333333333332%;
+}
+
+.col-xs-offset-0 {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  .col-sm-1,
+  .col-sm-2,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12 {
+    float: left;
+  }
+  .col-sm-12 {
+    width: 100%;
+  }
+  .col-sm-11 {
+    width: 91.66666666666666%;
+  }
+  .col-sm-10 {
+    width: 83.33333333333334%;
+  }
+  .col-sm-9 {
+    width: 75%;
+  }
+  .col-sm-8 {
+    width: 66.66666666666666%;
+  }
+  .col-sm-7 {
+    width: 58.333333333333336%;
+  }
+  .col-sm-6 {
+    width: 50%;
+  }
+  .col-sm-5 {
+    width: 41.66666666666667%;
+  }
+  .col-sm-4 {
+    width: 33.33333333333333%;
+  }
+  .col-sm-3 {
+    width: 25%;
+  }
+  .col-sm-2 {
+    width: 16.666666666666664%;
+  }
+  .col-sm-1 {
+    width: 8.333333333333332%;
+  }
+  .col-sm-pull-12 {
+    right: 100%;
+  }
+  .col-sm-pull-11 {
+    right: 91.66666666666666%;
+  }
+  .col-sm-pull-10 {
+    right: 83.33333333333334%;
+  }
+  .col-sm-pull-9 {
+    right: 75%;
+  }
+  .col-sm-pull-8 {
+    right: 66.66666666666666%;
+  }
+  .col-sm-pull-7 {
+    right: 58.333333333333336%;
+  }
+  .col-sm-pull-6 {
+    right: 50%;
+  }
+  .col-sm-pull-5 {
+    right: 41.66666666666667%;
+  }
+  .col-sm-pull-4 {
+    right: 33.33333333333333%;
+  }
+  .col-sm-pull-3 {
+    right: 25%;
+  }
+  .col-sm-pull-2 {
+    right: 16.666666666666664%;
+  }
+  .col-sm-pull-1 {
+    right: 8.333333333333332%;
+  }
+  .col-sm-pull-0 {
+    right: 0;
+  }
+  .col-sm-push-12 {
+    left: 100%;
+  }
+  .col-sm-push-11 {
+    left: 91.66666666666666%;
+  }
+  .col-sm-push-10 {
+    left: 83.33333333333334%;
+  }
+  .col-sm-push-9 {
+    left: 75%;
+  }
+  .col-sm-push-8 {
+    left: 66.66666666666666%;
+  }
+  .col-sm-push-7 {
+    left: 58.333333333333336%;
+  }
+  .col-sm-push-6 {
+    left: 50%;
+  }
+  .col-sm-push-5 {
+    left: 41.66666666666667%;
+  }
+  .col-sm-push-4 {
+    left: 33.33333333333333%;
+  }
+  .col-sm-push-3 {
+    left: 25%;
+  }
+  .col-sm-push-2 {
+    left: 16.666666666666664%;
+  }
+  .col-sm-push-1 {
+    left: 8.333333333333332%;
+  }
+  .col-sm-push-0 {
+    left: 0;
+  }
+  .col-sm-offset-12 {
+    margin-left: 100%;
+  }
+  .col-sm-offset-11 {
+    margin-left: 91.66666666666666%;
+  }
+  .col-sm-offset-10 {
+    margin-left: 83.33333333333334%;
+  }
+  .col-sm-offset-9 {
+    margin-left: 75%;
+  }
+  .col-sm-offset-8 {
+    margin-left: 66.66666666666666%;
+  }
+  .col-sm-offset-7 {
+    margin-left: 58.333333333333336%;
+  }
+  .col-sm-offset-6 {
+    margin-left: 50%;
+  }
+  .col-sm-offset-5 {
+    margin-left: 41.66666666666667%;
+  }
+  .col-sm-offset-4 {
+    margin-left: 33.33333333333333%;
+  }
+  .col-sm-offset-3 {
+    margin-left: 25%;
+  }
+  .col-sm-offset-2 {
+    margin-left: 16.666666666666664%;
+  }
+  .col-sm-offset-1 {
+    margin-left: 8.333333333333332%;
+  }
+  .col-sm-offset-0 {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-1,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12 {
+    float: left;
+  }
+  .col-md-12 {
+    width: 100%;
+  }
+  .col-md-11 {
+    width: 91.66666666666666%;
+  }
+  .col-md-10 {
+    width: 83.33333333333334%;
+  }
+  .col-md-9 {
+    width: 75%;
+  }
+  .col-md-8 {
+    width: 66.66666666666666%;
+  }
+  .col-md-7 {
+    width: 58.333333333333336%;
+  }
+  .col-md-6 {
+    width: 50%;
+  }
+  .col-md-5 {
+    width: 41.66666666666667%;
+  }
+  .col-md-4 {
+    width: 33.33333333333333%;
+  }
+  .col-md-3 {
+    width: 25%;
+  }
+  .col-md-2 {
+    width: 16.666666666666664%;
+  }
+  .col-md-1 {
+    width: 8.333333333333332%;
+  }
+  .col-md-pull-12 {
+    right: 100%;
+  }
+  .col-md-pull-11 {
+    right: 91.66666666666666%;
+  }
+  .col-md-pull-10 {
+    right: 83.33333333333334%;
+  }
+  .col-md-pull-9 {
+    right: 75%;
+  }
+  .col-md-pull-8 {
+    right: 66.66666666666666%;
+  }
+  .col-md-pull-7 {
+    right: 58.333333333333336%;
+  }
+  .col-md-pull-6 {
+    right: 50%;
+  }
+  .col-md-pull-5 {
+    right: 41.66666666666667%;
+  }
+  .col-md-pull-4 {
+    right: 33.33333333333333%;
+  }
+  .col-md-pull-3 {
+    right: 25%;
+  }
+  .col-md-pull-2 {
+    right: 16.666666666666664%;
+  }
+  .col-md-pull-1 {
+    right: 8.333333333333332%;
+  }
+  .col-md-pull-0 {
+    right: 0;
+  }
+  .col-md-push-12 {
+    left: 100%;
+  }
+  .col-md-push-11 {
+    left: 91.66666666666666%;
+  }
+  .col-md-push-10 {
+    left: 83.33333333333334%;
+  }
+  .col-md-push-9 {
+    left: 75%;
+  }
+  .col-md-push-8 {
+    left: 66.66666666666666%;
+  }
+  .col-md-push-7 {
+    left: 58.333333333333336%;
+  }
+  .col-md-push-6 {
+    left: 50%;
+  }
+  .col-md-push-5 {
+    left: 41.66666666666667%;
+  }
+  .col-md-push-4 {
+    left: 33.33333333333333%;
+  }
+  .col-md-push-3 {
+    left: 25%;
+  }
+  .col-md-push-2 {
+    left: 16.666666666666664%;
+  }
+  .col-md-push-1 {
+    left: 8.333333333333332%;
+  }
+  .col-md-push-0 {
+    left: 0;
+  }
+  .col-md-offset-12 {
+    margin-left: 100%;
+  }
+  .col-md-offset-11 {
+    margin-left: 91.66666666666666%;
+  }
+  .col-md-offset-10 {
+    margin-left: 83.33333333333334%;
+  }
+  .col-md-offset-9 {
+    margin-left: 75%;
+  }
+  .col-md-offset-8 {
+    margin-left: 66.66666666666666%;
+  }
+  .col-md-offset-7 {
+    margin-left: 58.333333333333336%;
+  }
+  .col-md-offset-6 {
+    margin-left: 50%;
+  }
+  .col-md-offset-5 {
+    margin-left: 41.66666666666667%;
+  }
+  .col-md-offset-4 {
+    margin-left: 33.33333333333333%;
+  }
+  .col-md-offset-3 {
+    margin-left: 25%;
+  }
+  .col-md-offset-2 {
+    margin-left: 16.666666666666664%;
+  }
+  .col-md-offset-1 {
+    margin-left: 8.333333333333332%;
+  }
+  .col-md-offset-0 {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-1,
+  .col-lg-2,
+  .col-lg-3,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-6,
+  .col-lg-7,
+  .col-lg-8,
+  .col-lg-9,
+  .col-lg-10,
+  .col-lg-11,
+  .col-lg-12 {
+    float: left;
+  }
+  .col-lg-12 {
+    width: 100%;
+  }
+  .col-lg-11 {
+    width: 91.66666666666666%;
+  }
+  .col-lg-10 {
+    width: 83.33333333333334%;
+  }
+  .col-lg-9 {
+    width: 75%;
+  }
+  .col-lg-8 {
+    width: 66.66666666666666%;
+  }
+  .col-lg-7 {
+    width: 58.333333333333336%;
+  }
+  .col-lg-6 {
+    width: 50%;
+  }
+  .col-lg-5 {
+    width: 41.66666666666667%;
+  }
+  .col-lg-4 {
+    width: 33.33333333333333%;
+  }
+  .col-lg-3 {
+    width: 25%;
+  }
+  .col-lg-2 {
+    width: 16.666666666666664%;
+  }
+  .col-lg-1 {
+    width: 8.333333333333332%;
+  }
+  .col-lg-pull-12 {
+    right: 100%;
+  }
+  .col-lg-pull-11 {
+    right: 91.66666666666666%;
+  }
+  .col-lg-pull-10 {
+    right: 83.33333333333334%;
+  }
+  .col-lg-pull-9 {
+    right: 75%;
+  }
+  .col-lg-pull-8 {
+    right: 66.66666666666666%;
+  }
+  .col-lg-pull-7 {
+    right: 58.333333333333336%;
+  }
+  .col-lg-pull-6 {
+    right: 50%;
+  }
+  .col-lg-pull-5 {
+    right: 41.66666666666667%;
+  }
+  .col-lg-pull-4 {
+    right: 33.33333333333333%;
+  }
+  .col-lg-pull-3 {
+    right: 25%;
+  }
+  .col-lg-pull-2 {
+    right: 16.666666666666664%;
+  }
+  .col-lg-pull-1 {
+    right: 8.333333333333332%;
+  }
+  .col-lg-pull-0 {
+    right: 0;
+  }
+  .col-lg-push-12 {
+    left: 100%;
+  }
+  .col-lg-push-11 {
+    left: 91.66666666666666%;
+  }
+  .col-lg-push-10 {
+    left: 83.33333333333334%;
+  }
+  .col-lg-push-9 {
+    left: 75%;
+  }
+  .col-lg-push-8 {
+    left: 66.66666666666666%;
+  }
+  .col-lg-push-7 {
+    left: 58.333333333333336%;
+  }
+  .col-lg-push-6 {
+    left: 50%;
+  }
+  .col-lg-push-5 {
+    left: 41.66666666666667%;
+  }
+  .col-lg-push-4 {
+    left: 33.33333333333333%;
+  }
+  .col-lg-push-3 {
+    left: 25%;
+  }
+  .col-lg-push-2 {
+    left: 16.666666666666664%;
+  }
+  .col-lg-push-1 {
+    left: 8.333333333333332%;
+  }
+  .col-lg-push-0 {
+    left: 0;
+  }
+  .col-lg-offset-12 {
+    margin-left: 100%;
+  }
+  .col-lg-offset-11 {
+    margin-left: 91.66666666666666%;
+  }
+  .col-lg-offset-10 {
+    margin-left: 83.33333333333334%;
+  }
+  .col-lg-offset-9 {
+    margin-left: 75%;
+  }
+  .col-lg-offset-8 {
+    margin-left: 66.66666666666666%;
+  }
+  .col-lg-offset-7 {
+    margin-left: 58.333333333333336%;
+  }
+  .col-lg-offset-6 {
+    margin-left: 50%;
+  }
+  .col-lg-offset-5 {
+    margin-left: 41.66666666666667%;
+  }
+  .col-lg-offset-4 {
+    margin-left: 33.33333333333333%;
+  }
+  .col-lg-offset-3 {
+    margin-left: 25%;
+  }
+  .col-lg-offset-2 {
+    margin-left: 16.666666666666664%;
+  }
+  .col-lg-offset-1 {
+    margin-left: 8.333333333333332%;
+  }
+  .col-lg-offset-0 {
+    margin-left: 0;
+  }
+}		/*	TYPOGRAPHY	*/
+/*
+ * Headings
+ * Body copy
+ * Emphasis
+ * Abbreviations
+ * Addresses
+ * Blockquotes
+ * Lists
+*/
+
+/*Fonts*/
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Open Sans Light'), local('OpenSans-Light'), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTaRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Open Sans'), local('OpenSans'), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3bO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+.OpenSans { font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-weight: 300; }
+.OpenSans.normal { font-weight: 400; }
+.OpenSans.bold { font-weight: 700; }
+
+/*Headings*/
+.container h1 { font-size: 36px; margin-bottom: 10px; }
+.container h2 { font-size: 30px; margin-bottom: 10px; }
+.container h3 { font-size: 22px; margin-bottom: 10px; }
+.container h4 { font-size: 18px; margin-bottom: 10px; }
+.container h5 { font-size: 14px; margin-bottom: 10px; }
+.container h6 { font-size: 12px; margin-bottom: 10px; }
+.container h1 .subtext,
+.container h2 .subtext,
+.container h3 .subtext,
+.container h4 .subtext,
+.container h5 .subtext,
+.container h6 .subtext { font-size: 80%; color: #999; }
+
+.defaultBox h1,
+.defaultBox h2,
+.defaultBox h3,
+.defaultBox h4,
+.defaultBox h5,
+.defaultBox h6 { /*padding: 20px;*/ }
+
+/*Text align*/
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+.text-uppercase { text-transform: uppercase; }
+
+
+/*Emphasis*/
+.lead { margin-bottom: 20px; font-size: 16px; font-weight: 200; line-height: 1.4; }
+@media (min-width: 768px) {
+  .lead { font-size: 21px; }
+}
+small, .small { font-size: 85%; }
+cite { font-style: normal; }
+
+.text-muted { color: #999; }
+.text-primary { color: #333; }
+.text-success { color: #468847; }
+.text-info { color: #09c; }
+.text-warning { color: #C09853; }
+.text-danger { color: #B94A48; }
+
+.bg-primary { color: #fff; background-color: #428bca; }
+.bg-success { color: #fff; background-color: #468847; }
+.bg-info { color: #fff; background-color: #09c; }
+.bg-warning { color: #222; background-color: #C09853; }
+.bg-danger { color: #fff; background-color: #B94A48; }
+
+/*Lists*/
+ol.list { list-style: decimal; }
+ul.list, ol.list { margin-top: 0; /*margin-bottom: 10px;*/ }
+ul.list ul, ol.list ul, ul.list ol, ol.list ol { margin-bottom: 0; }
+
+.list > li { /*margin-left: 40px;*/ }
+.list > li > label { vertical-align: baseline; font-size: 80%; text-transform: uppercase; margin: 0 10px 0 0; padding: 0; float: none; }
+
+.list-unstyled { padding-left: 0; list-style: none; }
+.list-inline { padding-left: 0; list-style: none; }
+.list-inline > li { display: inline; vertical-align: text-bottom; margin-right: 40px; }
+.list-inline > li:last-child { margin-right: 0; }
+		/*	ICONS	*/
+/*Glyphicons*/
+@font-face {
+	font-family: 'Glyphicons Halflings';
+	src:	url('/static/fonts/glyphicons-halflings-regular.eot');
+	src:	url('/static/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+			url('/static/fonts/glyphicons-halflings-regular.woff') format('woff'),
+			url('/static/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+			url('/static/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.glyphicon {
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-asterisk:before {
+	content: "\2a";
+}
+.glyphicon-plus:before {
+	content: "\2b";
+}
+.glyphicon-euro:before {
+	content: "\20ac";
+}
+.glyphicon-minus:before {
+	content: "\2212";
+}
+.glyphicon-cloud:before {
+	content: "\2601";
+}
+.glyphicon-envelope:before {
+	content: "\2709";
+}
+.glyphicon-pencil:before {
+	content: "\270f";
+}
+.glyphicon-glass:before {
+	content: "\e001";
+}
+.glyphicon-music:before {
+	content: "\e002";
+}
+.glyphicon-search:before {
+	content: "\e003";
+}
+.glyphicon-heart:before {
+	content: "\e005";
+}
+.glyphicon-star:before {
+	content: "\e006";
+}
+.glyphicon-star-empty:before {
+	content: "\e007";
+}
+.glyphicon-user:before {
+	content: "\e008";
+}
+.glyphicon-film:before {
+	content: "\e009";
+}
+.glyphicon-th-large:before {
+	content: "\e010";
+}
+.glyphicon-th:before {
+	content: "\e011";
+}
+.glyphicon-th-list:before {
+	content: "\e012";
+}
+.glyphicon-ok:before {
+	content: "\e013";
+}
+.glyphicon-remove:before {
+	content: "\e014";
+}
+.glyphicon-zoom-in:before {
+	content: "\e015";
+}
+.glyphicon-zoom-out:before {
+	content: "\e016";
+}
+.glyphicon-off:before {
+	content: "\e017";
+}
+.glyphicon-signal:before {
+	content: "\e018";
+}
+.glyphicon-cog:before {
+	content: "\e019";
+}
+.glyphicon-trash:before {
+	content: "\e020";
+}
+.glyphicon-home:before {
+	content: "\e021";
+}
+.glyphicon-file:before {
+	content: "\e022";
+}
+.glyphicon-time:before {
+	content: "\e023";
+}
+.glyphicon-road:before {
+	content: "\e024";
+}
+.glyphicon-download-alt:before {
+	content: "\e025";
+}
+.glyphicon-download:before {
+	content: "\e026";
+}
+.glyphicon-upload:before {
+	content: "\e027";
+}
+.glyphicon-inbox:before {
+	content: "\e028";
+}
+.glyphicon-play-circle:before {
+	content: "\e029";
+}
+.glyphicon-repeat:before {
+	content: "\e030";
+}
+.glyphicon-refresh:before {
+	content: "\e031";
+}
+.glyphicon-list-alt:before {
+	content: "\e032";
+}
+.glyphicon-lock:before {
+	content: "\e033";
+}
+.glyphicon-flag:before {
+	content: "\e034";
+}
+.glyphicon-headphones:before {
+	content: "\e035";
+}
+.glyphicon-volume-off:before {
+	content: "\e036";
+}
+.glyphicon-volume-down:before {
+	content: "\e037";
+}
+.glyphicon-volume-up:before {
+	content: "\e038";
+}
+.glyphicon-qrcode:before {
+	content: "\e039";
+}
+.glyphicon-barcode:before {
+	content: "\e040";
+}
+.glyphicon-tag:before {
+	content: "\e041";
+}
+.glyphicon-tags:before {
+	content: "\e042";
+}
+.glyphicon-book:before {
+	content: "\e043";
+}
+.glyphicon-bookmark:before {
+	content: "\e044";
+}
+.glyphicon-print:before {
+	content: "\e045";
+}
+.glyphicon-camera:before {
+	content: "\e046";
+}
+.glyphicon-font:before {
+	content: "\e047";
+}
+.glyphicon-bold:before {
+	content: "\e048";
+}
+.glyphicon-italic:before {
+	content: "\e049";
+}
+.glyphicon-text-height:before {
+	content: "\e050";
+}
+.glyphicon-text-width:before {
+	content: "\e051";
+}
+.glyphicon-align-left:before {
+	content: "\e052";
+}
+.glyphicon-align-center:before {
+	content: "\e053";
+}
+.glyphicon-align-right:before {
+	content: "\e054";
+}
+.glyphicon-align-justify:before {
+	content: "\e055";
+}
+.glyphicon-list:before {
+	content: "\e056";
+}
+.glyphicon-indent-left:before {
+	content: "\e057";
+}
+.glyphicon-indent-right:before {
+	content: "\e058";
+}
+.glyphicon-facetime-video:before {
+	content: "\e059";
+}
+.glyphicon-picture:before {
+	content: "\e060";
+}
+.glyphicon-map-marker:before {
+	content: "\e062";
+}
+.glyphicon-adjust:before {
+	content: "\e063";
+}
+.glyphicon-tint:before {
+	content: "\e064";
+}
+.glyphicon-edit:before {
+	content: "\e065";
+}
+.glyphicon-share:before {
+	content: "\e066";
+}
+.glyphicon-check:before {
+	content: "\e067";
+}
+.glyphicon-move:before {
+	content: "\e068";
+}
+.glyphicon-step-backward:before {
+	content: "\e069";
+}
+.glyphicon-fast-backward:before {
+	content: "\e070";
+}
+.glyphicon-backward:before {
+	content: "\e071";
+}
+.glyphicon-play:before {
+	content: "\e072";
+}
+.glyphicon-pause:before {
+	content: "\e073";
+}
+.glyphicon-stop:before {
+	content: "\e074";
+}
+.glyphicon-forward:before {
+	content: "\e075";
+}
+.glyphicon-fast-forward:before {
+	content: "\e076";
+}
+.glyphicon-step-forward:before {
+	content: "\e077";
+}
+.glyphicon-eject:before {
+	content: "\e078";
+}
+.glyphicon-chevron-left:before {
+	content: "\e079";
+}
+.glyphicon-chevron-right:before {
+	content: "\e080";
+}
+.glyphicon-plus-sign:before {
+	content: "\e081";
+}
+.glyphicon-minus-sign:before {
+	content: "\e082";
+}
+.glyphicon-remove-sign:before {
+	content: "\e083";
+}
+.glyphicon-ok-sign:before {
+	content: "\e084";
+}
+.glyphicon-question-sign:before {
+	content: "\e085";
+}
+.glyphicon-info-sign:before {
+	content: "\e086";
+}
+.glyphicon-screenshot:before {
+	content: "\e087";
+}
+.glyphicon-remove-circle:before {
+	content: "\e088";
+}
+.glyphicon-ok-circle:before {
+	content: "\e089";
+}
+.glyphicon-ban-circle:before {
+	content: "\e090";
+}
+.glyphicon-arrow-left:before {
+	content: "\e091";
+}
+.glyphicon-arrow-right:before {
+	content: "\e092";
+}
+.glyphicon-arrow-up:before {
+	content: "\e093";
+}
+.glyphicon-arrow-down:before {
+	content: "\e094";
+}
+.glyphicon-share-alt:before {
+	content: "\e095";
+}
+.glyphicon-resize-full:before {
+	content: "\e096";
+}
+.glyphicon-resize-small:before {
+	content: "\e097";
+}
+.glyphicon-exclamation-sign:before {
+	content: "\e101";
+}
+.glyphicon-gift:before {
+	content: "\e102";
+}
+.glyphicon-leaf:before {
+	content: "\e103";
+}
+.glyphicon-fire:before {
+	content: "\e104";
+}
+.glyphicon-eye-open:before {
+	content: "\e105";
+}
+.glyphicon-eye-close:before {
+	content: "\e106";
+}
+.glyphicon-warning-sign:before {
+	content: "\e107";
+}
+.glyphicon-plane:before {
+	content: "\e108";
+}
+.glyphicon-calendar:before {
+	content: "\e109";
+}
+.glyphicon-random:before {
+	content: "\e110";
+}
+.glyphicon-comment:before {
+	content: "\e111";
+}
+.glyphicon-magnet:before {
+	content: "\e112";
+}
+.glyphicon-chevron-up:before {
+	content: "\e113";
+}
+.glyphicon-chevron-down:before {
+	content: "\e114";
+}
+.glyphicon-retweet:before {
+	content: "\e115";
+}
+.glyphicon-shopping-cart:before {
+	content: "\e116";
+}
+.glyphicon-folder-close:before {
+	content: "\e117";
+}
+.glyphicon-folder-open:before {
+	content: "\e118";
+}
+.glyphicon-resize-vertical:before {
+	content: "\e119";
+}
+.glyphicon-resize-horizontal:before {
+	content: "\e120";
+}
+.glyphicon-hdd:before {
+	content: "\e121";
+}
+.glyphicon-bullhorn:before {
+	content: "\e122";
+}
+.glyphicon-bell:before {
+	content: "\e123";
+}
+.glyphicon-certificate:before {
+	content: "\e124";
+}
+.glyphicon-thumbs-up:before {
+	content: "\e125";
+}
+.glyphicon-thumbs-down:before {
+	content: "\e126";
+}
+.glyphicon-hand-right:before {
+	content: "\e127";
+}
+.glyphicon-hand-left:before {
+	content: "\e128";
+}
+.glyphicon-hand-up:before {
+	content: "\e129";
+}
+.glyphicon-hand-down:before {
+	content: "\e130";
+}
+.glyphicon-circle-arrow-right:before {
+	content: "\e131";
+}
+.glyphicon-circle-arrow-left:before {
+	content: "\e132";
+}
+.glyphicon-circle-arrow-up:before {
+	content: "\e133";
+}
+.glyphicon-circle-arrow-down:before {
+	content: "\e134";
+}
+.glyphicon-globe:before {
+	content: "\e135";
+}
+.glyphicon-wrench:before {
+	content: "\e136";
+}
+.glyphicon-tasks:before {
+	content: "\e137";
+}
+.glyphicon-filter:before {
+	content: "\e138";
+}
+.glyphicon-briefcase:before {
+	content: "\e139";
+}
+.glyphicon-fullscreen:before {
+	content: "\e140";
+}
+.glyphicon-dashboard:before {
+	content: "\e141";
+}
+.glyphicon-paperclip:before {
+	content: "\e142";
+}
+.glyphicon-heart-empty:before {
+	content: "\e143";
+}
+.glyphicon-link:before {
+	content: "\e144";
+}
+.glyphicon-phone:before {
+	content: "\e145";
+}
+.glyphicon-pushpin:before {
+	content: "\e146";
+}
+.glyphicon-usd:before {
+	content: "\e148";
+}
+.glyphicon-gbp:before {
+	content: "\e149";
+}
+.glyphicon-sort:before {
+	content: "\e150";
+}
+.glyphicon-sort-by-alphabet:before {
+	content: "\e151";
+}
+.glyphicon-sort-by-alphabet-alt:before {
+	content: "\e152";
+}
+.glyphicon-sort-by-order:before {
+	content: "\e153";
+}
+.glyphicon-sort-by-order-alt:before {
+	content: "\e154";
+}
+.glyphicon-sort-by-attributes:before {
+	content: "\e155";
+}
+.glyphicon-sort-by-attributes-alt:before {
+	content: "\e156";
+}
+.glyphicon-unchecked:before {
+	content: "\e157";
+}
+.glyphicon-expand:before {
+	content: "\e158";
+}
+.glyphicon-collapse-down:before {
+	content: "\e159";
+}
+.glyphicon-collapse-up:before {
+	content: "\e160";
+}
+.glyphicon-log-in:before {
+	content: "\e161";
+}
+.glyphicon-flash:before {
+	content: "\e162";
+}
+.glyphicon-log-out:before {
+	content: "\e163";
+}
+.glyphicon-new-window:before {
+	content: "\e164";
+}
+.glyphicon-record:before {
+	content: "\e165";
+}
+.glyphicon-save:before {
+	content: "\e166";
+}
+.glyphicon-open:before {
+	content: "\e167";
+}
+.glyphicon-saved:before {
+	content: "\e168";
+}
+.glyphicon-import:before {
+	content: "\e169";
+}
+.glyphicon-export:before {
+	content: "\e170";
+}
+.glyphicon-send:before {
+	content: "\e171";
+}
+.glyphicon-floppy-disk:before {
+	content: "\e172";
+}
+.glyphicon-floppy-saved:before {
+	content: "\e173";
+}
+.glyphicon-floppy-remove:before {
+	content: "\e174";
+}
+.glyphicon-floppy-save:before {
+	content: "\e175";
+}
+.glyphicon-floppy-open:before {
+	content: "\e176";
+}
+.glyphicon-credit-card:before {
+	content: "\e177";
+}
+.glyphicon-transfer:before {
+	content: "\e178";
+}
+.glyphicon-cutlery:before {
+	content: "\e179";
+}
+.glyphicon-header:before {
+	content: "\e180";
+}
+.glyphicon-compressed:before {
+	content: "\e181";
+}
+.glyphicon-earphone:before {
+	content: "\e182";
+}
+.glyphicon-phone-alt:before {
+	content: "\e183";
+}
+.glyphicon-tower:before {
+	content: "\e184";
+}
+.glyphicon-stats:before {
+	content: "\e185";
+}
+.glyphicon-sd-video:before {
+	content: "\e186";
+}
+.glyphicon-hd-video:before {
+	content: "\e187";
+}
+.glyphicon-subtitles:before {
+	content: "\e188";
+}
+.glyphicon-sound-stereo:before {
+	content: "\e189";
+}
+.glyphicon-sound-dolby:before {
+	content: "\e190";
+}
+.glyphicon-sound-5-1:before {
+	content: "\e191";
+}
+.glyphicon-sound-6-1:before {
+	content: "\e192";
+}
+.glyphicon-sound-7-1:before {
+	content: "\e193";
+}
+.glyphicon-copyright-mark:before {
+	content: "\e194";
+}
+.glyphicon-registration-mark:before {
+	content: "\e195";
+}
+.glyphicon-cloud-download:before {
+	content: "\e197";
+}
+.glyphicon-cloud-upload:before {
+	content: "\e198";
+}
+.glyphicon-tree-conifer:before {
+	content: "\e199";
+}
+.glyphicon-tree-deciduous:before {
+	content: "\e200";
+}		
+fieldset {
+	min-width: 0;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+legend {
+	display: block;
+	width: 100%;
+	padding: 0;
+	margin-bottom: 20px;
+	font-size: 21px;
+	line-height: inherit;
+	color: #333;
+	border: 0;
+	border-bottom: 1px solid #e5e5e5;
+}
+label {
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+input[type="search"] {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+input[type="radio"],
+input[type="checkbox"] {
+	margin: 4px 0 0;
+	margin-top: 1px \9;
+	line-height: normal;
+}
+input[type="file"] {
+	display: block;
+}
+input[type="range"] {
+	display: block;
+	width: 100%;
+}
+select[multiple],
+select[size] {
+	height: auto;
+}
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+	outline: thin dotted;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px;
+}
+output {
+	display: block;
+	padding-top: 7px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+}
+.form-control {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.form-control:focus {
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+.form-control::-moz-placeholder {
+	color: #777;
+	opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+	color: #777;
+}
+.form-control::-webkit-input-placeholder {
+	color: #777;
+}
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+	cursor: not-allowed;
+	background-color: #eee;
+	opacity: 1;
+}
+textarea.form-control {
+	height: auto;
+}
+input[type="search"] {
+	-webkit-appearance: none;
+}
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"] {
+	line-height: 34px;
+	line-height: 1.42857143 \0;
+}
+input[type="date"].input-sm,
+input[type="time"].input-sm,
+input[type="datetime-local"].input-sm,
+input[type="month"].input-sm {
+	line-height: 30px;
+}
+input[type="date"].input-lg,
+input[type="time"].input-lg,
+input[type="datetime-local"].input-lg,
+input[type="month"].input-lg {
+	line-height: 46px;
+}
+.form-group {
+	margin-bottom: 15px;
+}
+.radio,
+.checkbox {
+	position: relative;
+	display: block;
+	min-height: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.radio label,
+.checkbox label {
+	padding-left: 20px;
+	margin-bottom: 0;
+	font-weight: normal;
+	cursor: pointer;
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+	position: absolute;
+	margin-top: 4px \9;
+	margin-left: -20px;
+}
+.radio + .radio,
+.checkbox + .checkbox {
+	margin-top: -5px;
+}
+.radio-inline,
+.checkbox-inline {
+	display: inline-block;
+	padding-left: 20px;
+	margin-bottom: 0;
+	font-weight: normal;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.radio-inline + .radio-inline,
+.checkbox-inline + .checkbox-inline {
+	margin-top: 0;
+	margin-left: 10px;
+}
+input[type="radio"][disabled],
+input[type="checkbox"][disabled],
+input[type="radio"].disabled,
+input[type="checkbox"].disabled,
+fieldset[disabled] input[type="radio"],
+fieldset[disabled] input[type="checkbox"] {
+	cursor: not-allowed;
+}
+.radio-inline.disabled,
+.checkbox-inline.disabled,
+fieldset[disabled] .radio-inline,
+fieldset[disabled] .checkbox-inline {
+	cursor: not-allowed;
+}
+.radio.disabled label,
+.checkbox.disabled label,
+fieldset[disabled] .radio label,
+fieldset[disabled] .checkbox label {
+	cursor: not-allowed;
+}
+.form-control-static {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	margin-bottom: 0;
+}
+.form-control-static.input-lg,
+.form-control-static.input-sm {
+	padding-right: 0;
+	padding-left: 0;
+}
+.input-sm,
+.form-horizontal .form-group-sm .form-control {
+	height: 30px;
+	padding: 5px 10px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 3px;
+}
+select.input-sm {
+	height: 30px;
+	line-height: 30px;
+}
+textarea.input-sm,
+select[multiple].input-sm {
+	height: auto;
+}
+.input-lg,
+.form-horizontal .form-group-lg .form-control {
+	height: 46px;
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 6px;
+}
+select.input-lg {
+	height: 46px;
+	line-height: 46px;
+}
+textarea.input-lg,
+select[multiple].input-lg {
+	height: auto;
+}
+.has-feedback {
+	position: relative;
+}
+.has-feedback .form-control {
+	padding-right: 42.5px;
+}
+.form-control-feedback {
+	position: absolute;
+	top: 25px;
+	right: 0;
+	z-index: 2;
+	display: block;
+	width: 34px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+}
+.input-lg + .form-control-feedback {
+	width: 46px;
+	height: 46px;
+	line-height: 46px;
+}
+.input-sm + .form-control-feedback {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+}
+.has-success .help-block,
+.has-success .control-label,
+.has-success .radio,
+.has-success .checkbox,
+.has-success .radio-inline,
+.has-success .checkbox-inline {
+	color: #3c763d;
+}
+.has-success .form-control {
+	border-color: #3c763d;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-success .form-control:focus {
+	border-color: #2b542c;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+}
+.has-success .input-group-addon {
+	color: #3c763d;
+	background-color: #dff0d8;
+	border-color: #3c763d;
+}
+.has-success .form-control-feedback {
+	color: #3c763d;
+}
+.has-warning .help-block,
+.has-warning .control-label,
+.has-warning .radio,
+.has-warning .checkbox,
+.has-warning .radio-inline,
+.has-warning .checkbox-inline {
+	color: #8a6d3b;
+}
+.has-warning .form-control {
+	border-color: #8a6d3b;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-warning .form-control:focus {
+	border-color: #66512c;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;
+}
+.has-warning .input-group-addon {
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+	border-color: #8a6d3b;
+}
+.has-warning .form-control-feedback {
+	color: #8a6d3b;
+}
+.has-error .help-block,
+.has-error .control-label,
+.has-error .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline {
+	color: #a94442;
+}
+.has-error .form-control {
+	border-color: #a94442;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-error .form-control:focus {
+	border-color: #843534;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+.has-error .input-group-addon {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #a94442;
+}
+.has-error .form-control-feedback {
+	color: #a94442;
+}
+.has-feedback label.sr-only ~ .form-control-feedback {
+	top: 0;
+}
+.help-block {
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	color: #737373;
+}
+@media (min-width: 768px) {
+	.form-inline .form-group {
+		display: inline-block;
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+	.form-inline .form-control {
+		display: inline-block;
+		width: auto;
+		vertical-align: middle;
+	}
+	.form-inline .input-group {
+		display: inline-table;
+		vertical-align: middle;
+	}
+	.form-inline .input-group .input-group-addon,
+	.form-inline .input-group .input-group-btn,
+	.form-inline .input-group .form-control {
+		width: auto;
+	}
+	.form-inline .input-group > .form-control {
+		width: 100%;
+	}
+	.form-inline .control-label {
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+	.form-inline .radio,
+	.form-inline .checkbox {
+		display: inline-block;
+		margin-top: 0;
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+	.form-inline .radio label,
+	.form-inline .checkbox label {
+		padding-left: 0;
+	}
+	.form-inline .radio input[type="radio"],
+	.form-inline .checkbox input[type="checkbox"] {
+		position: relative;
+		margin-left: 0;
+	}
+	.form-inline .has-feedback .form-control-feedback {
+		top: 0;
+	}
+}
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+	padding-top: 7px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.form-horizontal .radio,
+.form-horizontal .checkbox {
+	min-height: 27px;
+}
+.form-horizontal .form-group {
+	margin-right: -15px;
+	margin-left: -15px;
+}
+@media (min-width: 768px) {
+	.form-horizontal .control-label {
+		padding-top: 7px;
+		margin-bottom: 0;
+		text-align: right;
+	}
+}
+.form-horizontal .has-feedback .form-control-feedback {
+	top: 0;
+	right: 15px;
+}
+@media (min-width: 768px) {
+	.form-horizontal .form-group-lg .control-label {
+		padding-top: 14.3px;
+	}
+}
+@media (min-width: 768px) {
+	.form-horizontal .form-group-sm .control-label {
+		padding-top: 6px;
+	}
+}		
+/*	BLOCK AND BOX	*/
+
+/*Box*/
+.defaultBox { background: #fff; margin: 20px 0 20px 10px; border-bottom: 1px solid #bbb; border-radius: 3px; }
+.defaultBox hr { border: none; border-bottom: 1px solid #ddd; margin: 0; }
+.defaultBox .titleBox {  }
+
+		
+/*	PROGRESS BARS	*/
+/*
+ * Features bar
+ */
+
+@-webkit-keyframes progress-bar-stripes {
+	from {
+		background-position: 40px 0;
+	}
+	to {
+		background-position: 0 0;
+	}
+}
+@-o-keyframes progress-bar-stripes {
+	from {
+		background-position: 40px 0;
+	}
+	to {
+		background-position: 0 0;
+	}
+}
+@keyframes progress-bar-stripes {
+	from {
+		background-position: 40px 0;
+	}
+	to {
+		background-position: 0 0;
+	}
+}
+.progress {
+	height: 20px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	background-color: #f5f5f5;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+.progress-bar {
+	float: left;
+	width: 0;
+	height: 100%;
+	font-size: 12px;
+	line-height: 20px;
+	color: #fff;
+	text-align: center;
+	background-color: #0099cc;
+	-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+	-webkit-transition: width .6s ease;
+	-o-transition: width .6s ease;
+	transition: width .6s ease;
+}
+.progress-striped .progress-bar,
+.progress-bar-striped {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	-webkit-background-size: 40px 40px;
+	background-size: 40px 40px;
+}
+.progress.active .progress-bar,
+.progress-bar.active {
+	-webkit-animation: progress-bar-stripes 2s linear infinite;
+	-o-animation: progress-bar-stripes 2s linear infinite;
+	animation: progress-bar-stripes 2s linear infinite;
+}
+.progress-bar[aria-valuenow="1"],
+.progress-bar[aria-valuenow="2"] {
+	min-width: 30px;
+}
+.progress-bar[aria-valuenow="0"] {
+	min-width: 30px;
+	color: #777;
+	background-color: transparent;
+	background-image: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.progress-bar-success {
+	background-color: #5cb85c;
+}
+.progress-striped .progress-bar-success {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+.progress-bar-info {
+	background-color: #5bc0de;
+}
+.progress-striped .progress-bar-info {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+.progress-bar-warning {
+	background-color: #f0ad4e;
+}
+.progress-striped .progress-bar-warning {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+.progress-bar-danger {
+	background-color: #d9534f;
+}
+.progress-striped .progress-bar-danger {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}	</style>
+	
+<div class="standard-login-module">
+			<div class="has-feedback">
+						<input name="userName" placeholder="Username" type="text" class="userName form-control required-field">
+		</div>
+		<div class="has-feedback">
+				<input name="password" placeholder="Password" type="password" class="password form-control required-field"><span class="glyphicon glyphicon-eye-open eye-visibility form-control-feedback password-visibility"></span>
+	</div>
+
+	<button class="btn btn-primary btn-lg btn-w-lg" type="submit">Login</button>
+
+	<input type="hidden" name="logged" value="on">
+	</div>
+
+	<div><a href="https://controlpanel.amen.fr/password?chglng=fra">Mot de passe oublié?</a></div>
+
+	<div class="subscribe-link">
+		<a href="https://controlpanel.amen.fr/registration.html">Nouveau client? Créez un compte</a>
+	</div>
+		<input type="hidden" name="X-CSRF-TOKEN-7559" value="02f44bd6883b57a778279742ed0f1220"></form>
+	</div>
+</div>
+
+<div class="col-sm-6 col-signin base-font welcome-text-area">
+	<p class="title-md">
+					<strong>Trop de mots de passe à retenir?</strong><br><br>Associez votre profil social à l'Espace Client d'Amen. Vous n'aurez plus à vous rappeler de votre mot de passe et vous aurez un accès sécurisé à votre espace privé à tout moment.<br><br>C'est facile! Cliquez sur le bouton correspondant au réseau social de votre choix et suivez les instructions.		
+			</p>
+</div>
+
+	</div>
+</div>
+
+
+<div class="clear"></div>
+</div> <!-- /.wrapper -->
+</div> <!-- /#content -->
+<script src="https://cdn.hub-prod.team.blue/loader/widget-loader.js" async=""></script><div id="footer">
+	<div class="footer-wrapper">
+		<div class="left clear footer_firstcol">
+			<h3 class="secondTitle spacingTitle footerspacingelements">Amen, keep it simple!</h3>
+			<h4 class="thirdTitle footerspacingelements">Internet transforme nos vies et notre façon de travailler. Voilà pourquoi nous évoluons vers des solutions toujours plus fiables, originales et intuitives</h4>
+
+			<div class="chglng">
+				<ul>
+									</ul>
+			</div>
+			
+			<p class="note">Copyright © 1999 - 2026 Amen France a team blue Company group<br>RCS : 421 527 797 000 11</p>
+
+		</div>
+		<div class="left footer_secondcol">
+			<div class="left firstsubcol">
+				<h5>A propos d'Amen</h5>
+				<ul class="submenu_company">
+                    <li><a href="https://www.amen.fr/a-propos/">Qui sommes-nous ?</a></li>
+<li><a href="https://www.amen.fr/a-propos/information-legale/conditions-generales-de-service/">Conditions Générales</a></li>
+<li><a href="https://www.amen.fr/a-propos/information-legale/cookies/">Règles de confidentialité et cookies</a></li>
+<li><a href="https://www.dada.eu/open_position/">Amen recrute</a></li>
+<li><a href="https://www.amen.fr/a-propos/contacter-amen/">Contactez-nous</a></li>
+<li><a href="https://www.amen.fr/pricelist.html">Nos tarifs</a></li>
+				</ul>
+                <p class="footer_trustpilot">
+                    <!-- TrustBox widget - Mini -->
+<!-- TrustBox script -->
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async=""></script>
+<!-- End TrustBox script -->
+</p><div class="trustpilot-widget clear left" data-locale="fr-FR" data-template-id="53aa8807dec7e10d38f59f32" data-businessunit-id="4a89bf990000640005049086" data-style-height="90px" data-style-width="120px" data-theme="light" data-text-color="#333333" style="position: relative;"><iframe title="Avis clients publiés sur Trustpilot" loading="auto" src="https://widget.trustpilot.com/trustboxes/53aa8807dec7e10d38f59f32/index.html?templateId=53aa8807dec7e10d38f59f32&amp;businessunitId=4a89bf990000640005049086#locale=fr-FR&amp;styleHeight=90px&amp;styleWidth=120px&amp;theme=light&amp;textColor=%23333333" style="position: relative; height: 90px; width: 120px; border-style: none; display: block; overflow: hidden;"></iframe></div>
+<!-- End TrustBox widget -->
+                <p></p>
+			</div>
+			<div class="left secondsubcol">
+				<h5>Information</h5>
+				<p class="note">Nos experts sont disponibles à tout moment pour vous aider !<br>Vous pouvez commander les produits souhaités directement sur notre site ou par téléphone:</p>
+				<p class="footer_phonenumber"><span class="blue">01 70 99 53 41</span><br><br>Du lundi au vendredi 9h - 18h (prix d'un appel local)<br><br></p>
+				
+				<div class="footer-social-network"><a href="http://www.facebook.com/amensas" class="footer-social-network-facebook" onclick="window.open(this.href); return false;" rel="nofollow">Facebook</a><a href="https://twitter.com/amenfrance" class="footer-social-network-twitter" onclick="window.open(this.href); return false;" rel="nofollow">Twitter</a><a href="http://www.linkedin.com/company/amen" class="footer-social-network-linkedin" onclick="window.open(this.href); return false;" rel="publisher">LinkedIn</a><a href="https://www.youtube.com/user/AmenFr" class="footer-social-network-youtube" onclick="window.open(this.href); return false;" rel="publisher">Youtube</a></div>			</div>
+		</div>
+
+			</div>
+
+</div>
+<!-- JS TRACKER INCLUSION -->
+<script type="text/javascript">
+    TRK = {
+        domain: "amen.fr",
+        tkp: "JS",
+        initTime: (new Date()).getTime(),
+        ready: 1,
+        async: 1
+    };
+
+    if( typeof TRK_auto_attach_callback !== 'undefined' &&
+            {}.toString.call(TRK_auto_attach_callback) === '[object Function]')
+    {
+        TRK.callback = TRK_auto_attach_callback;
+    }
+
+    var _dadaq = _dadaq || [];
+    trk_ext = {"ma":1};
+</script>
+<script src="https://trk.amen.fr/js/trk_standalone.js"></script>
+<!-- End JS TRACKER INCLUSION -->
+
+<!-- Google Tag Manager -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('consent', 'default', {
+		'ad_storage': 'denied',
+		'analytics_storage': 'denied',
+		'ad_user_data': 'denied',
+		'ad_personalization': 'denied',
+		'personalization_storage': 'denied',
+		'functionality_storage': 'denied',
+		'wait_for_update': 2000
+	});
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});
+        var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+        j.async=true;
+        j.src= '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-THDLBP');
+</script>
+<noscript>
+    <iframe src="//www.googletagmanager.com/ns.html?id=GTM-THDLBP"
+            height="0" width="0" style="display:none;visibility:hidden">
+    </iframe>
+</noscript>
+<!-- End Google Tag Manager -->
+
+
+        
+
+        
+<img height="0" width="0" alt="" src="//trk.amen.fr/server/he-man_server?tkq=dHJrQ19lU0YlM0Rjb250cm9scGFuZWwuYW1lbi5mciUyNTJGd2VsY29tZS5odG1sJTI2dHJrQ19lU1VCJTNEY29udHJvbHBhbmVsLmFtZW4uZnIlMjZjRE9NJTNELmFtZW4uZnIlMjZ0cmtDX2VIUiUzRGh0dHBzJTI1M0ElMjUyRiUyNTJGY29udHJvbHBhbmVsLmFtZW4uZnIlMjUyRndlbGNvbWUuaHRtbCUyNnRya0NfZVVBJTNETW96aWxsYSUyNTJGNS4wJTI1MjAlMjhXaW5kb3dzJTI1MjBOVCUyNTIwMTAuMCUyNTNCJTI1MjBXaW42NCUyNTNCJTI1MjB4NjQlMjklMjUyMEFwcGxlV2ViS2l0JTI1MkY1MzcuMzYlMjUyMCUyOEtIVE1MJTI1MkMlMjUyMGxpa2UlMjUyMEdlY2tvJTI5JTI1MjBIZWFkbGVzc0Nocm9tZSUyNTJGMTQ4LjAuMC4wJTI1MjBTYWZhcmklMjUyRjUzNy4zNiUyNnRya0NfbGFuJTNEZnIlMjZ0cmtDX2VRUyUzRCUyNnRya0NfZnJhZ21lbnQlM0QlMjZlUEFHVkFSUyUzRGJXRWxNMFF4SlRJMmRISnJRMTlzYjJkblpXUWxNMFF3SlRJMmRISnJRMTlvWVhOb0pUTkVNVGMzT1RnNE1UWTJNRGsyTWw5c09EWjNlVEJzYm1kc2NWOTFZbXgyTUhBbE1qWjBjbXREWDNCeWNTVXpSREFsTWpaMGNtdERYMlZSVXlVelJBJTI1M0QlMjUzRCUyNnRya19pbnRlcm5hbCUzRGZhbHNlJTI2c2V0TWFpbkNvb2tpZXMlM0R0cnVl" style="display: none;"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "url": "http://www.amen.fr",
+    "logo": "https://wmail.amen.fr/wam_themes/amen.fr/_img/logo.png"
+  }
+  </script><script type="application/ld+json">
+{ "@context" : "http://schema.org",
+  "@type" : "Organization",
+  "url" : "http://www.amen.fr",
+  "contactPoint" : [
+    { "@type" : "ContactPoint",
+      "telephone" : "+33-081-188-7766",
+      "contactType" : "customer service",
+       "availableLanguage" : ["French"]
+    } ] }, {
+      "@type" : "ContactPoint",
+      "telephone" : "+33-081-188-7766",
+      "contactType" : "sales",
+       "availableLanguage" : ["French"]
+    } ] }
+</script><script type="application/ld+json">
+{ "@context" : "http://schema.org",
+  "@type" : "Organization",
+  "name" : "Amen",
+  "url" : "http://www.amen.fr",
+  "sameAs" : [ "https://www.facebook.com/amensas",
+    "https://twitter.com/amenfrance",
+    "https://www.linkedin.com/company/amen",
+    "https://www.youtube.com/user/AmenFr",
+    "https://plus.google.com/u/0/+amenfr/"]
+}
+</script><script type="text/javascript" id="" charset="">function googleDataLayer(a,b,c){dataLayer.push({event:"GAevent",eventCategory:a,eventAction:b,eventLabel:c})};</script><script type="text/javascript" id="" charset="">var trackingfunction=function(){var a=jQuery(this);a=a.attr("data-track-click").split("|");var b=a[0],c=a[1],d=a[2];setTimeout(function(){googleDataLayer(b,c,d)},100)};if(jQuery.fn.live)jQuery("[data-track-click]").live("click",trackingfunction);else jQuery("[data-track-click]").on("click",trackingfunction);</script>
+<script type="text/javascript" id="" charset="">function loadScript(b){var c=document.getElementsByTagName("head")[0],a=document.createElement("script");a.type="text/javascript";a.src="https://tracker.metricool.com/resources/be.js";a.onreadystatechange=b;a.onload=b;c.appendChild(a)}loadScript(function(){beTracker.t({hash:"c4d9142804125871d3508f446b9be42e"})});</script>
+<script type="text/javascript" id="" charset="">!function(d,e,f,a,b,c){d.twq||(a=d.twq=function(){a.exe?a.exe.apply(a,arguments):a.queue.push(arguments)},a.version="1.1",a.queue=[],b=e.createElement(f),b.async=!0,b.src="//static.ads-twitter.com/uwt.js",c=e.getElementsByTagName(f)[0],c.parentNode.insertBefore(b,c))}(window,document,"script");twq("init","o8qtt");twq("track","PageView");</script>
+<script type="text/javascript" id="" charset="">(function(){var a=document.createElement("script"),b=document.body?document.body:document.querySelector("head");a.src="https://eu.acsbapp.com/apps/app/dist/js/app.js";a.async=!0;a.onload=function(){acsbJS.init({statementLink:"",footerHtml:'\x3ca href\x3d"https://www.accessiway.com/" target\x3d"_blank"\x3eAccessiWay. The Web Accessibility Solution\x3c/a\x3e',hideMobile:!1,hideTrigger:!1,language:"en",position:"left",leadColor:"#0069fb",triggerColor:"#004fce",triggerRadius:"50%",triggerPositionX:"left",
+triggerPositionY:"bottom",triggerIcon:"people",triggerSize:"medium",triggerOffsetX:20,triggerOffsetY:20,mobile:{triggerSize:"medium",triggerPositionX:"left",triggerPositionY:"bottom",triggerOffsetX:10,triggerOffsetY:10,triggerRadius:"50%"}})};b.appendChild(a)})();</script><script src="https://eu.acsbapp.com/apps/app/dist/js/app.js" async=""></script><script type="text/javascript" id="" charset="">(function(){var a=google_tag_manager["rm"]["608646"](12),c=google_tag_manager["rm"]["608646"](15),b=document.createElement("script");b.src="https://cdn.hub-prod.team.blue/loader/widget-loader.js";b.async=!0;a&&a!==null&&a!==""&&b.setAttribute("data-email",String(a));c&&b.setAttribute("data-footer","hidden");(a=document.querySelector("footer, #footer"))&&a.parentNode&&a.parentNode.insertBefore(b,a)})();</script><img height="0" width="0" alt="" src="//trk.amen.fr/messages/he-man_messages?tke=JTdCJTIyaGFzaCUyMiUzQSUyMjE3Nzk4ODE2NjA5NjJfbDg2d3kwbG5nbHFfdWJsdjBwJTIyJTJDJTIyZG9tYWluJTIyJTNBJTIyYW1lbi5mciUyMiUyQyUyMmZpZWxkJTIyJTNBJTIybWF0aCUyMiUyQyUyMm1vZGUlMjIlM0ElMjJzZXQlMjIlMkMlMjJtZXNzYWdlJTIyJTNBJTdCJTIydHJhY2tlcl92ZXJzaW9uJTIyJTNBJTIyMi4xLjc3JTIyJTJDJTIycXMlMjIlM0ElN0IlN0QlMkMlMjJwYWdlJTIyJTNBJTIyY29udHJvbHBhbmVsLmFtZW4uZnIvd2VsY29tZS5odG1sJTIyJTJDJTIydXNlcl9hZ2VudCUyMiUzQSUyMk1vemlsbGEvNS4wJTIwJTI4V2luZG93cyUyME5UJTIwMTAuMCUzQiUyMFdpbjY0JTNCJTIweDY0JTI5JTIwQXBwbGVXZWJLaXQvNTM3LjM2JTIwJTI4S0hUTUwlMkMlMjBsaWtlJTIwR2Vja28lMjklMjBIZWFkbGVzc0Nocm9tZS8xNDguMC4wLjAlMjBTYWZhcmkvNTM3LjM2JTIyJTJDJTIydHJrX2ludGVybmFsJTIyJTNBZmFsc2UlMkMlMjJyZXNvbHV0aW9uJTIyJTNBJTdCJTIyaGVpZ2h0JTIyJTNBNzY4JTJDJTIyd2lkdGglMjIlM0ExMzY2JTdEJTJDJTIyY29va2llX2lkJTIyJTNBJTIyZTdkNjJmZGJjMmNmMThiYmRjNmEwODU1YmMxOGZiY2ElMjIlMkMlMjJmcCUyMiUzQSUyMjAxOTE1NzJlZGQ2ODM2YmE3YjgwZTY1MThjOGU3OWYxJTIyJTdEJTdE" style="display: none;"><iframe role="presentation" srcdoc="&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;title&gt;apiSanitizer&lt;/title&gt;&lt;/head&gt;&lt;/body&gt;&lt;/html&gt;" style="visibility: hidden; pointer-events: none; position: fixed;"></iframe><div id="teamblue-widget-container"><iframe src="https://cdn.hub-prod.team.blue/widget/index.html?parentOrigin=https%3A%2F%2Fcontrolpanel.amen.fr" loading="eager" fetchpriority="low" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms" allow="autoplay; fullscreen" referrerpolicy="no-referrer-when-downgrade" title="Team Blue Widget" aria-hidden="true" style="width: 100%; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; display: block; overflow: hidden; height: 714px;"></iframe></div><img src="https://t.co/i/adsct?bci=3&amp;dv=Europe%2FParis%26fr-FR%26Google%20Inc.%26Win32%26255%261366%26768%268%2624%261366%26768%260%26na&amp;eci=2&amp;event_id=7a5c9397-0db2-4964-8a85-2c13cd1b221d&amp;events=%5B%5B%22pageview%22%2C%7B%7D%5D%5D&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=ab392077-05fb-4e65-b4ac-3971e461880e&amp;pt=Espace%20client&amp;tw_document_href=https%3A%2F%2Fcontrolpanel.amen.fr%2Fwelcome.html&amp;tw_iframe_status=0&amp;tw_order_quantity=0&amp;tw_pid_src=2&amp;tw_sale_amount=0&amp;twpid=tw.1779881657461.380066070323663477&amp;txn_id=o8qtt&amp;type=javascript&amp;version=2.3.53" height="1" width="1" fetchpriority="high" style="display: none;"><img src="https://analytics.twitter.com/i/adsct?bci=3&amp;dv=Europe%2FParis%26fr-FR%26Google%20Inc.%26Win32%26255%261366%26768%268%2624%261366%26768%260%26na&amp;eci=2&amp;event_id=7a5c9397-0db2-4964-8a85-2c13cd1b221d&amp;events=%5B%5B%22pageview%22%2C%7B%7D%5D%5D&amp;integration=advertiser&amp;p_id=Twitter&amp;p_user_id=0&amp;pl_id=ab392077-05fb-4e65-b4ac-3971e461880e&amp;pt=Espace%20client&amp;tw_document_href=https%3A%2F%2Fcontrolpanel.amen.fr%2Fwelcome.html&amp;tw_iframe_status=0&amp;tw_order_quantity=0&amp;tw_pid_src=2&amp;tw_sale_amount=0&amp;twpid=tw.1779881657461.380066070323663477&amp;txn_id=o8qtt&amp;type=javascript&amp;version=2.3.53" height="1" width="1" fetchpriority="high" style="display: none;"><img height="0" width="0" alt="" src="//trk.amen.fr/messages/he-man_messages?tke=JTdCJTIyaGFzaCUyMiUzQSUyMjE3Nzk4ODE2NjA5NjJfbDg2d3kwbG5nbHFfdWJsdjBwJTIyJTJDJTIyZG9tYWluJTIyJTNBJTIyYW1lbi5mciUyMiUyQyUyMmZpZWxkJTIyJTNBJTIycGVyZm9ybWFuY2UlMjIlMkMlMjJtb2RlJTIyJTNBJTIyc2V0JTIyJTJDJTIybWVzc2FnZSUyMiUzQSU3QiUyMnRpbWluZ3MlMjIlM0ElN0IlMjJwYWdlTG9hZFRpbWUlMjIlM0EzNTU0JTJDJTIyY29ubmVjdFRpbWUlMjIlM0EzOTAlMkMlMjJyZW5kZXJUaW1lJTIyJTNBMTE4NSU3RCUyQyUyMnJlc291cmNlcyUyMiUzQSU3QiUyMm51bWJlciUyMiUzQTUwJTJDJTIyc2l6ZSUyMiUzQTY1NDEyOSU3RCUyQyUyMnBhZ2UlMjIlM0ElMjJjb250cm9scGFuZWwuYW1lbi5mci93ZWxjb21lLmh0bWwlMjIlMkMlMjJ1c2VyX2FnZW50JTIyJTNBJTIyTW96aWxsYS81LjAlMjAlMjhXaW5kb3dzJTIwTlQlMjAxMC4wJTNCJTIwV2luNjQlM0IlMjB4NjQlMjklMjBBcHBsZVdlYktpdC81MzcuMzYlMjAlMjhLSFRNTCUyQyUyMGxpa2UlMjBHZWNrbyUyOSUyMEhlYWRsZXNzQ2hyb21lLzE0OC4wLjAuMCUyMFNhZmFyaS81MzcuMzYlMjIlN0QlN0Q=" style="display: none;"></body></html>

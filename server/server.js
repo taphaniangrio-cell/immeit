@@ -205,6 +205,7 @@ app.use((req, res, next) => {
 
 app.get('/home', (_req, res) => res.redirect(301, '/'));
 app.get('/home.html', (_req, res) => res.redirect(301, '/'));
+app.get('/index.html', (_req, res) => res.redirect(301, '/'));
 
 app.use(express.static(path.join(__dirname, '..'), {
   dotfiles: 'ignore',
