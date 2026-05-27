@@ -2899,16 +2899,15 @@ img {
   color: var(--text-light);
   font-size: 0.82rem;
   line-height: 1.5;
-  padding: 4px 0 4px 20px;
+  padding: 3px 0 3px 18px;
   position: relative;
 }
 
 .flip-card__back li::before {
-  content: '▸';
+  content: '•';
   position: absolute;
   left: 0;
   color: var(--accent);
-  font-size: 0.9rem;
 }
 
 .flip-card__back a:not(.btn) {
