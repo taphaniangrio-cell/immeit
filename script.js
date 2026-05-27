@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var ns = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('viewBox', '0 0 200 200');
-    svg.style.cssText = 'position:absolute;top:2%;right:2%;width:260px;height:260px;display:block;overflow:visible';
-    svg.style.animation = 'spin 24s linear infinite';
+    svg.style.cssText = 'position:absolute;top:2%;right:2%;width:180px;height:180px;display:block;overflow:visible';
+    svg.style.animation = 'spin 60s linear infinite';
     svg.classList.add('hero__gear');
     var defs = document.createElementNS(ns, 'defs');
     function addGrad(id, cx, cy, r, stops) {
