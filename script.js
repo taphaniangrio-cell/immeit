@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // IMMEIT TUNNEL URL - mis a jour automatiquement
 window.IMMEIT_API_URL = 'https://coffee-posts-adrian-rank.trycloudflare.com';
 // FIN IMMEIT TUNNEL URL
-  // IMMEIT TUNNEL URL - mis a jour automatiquement
-window.IMMEIT_API_URL = 'https://coffee-posts-adrian-rank.trycloudflare.com';
-// FIN IMMEIT TUNNEL URL
 
   // ===== Loader =====
   const loader = document.getElementById('loader');
@@ -503,14 +500,14 @@ window.IMMEIT_API_URL = 'https://coffee-posts-adrian-rank.trycloudflare.com';
       return cachedApiUrl;
     }
 
-    if (window.IMMEIT_API_URL) {
-      cachedApiUrl = window.IMMEIT_API_URL + '/api/contact';
-      return cachedApiUrl;
-    }
-
     const host = window.location.hostname;
     if (host === 'localhost' || host === '127.0.0.1') {
       cachedApiUrl = window.location.origin + '/api/contact';
+      return cachedApiUrl;
+    }
+
+    if (window.IMMEIT_API_URL) {
+      cachedApiUrl = window.IMMEIT_API_URL + '/api/contact';
       return cachedApiUrl;
     }
 

@@ -114,22 +114,21 @@ function Update-ScriptJs {
     $files = @($ScriptJsFile)
     if (Test-Path $DistScriptJsFile) { $files += $DistScriptJsFile }
 
-    $markerStart = "// IMMEIT TUNNEL URL - mis a jour automatiquement"
-    $markerEnd = "// FIN IMMEIT TUNNEL URL"
-    $injection = "$markerStart`nwindow.IMMEIT_API_URL = '$TunnelUrl';`n$markerEnd"
+    $markerStart = "// IMMEIT TUNNEL URL"
+    $injection = "  ${markerStart} - mis a jour automatiquement`nwindow.IMMEIT_API_URL = '$TunnelUrl';`n  // FIN IMMEIT TUNNEL URL`n"
 
     foreach ($f in $files) {
         try {
             $content = Get-Content $f -Raw
+            $oldMarker = [regex]::Escape("// IMMEIT TUNNEL URL - mis a jour automatiquement")
+            $pattern = "(?s)$oldMarker.*?// FIN IMMEIT TUNNEL URL"
 
-            if ($content -match "$markerStart.*$markerEnd") {
-                $pattern = "$markerStart.*$markerEnd"
-                $content = $content -replace $pattern, $injection
+            if ($content -match $pattern) {
+                $content = $content -replace $pattern, $injection.TrimEnd()
                 Set-Content -Path $f -Value $content -NoNewline
                 Write-Log "IMMEIT_API_URL mis a jour: $TunnelUrl -> $f"
-            } else {
-                $insertAfter = "DOMContentLoaded"
-                $content = $content -replace "(document.addEventListener\('DOMContentLoaded', \(\) => \{)", "`$1`n  $injection"
+            } elseif ($content -match "DOMContentLoaded") {
+                $content = $content -replace "(document.addEventListener\('DOMContentLoaded', \(\) => \{)", "`$1`n$injection"
                 Set-Content -Path $f -Value $content -NoNewline
                 Write-Log "IMMEIT_API_URL injecte: $TunnelUrl -> $f"
             }

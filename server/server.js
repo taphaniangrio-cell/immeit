@@ -173,7 +173,7 @@ function getAllowedOrigins() {
   return origins;
 }
 
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 
 app.use(helmet({
   contentSecurityPolicy: {
