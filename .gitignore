@@ -4,14 +4,4 @@ server/data/
 server/logs/
 .env
 node_modules/
-scripts/.env
-amen-*-debug.html
-amen-domains-raw.html
-amen-domains-final.html
-amen-domains-after-login.html
-amen-cookies-netscape.txt
-amen-raw-cookies.txt
-amen-immeit-page.html
-amen-login-failed.html
-playwright-profile/
 .tunnel-url
