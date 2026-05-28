@@ -487,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const API_URL = (window.SERVER_API_URL || 'https://meyer-labor-simulation-odds.trycloudflare.com') + '/api/contact';
+  const API_URL = (window.SERVER_API_URL || 'https://opposition-orleans-mins-intellectual.trycloudflare.com') + '/api/contact';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
