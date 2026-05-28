@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   // IMMEIT TUNNEL URL - mis a jour automatiquement
-window.IMMEIT_API_URL = 'https://sounds-indicates-babies-pleasant.trycloudflare.com';
+window.IMMEIT_API_URL = 'https://agree-viewer-soldier-somebody.trycloudflare.com';
   // FIN IMMEIT TUNNEL URL
 
   // ===== Loader =====
