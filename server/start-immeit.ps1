@@ -28,6 +28,7 @@ function Stop-Server {
     Get-Process -Name "node" -ErrorAction SilentlyContinue | Where-Object {
         $_.CommandLine -match "server.js"
     } | Stop-Process -Force -ErrorAction SilentlyContinue
+    Get-Process -Name "cloudflared" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 }
 
 function Start-Server {
@@ -75,8 +76,8 @@ function Start-Tunnel {
     try {
         $tunnelLog = Join-Path $LogsDir "tunnel-out.log"
         $tunnelErr = Join-Path $LogsDir "tunnel-err.log"
-        $p = Start-Process -NoNewWindow -FilePath "cloudflared" -ArgumentList "tunnel --url http://localhost:3001 --no-autoupdate" -WorkingDirectory $ServerDir -RedirectStandardOutput $tunnelLog -RedirectStandardError $tunnelErr -PassThru
-        Write-Log "Demarrage tunnel (PID: $($p.Id))..."
+        $p = Start-Process -NoNewWindow -FilePath "node" -ArgumentList "tunnel-cf.js" -WorkingDirectory $ServerDir -RedirectStandardOutput $tunnelLog -RedirectStandardError $tunnelErr -PassThru
+        Write-Log "Demarrage tunnel-cf.js (PID: $($p.Id))..."
 
         $maxWait = 30
         $url = $null
@@ -90,15 +91,11 @@ function Start-Tunnel {
                     return $true
                 }
             }
-            $tunnelErrContent = Get-Content $tunnelErr -Tail 5 -ErrorAction SilentlyContinue
-            if ($tunnelErrContent -match "Failed|Error|error") {
-                if ($tunnelErrContent -notmatch "warp|rpc") {
-                    Write-Log "Avertissement tunnel: $tunnelErrContent"
-                }
-            }
         }
 
         Write-Log "ERREUR: Tunnel non actif apres ${maxWait}s"
+        $tunnelErrContent = Get-Content $tunnelErr -Tail 10 -ErrorAction SilentlyContinue
+        if ($tunnelErrContent) { Write-Log "Dernieres erreurs tunnel: $tunnelErrContent" }
         return $false
     } catch {
         Write-Log "ERREUR demarrage tunnel: $_"
@@ -231,6 +228,27 @@ if ($tunnelOk) {
     if ($url) {
         Write-Log "Mise a jour script.js avec: $url"
         Update-ScriptJs -TunnelUrl $url
+        Write-Log "Publication du tunnel URL sur gh-pages..."
+        try {
+            $gitDir = $ProjectDir
+            $currentBranch = & "C:\Program Files\Git\bin\git.exe" -C $gitDir rev-parse --abbrev-ref HEAD 2>&1
+            & "C:\Program Files\Git\bin\git.exe" -C $gitDir stash 2>&1 | Out-Null
+            & "C:\Program Files\Git\bin\git.exe" -C $gitDir checkout gh-pages 2>&1 | Out-Null
+            $distFile = Join-Path $ProjectDir "dist\script.js"
+            if (Test-Path $distFile) {
+                $content = Get-Content $distFile -Raw
+                $content = $content -replace "(?s)IMMEIT_API_URL = 'https?://[^']*'", "IMMEIT_API_URL = '$url'"
+                Set-Content -Path $distFile -Value $content -NoNewline
+                & "C:\Program Files\Git\bin\git.exe" -C $gitDir add -A 2>&1 | Out-Null
+                & "C:\Program Files\Git\bin\git.exe" -C $gitDir commit --allow-empty -m "auto: update tunnel URL" 2>&1 | Out-Null
+                & "C:\Program Files\Git\bin\git.exe" -C $gitDir push origin gh-pages 2>&1 | Out-Null
+                Write-Log "gh-pages mis a jour avec le tunnel URL"
+            }
+            & "C:\Program Files\Git\bin\git.exe" -C $gitDir checkout $currentBranch 2>&1 | Out-Null
+            & "C:\Program Files\Git\bin\git.exe" -C $gitDir stash pop 2>&1 | Out-Null
+        } catch {
+            Write-Log "ERREUR mise a jour gh-pages: $_"
+        }
     }
 } else {
     Write-Log "ATTENTION: Tunnel non demarre - le serveur local fonctionne"
