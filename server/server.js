@@ -253,10 +253,12 @@ p{color:#94a3b8;margin:4px 0 16px;font-size:14px}
 </div></body></html>`);
 });
 
-app.get('/', (_req, res) => {
+app.get('/', (req, res) => {
   const tunnelUrl = readTunnelUrl();
   const indexPath = path.join(__dirname, '..', 'index.html');
-  if (tunnelUrl) {
+  const host = req.headers.host || '';
+  const isLocal = host.includes('localhost') || host.includes('127.0.0.1');
+  if (tunnelUrl && !isLocal) {
     let html = fs.readFileSync(indexPath, 'utf-8');
     html = html.replace('</head>', `<script>window.SERVER_API_URL=${JSON.stringify(tunnelUrl)}</script></head>`);
     res.type('html').send(html);
