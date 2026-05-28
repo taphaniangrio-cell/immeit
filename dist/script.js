@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // IMMEIT TUNNEL URL - mis a jour automatiquement
+window.IMMEIT_API_URL = 'https://sounds-indicates-babies-pleasant.trycloudflare.com';
+  // FIN IMMEIT TUNNEL URL
 
   // ===== Loader =====
   const loader = document.getElementById('loader');
@@ -487,7 +490,19 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const API_URL = (window.SERVER_API_URL || '') + '/api/contact';
+  let cachedApiUrl = null;
+
+  async function getApiUrl() {
+    if (cachedApiUrl) return cachedApiUrl;
+    if (window.SERVER_API_URL) { cachedApiUrl = window.SERVER_API_URL + '/api/contact'; return cachedApiUrl; }
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') { cachedApiUrl = window.location.origin + '/api/contact'; return cachedApiUrl; }
+    if (window.IMMEIT_API_URL) { cachedApiUrl = window.IMMEIT_API_URL + '/api/contact'; return cachedApiUrl; }
+    const saved = localStorage.getItem('immeit_api_url');
+    if (saved) { cachedApiUrl = saved; return cachedApiUrl; }
+    cachedApiUrl = window.location.origin + '/api/contact';
+    return cachedApiUrl;
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -562,7 +577,8 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const ctrl = new AbortController();
         const timer = setTimeout(() => ctrl.abort(), 20000);
-        const res = await fetch(API_URL, {
+        const apiUrl = await getApiUrl();
+        const res = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -570,6 +586,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         clearTimeout(timer);
         const data = await res.json().catch(() => ({}));
+        if (data.tunnelUrl && window.SERVER_API_URL === undefined) {
+          localStorage.setItem('immeit_api_url', data.tunnelUrl + '/api/contact');
+          cachedApiUrl = data.tunnelUrl + '/api/contact';
+        }
         return data.success === true;
       } catch { return false; }
     })();
