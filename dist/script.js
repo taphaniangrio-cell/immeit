@@ -554,11 +554,9 @@ document.addEventListener('DOMContentLoaded', () => {
       message: messageVal
     };
 
-    const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
-
     let sent = false;
 
-    const serverPromise = (async () => {
+    const serverOk = await (async () => {
       try {
         const ctrl = new AbortController();
         const timer = setTimeout(() => ctrl.abort(), 20000);
@@ -573,22 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return data.success === true;
       } catch { return false; }
     })();
-
-    const web3Promise = (async () => {
-      if (!WEB3FORMS_KEY) return false;
-      try {
-        const fd = new FormData();
-        fd.append('access_key', WEB3FORMS_KEY);
-        fd.append('subject', `${subjectVal} - Site IMMEIT`);
-        fd.append('message', `Nom : ${prenomVal} ${nomVal}\nEmail : ${emailVal}\n\nMessage :\n${messageVal}`);
-        const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-        const data = await res.json();
-        return data.success === true;
-      } catch { return false; }
-    })();
-
-    const [serverOk, web3Ok] = await Promise.all([serverPromise, web3Promise]);
-    sent = serverOk || web3Ok;
+    sent = serverOk;
 
     setLoading(false);
 
