@@ -8,7 +8,7 @@ async function startTunnel() {
   try {
     const tunnel = await localtunnel({
       port: 3001,
-      subdomain: 'immeit-contact'
+      subdomain: 'immeit-server-form'
     });
 
     const url = tunnel.url;

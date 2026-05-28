@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       name: 'immeit-tunnel',
-      script: 'tunnel.js',
+      script: 'tunnel-cf.js',
       cwd: '.',
       env: { NODE_ENV: 'production' },
       watch: false,
