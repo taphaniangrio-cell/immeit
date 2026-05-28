@@ -487,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const API_URL = (window.SERVER_API_URL || 'https://immeit-4jv1gd.loca.lt') + '/api/contact';
+  const API_URL = (window.SERVER_API_URL || 'https://immeit-contact.loca.lt') + '/api/contact';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
           signal: ctrl.signal
         });
         clearTimeout(timer);
-        const data = await res.json().catch(() => ({}));
+        const data = await res.json();
         return data.success === true;
       } catch { return false; }
     })();

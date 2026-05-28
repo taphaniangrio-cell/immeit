@@ -8,7 +8,7 @@ async function startTunnel() {
   try {
     const tunnel = await localtunnel({
       port: 3001,
-      subdomain: 'immeit-' + Math.random().toString(36).slice(2, 8)
+      subdomain: 'immeit-contact'
     });
 
     const url = tunnel.url;
