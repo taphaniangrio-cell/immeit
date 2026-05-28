@@ -487,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  const API_URL = (window.SERVER_API_URL || '') + '/api/contact';
+  const API_URL = (window.SERVER_API_URL || 'https://immeit-4jv1gd.loca.lt') + '/api/contact';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
