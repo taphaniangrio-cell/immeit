@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'immeit',
-      script: 'server.js',
-      cwd: '.',
+      script: require('path').join(__dirname, 'server.js'),
+      cwd: __dirname,
       env: { NODE_ENV: 'production' },
       watch: false,
       max_memory_restart: '300M',
@@ -14,8 +14,8 @@ module.exports = {
     },
     {
       name: 'immeit-tunnel',
-      script: 'tunnel-cf.js',
-      cwd: '.',
+      script: require('path').join(__dirname, 'tunnel-cf.js'),
+      cwd: __dirname,
       env: { NODE_ENV: 'production' },
       watch: false,
       max_memory_restart: '100M',

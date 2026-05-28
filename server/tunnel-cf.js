@@ -1,49 +1,144 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const readline = require('readline');
+const os = require('os');
 
 const tunnelUrlFile = path.join(__dirname, '.tunnel-url');
+const certFile = path.join(os.homedir(), '.cloudflared', 'cert.pem');
+const configFile = path.join(__dirname, 'cloudflared.yml');
 
-function startTunnel() {
+function hasCert() {
+  try { return fs.existsSync(certFile); } catch { return false; }
+}
+
+function hasNamedTunnel() {
+  try {
+    if (!fs.existsSync(configFile)) return false;
+    if (!hasCert()) return false;
+    const cfg = fs.readFileSync(configFile, 'utf-8');
+    const lines = cfg.split('\n').filter(l => !l.trim().startsWith('#')).join('\n');
+    return lines.includes('tunnel:') && lines.includes('credentials-file:');
+  } catch { return false; }
+}
+
+function readTunnelName() {
+  try {
+    const cfg = fs.readFileSync(configFile, 'utf-8');
+    const m = cfg.match(/tunnel:\s*(\S+)/);
+    return m ? m[1] : null;
+  } catch { return null; }
+}
+
+function extractUrl(data) {
+  const text = data.toString();
+  const m = text.match(/https:\/\/[a-z0-9-]+\.trycloudflare\.com/);
+  return m ? m[0] : null;
+}
+
+function extractNamedUrl(data) {
+  const text = data.toString();
+  const m = text.match(/https:\/\/[a-z0-9-]+\.trycloudflare\.com/);
+  if (m) return m[0];
+  const m2 = text.match(/https:\/\/[a-z0-9-]+\.immeit\.com/);
+  return m2 ? m2[0] : null;
+}
+
+function writeTunnelUrl(url) {
+  try {
+    fs.writeFileSync(tunnelUrlFile, url);
+    console.log('TUNNEL_URL=' + url);
+  } catch (err) {
+    console.error('Erreur ecriture .tunnel-url:', err.message);
+  }
+}
+
+function startQuickTunnel() {
+  console.log('Demarrage tunnel cloudflared (mode rapide)...');
   const proc = spawn('cloudflared', ['tunnel', '--url', 'http://localhost:3001', '--no-autoupdate'], {
     stdio: ['ignore', 'pipe', 'pipe'],
     shell: true
   });
 
-  const rl = readline.createInterface({ input: proc.stdout });
-
-  rl.on('line', line => {
-    console.log(line);
-    const match = line.match(/https:\/\/[a-z0-9-]+\.trycloudflare\.com/);
-    if (match) {
-      const url = match[0];
-      console.log('TUNNEL_URL=' + url);
-      fs.writeFileSync(tunnelUrlFile, url);
-    }
+  proc.stdout.on('data', data => {
+    process.stdout.write(data);
+    const url = extractUrl(data);
+    if (url) writeTunnelUrl(url);
   });
 
   proc.stderr.on('data', data => {
     process.stderr.write(data);
-    const text = data.toString();
-    const match = text.match(/https:\/\/[a-z0-9-]+\.trycloudflare\.com/);
-    if (match) {
-      const url = match[0];
-      console.log('TUNNEL_URL=' + url);
-      fs.writeFileSync(tunnelUrlFile, url);
-    }
+    const url = extractUrl(data);
+    if (url) writeTunnelUrl(url);
   });
 
   proc.on('close', code => {
-    console.log(`cloudflared exited with code ${code}`);
+    console.log(`cloudflared termine (code ${code})`);
     try { fs.unlinkSync(tunnelUrlFile); } catch {}
-    setTimeout(startTunnel, 5000);
+    setTimeout(startQuickTunnel, 5000);
   });
 
   proc.on('error', err => {
     console.error('cloudflared error:', err.message);
-    setTimeout(startTunnel, 5000);
+    setTimeout(startQuickTunnel, 5000);
   });
+
+  return proc;
 }
 
-startTunnel();
+function startNamedTunnel() {
+  const name = readTunnelName();
+  console.log(`Demarrage tunnel cloudflared (nomme: ${name})...`);
+  const proc = spawn('cloudflared', ['tunnel', 'run', name], {
+    stdio: ['ignore', 'pipe', 'pipe'],
+    shell: true
+  });
+
+  proc.stderr.on('data', data => {
+    process.stderr.write(data);
+    const url = extractNamedUrl(data);
+    if (url) writeTunnelUrl(url);
+  });
+
+  proc.on('close', code => {
+    console.log(`cloudflared tunnel ${name} termine (code ${code})`);
+    setTimeout(startNamedTunnel, 5000);
+  });
+
+  proc.on('error', err => {
+    console.error('cloudflared error:', err.message);
+    setTimeout(startNamedTunnel, 5000);
+  });
+
+  return proc;
+}
+
+function waitForUrl(retries) {
+  let waited = 0;
+  const iv = setInterval(() => {
+    try {
+      const url = fs.readFileSync(tunnelUrlFile, 'utf-8').trim();
+      if (url.match(/https?:\/\/.+/)) {
+        console.log('Tunnel URL prete:', url);
+        clearInterval(iv);
+      }
+    } catch {}
+    waited++;
+    if (waited >= retries) {
+      console.log('Delai tunnel atteint...');
+      clearInterval(iv);
+    }
+  }, 1000);
+}
+
+if (hasNamedTunnel()) {
+  console.log('Mode: tunnel nomme (URL stable)');
+  startNamedTunnel();
+} else if (hasCert()) {
+  console.log('Mode: tunnel nomme detecte mais non configure.');
+  console.log('Creez cloudflared.yml pour un tunnel stable.');
+  console.log('Fallback: tunnel rapide...');
+  startQuickTunnel();
+} else {
+  console.log('Mode: tunnel rapide (URL change a chaque demarrage)');
+  startQuickTunnel();
+}

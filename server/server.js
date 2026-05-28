@@ -158,16 +158,22 @@ function readTunnelUrl() {
   return null;
 }
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://localhost:5500',
-  'http://127.0.0.1:5500',
-  'http://localhost:8080',
-  'http://127.0.0.1:8080',
-  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : []),
-  ...(readTunnelUrl() ? [readTunnelUrl()] : [])
-];
+function getAllowedOrigins() {
+  const origins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : []),
+  ];
+  const tunnelUrl = readTunnelUrl();
+  if (tunnelUrl) origins.push(tunnelUrl);
+  return origins;
+}
+
+app.set('trust proxy', true);
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -178,16 +184,20 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:"],
-       connectSrc: ["'self'"],
-       frameAncestors: ["'none'"],
-       formAction: ["'self'"],
+      connectSrc: ["'self'"],
+      frameAncestors: ["'none'"],
+      formAction: ["'self'"],
     },
   },
   crossOriginEmbedderPolicy: false,
 }));
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    const allowed = getAllowedOrigins();
+    if (!origin || allowed.indexOf(origin) !== -1) return callback(null, true);
+    callback(null, true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -346,7 +356,7 @@ app.post('/api/contact', async (req, res) => {
         msg.sent_at = new Date().toISOString();
         saveMessages(messages);
         console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
-        return res.json({ success: true, id: msg.id });
+        return res.json({ success: true, id: msg.id, tunnelUrl: readTunnelUrl() });
       } catch (err) {
         msg.status = 'failed';
         msg.error_message = err.message;
@@ -356,7 +366,8 @@ app.post('/api/contact', async (req, res) => {
           success: true,
           stored: true,
           id: msg.id,
-          warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement."
+          warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement.",
+          tunnelUrl: readTunnelUrl()
         });
       }
     }
