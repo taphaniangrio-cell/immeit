@@ -599,10 +599,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromName = `${prenom} ${nom}`;
     const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
 
-    let fsNeedsVerification = false;
-    let wfSuccess = false;
+    async function tryEmailJS() {
+      if (typeof emailjs === 'undefined') {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+      emailjs.init('ePN2V8qTsvgScPlt-');
+      await emailjs.send('service_kv0swyj', 'template_8zk06o3', { prenom, nom, email, sujet, message });
+    }
 
-    async function sendWeb3Forms() {
+    async function tryFormsubmit() {
+      const r = await fetch('https://formsubmit.co/ajax/demandes-p2m@immeit.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: fromName, email,
+          _subject: subjectLine,
+          _template: 'table',
+          Prénom: prenom, Nom: nom,
+          Adresse: email, Sujet: sujet,
+          Message: message
+        })
+      });
+      return (await r.json()).success;
+    }
+
+    async function tryWeb3Forms() {
       const fd = new FormData();
       fd.append('access_key', '1537e384-9a6b-433e-b684-a6916a6de7e5');
       fd.append('subject', subjectLine);
@@ -612,43 +639,25 @@ document.addEventListener('DOMContentLoaded', () => {
       fd.append('Nom', nom);
       fd.append('Sujet', sujet);
       fd.append('Message', message);
-      const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-      const d = await r.json();
-      return d.success;
+      return (await (await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })).json()).success;
     }
 
+    let sent = false;
+    let showVerifMsg = false;
+
     try {
-      const fsRes = await fetch('https://formsubmit.co/ajax/demandes-p2m@immeit.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          name: fromName,
-          email,
-          _subject: subjectLine,
-          Prénom: prenom,
-          Nom: nom,
-          Sujet: sujet,
-          Message: message
-        })
-      });
-      const fsData = await fsRes.json();
-      if (fsData.success) {
-        setLoading(false);
-        showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
-        clearForm();
-        if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
-        return;
+      await Promise.race([tryEmailJS(), new Promise((_, rj) => setTimeout(() => rj(new Error('timeout')), 8000))]);
+      sent = true;
+    } catch {
+      try { sent = await tryFormsubmit(); } catch {}
+      if (!sent) {
+        try { sent = await tryWeb3Forms(); } catch {}
       }
-      if (fsData.message && fsData.message.includes('verif')) fsNeedsVerification = true;
-    } catch { /* Formsubmit indisponible → Web3Forms */ }
+    }
 
-    try { wfSuccess = await sendWeb3Forms(); } catch {}
-
-    if (wfSuccess) {
+    if (sent) {
       setLoading(false);
-      showConfirmation(fsNeedsVerification
-        ? '<i class="fas fa-check-circle"></i> Message envoyé ! Pour le format HTML, cliquez sur le lien reçu à <strong>demandes-p2m@immeit.com</strong>'
-        : '<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
+      showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
       return;
