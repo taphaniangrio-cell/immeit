@@ -598,27 +598,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = emailInput.value.trim();
     const sujet = subjectInput.value.trim() || 'Nouveau message';
     const message = messageInput.value.trim();
+    const fromName = `${prenom} ${nom}`;
+    const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
 
-    const p = new URLSearchParams({
-      'access_key': '[REDACTED-SECRET]',
-      'subject': `[IMMEIT] ${prenom} ${nom} - ${sujet}`,
-      'from_name': `${prenom} ${nom}`,
-      'email': email,
-      'Message': `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT\n  Installation · Méthodes · Maintenance\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n  📩 NOUVEAU MESSAGE DE CONTACT\n  ─────────────────────────────\n\n  PRÉNOM    : ${prenom}\n  NOM       : ${nom}\n  EMAIL     : ${email}\n  SUJET     : ${sujet}\n  ─────────────────────────────\n\n  MESSAGE :\n  ${message.replace(/\n/g, '\n  ')}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT — contact@immeit.com\n  www.immeit.com\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
-    });
+    async function sendEmailJS() {
+      const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: 'service_kv0swyj',
+          template_id: 'template_8zk06o3',
+          user_id: 'ePN2V8qTsvgScPlt-',
+          template_params: { prenom, nom, email, sujet, message }
+        })
+      });
+      if (!r.ok) throw new Error('EmailJS ' + r.status);
+    }
 
-    try {
+    async function sendWeb3() {
+      const p = new URLSearchParams({
+        'access_key': '[REDACTED-SECRET]',
+        'subject': subjectLine,
+        'from_name': fromName,
+        'email': email,
+        'Message': `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT\n  Installation · Méthodes · Maintenance\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n  📩 NOUVEAU MESSAGE DE CONTACT\n  ─────────────────────────────\n\n  PRÉNOM    : ${prenom}\n  NOM       : ${nom}\n  EMAIL     : ${email}\n  SUJET     : ${sujet}\n  ─────────────────────────────\n\n  MESSAGE :\n  ${message.replace(/\n/g, '\n  ')}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT — contact@immeit.com\n  www.immeit.com\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
+      });
       const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: p });
       const d = await r.json();
-      if (!d.success) throw new Error(d.message || 'Échec');
+      if (!d.success) throw new Error('Web3Forms ' + (d.message || ''));
+    }
+
+    let ok = false;
+    try {
+      await Promise.race([sendEmailJS(), new Promise((_, rj) => setTimeout(() => rj(new Error('timeout')), 5000))]);
+      ok = true;
+    } catch {
+      try { await sendWeb3(); ok = true; } catch {}
+    }
+
+    if (ok) {
       setLoading(false);
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
-    } catch {
-      setLoading(false);
-      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+      return;
     }
+
+    setLoading(false);
+    showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
   });
 
   // ===== Keyboard shortcut =====
