@@ -593,31 +593,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(true);
 
-    const prenom = prenomInput.value.trim();
-    const nom = nomInput.value.trim();
-    const email = emailInput.value.trim();
-    const sujet = subjectInput.value.trim() || 'Nouveau message';
-    const message = messageInput.value.trim();
-
-    const p = new URLSearchParams();
-    p.append('name', `${prenom} ${nom}`);
-    p.append('email', email);
-    p.append('_subject', `[IMMEIT] ${prenom} ${nom} - ${sujet}`);
-    p.append('_template', 'box');
-    p.append('_replyto', email);
-    p.append('Prénom', prenom);
-    p.append('Nom', nom);
-    p.append('Sujet', sujet);
-    p.append('Message', message);
+    const p = new URLSearchParams({
+      'access_key': '1537e384-9a6b-433e-b684-a6916a6de7e5',
+      'subject': `[IMMEIT] ${prenomInput.value.trim()} ${nomInput.value.trim()} - ${subjectInput.value.trim() || 'Nouveau message'}`,
+      'from_name': `${prenomInput.value.trim()} ${nomInput.value.trim()}`,
+      'email': emailInput.value.trim(),
+      'Prénom': prenomInput.value.trim(),
+      'Nom': nomInput.value.trim(),
+      'Sujet': subjectInput.value.trim() || 'Nouveau message',
+      'Message': messageInput.value.trim()
+    });
 
     try {
-      const r = await fetch('https://formsubmit.co/ajax/demandes-p2m@immeit.com', { method: 'POST', body: p });
+      const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: p });
       const d = await r.json();
       if (!d.success) throw new Error(d.message || 'Échec');
       setLoading(false);
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
-      if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: subjectInput.value.trim(), subject: subjectInput.value.trim(), lead_source: 'Formulaire site web' });
     } catch {
       setLoading(false);
       showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
