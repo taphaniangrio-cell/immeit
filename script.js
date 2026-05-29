@@ -383,7 +383,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageError = document.getElementById('messageError');
   const submitBtn = document.getElementById('submitBtn');
 
-  emailjs.init('ePN2V8qTsvgScPlt-');
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init('ePN2V8qTsvgScPlt-');
+  }
 
   function setFieldState(input, errorEl, isValid, message) {
     input.classList.remove('error', 'success');
