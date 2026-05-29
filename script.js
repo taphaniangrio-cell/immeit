@@ -599,27 +599,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sujet = subjectInput.value.trim() || 'Nouveau message';
     const message = messageInput.value.trim();
     const fromName = `${prenom} ${nom}`;
-    const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
 
-    const TUNNEL_URL = 'https://513a532dc60bc2.lhr.life';
-
-    async function discoverEndpoint() {
-      try {
-        const r = await fetch(TUNNEL_URL + '/api/config', { signal: AbortSignal.timeout(5000) });
-        const d = await r.json();
-        if (d.tunnelUrl) return d.tunnelUrl;
-      } catch {}
-      try {
-        const r = await fetch('/api/config', { signal: AbortSignal.timeout(3000) });
-        const d = await r.json();
-        if (d.tunnelUrl) return d.tunnelUrl;
-      } catch {}
-      return '';
-    }
-
-    async function sendServer(baseUrl) {
-      const url = (baseUrl || '') + '/api/contact';
-      const r = await fetch(url, {
+    async function sendMessage() {
+      const r = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -633,28 +615,25 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!d.success && r.status >= 400) throw new Error('Serveur ' + (d.error || r.status));
     }
 
-    async function sendWeb3() {
-      const p = new URLSearchParams({
-        'access_key': '1537e384-9a6b-433e-b684-a6916a6de7e5',
-        'subject': subjectLine,
-        'from_name': fromName,
-        'email': email,
-        'Message': `IMMEIT  |  Installation  ·  Méthodes  ·  Maintenance\n\nNOUVEAU MESSAGE DE CONTACT\n${'─'.repeat(35)}\n  Prénom   : ${prenom}\n  Nom      : ${nom}\n  Email    : ${email}\n  Sujet    : ${sujet}\n${'─'.repeat(35)}\n\n  ${message.replace(/\n/g, '\n  ')}\n\n${'─'.repeat(35)}\n  www.immeit.com`
-      });
-      const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: p });
-      const d = await r.json();
-      if (!d.success) throw new Error('Web3Forms ' + (d.message || ''));
-    }
-
     let ok = false;
     try {
-      const endpoint = await discoverEndpoint();
-      await sendServer(endpoint || TUNNEL_URL);
+      await sendMessage();
       ok = true;
     } catch {
-      try { await sendServer(''); ok = true; } catch {
-        try { await sendWeb3(); ok = true; } catch {}
-      }
+      try {
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new URLSearchParams({
+            'access_key': '1537e384-9a6b-433e-b684-a6916a6de7e5',
+            'subject': `[IMMEIT] ${fromName} - ${sujet}`,
+            'from_name': fromName,
+            'email': email,
+            'Message': `IMMEIT  |  Installation  ·  Méthodes  ·  Maintenance\n\nNOUVEAU MESSAGE DE CONTACT\n${'─'.repeat(35)}\n  Prénom   : ${prenom}\n  Nom      : ${nom}\n  Email    : ${email}\n  Sujet    : ${sujet}\n${'─'.repeat(35)}\n\n  ${message.replace(/\n/g, '\n  ')}\n\n${'─'.repeat(35)}\n  www.immeit.com`
+          })
+        });
+        const d = await r.json();
+        if (d.success) ok = true;
+      } catch {}
     }
 
     if (ok) {

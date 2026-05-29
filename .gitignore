@@ -4,4 +4,6 @@ server/data/
 server/logs/
 .env
 node_modules/
+dist/
+*.log
 .tunnel-url

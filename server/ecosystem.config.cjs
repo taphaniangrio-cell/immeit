@@ -11,21 +11,6 @@ module.exports = {
       out_file: './logs/out.log',
       merge_logs: true,
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z'
-    },
-    {
-      name: 'immeit-tunnel',
-      script: 'tunnel-ssh.js',
-      cwd: '.',
-      env: { NODE_ENV: 'production' },
-      watch: false,
-      max_memory_restart: '100M',
-      error_file: './logs/tunnel-err.log',
-      out_file: './logs/tunnel-out.log',
-      merge_logs: true,
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      autorestart: true,
-      max_restarts: 999,
-      restart_delay: 3000
     }
   ]
 };

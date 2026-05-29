@@ -1,20 +1,9 @@
-const config = {
-  site_nom: 'Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires',
-  site_url: 'https://www.immeit.com',
-};
-
 function clean(str = '') {
   return String(str).trim().replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function buildContactEmail(msg) {
-  const prenom = clean(msg.prenom || msg.name?.split(' ')[0] || '');
-  const nom = clean(msg.nom || msg.name?.split(' ').slice(1).join(' ') || '');
-  const email = clean(msg.email);
-  const sujet = clean(msg.subject || 'Nouveau message');
-  const message = msg.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>');
-  const date = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-
+function buildEmailHtml({ prenom, nom, email, sujet, message, date }) {
+  const messageHtml = message.replace(/\n/g, '<br/>');
   return `<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -38,7 +27,7 @@ function buildContactEmail(msg) {
                 </td>
                 <td valign="middle" style="padding-left:14px;">
                   <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700;letter-spacing:-0.3px;">Nouveau message reçu</p>
-                  <p style="margin:4px 0 0;color:#8b91b0;font-size:12px;">Formulaire de contact — ${config.site_nom}</p>
+                  <p style="margin:4px 0 0;color:#8b91b0;font-size:12px;">Formulaire de contact — Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires</p>
                 </td>
               </tr>
             </table>
@@ -93,7 +82,7 @@ function buildContactEmail(msg) {
               <tr>
                 <td style="padding:24px;">
                   <p style="margin:0 0 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b91b0;font-weight:700;">Message</p>
-                  <p style="margin:0;font-size:15px;color:#2d3250;line-height:1.85;">${message}</p>
+                  <p style="margin:0;font-size:15px;color:#2d3250;line-height:1.85;">${messageHtml}</p>
                 </td>
               </tr>
             </table>
@@ -113,7 +102,7 @@ function buildContactEmail(msg) {
           <td style="background:#f7f8fc;padding:20px 40px;border-top:1px solid #e8eaf0;">
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td style="font-size:11px;color:#8b91b0;">Reçu le ${date} via <a href="${config.site_url}" style="color:#8b91b0;">${config.site_url}</a></td>
+                <td style="font-size:11px;color:#8b91b0;">Reçu le ${date} via <a href="https://www.immeit.com" style="color:#8b91b0;">https://www.immeit.com</a></td>
                 <td align="right" style="font-size:11px;color:#8b91b0;">Ne pas répondre directement</td>
               </tr>
             </table>
@@ -126,6 +115,21 @@ function buildContactEmail(msg) {
 </table>
 </body>
 </html>`;
+}
+
+function buildContactEmail(msg) {
+  const data = {
+    prenom: clean(msg.prenom || ''),
+    nom: clean(msg.nom || ''),
+    email: clean(msg.email),
+    sujet: clean(msg.subject || 'Nouveau message'),
+    message: clean(msg.message || ''),
+    date: new Date().toLocaleDateString('fr-FR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    }),
+  };
+  return buildEmailHtml(data);
 }
 
 module.exports = { buildContactEmail, clean };

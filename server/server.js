@@ -82,9 +82,9 @@ async function sendEmail(msg) {
   }
 
   const mailOptions = {
-    from: `"${process.env.SMTP_USER}" <${process.env.SMTP_USER}>`,
+    from: `"IMMEIT" <${process.env.SMTP_USER}>`,
     to: CONTACT_EMAIL,
-    replyTo: `"${msg.prenom || ''} ${msg.nom || ''}" <${msg.email}>`,
+    replyTo: `"${[msg.prenom, msg.nom].filter(Boolean).join(' ')}" <${msg.email}>`,
     subject: `✉ Nouveau message : ${msg.subject || 'Sans sujet'}`,
     text: `Nouveau message de ${msg.prenom || ''} ${msg.nom || ''} (${msg.email})\n\nSujet : ${msg.subject || 'Sans sujet'}\n\nMessage :\n${msg.message}\n\nReçu le ${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`,
     html: buildContactEmail(msg)
@@ -209,16 +209,6 @@ app.use(express.static(path.join(__dirname, '..'), {
   dotfiles: 'ignore',
   index: false,
 }));
-app.get('/api/config', (req, res) => {
-  const tunnelUrl = readTunnelUrl();
-  res.json({
-    tunnelUrl,
-    smtp: !!transporter,
-    contactEmail: CONTACT_EMAIL,
-    timestamp: new Date().toISOString()
-  });
-});
-
 app.get('/api/info', (req, res) => {
   const tunnelUrl = readTunnelUrl();
   res.type('html').send(`<!DOCTYPE html>
