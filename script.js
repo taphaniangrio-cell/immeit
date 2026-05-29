@@ -631,7 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'subject': subjectLine,
         'from_name': fromName,
         'email': email,
-        'Message': `IMMEIT - Installation · Méthodes · Maintenance\n\nNOUVEAU MESSAGE DE CONTACT\n${'─'.repeat(35)}\nPrénom : ${prenom}\nNom    : ${nom}\nEmail  : ${email}\nSujet  : ${sujet}\n${'─'.repeat(35)}\n${message}\n${'─'.repeat(35)}\nIMMEIT - www.immeit.com`
+        'Message': `IMMEIT  |  Installation  ·  Méthodes  ·  Maintenance\n\nNOUVEAU MESSAGE DE CONTACT\n${'─'.repeat(35)}\n  Prénom   : ${prenom}\n  Nom      : ${nom}\n  Email    : ${email}\n  Sujet    : ${sujet}\n${'─'.repeat(35)}\n\n  ${message.replace(/\n/g, '\n  ')}\n\n${'─'.repeat(35)}\n  www.immeit.com`
       });
       const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: p });
       const d = await r.json();
