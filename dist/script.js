@@ -591,57 +591,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(true);
 
-    const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
-
-    const fd = new FormData();
-    fd.append('access_key', WEB3FORMS_KEY);
-    fd.append('subject', `[IMMEIT] ${subjectInput.value.trim() || 'Nouveau message'}`);
-    fd.append('from_name', `${prenomInput.value.trim()} ${nomInput.value.trim()}`);
-    fd.append('email', emailInput.value.trim());
-    fd.append('message', messageInput.value.trim());
+    const EMAILJS_PUBLIC_KEY = 'ePN2V8qTsvgScPlt-';
+    const EMAILJS_SERVICE_ID = 'service_kv0swyj';
+    const EMAILJS_TEMPLATE_ID = 'template_8zk06o3';
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-      const data = await res.json();
-
-      if (data.success) {
-        setLoading(false);
-        showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
-        clearForm();
-        if (typeof gtag === 'function') {
-          gtag('event', 'generate_lead', {
-            value: 1,
-            currency: 'EUR',
-            event_category: 'Contact',
-            event_label: subjectInput.value.trim(),
-            subject: subjectInput.value.trim(),
-            lead_source: 'Formulaire site web'
-          });
-        }
-      } else {
-        throw new Error(data.message || 'Échec');
+      if (typeof emailjs === 'undefined') {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+          s.onload = resolve;
+          s.onerror = () => reject(new Error('EmailJS SDK non chargé'));
+          document.head.appendChild(s);
+        });
+        emailjs.init(EMAILJS_PUBLIC_KEY);
       }
-    } catch {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        prenom: prenomInput.value.trim(),
+        nom: nomInput.value.trim(),
+        email: emailInput.value.trim(),
+        sujet: subjectInput.value.trim() || 'Nouveau message IMMEIT',
+        message: messageInput.value.trim()
+      });
       setLoading(false);
-      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
-    }
-
-      if (success) {
-        setLoading(false);
-        showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
-        clearForm();
-        if (typeof gtag === 'function') {
-          gtag('event', 'generate_lead', {
-            value: 1,
-            currency: 'EUR',
-            event_category: 'Contact',
-            event_label: subjectInput.value.trim(),
-            subject: subjectInput.value.trim(),
-            lead_source: 'Formulaire site web'
-          });
-        }
-      } else {
-        throw new Error('Échec');
+      showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
+      clearForm();
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          value: 1,
+          currency: 'EUR',
+          event_category: 'Contact',
+          event_label: subjectInput.value.trim(),
+          subject: subjectInput.value.trim(),
+          lead_source: 'Formulaire site web'
+        });
       }
     } catch {
       setLoading(false);
