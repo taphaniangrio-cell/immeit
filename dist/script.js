@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+
   // ===== Loader =====
   const loader = document.getElementById('loader');
   window.addEventListener('load', () => {
@@ -382,6 +383,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageError = document.getElementById('messageError');
   const submitBtn = document.getElementById('submitBtn');
 
+  const charCounter = document.getElementById('charCounter');
+  const MAX_CHARS = 2000;
+
+  updateCharCounter();
+  if (messageInput) autoResize(messageInput);
+
   function setFieldState(input, errorEl, isValid, message) {
     input.classList.remove('error', 'success');
     errorEl.textContent = '';
@@ -460,15 +467,49 @@ document.addEventListener('DOMContentLoaded', () => {
   messageInput.addEventListener('blur', validateMessage);
   messageInput.addEventListener('input', function () {
     if (this.classList.contains('error') || this.classList.contains('success')) validateMessage();
+    updateCharCounter();
+    autoResize(this);
   });
 
-  // ===== Form submission =====
+  function updateCharCounter() {
+    if (!charCounter) return;
+    const len = messageInput.value.length;
+    const remaining = MAX_CHARS - len;
+    charCounter.textContent = remaining;
+    charCounter.classList.remove('form__char-counter--warn', 'form__char-counter--danger');
+    if (remaining <= 20) charCounter.classList.add('form__char-counter--danger');
+    else if (remaining <= 100) charCounter.classList.add('form__char-counter--warn');
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.max(60, el.scrollHeight) + 'px';
+  }
+
+  function fireConfetti() {
+    const colors = ['#C99A3E', '#1F538C', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+    for (let i = 0; i < 40; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.top = '-10px';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.width = (Math.random() * 6 + 4) + 'px';
+      piece.style.height = (Math.random() * 6 + 4) + 'px';
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+      piece.style.animationDelay = (Math.random() * 0.5) + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 4000);
+    }
+  }
+
   function setLoading(loading) {
     if (loading) {
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-spinner fa-spin"></i> Envoi en cours...</span><span class="btn__shimmer"></span>';
       submitBtn.disabled = true;
     } else {
-      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
+      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-paper-plane"></i> Envoyer</span><span class="btn__shimmer"></span>';
       submitBtn.disabled = false;
     }
   }
@@ -477,6 +518,10 @@ document.addEventListener('DOMContentLoaded', () => {
     form.reset();
     [prenomInput, nomInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
     [prenomError, nomError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
+    updateCharCounter();
+    if (messageInput) {
+      messageInput.style.height = 'auto';
+    }
   }
 
   function showConfirmation(bannerHtml) {
@@ -484,6 +529,9 @@ document.addEventListener('DOMContentLoaded', () => {
     banner.className = 'form-banner form-banner--' + (bannerHtml.includes('check-circle') ? 'success' : 'error');
     banner.innerHTML = bannerHtml;
     submitBtn.parentNode.insertBefore(banner, submitBtn);
+    if (bannerHtml.includes('check-circle')) {
+      fireConfetti();
+    }
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
@@ -572,6 +620,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } else {
         throw new Error(data.message || 'Échec');
+      }
+    } catch {
+      setLoading(false);
+      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+    }
+
+      if (success) {
+        setLoading(false);
+        showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
+        clearForm();
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', {
+            value: 1,
+            currency: 'EUR',
+            event_category: 'Contact',
+            event_label: subjectInput.value.trim(),
+            subject: subjectInput.value.trim(),
+            lead_source: 'Formulaire site web'
+          });
+        }
+      } else {
+        throw new Error('Échec');
       }
     } catch {
       setLoading(false);
