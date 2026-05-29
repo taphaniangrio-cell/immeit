@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // IMMEIT TUNNEL URL - mis a jour automatiquement
-window.IMMEIT_API_URL = 'https://agree-viewer-soldier-somebody.trycloudflare.com';
-  // FIN IMMEIT TUNNEL URL
 
   // ===== Loader =====
   const loader = document.getElementById('loader');
@@ -385,6 +382,8 @@ window.IMMEIT_API_URL = 'https://agree-viewer-soldier-somebody.trycloudflare.com
   const messageError = document.getElementById('messageError');
   const submitBtn = document.getElementById('submitBtn');
 
+  emailjs.init('ePN2V8qTsvgScPlt-');
+
   function setFieldState(input, errorEl, isValid, message) {
     input.classList.remove('error', 'success');
     errorEl.textContent = '';
@@ -490,20 +489,6 @@ window.IMMEIT_API_URL = 'https://agree-viewer-soldier-somebody.trycloudflare.com
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
-  let cachedApiUrl = null;
-
-  async function getApiUrl() {
-    if (cachedApiUrl) return cachedApiUrl;
-    if (window.SERVER_API_URL) { cachedApiUrl = window.SERVER_API_URL + '/api/contact'; return cachedApiUrl; }
-    const host = window.location.hostname;
-    if (host === 'localhost' || host === '127.0.0.1') { cachedApiUrl = window.location.origin + '/api/contact'; return cachedApiUrl; }
-    if (window.IMMEIT_API_URL) { cachedApiUrl = window.IMMEIT_API_URL + '/api/contact'; return cachedApiUrl; }
-    const saved = localStorage.getItem('immeit_api_url');
-    if (saved) { cachedApiUrl = saved; return cachedApiUrl; }
-    cachedApiUrl = window.location.origin + '/api/contact';
-    return cachedApiUrl;
-  }
-
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -554,65 +539,15 @@ window.IMMEIT_API_URL = 'https://agree-viewer-soldier-somebody.trycloudflare.com
 
     setLoading(true);
 
-    const prenomVal = prenomInput.value.trim();
-    const nomVal = nomInput.value.trim();
-    const emailVal = emailInput.value.trim();
-    const subjectVal = subjectInput.value.trim() || 'Nouveau message IMMEIT';
-    const messageVal = messageInput.value.trim();
-
-    const payload = {
-      name: `${prenomVal} ${nomVal}`,
-      prenom: prenomVal,
-      nom: nomVal,
-      email: emailVal,
-      subject: subjectVal,
-      message: messageVal
-    };
-
-    const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
-
-    let sent = false;
-
-    const serverPromise = (async () => {
-      try {
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 20000);
-        const apiUrl = await getApiUrl();
-        const res = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          signal: ctrl.signal
-        });
-        clearTimeout(timer);
-        const data = await res.json().catch(() => ({}));
-        if (data.tunnelUrl && window.SERVER_API_URL === undefined) {
-          localStorage.setItem('immeit_api_url', data.tunnelUrl + '/api/contact');
-          cachedApiUrl = data.tunnelUrl + '/api/contact';
-        }
-        return data.success === true;
-      } catch { return false; }
-    })();
-
-    const web3Promise = (async () => {
-      if (!WEB3FORMS_KEY) return false;
-      try {
-        const fd = new FormData();
-        fd.append('access_key', WEB3FORMS_KEY);
-        fd.append('subject', `${subjectVal} - Site IMMEIT`);
-        fd.append('message', `Nom : ${prenomVal} ${nomVal}\nEmail : ${emailVal}\n\nMessage :\n${messageVal}`);
-        const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-        const data = await res.json();
-        return data.success === true;
-      } catch { return false; }
-    })();
-
-    const [serverOk, web3Ok] = await Promise.all([serverPromise, web3Promise]);
-    sent = serverOk || web3Ok;
-
-    setLoading(false);
-
-    if (sent) {
+    try {
+      await emailjs.send('service_kv0swyj', 'template_8zk06o3', {
+        prenom: prenomInput.value.trim(),
+        nom: nomInput.value.trim(),
+        email: emailInput.value.trim(),
+        sujet: subjectInput.value.trim() || 'Nouveau message IMMEIT',
+        message: messageInput.value.trim()
+      });
+      setLoading(false);
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') {
@@ -620,12 +555,13 @@ window.IMMEIT_API_URL = 'https://agree-viewer-soldier-somebody.trycloudflare.com
           value: 1,
           currency: 'EUR',
           event_category: 'Contact',
-          event_label: payload.subject,
-          subject: payload.subject,
+          event_label: subjectInput.value.trim(),
+          subject: subjectInput.value.trim(),
           lead_source: 'Formulaire site web'
         });
       }
-    } else {
+    } catch {
+      setLoading(false);
       showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
     }
   });
