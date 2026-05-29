@@ -382,10 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageError = document.getElementById('messageError');
   const submitBtn = document.getElementById('submitBtn');
 
-  if (typeof emailjs !== 'undefined') {
-    emailjs.init('ePN2V8qTsvgScPlt-');
-  }
-
   function setFieldState(input, errorEl, isValid, message) {
     input.classList.remove('error', 'success');
     errorEl.textContent = '';
@@ -541,43 +537,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(true);
 
+    const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
+
     try {
-      if (typeof emailjs === 'undefined') {
-        await new Promise((resolve, reject) => {
-          const s = document.createElement('script');
-          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-          s.onload = resolve;
-          s.onerror = () => reject(new Error('EmailJS SDK non chargé'));
-          document.head.appendChild(s);
-        });
-        emailjs.init('ePN2V8qTsvgScPlt-');
-      }
-      await emailjs.send('service_kv0swyj', 'template_8zk06o3', {
-        prenom: prenomInput.value.trim(),
-        nom: nomInput.value.trim(),
-        email: emailInput.value.trim(),
-        sujet: subjectInput.value.trim() || 'Nouveau message IMMEIT',
-        message: messageInput.value.trim()
-      });
-      setLoading(false);
-      showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
-      clearForm();
-      if (typeof gtag === 'function') {
-        gtag('event', 'generate_lead', {
-          value: 1,
-          currency: 'EUR',
-          event_category: 'Contact',
-          event_label: subjectInput.value.trim(),
-          subject: subjectInput.value.trim(),
-          lead_source: 'Formulaire site web'
-        });
+      const fd = new FormData();
+      fd.append('access_key', WEB3FORMS_KEY);
+      fd.append('subject', `[IMMEIT] ${subjectInput.value.trim() || 'Nouveau message'}`);
+      fd.append('from_name', `${prenomInput.value.trim()} ${nomInput.value.trim()}`);
+      fd.append('email', emailInput.value.trim());
+      fd.append('message', messageInput.value.trim());
+
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
+      const data = await res.json();
+
+      if (data.success) {
+        setLoading(false);
+        showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
+        clearForm();
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', {
+            value: 1,
+            currency: 'EUR',
+            event_category: 'Contact',
+            event_label: subjectInput.value.trim(),
+            subject: subjectInput.value.trim(),
+            lead_source: 'Formulaire site web'
+          });
+        }
+      } else {
+        throw new Error(data.message || 'Échec');
       }
     } catch {
       setLoading(false);
-      const isFile = location.protocol === 'file:';
-      showConfirmation('<i class="fas fa-exclamation-circle"></i> ' + (isFile
-        ? 'Ouvrez le site via un serveur HTTP local (Live Server, npx serve...) ou testez sur <a href="https://www.immeit.com" target="_blank">immeit.com</a>'
-        : 'Échec de l\'envoi. Vérifiez votre connexion internet ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>'));
+      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
     }
   });
 
