@@ -1,54 +1,131 @@
-const fs = require('fs');
-const path = require('path');
+const config = {
+  site_nom: 'Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires',
+  site_url: 'https://www.immeit.com',
+};
 
-function escapeHtml(str) {
-  if (typeof str !== 'string') return '';
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-let _template = null;
-
-function loadTemplate() {
-  if (_template) return _template;
-  const p = path.join(__dirname, 'email-template.html');
-  _template = fs.readFileSync(p, 'utf8');
-  return _template;
+function clean(str = '') {
+  return String(str).trim().replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function buildContactEmail(msg) {
-  const template = loadTemplate();
+  const prenom = clean(msg.prenom || msg.name?.split(' ')[0] || '');
+  const nom = clean(msg.nom || msg.name?.split(' ').slice(1).join(' ') || '');
+  const email = clean(msg.email);
+  const sujet = clean(msg.subject || 'Nouveau message');
+  const message = msg.message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>');
+  const date = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-  const date = new Date().toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Nouveau message</title>
+</head>
+<body style="margin:0;padding:0;background-color:#e8eaf0;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#e8eaf0;padding:40px 16px;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.12);">
 
-  const values = {
-    '{{PRENOM}}': escapeHtml(msg.prenom || ''),
-    '{{NOM}}': escapeHtml(msg.nom || ''),
-    '{{PRENOM_INITIALE}}': escapeHtml((msg.prenom || msg.name || '?').charAt(0).toUpperCase()),
-    '{{EMAIL}}': escapeHtml(msg.email),
-    '{{SUJET}}': escapeHtml(msg.subject || 'Nouveau message'),
-    '{{MESSAGE}}': escapeHtml(msg.message).replace(/\n/g, '<br>'),
-    '{{DATE}}': date,
-    '{{SITE_NOM}}': 'Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires',
-    '{{SITE_URL}}': 'https://www.immeit.com',
-  };
+        <!-- HEADER -->
+        <tr>
+          <td style="background-color:#1a1f36;padding:32px 40px 0 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="56" valign="middle">
+                  <div style="width:48px;height:48px;background:#e8a020;border-radius:12px;text-align:center;line-height:48px;font-size:22px;">✉</div>
+                </td>
+                <td valign="middle" style="padding-left:14px;">
+                  <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700;letter-spacing:-0.3px;">Nouveau message reçu</p>
+                  <p style="margin:4px 0 0;color:#8b91b0;font-size:12px;">Formulaire de contact — ${config.site_nom}</p>
+                </td>
+              </tr>
+            </table>
+            <div style="margin-top:20px;height:1px;background:linear-gradient(90deg,#e8a020 0%,rgba(232,160,32,0) 70%);"></div>
+            <div style="height:24px;"></div>
+          </td>
+        </tr>
 
-  let html = template;
-  for (const [key, val] of Object.entries(values)) {
-    html = html.split(key).join(val);
-  }
-  return html;
+        <!-- BODY -->
+        <tr>
+          <td style="padding:32px 40px 8px 40px;">
+
+            <!-- Carte expéditeur -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f7f8fc;border-radius:12px;border-left:3px solid #e8a020;margin-bottom:24px;">
+              <tr>
+                <td style="padding:20px 24px;">
+                  <p style="margin:0 0 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b91b0;font-weight:700;">Expéditeur</p>
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td width="50%" style="padding-bottom:12px;padding-right:10px;">
+                        <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Prénom</p>
+                        <p style="margin:0;font-size:15px;color:#1a1f36;font-weight:700;">${prenom}</p>
+                      </td>
+                      <td width="50%" style="padding-bottom:12px;padding-left:10px;">
+                        <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Nom</p>
+                        <p style="margin:0;font-size:15px;color:#1a1f36;font-weight:700;">${nom}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Adresse email</p>
+                        <a href="mailto:${email}" style="color:#e8a020;font-size:14px;text-decoration:none;font-weight:500;">${email}</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Sujet -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
+              <tr>
+                <td>
+                  <span style="display:inline-block;background:#1a1f36;color:#ffffff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:20px;">Sujet</span>
+                  <span style="display:inline-block;font-size:15px;color:#1a1f36;font-style:italic;margin-left:10px;vertical-align:middle;">${sujet}</span>
+                </td>
+              </tr>
+            </table>
+
+            <!-- Message -->
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fafafa;border:1px solid #e8eaf0;border-radius:12px;">
+              <tr>
+                <td style="padding:24px;">
+                  <p style="margin:0 0 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b91b0;font-weight:700;">Message</p>
+                  <p style="margin:0;font-size:15px;color:#2d3250;line-height:1.85;">${message}</p>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+
+        <!-- BOUTON RÉPONDRE -->
+        <tr>
+          <td style="padding:24px 40px 32px;text-align:right;">
+            <a href="mailto:${email}?subject=Re: ${sujet}" style="display:inline-block;background:#e8a020;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;letter-spacing:0.2px;">↩ Répondre à ${prenom}</a>
+          </td>
+        </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="background:#f7f8fc;padding:20px 40px;border-top:1px solid #e8eaf0;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="font-size:11px;color:#8b91b0;">Reçu le ${date} via <a href="${config.site_url}" style="color:#8b91b0;">${config.site_url}</a></td>
+                <td align="right" style="font-size:11px;color:#8b91b0;">Ne pas répondre directement</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>`;
 }
 
-module.exports = { buildContactEmail, escapeHtml };
+module.exports = { buildContactEmail, clean };

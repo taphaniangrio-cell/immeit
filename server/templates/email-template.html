@@ -38,26 +38,27 @@ body{margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,Blink
 <span class="header-badge">NOUVEAU CONTACT</span>
 </div>
 </div>
-<div class="subject-bar"><h2>{{SUJET}}</h2></div>
+<div class="subject-bar"><h2>{{subject}}</h2></div>
 <div class="meta">
 <table class="meta-table" cellpadding="0" cellspacing="0" role="presentation">
 <tr>
-<td class="avatar-cell"><span class="avatar">{{PRENOM_INITIALE}}</span></td>
+<td class="avatar-cell"><span class="avatar">{{firstLetter}}</span></td>
 <td>
-<div class="meta-name">{{PRENOM}} {{NOM}}</div>
-<div class="meta-email"><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></div>
+<div class="meta-name">{{name}}</div>
+<div class="meta-email"><a href="mailto:{{email}}">{{email}}</a></div>
 </td>
-<td style="text-align:right"><span class="meta-date">{{DATE}}</span></td>
+<td style="text-align:right"><span class="meta-date">{{date}}</span></td>
 </tr>
 </table>
 </div>
 <div class="body">
 <p class="body-label">Message</p>
-<p class="body-text">{{MESSAGE}}</p>
+<p class="body-text">{{message}}</p>
 </div>
 <div class="footer">
 <p class="footer-brand">IMMEIT <span>—</span> {{SITE_NOM}}</p>
 <p class="footer-text">Ce message a été envoyé depuis le formulaire de contact du site <a href="{{SITE_URL}}">immeit.com</a></p>
+<a href="mailto:{{email}}?subject=Re%3A%20{{subjectEncoded}}" class="btn-reply">R&eacute;pondre &agrave; {{name}}</a>
 </div>
 </div>
 </div>

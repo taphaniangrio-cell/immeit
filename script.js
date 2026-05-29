@@ -601,10 +601,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromName = `${prenom} ${nom}`;
     const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
 
-    const TUNNEL_URL = 'https://a69464b2e4bcfa.lhr.life';
+    const TUNNEL_URL = 'https://513a532dc60bc2.lhr.life';
 
-    async function sendServer(url) {
-      const r = await fetch(url + '/api/contact', {
+    async function discoverEndpoint() {
+      try {
+        const r = await fetch(TUNNEL_URL + '/api/config', { signal: AbortSignal.timeout(5000) });
+        const d = await r.json();
+        if (d.tunnelUrl) return d.tunnelUrl;
+      } catch {}
+      try {
+        const r = await fetch('/api/config', { signal: AbortSignal.timeout(3000) });
+        const d = await r.json();
+        if (d.tunnelUrl) return d.tunnelUrl;
+      } catch {}
+      return '';
+    }
+
+    async function sendServer(baseUrl) {
+      const url = (baseUrl || '') + '/api/contact';
+      const r = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -633,7 +648,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let ok = false;
     try {
-      await sendServer(TUNNEL_URL);
+      const endpoint = await discoverEndpoint();
+      await sendServer(endpoint || TUNNEL_URL);
       ok = true;
     } catch {
       try { await sendServer(''); ok = true; } catch {

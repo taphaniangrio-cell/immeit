@@ -82,13 +82,11 @@ async function sendEmail(msg) {
   }
 
   const mailOptions = {
-    from: `"IMMEIT Contact" <${process.env.SMTP_USER}>`,
+    from: `"${process.env.SMTP_USER}" <${process.env.SMTP_USER}>`,
     to: CONTACT_EMAIL,
-    replyTo: msg.email,
-    subject: msg.subject
-      ? `${msg.subject} - Site IMMEIT`
-      : 'Nouveau message depuis le site IMMEIT',
-    text: `Nom : ${msg.name}\nEmail : ${msg.email}\n\nMessage :\n${msg.message}`,
+    replyTo: `"${msg.prenom || ''} ${msg.nom || ''}" <${msg.email}>`,
+    subject: `✉ Nouveau message : ${msg.subject || 'Sans sujet'}`,
+    text: `Nouveau message de ${msg.prenom || ''} ${msg.nom || ''} (${msg.email})\n\nSujet : ${msg.subject || 'Sans sujet'}\n\nMessage :\n${msg.message}\n\nReçu le ${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`,
     html: buildContactEmail(msg)
   };
 
