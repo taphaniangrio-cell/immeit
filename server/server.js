@@ -158,22 +158,16 @@ function readTunnelUrl() {
   return null;
 }
 
-function getAllowedOrigins() {
-  const origins = [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://localhost:5500',
-    'http://127.0.0.1:5500',
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-    ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : []),
-  ];
-  const tunnelUrl = readTunnelUrl();
-  if (tunnelUrl) origins.push(tunnelUrl);
-  return origins;
-}
-
-app.set('trust proxy', 1);
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : []),
+  ...(readTunnelUrl() ? [readTunnelUrl()] : [])
+];
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -184,20 +178,16 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"],
+      connectSrc: ["'self'", "https://api.web3forms.com"],
       frameAncestors: ["'none'"],
-      formAction: ["'self'"],
+      formAction: ["'self'", "https://api.web3forms.com"],
     },
   },
   crossOriginEmbedderPolicy: false,
 }));
 
 app.use(cors({
-  origin: function (origin, callback) {
-    const allowed = getAllowedOrigins();
-    if (!origin || allowed.indexOf(origin) !== -1) return callback(null, true);
-    callback(null, true);
-  },
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -215,6 +205,7 @@ app.use((req, res, next) => {
 
 app.get('/home', (_req, res) => res.redirect(301, '/'));
 app.get('/home.html', (_req, res) => res.redirect(301, '/'));
+app.get('/index.html', (_req, res) => res.redirect(301, '/'));
 
 app.use(express.static(path.join(__dirname, '..'), {
   dotfiles: 'ignore',
@@ -353,7 +344,7 @@ app.post('/api/contact', async (req, res) => {
         msg.sent_at = new Date().toISOString();
         saveMessages(messages);
         console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
-        return res.json({ success: true, id: msg.id, tunnelUrl: readTunnelUrl() });
+        return res.json({ success: true, id: msg.id });
       } catch (err) {
         msg.status = 'failed';
         msg.error_message = err.message;
@@ -363,8 +354,7 @@ app.post('/api/contact', async (req, res) => {
           success: true,
           stored: true,
           id: msg.id,
-          warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement.",
-          tunnelUrl: readTunnelUrl()
+          warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement."
         });
       }
     }

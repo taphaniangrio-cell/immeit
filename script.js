@@ -601,28 +601,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromName = `${prenom} ${nom}`;
     const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
 
-    async function sendWorker() {
-      const r = await fetch('https://immeit-worker.workers.dev', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prenom, nom, email, sujet, message })
-      });
-      const d = await r.json();
-      if (!d.success) throw new Error('Worker ' + (d.error || r.status));
-    }
-
-    async function sendEmailJS() {
-      const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    async function sendServer() {
+      const r = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          service_id: 'service_kv0swyj',
-          template_id: 'template_8zk06o3',
-          user_id: 'ePN2V8qTsvgScPlt-',
-          template_params: { prenom, nom, email, sujet, message }
+          prenom, nom, email,
+          subject: sujet,
+          message,
+          name: fromName
         })
       });
-      if (!r.ok) throw new Error('EmailJS ' + r.status);
+      const d = await r.json();
+      if (!d.success && r.status >= 400) throw new Error('Serveur ' + (d.error || r.status));
     }
 
     async function sendWeb3() {
@@ -640,11 +631,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let ok = false;
     try {
-      await sendWorker();
+      await sendServer();
       ok = true;
     } catch {
-      try { await Promise.race([sendEmailJS(), new Promise((_, rj) => setTimeout(() => rj(new Error('timeout')), 5000))]); ok = true; }
-      catch { try { await sendWeb3(); ok = true; } catch {} }
+      try { await sendWeb3(); ok = true; } catch {}
     }
 
     if (ok) {
