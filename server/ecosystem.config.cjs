@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       name: 'immeit-tunnel',
-      script: 'tunnel.js',
+      script: 'tunnel-ssh.js',
       cwd: '.',
       env: { NODE_ENV: 'production' },
       watch: false,
@@ -23,7 +23,9 @@ module.exports = {
       out_file: './logs/tunnel-out.log',
       merge_logs: true,
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      autorestart: true
+      autorestart: true,
+      max_restarts: 999,
+      restart_delay: 3000
     }
   ]
 };

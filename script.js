@@ -601,8 +601,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromName = `${prenom} ${nom}`;
     const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
 
-    async function sendServer() {
-      const r = await fetch('/api/contact', {
+    const TUNNEL_URL = 'https://a69464b2e4bcfa.lhr.life';
+
+    async function sendServer(url) {
+      const r = await fetch(url + '/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -631,10 +633,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let ok = false;
     try {
-      await sendServer();
+      await sendServer(TUNNEL_URL);
       ok = true;
     } catch {
-      try { await sendWeb3(); ok = true; } catch {}
+      try { await sendServer(''); ok = true; } catch {
+        try { await sendWeb3(); ok = true; } catch {}
+      }
     }
 
     if (ok) {

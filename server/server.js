@@ -472,6 +472,16 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+app.get('/api/config', (req, res) => {
+  let tunnelUrl = '';
+  try { tunnelUrl = fs.readFileSync(path.join(__dirname, '.tunnel-url'), 'utf8').trim(); } catch {}
+  res.json({
+    tunnelUrl,
+    contactEmail: CONTACT_EMAIL,
+    version: 1
+  });
+});
+
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
