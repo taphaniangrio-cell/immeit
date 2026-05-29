@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+
   // ===== Loader =====
   const loader = document.getElementById('loader');
   window.addEventListener('load', () => {
@@ -29,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var ns = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('viewBox', '0 0 200 200');
-    svg.style.cssText = 'position:absolute;top:2%;right:2%;width:260px;height:260px;display:block;overflow:visible';
-    svg.style.animation = 'spin 24s linear infinite';
+    svg.style.cssText = 'position:absolute;top:2%;right:2%;width:180px;height:180px;display:block;overflow:visible';
+    svg.style.animation = 'spin 60s linear infinite';
     svg.classList.add('hero__gear');
     var defs = document.createElementNS(ns, 'defs');
     function addGrad(id, cx, cy, r, stops) {
@@ -382,6 +383,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageError = document.getElementById('messageError');
   const submitBtn = document.getElementById('submitBtn');
 
+  const charCounter = document.getElementById('charCounter');
+  const MAX_CHARS = 2000;
+
+  updateCharCounter();
+  if (messageInput) autoResize(messageInput);
+
   function setFieldState(input, errorEl, isValid, message) {
     input.classList.remove('error', 'success');
     errorEl.textContent = '';
@@ -460,15 +467,51 @@ document.addEventListener('DOMContentLoaded', () => {
   messageInput.addEventListener('blur', validateMessage);
   messageInput.addEventListener('input', function () {
     if (this.classList.contains('error') || this.classList.contains('success')) validateMessage();
+    updateCharCounter();
+    autoResize(this);
   });
 
-  // ===== Form submission =====
+  function updateCharCounter() {
+    if (!charCounter) return;
+    const len = messageInput.value.length;
+    const remaining = MAX_CHARS - len;
+    charCounter.textContent = remaining;
+    charCounter.classList.remove('form__char-counter--warn', 'form__char-counter--danger');
+    if (remaining <= 20) charCounter.classList.add('form__char-counter--danger');
+    else if (remaining <= 100) charCounter.classList.add('form__char-counter--warn');
+  }
+
+  // ===== Auto-resize textarea =====
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.max(60, el.scrollHeight) + 'px';
+  }
+
+  // ===== Confetti =====
+  function fireConfetti() {
+    const colors = ['#C99A3E', '#1F538C', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+    for (let i = 0; i < 40; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.top = '-10px';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.width = (Math.random() * 6 + 4) + 'px';
+      piece.style.height = (Math.random() * 6 + 4) + 'px';
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+      piece.style.animationDelay = (Math.random() * 0.5) + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 4000);
+    }
+  }
+
   function setLoading(loading) {
     if (loading) {
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-spinner fa-spin"></i> Envoi en cours...</span><span class="btn__shimmer"></span>';
       submitBtn.disabled = true;
     } else {
-      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
+      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-paper-plane"></i> Envoyer</span><span class="btn__shimmer"></span>';
       submitBtn.disabled = false;
     }
   }
@@ -477,6 +520,10 @@ document.addEventListener('DOMContentLoaded', () => {
     form.reset();
     [prenomInput, nomInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
     [prenomError, nomError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
+    updateCharCounter();
+    if (messageInput) {
+      messageInput.style.height = 'auto';
+    }
   }
 
   function showConfirmation(bannerHtml) {
@@ -484,6 +531,9 @@ document.addEventListener('DOMContentLoaded', () => {
     banner.className = 'form-banner form-banner--' + (bannerHtml.includes('check-circle') ? 'success' : 'error');
     banner.innerHTML = bannerHtml;
     submitBtn.parentNode.insertBefore(banner, submitBtn);
+    if (bannerHtml.includes('check-circle')) {
+      fireConfetti();
+    }
     setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
   }
 
@@ -543,19 +593,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(true);
 
-    const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
-
     const fd = new FormData();
-    fd.append('access_key', WEB3FORMS_KEY);
-    fd.append('subject', `[IMMEIT] ${subjectInput.value.trim() || 'Nouveau message'}`);
+    fd.append('access_key', '1537e384-9a6b-433e-b684-a6916a6de7e5');
+    fd.append('subject', `[IMMEIT] ${prenomInput.value.trim()} ${nomInput.value.trim()} - ${subjectInput.value.trim() || 'Nouveau message'}`);
     fd.append('from_name', `${prenomInput.value.trim()} ${nomInput.value.trim()}`);
     fd.append('email', emailInput.value.trim());
-    fd.append('message', messageInput.value.trim());
+    fd.append('Prénom', prenomInput.value.trim());
+    fd.append('Nom', nomInput.value.trim());
+    fd.append('Message', messageInput.value.trim());
 
     try {
       const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
       const data = await res.json();
-
       if (data.success) {
         setLoading(false);
         showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');

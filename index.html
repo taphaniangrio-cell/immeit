@@ -30,8 +30,8 @@
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{font-family:Poppins,-apple-system,BlinkMacSystemFont,sans-serif;color:#f1f5f9;background:#111927;line-height:1.7;overflow-x:hidden}
-    .nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(17,25,39,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(36,48,68,.6)}
-    .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+    .nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(17,25,39,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(36,48,68,.6)}
+    .hero{min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden}
     .hero__bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .hero__overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(17,25,39,.92),rgba(17,25,39,.6) 50%,rgba(17,25,39,.85))}
     .container{max-width:1200px;margin:0 auto;padding:0 24px}
@@ -129,16 +129,16 @@
             <defs>
               <path id="heroArcPath" d="M 15,55 Q 100,-10 185,55" fill="none" />
             </defs>
-            <text text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="600" letter-spacing="3" fill="currentColor" font-family="Poppins, sans-serif">
+            <text text-anchor="middle" dominant-baseline="middle" font-size="17" font-weight="600" letter-spacing="3" fill="#ffffff" font-family="Poppins, sans-serif">
               <textPath href="#heroArcPath" startOffset="50%">Nos partenaires</textPath>
             </text>
           </svg>
           <div class="hero__logos-group">
-            <a href="javascript:void(0)" class="hero__logo-link" id="p2mLogo">
-              <img src="logo-immeit.jpeg" alt="P2M" class="hero__logo-duplicate" />
+            <a href="https://www.immeit.com" class="hero__logo-link" id="p2mLogo" target="_blank" rel="noopener">
+              <img src="logo-immeit.jpeg" alt="IMMEIT" class="hero__logo-duplicate" />
             </a>
-            <a href="javascript:void(0)" class="hero__logo-link" id="industrielecLogo">
-              <img src="logo-immeit.jpeg" alt="INDUSTRELEC" class="hero__logo-duplicate" />
+            <a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" class="hero__logo-link" id="industrielecLogo" target="_blank" rel="noopener">
+              <img src="logo-immeit.jpeg" alt="IMMEIT LinkedIn" class="hero__logo-duplicate" />
             </a>
           </div>
         </div>
@@ -152,29 +152,29 @@
             Méthodes fiables<br/>
             pour une <span class="hero__accent">production durable</span>
           </h1>
-          <p style="text-align:justify">
+          <p>
             IMMEIT est spécialisée dans la <span class="text--accent">méthode</span> maintenance et la <span class="text--accent">performance</span> industrielle, la maintenance <span class="text--accent">multi-technique</span> et l'installation de systèmes de <span class="text--accent">climatisation</span>. Basée au Sénégal <svg class="contact__flag" viewBox="0 0 3 2" width="16" height="12"><rect width="1" height="2" fill="#00853F"/><rect x="1" width="1" height="2" fill="#FDEF42"/><rect x="2" width="1" height="2" fill="#E31B23"/><polygon points="1.5,0.65 1.6,0.9 1.88,0.93 1.67,1.13 1.71,1.4 1.5,1.27 1.29,1.4 1.33,1.13 1.12,0.93 1.4,0.9" fill="#00853F"/></svg> Dakar et en France <svg class="contact__flag" viewBox="0 0 3 2" width="16" height="12"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg> Paris, nous concevons des solutions sur mesure pour garantir la <span class="text--accent">performance</span>, la <span class="text--accent">fiabilité</span> et la <span class="text--accent">longévité</span> de vos équipements.
           </p>
           <div class="hero__actions">
             <a href="#contact" class="btn btn--primary">Nous contacter</a>
             <a href="#services" class="btn btn--ghost">Nos services <i class="fas fa-arrow-right"></i></a>
           </div>
-           <div class="hero__stats" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 0; padding: 0;">
-             <div class="hero__stats-group" style="display: flex; gap: 24px; align-items: center;">
-               <div class="hero__stat" style="position: relative;">
-                 <span class="hero__stat-num" data-count="2" data-suffix="+">0</span>
-                 <span class="hero__stat-label">Clients accompagnés</span>
-               </div>
-               <div class="hero__stat" style="position: relative;">
-                 <span class="hero__stat-num" data-count="5">0</span>
-                 <span class="hero__stat-label">Collaborateurs</span>
-               </div>
-               <div class="hero__stat" style="position: relative;">
-                 <span class="hero__stat-num" data-count="5" data-suffix="+">0</span>
-                 <span class="hero__stat-label">Domaines d'expertise</span>
-               </div>
-             </div>
-             <a href="#contact" style="display: inline-flex !important; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 100px; font-size: 0.95rem; font-weight: 600; border: none; cursor: pointer; font-family: inherit; background: linear-gradient(135deg, #1f538c, #2a6bb5); color: #fff; box-shadow: 0 4px 16px rgba(31, 83, 140, 0.3); text-decoration: none; visibility: visible !important; opacity: 1 !important; position: relative !important; z-index: 999 !important;">Nous contacter</a>
+           <div class="hero__stats">
+             <div class="hero__stats-group">
+               <div class="hero__stat">
+                  <span class="hero__stat-num" data-count="2" data-suffix="+">0</span>
+                  <span class="hero__stat-label">Clients accompagnés</span>
+                </div>
+                <div class="hero__stat">
+                  <span class="hero__stat-num" data-count="5">0</span>
+                  <span class="hero__stat-label">Collaborateurs</span>
+                </div>
+                <div class="hero__stat">
+                  <span class="hero__stat-num" data-count="5" data-suffix="+">0</span>
+                  <span class="hero__stat-label">Domaines d'expertise</span>
+                </div>
+              </div>
+             <a href="#contact" class="btn btn--primary">Nous contacter</a>
            </div>
         </div>
       </div>
@@ -512,12 +512,12 @@
             <div class="testimonial__stars">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
-            <p>"Un accompagnement professionnel et une réelle expertise en méthodes maintenance. Nos indicateurs de performance se sont nettement améliorés."</p>
+            <p>"Merci pour la qualité du travail réalisé dans la gestion des rapports de maintenance et la mise à jour des KPI. La rigueur, la réactivité et le professionnalisme apportés contribuent efficacement au suivi de nos activités et de nos performances. La disponibilité et la qualité du travail à distance sont également très appréciées."</p>
             <div class="testimonial__author">
               <div class="testimonial__avatar">RN</div>
               <div>
                 <strong>Responsable Maintenance</strong>
-                <span>Groupe industriel, France</span>
+                <span>PME, France</span>
               </div>
             </div>
           </div>
@@ -525,12 +525,12 @@
             <div class="testimonial__stars">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
-            <p>"Installation de climatisation réalisée dans les délais avec un excellent rapport qualité-prix. Je recommande vivement IMMEIT."</p>
+             <p>"Cette collaboration a permis à nos équipes d'être davantage présentes sur le terrain et de se concentrer sur les activités opérationnelles quotidiennes. Cela représente un gain de temps considérable, améliore l'efficacité globale et renforce la réactivité ainsi que la qualité de service."</p>
             <div class="testimonial__author">
               <div class="testimonial__avatar">AK</div>
               <div>
-                <strong>Directeur Administratif</strong>
-                <span>PME, Dakar</span>
+                <strong>Responsable site</strong>
+                <span>PME, France</span>
               </div>
             </div>
           </div>
@@ -538,12 +538,12 @@
             <div class="testimonial__stars">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
             </div>
-            <p>"Grâce à leur audit et à la mise en place d'une GMAO adaptée, nous avons réduit nos arrêts non planifiés de 40%."</p>
+            <p>"Grâce à ce partenariat, il a été possible de répondre aux appels d'offres tout en réduisant les coûts des prestations, ce qui permet de se positionner au niveau des concurrents. Malgré la distance, la réactivité, l'écoute et le professionnalisme facilitent grandement le partenariat ainsi que la collaboration avec les équipes sur place. J'espère que notre partenariat continuera sur le long terme."</p>
             <div class="testimonial__author">
               <div class="testimonial__avatar">MS</div>
               <div>
-                <strong>Chef de Projet Maintenance</strong>
-                <span>Site industriel, Mali</span>
+                <strong>Responsable d'activités</strong>
+                <span>PME, France</span>
               </div>
             </div>
           </div>
@@ -570,37 +570,53 @@
               <a href="mailto:demandes-p2m@immeit.com" onclick="gtag('event', 'email_click', { event_category: 'Contact', event_label: 'Email cliqué' })"><i class="fas fa-envelope"></i> demandes-p2m@immeit.com</a>
             </div>
           </div>
-          <form class="contact__form reveal" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
-            <input type="hidden" name="access_key" value="1537e384-9a6b-433e-b684-a6916a6de7e5">
+          <form class="contact__form reveal" id="contactForm" novalidate>
             <div class="form__row">
               <div class="form__group">
-                <label for="prenom">Prénom <span class="form__required">*</span></label>
-                <input type="text" id="prenom" name="prenom" placeholder="Jean" required minlength="2" maxlength="50" autocomplete="given-name" />
+                <div class="form__input-wrap">
+                  <i class="fas fa-user form__icon"></i>
+                  <input type="text" id="prenom" name="prenom" placeholder=" " required minlength="2" maxlength="50" autocomplete="given-name" />
+                  <label for="prenom">Prénom <span class="form__required">*</span></label>
+                </div>
                 <span class="form__error" id="prenomError"></span>
               </div>
               <div class="form__group">
-                <label for="nom">Nom <span class="form__required">*</span></label>
-                <input type="text" id="nom" name="nom" placeholder="Dupont" required minlength="2" maxlength="50" autocomplete="family-name" />
+                <div class="form__input-wrap">
+                  <i class="fas fa-user form__icon"></i>
+                  <input type="text" id="nom" name="nom" placeholder=" " required minlength="2" maxlength="50" autocomplete="family-name" />
+                  <label for="nom">Nom <span class="form__required">*</span></label>
+                </div>
                 <span class="form__error" id="nomError"></span>
               </div>
             </div>
             <div class="form__group">
-              <label for="email">Email <span class="form__required">*</span></label>
-              <input type="email" id="email" name="email" placeholder="votre@email.com" required autocomplete="email" />
+              <div class="form__input-wrap">
+                <i class="fas fa-envelope form__icon"></i>
+                <input type="email" id="email" name="email" placeholder=" " required autocomplete="email" />
+                <label for="email">Email <span class="form__required">*</span></label>
+              </div>
               <span class="form__error" id="emailError"></span>
             </div>
             <div class="form__group">
-              <label for="subject">Sujet <span class="form__required">*</span></label>
-              <input type="text" id="subject" name="subject" placeholder="Sujet de votre message" required maxlength="200" />
+              <div class="form__input-wrap">
+                <i class="fas fa-tag form__icon"></i>
+                <input type="text" id="subject" name="subject" placeholder=" " required maxlength="200" />
+                <label for="subject">Sujet <span class="form__required">*</span></label>
+              </div>
               <span class="form__error" id="subjectError"></span>
             </div>
             <div class="form__group">
-              <label for="message">Message <span class="form__required">*</span></label>
-              <textarea id="message" name="message" rows="2" placeholder="Votre message" required minlength="10" maxlength="2000"></textarea>
+              <div class="form__input-wrap">
+                <i class="fas fa-comment form__icon"></i>
+                <textarea id="message" name="message" rows="2" placeholder=" " required minlength="10" maxlength="2000"></textarea>
+                <label for="message">Message <span class="form__required">*</span></label>
+                <span class="form__char-counter" id="charCounter">2000</span>
+              </div>
               <span class="form__error" id="messageError"></span>
             </div>
             <button type="submit" class="btn" id="submitBtn">
-              <i class="fas fa-paper-plane"></i> Envoyer
+              <span class="btn__text"><i class="fas fa-paper-plane"></i> Envoyer</span>
+              <span class="btn__shimmer"></span>
             </button>
           </form>
         </div>
@@ -637,10 +653,9 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
-  <style>@keyframes floatBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }</style>
-  <a href="pourquoi-choisir-immeit.html" id="floatingCta" class="btn" style="display: none; position: fixed; bottom: 30px; right: 30px; z-index: 999; background: var(--gradient-accent); color: #fff; box-shadow: 0 4px 20px rgba(201, 154, 62, 0.35); border: 1px solid rgba(201, 154, 62, 0.3); backdrop-filter: blur(10px); font-size: 0.9rem; padding: 14px 28px; letter-spacing: 0.3px; animation: floatBounce 2s ease-in-out infinite;">Pourquoi choisir IMMEIT ?</a>
+  <a href="pourquoi-choisir-immeit.html" id="floatingCta" class="btn" style="display:none;position:fixed;bottom:30px;right:30px;background:var(--gradient-accent);color:#fff;box-shadow:0 4px 20px rgba(201,154,62,0.35);border:1px solid rgba(201,154,62,0.3);backdrop-filter:blur(10px);padding:14px 28px;letter-spacing:0.3px">Pourquoi choisir IMMEIT ?</a>
 
-  <script src="script.js?v=19"></script>
+  <script src="script.js?v=20"></script>
 </body>
 </html>
 
