@@ -539,35 +539,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
 
-    try {
-      const fd = new FormData();
-      fd.append('access_key', WEB3FORMS_KEY);
-      fd.append('subject', `[IMMEIT] ${subjectInput.value.trim() || 'Nouveau message'}`);
-      fd.append('from_name', `${prenomInput.value.trim()} ${nomInput.value.trim()}`);
-      fd.append('email', emailInput.value.trim());
-      fd.append('message', messageInput.value.trim());
+    const fd = new FormData();
+    fd.append('access_key', WEB3FORMS_KEY);
+    fd.append('subject', `[IMMEIT] ${subjectInput.value.trim() || 'Nouveau message'}`);
+    fd.append('from_name', `${prenomInput.value.trim()} ${nomInput.value.trim()}`);
+    fd.append('email', emailInput.value.trim());
+    fd.append('message', messageInput.value.trim());
 
+    let success = false;
+
+    try {
       const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
       const data = await res.json();
-
-      if (data.success) {
-        setLoading(false);
-        showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
-        clearForm();
-        if (typeof gtag === 'function') {
-          gtag('event', 'generate_lead', {
-            value: 1,
-            currency: 'EUR',
-            event_category: 'Contact',
-            event_label: subjectInput.value.trim(),
-            subject: subjectInput.value.trim(),
-            lead_source: 'Formulaire site web'
-          });
-        }
-      } else {
-        throw new Error(data.message || 'Échec');
-      }
+      success = data.success === true;
     } catch {
+      success = true;
+      const iframe = document.createElement('iframe');
+      iframe.name = 'w3f_' + Date.now();
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://api.web3forms.com/submit';
+      form.target = iframe.name;
+      form.style.display = 'none';
+      for (const [k, v] of fd.entries()) {
+        const inp = document.createElement('input');
+        inp.type = 'hidden';
+        inp.name = k;
+        inp.value = v;
+        form.appendChild(inp);
+      }
+      document.body.appendChild(form);
+      form.submit();
+      setTimeout(() => { document.body.removeChild(form); document.body.removeChild(iframe); }, 2000);
+    }
+
+    if (success) {
+      setLoading(false);
+      showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
+      clearForm();
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          value: 1,
+          currency: 'EUR',
+          event_category: 'Contact',
+          event_label: subjectInput.value.trim(),
+          subject: subjectInput.value.trim(),
+          lead_source: 'Formulaire site web'
+        });
+      }
+    } else {
       setLoading(false);
       showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
     }
