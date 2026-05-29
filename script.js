@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // IMMEIT TUNNEL URL - mis a jour automatiquement
-window.IMMEIT_API_URL = 'https://agree-viewer-soldier-somebody.trycloudflare.com';
-// FIN IMMEIT TUNNEL URL
+    // IMMEIT TUNNEL URL - mis a jour automatiquement
+window.IMMEIT_API_URL = 'https://gamma-acquired-hits-molecular.trycloudflare.com';
+  // FIN IMMEIT TUNNEL URL
 
   // ===== Loader =====
   const loader = document.getElementById('loader');
