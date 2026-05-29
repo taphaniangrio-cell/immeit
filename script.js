@@ -543,6 +543,16 @@ document.addEventListener('DOMContentLoaded', () => {
     setLoading(true);
 
     try {
+      if (typeof emailjs === 'undefined') {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+          s.onload = resolve;
+          s.onerror = () => reject(new Error('EmailJS SDK non chargé'));
+          document.head.appendChild(s);
+        });
+        emailjs.init('ePN2V8qTsvgScPlt-');
+      }
       await emailjs.send('service_kv0swyj', 'template_8zk06o3', {
         prenom: prenomInput.value.trim(),
         nom: nomInput.value.trim(),
@@ -565,7 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch {
       setLoading(false);
-      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vérifiez votre connexion internet ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
     }
   });
 
