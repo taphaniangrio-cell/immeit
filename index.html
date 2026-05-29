@@ -573,33 +573,50 @@
           <form class="contact__form reveal" id="contactForm" novalidate>
             <div class="form__row">
               <div class="form__group">
-                <label for="prenom">Prénom <span class="form__required">*</span></label>
-                <input type="text" id="prenom" name="prenom" placeholder="Jean" required minlength="2" maxlength="50" autocomplete="given-name" />
+                <div class="form__input-wrap">
+                  <i class="fas fa-user form__icon"></i>
+                  <input type="text" id="prenom" name="prenom" placeholder=" " required minlength="2" maxlength="50" autocomplete="given-name" />
+                  <label for="prenom">Prénom <span class="form__required">*</span></label>
+                </div>
                 <span class="form__error" id="prenomError"></span>
               </div>
               <div class="form__group">
-                <label for="nom">Nom <span class="form__required">*</span></label>
-                <input type="text" id="nom" name="nom" placeholder="Dupont" required minlength="2" maxlength="50" autocomplete="family-name" />
+                <div class="form__input-wrap">
+                  <i class="fas fa-user form__icon"></i>
+                  <input type="text" id="nom" name="nom" placeholder=" " required minlength="2" maxlength="50" autocomplete="family-name" />
+                  <label for="nom">Nom <span class="form__required">*</span></label>
+                </div>
                 <span class="form__error" id="nomError"></span>
               </div>
             </div>
             <div class="form__group">
-              <label for="email">Email <span class="form__required">*</span></label>
-              <input type="email" id="email" name="email" placeholder="votre@email.com" required autocomplete="email" />
+              <div class="form__input-wrap">
+                <i class="fas fa-envelope form__icon"></i>
+                <input type="email" id="email" name="email" placeholder=" " required autocomplete="email" />
+                <label for="email">Email <span class="form__required">*</span></label>
+              </div>
               <span class="form__error" id="emailError"></span>
             </div>
             <div class="form__group">
-              <label for="subject">Sujet <span class="form__required">*</span></label>
-              <input type="text" id="subject" name="subject" placeholder="Sujet de votre message" required maxlength="200" />
+              <div class="form__input-wrap">
+                <i class="fas fa-tag form__icon"></i>
+                <input type="text" id="subject" name="subject" placeholder=" " required maxlength="200" />
+                <label for="subject">Sujet <span class="form__required">*</span></label>
+              </div>
               <span class="form__error" id="subjectError"></span>
             </div>
             <div class="form__group">
-              <label for="message">Message <span class="form__required">*</span></label>
-              <textarea id="message" name="message" rows="2" placeholder="Votre message" required minlength="10" maxlength="2000"></textarea>
+              <div class="form__input-wrap">
+                <i class="fas fa-comment form__icon"></i>
+                <textarea id="message" name="message" rows="2" placeholder=" " required minlength="10" maxlength="2000"></textarea>
+                <label for="message">Message <span class="form__required">*</span></label>
+                <span class="form__char-counter" id="charCounter">2000</span>
+              </div>
               <span class="form__error" id="messageError"></span>
             </div>
             <button type="submit" class="btn" id="submitBtn">
-              <i class="fas fa-paper-plane"></i> Envoyer
+              <span class="btn__text"><i class="fas fa-paper-plane"></i> Envoyer</span>
+              <span class="btn__shimmer"></span>
             </button>
           </form>
         </div>
