@@ -593,15 +593,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(true);
 
+    const prenom = prenomInput.value.trim();
+    const nom = nomInput.value.trim();
+    const email = emailInput.value.trim();
+    const sujet = subjectInput.value.trim() || 'Nouveau message';
+    const message = messageInput.value.trim();
+
     const p = new URLSearchParams({
       'access_key': '1537e384-9a6b-433e-b684-a6916a6de7e5',
-      'subject': `[IMMEIT] ${prenomInput.value.trim()} ${nomInput.value.trim()} - ${subjectInput.value.trim() || 'Nouveau message'}`,
-      'from_name': `${prenomInput.value.trim()} ${nomInput.value.trim()}`,
-      'email': emailInput.value.trim(),
-      'Prénom': prenomInput.value.trim(),
-      'Nom': nomInput.value.trim(),
-      'Sujet': subjectInput.value.trim() || 'Nouveau message',
-      'Message': messageInput.value.trim()
+      'subject': `[IMMEIT] ${prenom} ${nom} - ${sujet}`,
+      'from_name': `${prenom} ${nom}`,
+      'email': email,
+      'Message': `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT\n  Installation · Méthodes · Maintenance\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n  📩 NOUVEAU MESSAGE DE CONTACT\n  ─────────────────────────────\n\n  PRÉNOM    : ${prenom}\n  NOM       : ${nom}\n  EMAIL     : ${email}\n  SUJET     : ${sujet}\n  ─────────────────────────────\n\n  MESSAGE :\n  ${message.replace(/\n/g, '\n  ')}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT — contact@immeit.com\n  www.immeit.com\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
     });
 
     try {
@@ -611,7 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setLoading(false);
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
-      if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: subjectInput.value.trim(), subject: subjectInput.value.trim(), lead_source: 'Formulaire site web' });
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
     } catch {
       setLoading(false);
       showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
