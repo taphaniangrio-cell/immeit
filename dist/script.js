@@ -596,103 +596,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = emailInput.value.trim();
     const sujet = subjectInput.value.trim() || 'Nouveau message';
     const message = messageInput.value.trim();
-    const fromName = `${prenom} ${nom}`;
-    const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
 
-    // Build a nice HTML email body locally, for the fallback
-    const htmlBody = `
-<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e8edf3">
-<div style="background:linear-gradient(135deg,#0d1b2a,#1b2d45);padding:28px 32px;text-align:center">
-<div style="font-size:28px;font-weight:800;color:#fff;letter-spacing:-0.5px">IMMEIT</div>
-<div style="font-size:13px;color:#8899aa;margin-top:4px">Installation · Méthodes · Maintenance</div>
-</div>
-<div style="padding:32px">
-<div style="font-size:18px;font-weight:700;color:#0d1b2a;margin-bottom:20px">📩 Nouveau message de contact</div>
-<table style="width:100%;border-collapse:collapse">
-<tr><td style="padding:10px 14px;background:#f8f9fb;color:#666;font-size:13px;font-weight:600;width:110px">Prénom</td><td style="padding:10px 14px;color:#0d1b2a;font-size:14px">${prenom}</td></tr>
-<tr><td style="padding:10px 14px;background:#f8f9fb;color:#666;font-size:13px;font-weight:600">Nom</td><td style="padding:10px 14px;color:#0d1b2a;font-size:14px">${nom}</td></tr>
-<tr><td style="padding:10px 14px;background:#f8f9fb;color:#666;font-size:13px;font-weight:600">Email</td><td style="padding:10px 14px;color:#0d1b2a;font-size:14px"><a href="mailto:${email}" style="color:#2563eb">${email}</a></td></tr>
-<tr><td style="padding:10px 14px;background:#f8f9fb;color:#666;font-size:13px;font-weight:600">Sujet</td><td style="padding:10px 14px;color:#0d1b2a;font-size:14px">${sujet}</td></tr>
-<tr><td style="padding:10px 14px;background:#f8f9fb;color:#666;font-size:13px;font-weight:600;vertical-align:top">Message</td><td style="padding:10px 14px;color:#0d1b2a;font-size:14px;white-space:pre-wrap">${message}</td></tr>
-</table>
-<a href="mailto:${email}?subject=RE:${encodeURIComponent(sujet)}" style="display:inline-block;margin-top:24px;padding:12px 28px;background:#2563eb;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">✉ Répondre à ${prenom}</a>
-</div>
-<div style="background:#f8f9fb;padding:18px 32px;text-align:center;font-size:12px;color:#999;border-top:1px solid #e8edf3">
-IMMEIT — contact@immeit.com · www.immeit.com
-</div>
-</div>`;
-
-    async function tryEmailJSRest() {
-      const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          service_id: 'service_kv0swyj',
-          template_id: 'template_8zk06o3',
-          user_id: 'ePN2V8qTsvgScPlt-',
-          template_params: { prenom, nom, email, sujet, message }
-        })
-      });
-      if (!r.ok) throw new Error('EmailJS error ' + r.status);
-      return true;
-    }
-
-    async function tryFormsubmit() {
-      const p = new URLSearchParams();
-      p.append('name', fromName);
-      p.append('email', email);
-      p.append('_subject', subjectLine);
-      p.append('_template', 'table');
-      p.append('_replyto', email);
-      p.append('Prénom', prenom);
-      p.append('Nom', nom);
-      p.append('Sujet', sujet);
-      p.append('Message', message);
-      p.append('_html_message', htmlBody);
-      const r = await fetch('https://formsubmit.co/ajax/demandes-p2m@immeit.com', {
-        method: 'POST',
-        body: p
-      });
-      const d = await r.json();
-      return d.success;
-    }
-
-    async function tryWeb3Forms() {
-      const fd = new FormData();
-      fd.append('access_key', '1537e384-9a6b-433e-b684-a6916a6de7e5');
-      fd.append('subject', subjectLine);
-      fd.append('from_name', fromName);
-      fd.append('email', email);
-      fd.append('Prénom', prenom);
-      fd.append('Nom', nom);
-      fd.append('Sujet', sujet);
-      fd.append('Message', message);
-      fd.append('Message HTML', htmlBody);
-      return (await (await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })).json()).success;
-    }
-
-    let sent = false;
+    const p = new URLSearchParams();
+    p.append('name', `${prenom} ${nom}`);
+    p.append('email', email);
+    p.append('_subject', `[IMMEIT] ${prenom} ${nom} - ${sujet}`);
+    p.append('_template', 'box');
+    p.append('_replyto', email);
+    p.append('Prénom', prenom);
+    p.append('Nom', nom);
+    p.append('Sujet', sujet);
+    p.append('Message', message);
 
     try {
-      await Promise.race([tryEmailJSRest(), new Promise((_, rj) => setTimeout(() => rj(new Error('timeout')), 8000))]);
-      sent = true;
-    } catch {
-      try { sent = await tryFormsubmit(); } catch {}
-      if (!sent) {
-        try { sent = await tryWeb3Forms(); } catch {}
-      }
-    }
-
-    if (sent) {
+      const r = await fetch('https://formsubmit.co/ajax/demandes-p2m@immeit.com', { method: 'POST', body: p });
+      const d = await r.json();
+      if (!d.success) throw new Error(d.message || 'Échec');
       setLoading(false);
       showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
-      return;
+    } catch {
+      setLoading(false);
+      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
     }
-
-    setLoading(false);
-    showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
   });
 
   // ===== Keyboard shortcut =====
