@@ -574,7 +574,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch {
       setLoading(false);
-      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Vérifiez votre connexion internet ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+      const isFile = location.protocol === 'file:';
+      showConfirmation('<i class="fas fa-exclamation-circle"></i> ' + (isFile
+        ? 'Ouvrez le site via un serveur HTTP local (Live Server, npx serve...) ou testez sur <a href="https://www.immeit.com" target="_blank">immeit.com</a>'
+        : 'Échec de l\'envoi. Vérifiez votre connexion internet ou écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>'));
     }
   });
 
