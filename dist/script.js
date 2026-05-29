@@ -591,39 +591,71 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(true);
 
-    const fd = new FormData();
-    fd.append('access_key', '1537e384-9a6b-433e-b684-a6916a6de7e5');
-    fd.append('subject', `[IMMEIT] ${prenomInput.value.trim()} ${nomInput.value.trim()} - ${subjectInput.value.trim() || 'Nouveau message'}`);
-    fd.append('from_name', `${prenomInput.value.trim()} ${nomInput.value.trim()}`);
-    fd.append('email', emailInput.value.trim());
-    fd.append('Prénom', prenomInput.value.trim());
-    fd.append('Nom', nomInput.value.trim());
-    fd.append('Message', messageInput.value.trim());
+    const prenom = prenomInput.value.trim();
+    const nom = nomInput.value.trim();
+    const email = emailInput.value.trim();
+    const sujet = subjectInput.value.trim() || 'Nouveau message';
+    const message = messageInput.value.trim();
+    const fromName = `${prenom} ${nom}`;
+    const subjectLine = `[IMMEIT] ${fromName} - ${sujet}`;
+
+    let fsNeedsVerification = false;
+    let wfSuccess = false;
+
+    async function sendWeb3Forms() {
+      const fd = new FormData();
+      fd.append('access_key', '1537e384-9a6b-433e-b684-a6916a6de7e5');
+      fd.append('subject', subjectLine);
+      fd.append('from_name', fromName);
+      fd.append('email', email);
+      fd.append('Prénom', prenom);
+      fd.append('Nom', nom);
+      fd.append('Sujet', sujet);
+      fd.append('Message', message);
+      const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
+      const d = await r.json();
+      return d.success;
+    }
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
-      const data = await res.json();
-      if (data.success) {
+      const fsRes = await fetch('https://formsubmit.co/ajax/demandes-p2m@immeit.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: fromName,
+          email,
+          _subject: subjectLine,
+          Prénom: prenom,
+          Nom: nom,
+          Sujet: sujet,
+          Message: message
+        })
+      });
+      const fsData = await fsRes.json();
+      if (fsData.success) {
         setLoading(false);
         showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
         clearForm();
-        if (typeof gtag === 'function') {
-          gtag('event', 'generate_lead', {
-            value: 1,
-            currency: 'EUR',
-            event_category: 'Contact',
-            event_label: subjectInput.value.trim(),
-            subject: subjectInput.value.trim(),
-            lead_source: 'Formulaire site web'
-          });
-        }
-      } else {
-        throw new Error(data.message || 'Échec');
+        if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
+        return;
       }
-    } catch {
+      if (fsData.message && fsData.message.includes('verif')) fsNeedsVerification = true;
+    } catch { /* Formsubmit indisponible → Web3Forms */ }
+
+    try { wfSuccess = await sendWeb3Forms(); } catch {}
+
+    if (wfSuccess) {
       setLoading(false);
-      showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+      showConfirmation(fsNeedsVerification
+        ? '<i class="fas fa-check-circle"></i> Message envoyé ! Pour le format HTML, cliquez sur le lien reçu à <strong>demandes-p2m@immeit.com</strong>'
+        : '<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
+      clearForm();
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
+      return;
     }
+
+    setLoading(false);
+    showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
   });
 
   // ===== Keyboard shortcut =====
