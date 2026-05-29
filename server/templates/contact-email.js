@@ -35,11 +35,12 @@ function buildContactEmail(msg) {
   const values = {
     '{{PRENOM}}': escapeHtml(msg.prenom || ''),
     '{{NOM}}': escapeHtml(msg.nom || ''),
+    '{{PRENOM_INITIALE}}': escapeHtml((msg.prenom || msg.name || '?').charAt(0).toUpperCase()),
     '{{EMAIL}}': escapeHtml(msg.email),
     '{{SUJET}}': escapeHtml(msg.subject || 'Nouveau message'),
     '{{MESSAGE}}': escapeHtml(msg.message).replace(/\n/g, '<br>'),
     '{{DATE}}': date,
-    '{{SITE_NOM}}': 'IMMEIT',
+    '{{SITE_NOM}}': 'Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires',
     '{{SITE_URL}}': 'https://www.immeit.com',
   };
 

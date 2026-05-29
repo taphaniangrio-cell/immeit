@@ -1,161 +1,64 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #f4f4f6;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      padding: 40px 10px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    }
-    .header {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      padding: 48px 30px 36px;
-      text-align: center;
-    }
-    .header h1 {
-      color: #c99a3e;
-      font-size: 32px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .header p {
-      color: #7a8a9a;
-      font-size: 13px;
-      letter-spacing: 1px;
-    }
-    .content {
-      padding: 36px 30px;
-    }
-    .content h2 {
-      color: #1a1a2e;
-      font-size: 22px;
-      margin-bottom: 4px;
-    }
-    .content .date {
-      color: #888;
-      font-size: 14px;
-      margin-bottom: 32px;
-    }
-    .card {
-      margin-bottom: 28px;
-    }
-    .card-header {
-      padding: 10px 16px;
-      background: #f8f9fa;
-      border-radius: 8px 8px 0 0;
-      border-bottom: 2px solid #c99a3e;
-    }
-    .card-header strong {
-      color: #1a1a2e;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
-    .card-body {
-      padding: 16px;
-      border: 1px solid #e8e8ec;
-      border-top: 0;
-      border-radius: 0 0 8px 8px;
-    }
-    .card-body table {
-      width: 100%;
-    }
-    .card-body td {
-      padding: 5px 0;
-      color: #444;
-      font-size: 15px;
-    }
-    .card-body .label {
-      color: #1a1a2e;
-      font-weight: 600;
-      display: inline-block;
-      width: 70px;
-    }
-    .card-body a {
-      color: #c99a3e;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .message-body {
-      color: #333;
-      font-size: 15px;
-      line-height: 1.7;
-      margin: 0;
-      white-space: pre-wrap;
-    }
-    .footer {
-      background: #1a1a2e;
-      padding: 28px 30px;
-      text-align: center;
-    }
-    .footer p {
-      color: #7a8a9a;
-      font-size: 12px;
-      margin-bottom: 6px;
-    }
-    .footer a {
-      color: #c99a3e;
-      text-decoration: none;
-      font-size: 13px;
-    }
-    .disclaimer {
-      text-align: center;
-      color: #aaa;
-      font-size: 11px;
-      margin-top: 16px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>IMMEIT</h1>
-      <p>Installation &middot; M&eacute;thodes &middot; Maintenance</p>
-    </div>
-    <div class="content">
-      <h2>Nouveau message de contact</h2>
-      <p class="date">Re&ccedil;u le {{DATE}}</p>
-
-      <div class="card">
-        <div class="card-header">
-          <strong>Exp&eacute;diteur</strong>
-        </div>
-        <div class="card-body">
-          <table>
-            <tr><td><span class="label">Pr&eacute;nom</span> {{PRENOM}}</td></tr>
-            <tr><td><span class="label">Nom</span> {{NOM}}</td></tr>
-            <tr><td><span class="label">Email</span> <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></td></tr>
-            <tr><td><span class="label">Sujet</span> {{SUJET}}</td></tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <strong>Message</strong>
-        </div>
-        <div class="card-body">
-          <p class="message-body">{{MESSAGE}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-      <p>IMMEIT &mdash; Installation &middot; M&eacute;thodes &middot; Maintenance</p>
-      <a href="https://www.immeit.com">www.immeit.com</a>
-    </div>
-  </div>
-  <p class="disclaimer">Cet email a &eacute;t&eacute; envoy&eacute; depuis le formulaire de contact.</p>
-</body>
-</html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrapper{background-color:#f0f2f5;padding:32px 16px}
+.container{max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.header{background:#0f172a;padding:24px 32px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo span{color:#C99A3E;font-size:18px;font-weight:700;letter-spacing:-0.3px}
+.header-badge{background:rgba(201,154,62,0.15);color:#C99A3E;padding:2px 12px;border-radius:12px;font-size:11px;font-weight:600;margin-left:auto}
+.subject-bar{background:#f8fafc;padding:16px 32px;border-bottom:1px solid #e8eaed}
+.subject-bar h2{margin:0;font-size:16px;font-weight:600;color:#202124}
+.meta{padding:20px 32px;border-bottom:1px solid #e8eaed}
+.meta-table{width:100%;border-collapse:collapse}
+.meta-table td{padding:0;vertical-align:middle}
+.avatar-cell{width:58px}
+.avatar{width:44px;height:44px;border-radius:50%;background-color:#C99A3E;font-size:17px;font-weight:700;color:#ffffff;text-align:center;line-height:44px;display:inline-block}
+.meta-name{font-size:15px;font-weight:600;color:#202124;margin:0 0 2px}
+.meta-email{font-size:13px;color:#5f6368;margin:0}
+.meta-email a{color:#1a73e8;text-decoration:none}
+.meta-date{font-size:12px;color:#5f6368;white-space:nowrap}
+.body{padding:24px 32px 20px}
+.body-label{font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.8px;margin:0 0 12px}
+.body-text{margin:0;font-size:15px;color:#3c4043;line-height:1.7;white-space:pre-wrap}
+.footer{background:#f8fafc;padding:16px 32px;text-align:center;border-top:1px solid #e8eaed}
+.footer-brand{font-size:13px;font-weight:600;color:#0f172a;margin:0 0 2px}
+.footer-brand span{color:#C99A3E}
+.footer-text{font-size:11px;color:#5f6368;margin:0}
+.footer-text a{color:#C99A3E;text-decoration:none}
+.btn-reply{display:inline-block;margin-top:8px;padding:8px 20px;background:#1a73e8;color:#fff !important;text-decoration:none;font-size:13px;font-weight:600;border-radius:6px}
+@media(max-width:480px){.wrapper{padding:16px 8px}.header{padding:20px 20px}.subject-bar,.meta,.body,.footer{padding-left:20px;padding-right:20px}}
+</style></head><body>
+<div class="wrapper">
+<div class="container">
+<div class="header">
+<div class="header-logo">
+<span>IMMEIT</span>
+<span class="header-badge">NOUVEAU CONTACT</span>
+</div>
+</div>
+<div class="subject-bar"><h2>{{SUJET}}</h2></div>
+<div class="meta">
+<table class="meta-table" cellpadding="0" cellspacing="0" role="presentation">
+<tr>
+<td class="avatar-cell"><span class="avatar">{{PRENOM_INITIALE}}</span></td>
+<td>
+<div class="meta-name">{{PRENOM}} {{NOM}}</div>
+<div class="meta-email"><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></div>
+</td>
+<td style="text-align:right"><span class="meta-date">{{DATE}}</span></td>
+</tr>
+</table>
+</div>
+<div class="body">
+<p class="body-label">Message</p>
+<p class="body-text">{{MESSAGE}}</p>
+</div>
+<div class="footer">
+<p class="footer-brand">IMMEIT <span>—</span> {{SITE_NOM}}</p>
+<p class="footer-text">Ce message a été envoyé depuis le formulaire de contact du site <a href="{{SITE_URL}}">immeit.com</a></p>
+</div>
+</div>
+</div>
+</body></html>
