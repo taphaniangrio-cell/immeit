@@ -621,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'subject': subjectLine,
         'from_name': fromName,
         'email': email,
-        'Message': `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT\n  Installation · Méthodes · Maintenance\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n  📩 NOUVEAU MESSAGE DE CONTACT\n  ─────────────────────────────\n\n  PRÉNOM    : ${prenom}\n  NOM       : ${nom}\n  EMAIL     : ${email}\n  SUJET     : ${sujet}\n  ─────────────────────────────\n\n  MESSAGE :\n  ${message.replace(/\n/g, '\n  ')}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n  IMMEIT — contact@immeit.com\n  www.immeit.com\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
+        'Message': `IMMEIT - Installation · Méthodes · Maintenance\n\nNOUVEAU MESSAGE DE CONTACT\n${'─'.repeat(35)}\nPrénom : ${prenom}\nNom    : ${nom}\nEmail  : ${email}\nSujet  : ${sujet}\n${'─'.repeat(35)}\n${message}\n${'─'.repeat(35)}\nIMMEIT - www.immeit.com`
       });
       const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: p });
       const d = await r.json();
