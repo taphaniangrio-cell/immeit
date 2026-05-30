@@ -161,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function closeNav() {
     hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
     navLinks.classList.remove('active');
     navOverlay.classList.remove('active');
     document.body.style.overflow = '';
@@ -168,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openNav() {
     hamburger.classList.add('active');
+    hamburger.setAttribute('aria-expanded', 'true');
     navLinks.classList.add('active');
     navOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
