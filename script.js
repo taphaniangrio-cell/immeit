@@ -596,119 +596,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const API_TUNNEL = window.SERVER_API_URL || localStorage.getItem('immeit_api_url') || '';
 
-    function buildEmailHtml(p, n, e, s, m) {
-      const date = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-      const msgHtml = m.replace(/\n/g, '<br/>');
-      const safe = (v) => String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      return `<!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/></head>
-<body style="margin:0;padding:0;background-color:#e8eaf0;font-family:Arial,Helvetica,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#e8eaf0;padding:40px 16px;">
-  <tr><td align="center">
-  <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.12);">
-    <tr><td style="background-color:#1a1f36;padding:32px 40px 0 40px;">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr><td width="56" valign="middle"><div style="width:48px;height:48px;background:#e8a020;border-radius:12px;text-align:center;line-height:48px;font-size:22px;">✉</div></td>
-        <td valign="middle" style="padding-left:14px;">
-          <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700;letter-spacing:-0.3px;">Nouveau message reçu</p>
-          <p style="margin:4px 0 0;color:#8b91b0;font-size:12px;">Formulaire de contact — IMMEIT</p>
-        </td></tr>
-      </table>
-      <div style="margin-top:20px;height:1px;background:linear-gradient(90deg,#e8a020 0%,rgba(232,160,32,0) 70%);"></div>
-      <div style="height:24px;"></div>
-    </td></tr>
-    <tr><td style="padding:32px 40px 8px 40px;">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f7f8fc;border-radius:12px;border-left:3px solid #e8a020;margin-bottom:24px;">
-        <tr><td style="padding:20px 24px;">
-          <p style="margin:0 0 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b91b0;font-weight:700;">Expéditeur</p>
-          <table width="100%" cellpadding="0" cellspacing="0" border="0">
-            <tr><td width="50%" style="padding-bottom:12px;padding-right:10px;">
-              <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Prénom</p>
-              <p style="margin:0;font-size:15px;color:#1a1f36;font-weight:700;">${safe(p)}</p>
-            </td><td width="50%" style="padding-bottom:12px;padding-left:10px;">
-              <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Nom</p>
-              <p style="margin:0;font-size:15px;color:#1a1f36;font-weight:700;">${safe(n)}</p>
-            </td></tr>
-            <tr><td colspan="2">
-              <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Adresse email</p>
-              <a href="mailto:${safe(e)}" style="color:#e8a020;font-size:14px;text-decoration:none;font-weight:500;">${safe(e)}</a>
-            </td></tr>
-          </table>
-        </td></tr>
-      </table>
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
-        <tr><td>
-          <span style="display:inline-block;background:#1a1f36;color:#ffffff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:20px;">Sujet</span>
-          <span style="display:inline-block;font-size:15px;color:#1a1f36;font-style:italic;margin-left:10px;vertical-align:middle;">${safe(s)}</span>
-        </td></tr>
-      </table>
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fafafa;border:1px solid #e8eaf0;border-radius:12px;">
-        <tr><td style="padding:24px;">
-          <p style="margin:0 0 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b91b0;font-weight:700;">Message</p>
-          <p style="margin:0;font-size:15px;color:#2d3250;line-height:1.85;">${msgHtml}</p>
-        </td></tr>
-      </table>
-    </td></tr>
-    <tr><td style="padding:24px 40px 32px;text-align:right;">
-      <a href="mailto:${safe(e)}?subject=Re: ${encodeURIComponent(s)}" style="display:inline-block;background:#e8a020;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;letter-spacing:0.2px;">↩ Répondre à ${safe(p)}</a>
-    </td></tr>
-    <tr><td style="background:#f7f8fc;padding:20px 40px;border-top:1px solid #e8eaf0;">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr><td style="font-size:11px;color:#8b91b0;">Reçu le ${date} via <a href="https://www.immeit.com" style="color:#8b91b0;">immeit.com</a></td>
-        <td align="right" style="font-size:11px;color:#8b91b0;">Ne pas répondre directement</td></tr>
-      </table>
-    </td></tr>
-  </table>
-  </td></tr>
-</table></body></html>`;
-    }
-
-    async function sendToServer(payload) {
-      if (API_TUNNEL) {
-        try {
-          const r = await fetch(API_TUNNEL + '/api/contact', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-          });
-          const d = await r.json();
-          if (d.success) return;
-        } catch {}
-      }
-      try {
-        const r = await fetch('/api/contact', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-        });
-        await r.json();
-      } catch {}
-    }
-
     function buildApiPayload() {
       return { prenom, nom, email, subject: sujet, message, name: fromName };
     }
 
-    setLoading(true);
-
-    // Envoi au serveur (stockage/admin) — fire & forget
-    sendToServer(buildApiPayload());
-
-    // Envoi Formsubmit.co (primaire) — email HTML complet
+    // Envoi au serveur (SMTP → HTML) — primaire
     let ok = false;
     try {
-      const html = buildEmailHtml(prenom, nom, email, sujet, message);
-      const r = await fetch('https://formsubmit.co/ajax/demandes-p2m@immeit.com', {
-        method: 'POST',
-        body: new URLSearchParams({
-          _subject: `[IMMEIT] ${fromName} - ${sujet}`,
-          name: fromName,
-          email: email,
-          message: html,
-          _captcha: 'false'
-        })
+      const r = await fetch('/api/contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
       });
       const d = await r.json();
       if (d.success) ok = true;
     } catch {}
 
-    // Fallback Web3Forms (texte simple) si Formsubmit échoue
+    // Fallback Web3Forms (texte simple) si le serveur est inaccessible
+    if (!ok && API_TUNNEL) {
+      try {
+        const r = await fetch(API_TUNNEL + '/api/contact', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
+        });
+        const d = await r.json();
+        if (d.success) ok = true;
+      } catch {}
+    }
+
     if (!ok) {
       try {
         const r = await fetch('https://api.web3forms.com/submit', {

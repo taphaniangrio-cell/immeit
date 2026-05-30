@@ -193,9 +193,9 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'", "https://api.web3forms.com", "https://formsubmit.co"],
+      connectSrc: ["'self'", "https://api.web3forms.com"],
       frameAncestors: ["'none'"],
-      formAction: ["'self'", "https://api.web3forms.com", "https://formsubmit.co"],
+      formAction: ["'self'", "https://api.web3forms.com"],
     },
   },
   crossOriginEmbedderPolicy: false,
@@ -342,11 +342,24 @@ app.post('/api/contact', async (req, res) => {
 
     console.log(`Message #${msg.id} reçu de ${msg.name} <${msg.email}>`);
 
+    if (transporter) {
+      try {
+        const info = await sendEmail(msg);
+        msg.status = 'sent';
+        msg.sent_at = new Date().toISOString();
+        saveMessages(messages);
+        console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
+        return res.json({ success: true, id: msg.id, via: 'smtp' });
+      } catch (err) {
+        console.log(`SMTP échec #${msg.id}: ${err.message}`);
+      }
+    }
+
     msg.status = 'sent';
     msg.sent_at = new Date().toISOString();
     saveMessages(messages);
     console.log(`Message #${msg.id} stocké (email délivré par le client)`);
-    return res.json({ success: true, id: msg.id });
+    return res.json({ success: true, id: msg.id, via: 'client' });
 
   } catch (error) {
     console.error('Erreur serveur:', error);
@@ -492,7 +505,7 @@ app.get('*', (req, res) => {
 });
 
 function startServer(protocol) {
-  const mode = transporter ? `SMTP (${process.env.SMTP_USER || 'sans auth'})` : 'Formsubmit.co';
+  const mode = transporter ? `SMTP (${process.env.SMTP_USER || 'sans auth'})` : 'stockage uniquement';
   console.log('═══════════════════════════════════════');
   console.log(`  IMMEIT - Serveur démarré`);
   console.log(`  Protocole : ${protocol}`);
