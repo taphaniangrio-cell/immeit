@@ -600,26 +600,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = messageInput.value.trim();
     const fromName = `${prenom} ${nom}`;
 
-    async function sendMessage() {
-      const r = await fetch('/api/contact', {
+    const API_TUNNEL = window.SERVER_API_URL || localStorage.getItem('immeit_api_url') || '';
+
+    async function sendTo(endpoint, payload) {
+      const r = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prenom, nom, email,
-          subject: sujet,
-          message,
-          name: fromName
-        })
+        body: JSON.stringify(payload)
       });
       const d = await r.json();
-      if (!d.success && r.status >= 400) throw new Error('Serveur ' + (d.error || r.status));
+      if (!d.success && r.status >= 400) throw new Error(d.error || r.status);
+    }
+
+    function buildApiPayload() {
+      return { prenom, nom, email, subject: sujet, message, name: fromName };
     }
 
     let ok = false;
-    try {
-      await sendMessage();
-      ok = true;
-    } catch {
+
+    // 1) Tunnel cloudflared (serveur local exposé)
+    if (API_TUNNEL) {
+      try {
+        await sendTo(API_TUNNEL + '/api/contact', buildApiPayload());
+        ok = true;
+      } catch {}
+    }
+
+    // 2) API locale directe (dev)
+    if (!ok) {
+      try {
+        await sendTo('/api/contact', buildApiPayload());
+        ok = true;
+      } catch {}
+    }
+
+    // 3) Fallback Web3Forms (plain text)
+    if (!ok) {
       try {
         const r = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
