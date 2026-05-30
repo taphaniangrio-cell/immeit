@@ -36,6 +36,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -45,6 +46,8 @@ body {
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
 }
 
 a {
@@ -2085,6 +2088,37 @@ img {
 
 /* Tablets portrait & large phones */
 @media (max-width: 900px) {
+  .nav__links {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background: rgba(17, 25, 39, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 80px 28px 28px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    z-index: 1001;
+  }
+  .nav__links.active {
+    display: flex;
+  }
+  .nav__link {
+    color: var(--text);
+    font-size: 1rem;
+    padding: 8px 0;
+  }
+  .hamburger {
+    display: flex;
+  }
   .hero__inner {
     padding: 0 20px;
   }
@@ -2208,38 +2242,6 @@ img {
   }
   .section__header {
     margin-bottom: 14px;
-  }
-
-  .nav__links {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
-    background: rgba(17, 25, 39, 0.97);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 80px 28px 28px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    z-index: 1001;
-  }
-  .nav__links.active {
-    display: flex;
-  }
-  .nav__link {
-    color: var(--text);
-    font-size: 1rem;
-    padding: 8px 0;
-  }
-  .hamburger {
-    display: flex;
   }
 
   .hero {
