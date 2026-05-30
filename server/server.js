@@ -69,7 +69,13 @@ async function initTransporter() {
       smtpOpts.auth = { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS };
     }
     transporter = nodemailer.createTransport(smtpOpts);
-    console.log(`SMTP configuré: ${process.env.SMTP_USER || '<sans auth>'}@${process.env.SMTP_HOST}:${port}`);
+    try {
+      await transporter.verify();
+      console.log(`SMTP OK: ${process.env.SMTP_USER || '<sans auth>'}@${process.env.SMTP_HOST}:${port}`);
+    } catch (err) {
+      console.error(`SMTP ÉCHEC (vérification): ${err.message}`);
+      transporter = null;
+    }
   } else {
     console.log('SMTP non configuré - utilisation du fallback Formsubmit.co');
   }
