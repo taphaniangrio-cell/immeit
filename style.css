@@ -2253,6 +2253,16 @@ img {
     font-size: 0.85rem;
     margin-bottom: 16px;
     text-align: left !important;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  .hero__content {
+    max-width: 100%;
+  }
+  .hero__content p .contact__flag {
+    width: 14px;
+    height: 10px;
   }
   .hero__actions {
     margin-bottom: 18px;
@@ -2267,7 +2277,11 @@ img {
     min-height: 44px;
   }
   .hero__stats {
+    grid-template-columns: 1fr;
     gap: 12px;
+  }
+  .hero__stats-group {
+    justify-content: center;
   }
   .hero__stat:not(:last-child)::after {
     display: none;
@@ -2497,10 +2511,22 @@ img {
   .hero__content h1 {
     font-size: 1.3rem;
   }
+  .hero__content p {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .hero__content p .contact__flag {
+    width: 12px;
+    height: 9px;
+  }
   .hero__stats {
     grid-template-columns: 1fr;
     justify-items: center;
     gap: 8px;
+  }
+  .hero__stats-group {
+    justify-content: center;
+    gap: 20px;
   }
   .hero__stat {
     text-align: center;
