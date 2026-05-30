@@ -607,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function discoverApiUrl() {
       try {
-        const r = await fetch('https://raw.githubusercontent.com/taphaniangrio-cell/immeit/main/tunnel-url.json', { cache: 'no-cache' });
+        const r = await fetch('https://raw.githubusercontent.com/taphaniangrio-cell/immeit/main/tunnel-url.json?_=' + Date.now());
         if (r.ok) { const d = await r.json(); if (d.api_url) { localStorage.setItem('immeit_api_url', d.api_url); return d.api_url; } }
       } catch {}
       return '';
