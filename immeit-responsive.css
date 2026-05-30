@@ -4,6 +4,16 @@
    Classes additionnelles sans conflit avec style.css existant.
    ============================================================ */
 
+/* ==== Prefers-reduced-motion ==== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* === 1. Média universel : empêche tout débordement === */
 img, video, canvas, iframe, embed, object {
   max-width: 100%;
@@ -146,3 +156,80 @@ svg:not(.contact__flag) {
 /* === 6. Utilitaires === */
 .text-center { text-align: center; }
 .w-full { width: 100%; }
+
+/* === 7. Conteneurs et espacements améliorés === */
+.container-fluid {
+  width: 100%;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.section-padding {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.section-padding-top {
+  padding-top: clamp(3rem, 6vw, 5rem);
+}
+
+.section-padding-bottom {
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* === 8. Typographie fluide améliorée === */
+.h1-responsive { font-size: clamp(2rem, 5vw, 3.5rem); }
+.h2-responsive { font-size: clamp(1.75rem, 4.5vw, 3rem); }
+.h3-responsive { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+.h4-responsive { font-size: clamp(1.25rem, 3.5vw, 2rem); }
+
+.text-lead {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.7;
+}
+
+/* === 9. Améliorations des zones tactiles === */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === 10. Optimisation des listes et grilles === */
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-5 { gap: 1.5rem; }
+.gap-6 { gap: 2rem; }
+.gap-8 { gap: 3rem; }
+.gap-10 { gap: 4rem; }
+
+/* === 11. Amélioration des cartes === */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* === 12. Gestion de l'overflow et du scroll === */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+.no-scroll-chaining {
+  overscroll-behavior: contain;
+}
+
+/* === 13. Utilitaires d'affichage === */
+.display-4 { font-size: clamp(2.5rem, 6vw, 4rem); }
+.display-5 { font-size: clamp(2rem, 5vw, 3.5rem); }
+.display-6 { font-size: clamp(1.75rem, 4.5vw, 3rem); }
+
+.fw-light { font-weight: 300; }
+.fw-normal { font-weight: 400; }
+.fw-medium { font-weight: 500; }
+.fw-semibold { font-weight: 600; }
+.fw-bold { font-weight: 700; }

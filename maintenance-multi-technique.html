@@ -17,7 +17,11 @@
     <div class="nav__inner">
       <a href="index.html" class="nav__logo">
         <span class="nav__logo-frame">
-          <img src="logo-immeit.jpeg" alt="IMMEIT" width="120" height="40" />
+           <picture>
+             <source srcset="logo-immeit.webp" type="image/webp">
+             <source srcset="logo-immeit.jpeg" type="image/jpeg">
+             <img src="logo-immeit.jpeg" alt="IMMEIT" width="120" height="40" loading="lazy">
+           </picture>
         </span>
         <div class="nav__logo-text">
           <span>IMMEIT</span>
@@ -210,7 +214,8 @@
     </section>
   </main>
 
-  <script src="i18n.js?v=1"></script>
-  <script src="script.js?v=3"></script>
+   <script src="i18n.js?v=1"></script>
+   <script src="script.js?v=3"></script>
+   <script src="immeit-responsive.js"></script>
 </body>
 </html>
