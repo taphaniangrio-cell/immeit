@@ -623,9 +623,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d.success) ok = true;
     } catch {}
 
-    // Tentative via tunnel (URL stockée ou GitHub)
+    // Tentative via tunnel — toujours découvrir l'URL fraîche depuis GitHub
     if (!ok) {
-      const tunnel = API_TUNNEL || await discoverApiUrl();
+      const tunnel = await discoverApiUrl() || API_TUNNEL;
       if (tunnel) {
         try {
           const r = await fetch(tunnel + '/api/contact', {
