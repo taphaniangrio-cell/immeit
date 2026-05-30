@@ -596,8 +596,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const API_TUNNEL = window.SERVER_API_URL || localStorage.getItem('immeit_api_url') || '';
 
+    // Sauvegarder l'URL du tunnel quand le serveur la fournit
+    if (window.SERVER_API_URL) {
+      localStorage.setItem('immeit_api_url', window.SERVER_API_URL);
+    }
+
     function buildApiPayload() {
       return { prenom, nom, email, subject: sujet, message, name: fromName };
+    }
+
+    async function discoverApiUrl() {
+      try {
+        const r = await fetch('https://raw.githubusercontent.com/taphaniangrio-cell/immeit/main/tunnel-url.json', { cache: 'no-cache' });
+        if (r.ok) { const d = await r.json(); if (d.api_url) { localStorage.setItem('immeit_api_url', d.api_url); return d.api_url; } }
+      } catch {}
+      return '';
     }
 
     // Envoi au serveur (SMTP → HTML) — primaire
@@ -610,17 +623,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d.success) ok = true;
     } catch {}
 
-    // Fallback Web3Forms (texte simple) si le serveur est inaccessible
-    if (!ok && API_TUNNEL) {
-      try {
-        const r = await fetch(API_TUNNEL + '/api/contact', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
-        });
-        const d = await r.json();
-        if (d.success) ok = true;
-      } catch {}
+    // Tentative via tunnel (URL stockée ou GitHub)
+    if (!ok) {
+      const tunnel = API_TUNNEL || await discoverApiUrl();
+      if (tunnel) {
+        try {
+          const r = await fetch(tunnel + '/api/contact', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
+          });
+          const d = await r.json();
+          if (d.success) ok = true;
+        } catch {}
+      }
     }
 
+    // Fallback Web3Forms (texte simple)
     if (!ok) {
       try {
         const r = await fetch('https://api.web3forms.com/submit', {
