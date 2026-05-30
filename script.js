@@ -633,30 +633,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Fallback Web3Forms (texte enrichi)
+    // Fallback Web3Forms
     if (!ok) {
       try {
-        const formattedMsg = [
-          '',
-          '═══════════════════════════════════════',
-          '  IMMEIT — NOUVEAU MESSAGE DE CONTACT',
-          '═══════════════════════════════════════',
-          '',
-          `  Prénom   : ${prenom}`,
-          `  Nom      : ${nom}`,
-          `  Email    : ${email}`,
-          `  Sujet    : ${sujet}`,
-          '',
-          '───────────────────────────────────────',
-          '',
-          `  ${message.replace(/\n/g, '\n  ')}`,
-          '',
-          '───────────────────────────────────────',
-          `  Envoyé via www.immeit.com`,
-          `  ${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`,
-          '',
-        ].join('\n');
-
         const r = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           body: new URLSearchParams({
@@ -664,7 +643,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'subject': `[IMMEIT] ${fromName} - ${sujet}`,
             'from_name': fromName,
             'email': email,
-            'Message': formattedMsg
+            'Prénom': prenom,
+            'Nom': nom,
+            'Sujet': sujet,
+            'Message': message,
+            '_template': 'box',
           })
         });
         const d = await r.json();

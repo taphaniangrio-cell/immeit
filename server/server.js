@@ -94,16 +94,16 @@ async function sendEmail(msg) {
 }
 
 async function sendViaFormsubmit(msg) {
-  const html = buildContactEmail(msg);
-
   return new Promise((resolve, reject) => {
     const params = new URLSearchParams({
       _subject: `[IMMEIT] ${msg.prenom || ''} ${msg.nom || ''} - ${msg.subject || 'Nouveau message'}`,
-      name: `${msg.prenom || ''} ${msg.nom || ''}`.trim(),
-      email: msg.email,
-      message: html,
       _template: 'table',
       _autoresponse: '',
+      Prénom: msg.prenom || '',
+      Nom: msg.nom || '',
+      Email: msg.email,
+      Sujet: msg.subject || 'Nouveau message',
+      Message: msg.message || '',
     });
 
     const body = params.toString();
@@ -357,10 +357,21 @@ app.post('/api/contact', async (req, res) => {
       }
     }
 
-    msg.status = 'sent';
-    msg.sent_at = new Date().toISOString();
-    saveMessages(messages);
-    console.log(`Message #${msg.id} stocké (email délivré par le client)`);
+    try {
+      await sendViaFormsubmit(msg);
+      msg.status = 'sent';
+      msg.sent_at = new Date().toISOString();
+      msg.error_message = null;
+      saveMessages(messages);
+      console.log(`Message #${msg.id} envoyé via Formsubmit`);
+      return res.json({ success: true, id: msg.id, via: 'formsubmit' });
+    } catch (err) {
+      console.log(`Formsubmit échec #${msg.id}: ${err.message}`);
+      msg.error_message = err.message;
+      msg.last_attempt = new Date().toISOString();
+      saveMessages(messages);
+    }
+
     return res.json({ success: true, id: msg.id, via: 'client' });
 
   } catch (error) {

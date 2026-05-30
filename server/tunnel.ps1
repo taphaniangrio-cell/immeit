@@ -12,9 +12,25 @@ function pushUrlToGitHub {
   $json = @{ api_url = $url; updated = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC') } | ConvertTo-Json
   $json | Set-Content -Path $publicUrlFile -NoNewline -Encoding utf8
   log "Tunnel prêt : $url"
-  & git -C $repoDir add tunnel-url.json 2>&1 | Out-Null
-  & git -C $repoDir -c user.name='immeit-bot' -c user.email='bot@immeit.com' commit -m 'chore: update tunnel URL' --allow-empty 2>&1 | Out-Null
-  & git -C $repoDir push origin main 2>&1 | Out-Null
+  & git -C $repoDir add tunnel-url.json 2>&1 | ForEach-Object { log "git add: $_" }
+
+  $commitOutput = & git -C $repoDir -c user.name='immeit-bot' -c user.email='bot@immeit.com' commit -m 'chore: update tunnel URL' --allow-empty 2>&1
+  $commitOutput | ForEach-Object { log "git commit: $_" }
+
+  $retries = 3
+  $pushOk = $false
+  for ($i = 1; $i -le $retries -and -not $pushOk; $i++) {
+    $pushOutput = & git -C $repoDir push origin main 2>&1
+    if ($LASTEXITCODE -eq 0) {
+      $pushOk = $true
+      log "git push réussi"
+    } else {
+      log "git push échoué (tentative $i/$retries)"
+      $pushOutput | ForEach-Object { log "git push: $_" }
+      if ($i -lt $retries) { Start-Sleep -Seconds 5 }
+    }
+  }
+  if (-not $pushOk) { log "AVERTISSEMENT: tunnel URL non publiée sur GitHub" }
 }
 
 $maxRetries = 999
