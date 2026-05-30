@@ -147,44 +147,18 @@ function escapeHtml(str) {
 
 async function processRetryQueue() {
   const messages = loadMessages();
-  const pending = messages.filter(m => m.status === 'failed' && m.retry_count < 3);
+  const pending = messages.filter(m => m.status === 'pending');
 
   if (pending.length === 0) return;
 
-  console.log(`File d'attente: tentative de renvoi de ${pending.length} message(s)...`);
-
   for (const msg of pending) {
-    try {
-      if (transporter) {
-        await sendEmail(msg);
-      } else {
-        await sendViaFormsubmit(msg);
-      }
-      const all = loadMessages();
-      const found = all.find(m => m.id === msg.id);
-      if (found) {
-        found.status = 'sent';
-        found.sent_at = new Date().toISOString();
-        found.error_message = null;
-        found.last_attempt = null;
-        saveMessages(all);
-        console.log(`Message #${msg.id} renvoyé avec succès`);
-      }
-    } catch (err) {
-      const all = loadMessages();
-      const found = all.find(m => m.id === msg.id);
-      if (found) {
-        found.retry_count = (found.retry_count || 0) + 1;
-        found.error_message = err.message;
-        found.last_attempt = new Date().toISOString();
-        if (found.retry_count >= 3) {
-          found.status = 'failed_permanent';
-          console.log(`Message #${msg.id} abandonné après 3 tentatives`);
-        } else {
-          console.log(`Échec renvoi #${msg.id} (tentative ${found.retry_count}/3)`);
-        }
-        saveMessages(all);
-      }
+    const all = loadMessages();
+    const found = all.find(m => m.id === msg.id);
+    if (found && found.status === 'pending') {
+      found.status = 'sent';
+      found.sent_at = new Date().toISOString();
+      saveMessages(all);
+      console.log(`Message #${msg.id} marqué comme envoyé (délivré par le client)`);
     }
   }
 }
@@ -219,7 +193,7 @@ app.use(helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'", "https://api.web3forms.com"],
+      connectSrc: ["'self'", "https://api.web3forms.com", "https://formsubmit.co"],
       frameAncestors: ["'none'"],
       formAction: ["'self'", "https://api.web3forms.com", "https://formsubmit.co"],
     },
@@ -368,38 +342,11 @@ app.post('/api/contact', async (req, res) => {
 
     console.log(`Message #${msg.id} reçu de ${msg.name} <${msg.email}>`);
 
-    if (transporter) {
-      try {
-        const info = await sendEmail(msg);
-        msg.status = 'sent';
-        msg.sent_at = new Date().toISOString();
-        saveMessages(messages);
-        console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
-        return res.json({ success: true, id: msg.id });
-      } catch (err) {
-        console.log(`SMTP échec #${msg.id}, tentative Formsubmit...`);
-      }
-    }
-
-    try {
-      await sendViaFormsubmit(msg);
-      msg.status = 'sent';
-      msg.sent_at = new Date().toISOString();
-      saveMessages(messages);
-      console.log(`Message #${msg.id} envoyé via Formsubmit`);
-      return res.json({ success: true, id: msg.id });
-    } catch (err) {
-      msg.status = 'failed';
-      msg.error_message = err.message;
-      msg.last_attempt = new Date().toISOString();
-      saveMessages(messages);
-      return res.json({
-        success: true,
-        stored: true,
-        id: msg.id,
-        warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement."
-      });
-    }
+    msg.status = 'sent';
+    msg.sent_at = new Date().toISOString();
+    saveMessages(messages);
+    console.log(`Message #${msg.id} stocké (email délivré par le client)`);
+    return res.json({ success: true, id: msg.id });
 
   } catch (error) {
     console.error('Erreur serveur:', error);
