@@ -1,5 +1,5 @@
 function clean(str = '') {
-  return String(str).trim().replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return String(str).trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function buildEmailHtml({ prenom, nom, email, sujet, message, date }) {

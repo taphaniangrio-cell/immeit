@@ -127,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== Navbar scroll =====
   const navbar = document.getElementById('navbar');
-  const floatingCta = document.getElementById('floatingCta');
 
   let scrollTicking = false;
   window.addEventListener('scroll', () => {
@@ -198,9 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
           navLinkItems.forEach(link => link.classList.remove('active'));
           const activeLink = document.querySelector(`.nav__link[href="#${entry.target.id}"]`);
           if (activeLink) activeLink.classList.add('active');
-          if (floatingCta) {
-            floatingCta.style.display = entry.target.id === 'hero' ? 'inline-flex' : 'none';
-          }
         }
       });
     },
@@ -637,9 +633,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Fallback Web3Forms (texte simple)
+    // Fallback Web3Forms (texte enrichi)
     if (!ok) {
       try {
+        const formattedMsg = [
+          '',
+          '═══════════════════════════════════════',
+          '  IMMEIT — NOUVEAU MESSAGE DE CONTACT',
+          '═══════════════════════════════════════',
+          '',
+          `  Prénom   : ${prenom}`,
+          `  Nom      : ${nom}`,
+          `  Email    : ${email}`,
+          `  Sujet    : ${sujet}`,
+          '',
+          '───────────────────────────────────────',
+          '',
+          `  ${message.replace(/\n/g, '\n  ')}`,
+          '',
+          '───────────────────────────────────────',
+          `  Envoyé via www.immeit.com`,
+          `  ${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`,
+          '',
+        ].join('\n');
+
         const r = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           body: new URLSearchParams({
@@ -647,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'subject': `[IMMEIT] ${fromName} - ${sujet}`,
             'from_name': fromName,
             'email': email,
-            'Message': `IMMEIT\n\nNOUVEAU MESSAGE DE CONTACT\n${'─'.repeat(35)}\n  Prénom   : ${prenom}\n  Nom      : ${nom}\n  Email    : ${email}\n  Sujet    : ${sujet}\n${'─'.repeat(35)}\n\n  ${message.replace(/\n/g, '\n  ')}\n\n${'─'.repeat(35)}\n  www.immeit.com`
+            'Message': formattedMsg
           })
         });
         const d = await r.json();
