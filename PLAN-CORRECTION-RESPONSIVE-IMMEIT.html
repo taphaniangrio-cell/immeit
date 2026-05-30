@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de correction Responsive — IMMEIT</title>
+<style>
+:root{--noir:#0f1117;--bleu:#1a3a5c;--accent:#e8a020;--rouge:#c0392b;--vert:#1e7a4a;--orange:#c77a00;--gris:#f4f5f7;--gris2:#e8eaed;--texte:#1a1d23;--muted:#5a6070;--border:#d0d5de}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:Georgia,serif;color:var(--texte);background:#fff;line-height:1.7}
+.cover{background:var(--noir);color:#fff;padding:5rem 3rem 4rem;border-bottom:4px solid var(--accent);position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;border:2px solid rgba(232,160,32,.15)}
+.cover-label{font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem}
+.cover h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:normal;line-height:1.2;margin-bottom:1rem;max-width:640px}
+.cover-sub{color:rgba(255,255,255,.6);font-size:.95rem;font-family:'Courier New',monospace;margin-bottom:2.5rem}
+.cover-stats{display:flex;gap:2rem;flex-wrap:wrap}
+.cover-stat-num{font-size:2.2rem;font-weight:bold;font-family:'Courier New',monospace;display:block;line-height:1}
+.cover-stat-lbl{font-size:.75rem;color:rgba(255,255,255,.5);font-family:'Courier New',monospace;letter-spacing:.05em;margin-top:4px;display:block}
+.stat-r{color:#ff6b6b}.stat-a{color:var(--accent)}.stat-g{color:#5dca8a}
+.container{max-width:860px;margin:0 auto;padding:0 2rem}
+.toc{background:var(--gris);border-left:4px solid var(--accent);padding:2rem 2.5rem;margin:2.5rem 0;border-radius:0 8px 8px 0}
+.toc h2{font-size:.75rem;font-family:'Courier New',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.toc ol{padding-left:1.2rem}
+.toc li{margin-bottom:.35rem}
+.toc a{color:var(--bleu);text-decoration:none;font-size:.9rem;font-family:'Courier New',monospace}
+.toc a:hover{text-decoration:underline}
+.toc .phase{font-size:.72rem;color:var(--muted);margin-left:.5rem}
+.phase-header{display:flex;align-items:flex-start;gap:1.5rem;padding:2.5rem 0 1rem;border-top:2px solid var(--gris2);margin-top:3rem}
+.phase-num{font-family:'Courier New',monospace;font-size:3rem;font-weight:bold;color:var(--gris2);line-height:1;flex-shrink:0;min-width:60px}
+.phase-tag{font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:.5rem;display:inline-block}
+.tag-critique{background:#fdecea;color:var(--rouge)}
+.tag-important{background:#fef9e7;color:var(--orange)}
+.tag-bonus{background:#e8f5e9;color:var(--vert)}
+.phase-title{font-size:1.35rem;font-weight:bold;color:var(--texte);line-height:1.25}
+.phase-desc{color:var(--muted);font-size:.875rem;margin-top:.4rem;font-family:'Courier New',monospace}
+.step{background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:1.25rem;overflow:hidden}
+.step-header{display:flex;align-items:flex-start;gap:12px;padding:1rem 1.25rem;border-bottom:1px solid var(--gris2);background:var(--gris)}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:bold;font-family:'Courier New',monospace;flex-shrink:0;margin-top:2px}
+.num-r{background:#fdecea;color:var(--rouge)}
+.num-a{background:#fef9e7;color:var(--orange)}
+.num-g{background:#e8f5e9;color:var(--vert)}
+.num-b{background:#e8f0fe;color:#1a5276}
+.step-title{font-size:.95rem;font-weight:bold;color:var(--texte);flex:1}
+.step-where{font-family:'Courier New',monospace;font-size:.72rem;color:var(--muted);background:#fff;border:1px solid var(--border);padding:2px 8px;border-radius:4px;white-space:nowrap}
+.step-body{padding:1rem 1.25rem}
+.step-why{font-size:.875rem;color:var(--muted);margin-bottom:.75rem;line-height:1.6;font-style:italic;border-left:3px solid var(--gris2);padding-left:.75rem}
+pre{background:#0f1117;color:#a8d8a8;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.65;padding:1rem 1.25rem;border-radius:6px;overflow-x:auto;margin-bottom:.5rem;white-space:pre}
+.c{color:#5a7a5a}.k{color:#87ceeb}.v{color:#f0c060}.t{color:#e07070}.a{color:#90ee90}
+.prompt-block{background:#f0f7ff;border:1px solid #b3d1f0;border-left:4px solid var(--bleu);border-radius:6px;padding:1.25rem;margin:1rem 0}
+.prompt-label{font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bleu);margin-bottom:.6rem;font-weight:bold}
+.prompt-text{font-family:'Courier New',monospace;font-size:.78rem;color:var(--texte);line-height:1.65;white-space:pre-wrap}
+.checklist{list-style:none;margin:.75rem 0}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:.875rem;border-bottom:1px solid var(--gris2);line-height:1.5}
+.checklist li:last-child{border-bottom:none}
+.ci{flex-shrink:0;margin-top:2px;font-size:.9rem}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+.test-card{background:var(--gris);border-radius:8px;padding:1rem;text-align:center}
+.test-device{font-size:1.4rem;margin-bottom:.5rem}
+.test-name{font-size:.8rem;font-weight:bold;color:var(--texte);margin-bottom:.3rem}
+.test-size{font-family:'Courier New',monospace;font-size:.72rem;color:var(--muted)}
+.doc-footer{background:var(--noir);color:rgba(255,255,255,.4);text-align:center;padding:2rem;font-family:'Courier New',monospace;font-size:.75rem;margin-top:4rem}
+.divider{height:1px;background:var(--gris2);margin:2rem 0}
+.alert{display:flex;gap:12px;padding:1rem 1.25rem;border-radius:6px;margin:1rem 0;font-size:.875rem;line-height:1.55}
+.alert-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.alert-rouge{background:#fdecea;border-left:4px solid var(--rouge)}
+.alert-vert{background:#e8f5e9;border-left:4px solid var(--vert)}
+@media(max-width:600px){
+  .cover{padding:3rem 1.5rem 2.5rem}
+  .container{padding:0 1.25rem}
+  .cover-stats{gap:1.25rem}
+  .test-grid{grid-template-columns:1fr}
+  .toc{padding:1.5rem}
+  .phase-header{flex-direction:column;gap:.5rem}
+  .phase-num{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="container">
+    <div class="cover-label">&#9632; Document technique &mdash; Responsivit&eacute;</div>
+    <h1>Plan complet de correction<br>Responsive &mdash; IMMEIT</h1>
+    <div class="cover-sub">www.immeit.com &nbsp;&middot;&nbsp; 5 pages HTML &nbsp;&middot;&nbsp; Mai 2026</div>
+    <div class="cover-stats">
+      <div class="cover-stat">
+        <span class="cover-stat-num stat-r">07</span>
+        <span class="cover-stat-lbl">Corrections critiques</span>
+      </div>
+      <div class="cover-stat">
+        <span class="cover-stat-num stat-a">05</span>
+        <span class="cover-stat-lbl">Am&eacute;liorations</span>
+      </div>
+      <div class="cover-stat">
+        <span class="cover-stat-num stat-g">08</span>
+        <span class="cover-stat-lbl">Phases d&apos;ex&eacute;cution</span>
+      </div>
+      <div class="cover-stat">
+        <span class="cover-stat-num" style="color:#fff">~2h</span>
+        <span class="cover-stat-lbl">Temps estim&eacute;</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="toc">
+  <h2>&#9632; Sommaire</h2>
+  <ol>
+    <li><a href="#p1">Phase 1 &mdash; Base universelle CSS</a><span class="phase">&middot; critique &middot; 5 min</span></li>
+    <li><a href="#p2">Phase 2 &mdash; Navigation hamburger</a><span class="phase">&middot; critique &middot; 20 min</span></li>
+    <li><a href="#p3">Phase 3 &mdash; Sections &amp; grilles</a><span class="phase">&middot; critique &middot; 30 min</span></li>
+    <li><a href="#p4">Phase 4 &mdash; Hero &amp; images</a><span class="phase">&middot; critique &middot; 15 min</span></li>
+    <li><a href="#p5">Phase 5 &mdash; Formulaire de contact</a><span class="phase">&middot; critique &middot; 10 min</span></li>
+    <li><a href="#p6">Phase 6 &mdash; Typographie fluide</a><span class="phase">&middot; important &middot; 10 min</span></li>
+    <li><a href="#p7">Phase 7 &mdash; Sous-pages HTML</a><span class="phase">&middot; important &middot; 15 min</span></li>
+    <li><a href="#p8">Phase 8 &mdash; Tests &amp; validation</a><span class="phase">&middot; validation &middot; 15 min</span></li>
+    <li><a href="#prompt">&#9733; Prompt IA tout-en-un</a><span class="phase">&middot; copier-coller</span></li>
+  </ol>
+</div>
+
+<div class="alert alert-rouge">
+  <span class="alert-icon">&#9888;</span>
+  <div><strong>Ordre important :</strong> Appliquer les phases dans l&apos;ordre num&eacute;rot&eacute;. La Phase 1 est le socle — sans elle, les corrections suivantes peuvent se comporter de fa&ccedil;on impr&eacute;visible selon les navigateurs.</div>
+</div>
+
+<!-- PHASE 1 -->
+<div id="p1" class="phase-header">
+  <div class="phase-num">01</div>
+  <div>
+    <span class="phase-tag tag-critique">Critique &middot; 5 min</span>
+    <div class="phase-title">Base universelle CSS</div>
+    <div class="phase-desc">Socle indispensable &mdash; &agrave; coller EN PREMIER dans le CSS</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">1.1</div>
+    <div class="step-title">Reset box-sizing + overflow + images</div>
+    <span class="step-where">style.css &middot; ligne 1</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">Sans box-sizing:border-box, les paddings s&apos;ajoutent aux largeurs d&eacute;clar&eacute;es et cassent les layouts. Sans overflow-x:hidden, un seul &eacute;l&eacute;ment qui d&eacute;passe cr&eacute;e un scroll horizontal sur toute la page.</div>
+<pre><span class="c">/* ================================================
+   BASE — Coller absolument en premiere ligne du CSS
+   ================================================ */</span>
+<span class="k">*</span>, <span class="k">*::before</span>, <span class="k">*::after</span> {
+  <span class="a">box-sizing</span>: <span class="v">border-box</span>;
+  <span class="a">margin</span>: <span class="v">0</span>;
+  <span class="a">padding</span>: <span class="v">0</span>;
+}
+<span class="k">html</span> {
+  <span class="a">overflow-x</span>: <span class="v">hidden</span>;
+  <span class="a">scroll-behavior</span>: <span class="v">smooth</span>;
+  <span class="a">-webkit-text-size-adjust</span>: <span class="v">100%</span>; <span class="c">/* evite zoom auto iOS */</span>
+}
+<span class="k">body</span> {
+  <span class="a">overflow-x</span>: <span class="v">hidden</span>;
+  <span class="a">width</span>: <span class="v">100%</span>;
+  <span class="a">min-height</span>: <span class="v">100vh</span>;
+}
+<span class="c">/* Toutes les images restent dans leur conteneur */</span>
+<span class="k">img</span>, <span class="k">picture</span>, <span class="k">video</span>, <span class="k">svg</span>, <span class="k">canvas</span>, <span class="k">iframe</span> {
+  <span class="a">max-width</span>: <span class="v">100%</span>;
+  <span class="a">height</span>: <span class="v">auto</span>;
+  <span class="a">display</span>: <span class="v">block</span>;
+}</pre>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div id="p2" class="phase-header">
+  <div class="phase-num">02</div>
+  <div>
+    <span class="phase-tag tag-critique">Critique &middot; 20 min</span>
+    <div class="phase-title">Navigation hamburger</div>
+    <div class="phase-desc">8 liens sans menu mobile &rarr; correction prioritaire n&deg;1</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">2.1</div>
+    <div class="step-title">Ajouter le bouton hamburger dans le HTML</div>
+    <span class="step-where">index.html &amp; toutes pages</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">Le bouton doit &ecirc;tre ins&eacute;r&eacute; DANS la navbar, apr&egrave;s le logo, avant la liste des liens.</div>
+<pre><span class="c">&lt;!-- Modifier la nav existante --&gt;</span>
+<span class="t">&lt;nav</span> <span class="a">class="navbar"</span><span class="t">&gt;</span>
+  <span class="t">&lt;a</span> <span class="a">class="nav-logo"</span> <span class="a">href="/"</span><span class="t">&gt;</span>
+    <span class="t">&lt;img</span> <span class="a">src="logo-immeit.jpeg"</span> <span class="a">alt="IMMEIT"</span> <span class="a">width="160"</span> <span class="a">height="50"</span><span class="t">&gt;</span>
+  <span class="t">&lt;/a&gt;</span>
+
+  <span class="c">&lt;!-- AJOUTER CE BOUTON --&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">class="hamburger"</span>
+          <span class="a">aria-label="Ouvrir le menu"</span>
+          <span class="a">aria-expanded="false"</span>
+          <span class="a">aria-controls="nav-menu"</span><span class="t">&gt;</span>
+    <span class="t">&lt;span&gt;&lt;/span&gt;</span>
+    <span class="t">&lt;span&gt;&lt;/span&gt;</span>
+    <span class="t">&lt;span&gt;&lt;/span&gt;</span>
+  <span class="t">&lt;/button&gt;</span>
+
+  <span class="c">&lt;!-- Ajouter id="nav-menu" sur le ul --&gt;</span>
+  <span class="t">&lt;ul</span> <span class="a">class="nav-links"</span> <span class="a">id="nav-menu"</span><span class="t">&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="#hero"</span><span class="t">&gt;</span>Accueil<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="#about"</span><span class="t">&gt;</span>A propos<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="#services"</span><span class="t">&gt;</span>Services<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="#methodo"</span><span class="t">&gt;</span>Methodologie<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="#piliers"</span><span class="t">&gt;</span>Piliers<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="#engagement"</span><span class="t">&gt;</span>Engagements<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="pourquoi-choisir-immeit.html"</span><span class="t">&gt;</span>Pourquoi IMMEIT ?<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="t">&lt;li&gt;&lt;a</span> <span class="a">href="#contact"</span><span class="t">&gt;</span>Contact<span class="t">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="t">&lt;/ul&gt;</span>
+<span class="t">&lt;/nav&gt;</span></pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">2.2</div>
+    <div class="step-title">CSS du hamburger</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+<pre><span class="c">/* ===== NAVBAR ===== */</span>
+<span class="k">.navbar</span> {
+  <span class="a">display</span>: <span class="v">flex</span>;
+  <span class="a">align-items</span>: <span class="v">center</span>;
+  <span class="a">justify-content</span>: <span class="v">space-between</span>;
+  <span class="a">padding</span>: <span class="v">1rem clamp(1rem, 4vw, 3rem)</span>;
+  <span class="a">position</span>: <span class="v">relative</span>;
+  <span class="a">z-index</span>: <span class="v">1000</span>;
+}
+<span class="k">.nav-links</span> {
+  <span class="a">display</span>: <span class="v">flex</span>;
+  <span class="a">align-items</span>: <span class="v">center</span>;
+  <span class="a">gap</span>: <span class="v">clamp(0.6rem, 1.5vw, 1.4rem)</span>;
+  <span class="a">list-style</span>: <span class="v">none</span>;
+}
+<span class="c">/* ===== BOUTON HAMBURGER ===== */</span>
+<span class="k">.hamburger</span> {
+  <span class="a">display</span>: <span class="v">none</span>;
+  <span class="a">flex-direction</span>: <span class="v">column</span>;
+  <span class="a">justify-content</span>: <span class="v">center</span>;
+  <span class="a">gap</span>: <span class="v">5px</span>;
+  <span class="a">width</span>: <span class="v">44px</span>;
+  <span class="a">height</span>: <span class="v">44px</span>;
+  <span class="a">padding</span>: <span class="v">8px</span>;
+  <span class="a">cursor</span>: <span class="v">pointer</span>;
+  <span class="a">background</span>: <span class="v">none</span>;
+  <span class="a">border</span>: <span class="v">none</span>;
+  <span class="a">z-index</span>: <span class="v">1100</span>;
+}
+<span class="k">.hamburger span</span> {
+  <span class="a">display</span>: <span class="v">block</span>;
+  <span class="a">width</span>: <span class="v">24px</span>;
+  <span class="a">height</span>: <span class="v">2px</span>;
+  <span class="a">background</span>: <span class="v">currentColor</span>;
+  <span class="a">border-radius</span>: <span class="v">2px</span>;
+  <span class="a">transition</span>: <span class="v">transform 0.3s ease, opacity 0.3s ease</span>;
+}
+<span class="k">.hamburger.active span:nth-child(1)</span> {
+  <span class="a">transform</span>: <span class="v">translateY(7px) rotate(45deg)</span>;
+}
+<span class="k">.hamburger.active span:nth-child(2)</span> { <span class="a">opacity</span>: <span class="v">0</span>; }
+<span class="k">.hamburger.active span:nth-child(3)</span> {
+  <span class="a">transform</span>: <span class="v">translateY(-7px) rotate(-45deg)</span>;
+}
+<span class="c">/* ===== MENU MOBILE ===== */</span>
+<span class="k">@media (max-width: 900px)</span> {
+  <span class="k">.hamburger</span> { <span class="a">display</span>: <span class="v">flex</span>; }
+  <span class="k">.nav-links</span> {
+    <span class="a">display</span>: <span class="v">none</span>;
+    <span class="a">flex-direction</span>: <span class="v">column</span>;
+    <span class="a">align-items</span>: <span class="v">flex-start</span>;
+    <span class="a">position</span>: <span class="v">absolute</span>;
+    <span class="a">top</span>: <span class="v">100%</span>;
+    <span class="a">left</span>: <span class="v">0</span>;
+    <span class="a">right</span>: <span class="v">0</span>;
+    <span class="a">background</span>: <span class="v">#111927</span>; <span class="c">/* couleur IMMEIT */</span>
+    <span class="a">padding</span>: <span class="v">1.5rem clamp(1rem, 5vw, 2rem)</span>;
+    <span class="a">gap</span>: <span class="v">1.25rem</span>;
+    <span class="a">z-index</span>: <span class="v">999</span>;
+    <span class="a">border-top</span>: <span class="v">1px solid rgba(255,255,255,0.1)</span>;
+  }
+  <span class="k">.nav-links.open</span> { <span class="a">display</span>: <span class="v">flex</span>; }
+}</pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">2.3</div>
+    <div class="step-title">JavaScript du hamburger</div>
+    <span class="step-where">script.js ou juste avant &lt;/body&gt;</span>
+  </div>
+  <div class="step-body">
+<pre><span class="c">// ===== HAMBURGER MENU =====</span>
+document.addEventListener(<span class="v">'DOMContentLoaded'</span>, function () {
+  const hamburger = document.querySelector(<span class="v">'.hamburger'</span>);
+  const navLinks  = document.querySelector(<span class="v">'.nav-links'</span>);
+  if (!hamburger || !navLinks) return;
+
+  hamburger.addEventListener(<span class="v">'click'</span>, function () {
+    const isOpen = navLinks.classList.toggle(<span class="v">'open'</span>);
+    hamburger.classList.toggle(<span class="v">'active'</span>, isOpen);
+    hamburger.setAttribute(<span class="v">'aria-expanded'</span>, isOpen);
+    document.body.style.overflow = isOpen ? <span class="v">'hidden'</span> : <span class="v">''</span>;
+  });
+
+  <span class="c">// Fermer au clic sur un lien</span>
+  navLinks.querySelectorAll(<span class="v">'a'</span>).forEach(function (link) {
+    link.addEventListener(<span class="v">'click'</span>, function () {
+      navLinks.classList.remove(<span class="v">'open'</span>);
+      hamburger.classList.remove(<span class="v">'active'</span>);
+      hamburger.setAttribute(<span class="v">'aria-expanded'</span>, <span class="v">'false'</span>);
+      document.body.style.overflow = <span class="v">''</span>;
+    });
+  });
+
+  <span class="c">// Fermer si clic en dehors du menu</span>
+  document.addEventListener(<span class="v">'click'</span>, function (e) {
+    if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove(<span class="v">'open'</span>);
+      hamburger.classList.remove(<span class="v">'active'</span>);
+      hamburger.setAttribute(<span class="v">'aria-expanded'</span>, <span class="v">'false'</span>);
+      document.body.style.overflow = <span class="v">''</span>;
+    }
+  });
+
+  <span class="c">// Fermer si redimensionnement > 900px</span>
+  window.addEventListener(<span class="v">'resize'</span>, function () {
+    if (window.innerWidth > 900) {
+      navLinks.classList.remove(<span class="v">'open'</span>);
+      hamburger.classList.remove(<span class="v">'active'</span>);
+      hamburger.setAttribute(<span class="v">'aria-expanded'</span>, <span class="v">'false'</span>);
+      document.body.style.overflow = <span class="v">''</span>;
+    }
+  });
+});</pre>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div id="p3" class="phase-header">
+  <div class="phase-num">03</div>
+  <div>
+    <span class="phase-tag tag-critique">Critique &middot; 30 min</span>
+    <div class="phase-title">Sections &amp; grilles</div>
+    <div class="phase-desc">Services, KPIs, m&eacute;thodo, piliers, engagements, t&eacute;moignages</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">3.1</div>
+    <div class="step-title">Espacement fluide des sections</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">Les paddings fixes (80–120px) consomment 40% de la hauteur d&apos;écran sur mobile.</div>
+<pre><span class="k">section</span> {
+  <span class="a">padding</span>: <span class="v">clamp(3rem, 8vw, 7rem) clamp(1rem, 5vw, 5rem)</span>;
+  <span class="a">width</span>: <span class="v">100%</span>;
+}
+<span class="k">.container</span> {
+  <span class="a">max-width</span>: <span class="v">1200px</span>;
+  <span class="a">margin</span>: <span class="v">0 auto</span>;
+  <span class="a">padding</span>: <span class="v">0 clamp(1rem, 4vw, 2rem)</span>;
+  <span class="a">width</span>: <span class="v">100%</span>;
+}</pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">3.2</div>
+    <div class="step-title">3 cartes services + CSS + HTML</div>
+    <span class="step-where">index.html + style.css</span>
+  </div>
+  <div class="step-body">
+<pre><span class="c">/* HTML — wrapper a ajouter autour des 3 cartes */</span>
+<span class="t">&lt;div</span> <span class="a">class="services-grid"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class="service-card"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class="service-card"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class="service-card"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+
+<span class="c">/* CSS */</span>
+<span class="k">.services-grid</span> {
+  <span class="a">display</span>: <span class="v">grid</span>;
+  <span class="a">grid-template-columns</span>: <span class="v">repeat(auto-fit, minmax(280px, 1fr))</span>;
+  <span class="a">gap</span>: <span class="v">1.5rem</span>;
+}
+<span class="k">@media (max-width: 480px)</span> {
+  <span class="k">.services-grid</span> { <span class="a">grid-template-columns</span>: <span class="v">1fr</span>; }
+}</pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">3.3</div>
+    <div class="step-title">4 KPIs &mdash; grille 4&rarr;2&rarr;1 colonnes</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+<pre><span class="k">.kpi-grid</span>, <span class="k">.indicateurs-grid</span> {
+  <span class="a">display</span>: <span class="v">grid</span>;
+  <span class="a">grid-template-columns</span>: <span class="v">repeat(4, 1fr)</span>;
+  <span class="a">gap</span>: <span class="v">1.5rem</span>;
+}
+<span class="k">@media (max-width: 768px)</span> {
+  <span class="k">.kpi-grid</span>, <span class="k">.indicateurs-grid</span> {
+    <span class="a">grid-template-columns</span>: <span class="v">repeat(2, 1fr)</span>;
+  }
+}
+<span class="k">@media (max-width: 400px)</span> {
+  <span class="k">.kpi-grid</span>, <span class="k">.indicateurs-grid</span> { <span class="a">grid-template-columns</span>: <span class="v">1fr</span>; }
+}</pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">3.4</div>
+    <div class="step-title">5 &eacute;tapes m&eacute;thodologie &mdash; scroll horizontal snap</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">5 colonnes en ligne = illisible sur 375px. Le scroll horizontal avec snap donne une experience fluide type "swipe".</div>
+<pre><span class="k">.methodo-steps</span> {
+  <span class="a">display</span>: <span class="v">flex</span>;
+  <span class="a">gap</span>: <span class="v">1.25rem</span>;
+  <span class="a">overflow-x</span>: <span class="v">auto</span>;
+  <span class="a">padding-bottom</span>: <span class="v">1rem</span>;
+  <span class="a">-webkit-overflow-scrolling</span>: <span class="v">touch</span>;
+  <span class="a">scroll-snap-type</span>: <span class="v">x mandatory</span>;
+  <span class="a">scrollbar-width</span>: <span class="v">thin</span>;
+}
+<span class="k">.methodo-step</span> {
+  <span class="a">min-width</span>: <span class="v">clamp(200px, 60vw, 280px)</span>;
+  <span class="a">flex-shrink</span>: <span class="v">0</span>;
+  <span class="a">scroll-snap-align</span>: <span class="v">start</span>;
+}
+<span class="c">/* Desktop : retour au flex normal */</span>
+<span class="k">@media (min-width: 900px)</span> {
+  <span class="k">.methodo-steps</span> { <span class="a">overflow-x</span>: <span class="v">visible</span>; <span class="a">flex-wrap</span>: <span class="v">wrap</span>; }
+  <span class="k">.methodo-step</span>  { <span class="a">min-width</span>: <span class="v">0</span>; <span class="a">flex</span>: <span class="v">1</span>; }
+}</pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">3.5</div>
+    <div class="step-title">9 piliers &mdash; grille 3&rarr;2&rarr;1 colonnes</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+<pre><span class="k">.piliers-grid</span> {
+  <span class="a">display</span>: <span class="v">grid</span>;
+  <span class="a">grid-template-columns</span>: <span class="v">repeat(3, 1fr)</span>;
+  <span class="a">gap</span>: <span class="v">1.25rem</span>;
+}
+<span class="k">@media (max-width: 900px)</span> {
+  <span class="k">.piliers-grid</span> { <span class="a">grid-template-columns</span>: <span class="v">repeat(2, 1fr)</span>; }
+}
+<span class="k">@media (max-width: 560px)</span> {
+  <span class="k">.piliers-grid</span> { <span class="a">grid-template-columns</span>: <span class="v">1fr</span>; }
+}</pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-a">3.6</div>
+    <div class="step-title">4 engagements + 3 t&eacute;moignages</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+<pre><span class="k">.engagements-grid</span> {
+  <span class="a">display</span>: <span class="v">grid</span>;
+  <span class="a">grid-template-columns</span>: <span class="v">repeat(auto-fit, minmax(200px, 1fr))</span>;
+  <span class="a">gap</span>: <span class="v">1.5rem</span>;
+}
+<span class="k">.temoignages-grid</span> {
+  <span class="a">display</span>: <span class="v">grid</span>;
+  <span class="a">grid-template-columns</span>: <span class="v">repeat(auto-fit, minmax(280px, 1fr))</span>;
+  <span class="a">gap</span>: <span class="v">1.5rem</span>;
+}
+<span class="k">@media (max-width: 600px)</span> {
+  <span class="k">.temoignages-grid</span> { <span class="a">grid-template-columns</span>: <span class="v">1fr</span>; }
+}</pre>
+  </div>
+</div>
+
+<!-- PHASE 4 -->
+<div id="p4" class="phase-header">
+  <div class="phase-num">04</div>
+  <div>
+    <span class="phase-tag tag-critique">Critique &middot; 15 min</span>
+    <div class="phase-title">Hero &amp; images</div>
+    <div class="phase-desc">background-attachment iOS, CLS, logos</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">4.1</div>
+    <div class="step-title">Hero &mdash; background-attachment:fixed bris&eacute; sur iOS</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">background-attachment:fixed ne fonctionne pas sur Safari/iOS. L&apos;image disparaît totalement. Toujours utiliser scroll.</div>
+<pre><span class="k">#hero</span>, <span class="k">.hero</span> {
+  <span class="a">background-image</span>: <span class="v">url('indicateur-de-production.jpg')</span>;
+  <span class="a">background-size</span>: <span class="v">cover</span>;
+  <span class="a">background-position</span>: <span class="v">center center</span>;
+  <span class="a">background-attachment</span>: <span class="v">scroll</span>; <span class="c">/* JAMAIS fixed sur mobile */</span>
+  <span class="a">min-height</span>: <span class="v">100svh</span>;   <span class="c">/* svh = safe viewport height, gere le notch iOS */</span>
+  <span class="a">display</span>: <span class="v">flex</span>;
+  <span class="a">align-items</span>: <span class="v">center</span>;
+  <span class="a">position</span>: <span class="v">relative</span>;
+  <span class="a">padding</span>: <span class="v">clamp(2rem, 6vw, 5rem) clamp(1rem, 5vw, 5rem)</span>;
+}
+<span class="c">/* Overlay sombre pour lisibilite du texte */</span>
+<span class="k">#hero::before</span>, <span class="k">.hero::before</span> {
+  <span class="a">content</span>: <span class="v">''</span>;
+  <span class="a">position</span>: <span class="v">absolute</span>;
+  <span class="a">inset</span>: <span class="v">0</span>;
+  <span class="a">background</span>: <span class="v">rgba(0, 0, 0, 0.45)</span>;
+  <span class="a">z-index</span>: <span class="v">0</span>;
+}
+<span class="k">#hero &gt; *</span> { <span class="a">position</span>: <span class="v">relative</span>; <span class="a">z-index</span>: <span class="v">1</span>; }
+
+<span class="k">@media (max-width: 768px)</span> {
+  <span class="k">#hero</span> { <span class="a">text-align</span>: <span class="v">center</span>; <span class="a">justify-content</span>: <span class="v">center</span>; }
+  <span class="k">.hero-buttons</span> { <span class="a">flex-wrap</span>: <span class="v">wrap</span>; <span class="a">justify-content</span>: <span class="v">center</span>; }
+  <span class="k">.hero-stats</span>   { <span class="a">justify-content</span>: <span class="v">center</span>; }
+}</pre>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">4.2</div>
+    <div class="step-title">Logo IMMEIT &mdash; attributs CLS</div>
+    <span class="step-where">HTML toutes pages</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">Sans width/height sur les balises img, la page "saute" pendant le chargement (CLS — penalise par Google SEO).</div>
+<pre><span class="c">&lt;!-- Ajouter width et height sur chaque logo --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src="logo-immeit.jpeg"</span>
+     <span class="a">alt="IMMEIT"</span>
+     <span class="a">width="200"</span>
+     <span class="a">height="56"</span>
+     <span class="a">loading="eager"</span>
+     <span class="a">decoding="async"</span><span class="t">&gt;</span>
+
+<span class="c">/* CSS : taille maximale du logo */</span>
+<span class="k">.nav-logo img</span> {
+  <span class="a">max-height</span>: <span class="v">56px</span>;
+  <span class="a">width</span>: <span class="v">auto</span>;
+  <span class="a">object-fit</span>: <span class="v">contain</span>;
+}</pre>
+  </div>
+</div>
+
+<!-- PHASE 5 -->
+<div id="p5" class="phase-header">
+  <div class="phase-num">05</div>
+  <div>
+    <span class="phase-tag tag-critique">Critique &middot; 10 min</span>
+    <div class="phase-title">Formulaire de contact</div>
+    <div class="phase-desc">Champs, claviers mobiles, bouton pleine largeur</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-r">5.1</div>
+    <div class="step-title">Pr&eacute;nom + Nom &mdash; colonne unique sur mobile</div>
+    <span class="step-where">index.html + style.css</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">Sur 375px, deux champs c&ocirc;te &agrave; c&ocirc;te ne font que 175px chacun. Le placeholder "Pr&eacute;nom *" est tronqu&eacute;. De plus, les inputs &lt; 16px de font-size d&eacute;clenchent un zoom automatique sur iOS.</div>
+<pre><span class="c">/* HTML — wrapper form-row */</span>
+<span class="t">&lt;form</span> <span class="a">class="contact-form"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class="form-row"</span><span class="t">&gt;</span>
+    <span class="t">&lt;input</span> <span class="a">type="text"</span> <span class="a">name="prenom"</span> <span class="a">placeholder="Prenom *"</span>
+           <span class="a">required</span> <span class="a">autocomplete="given-name"</span><span class="t">&gt;</span>
+    <span class="t">&lt;input</span> <span class="a">type="text"</span> <span class="a">name="nom"</span> <span class="a">placeholder="Nom *"</span>
+           <span class="a">required</span> <span class="a">autocomplete="family-name"</span><span class="t">&gt;</span>
+  <span class="t">&lt;/div&gt;</span>
+  <span class="t">&lt;input</span> <span class="a">type="email"</span> <span class="a">name="email"</span> <span class="a">placeholder="Email *"</span>
+         <span class="a">required</span> <span class="a">autocomplete="email"</span> <span class="a">inputmode="email"</span><span class="t">&gt;</span>
+  <span class="t">&lt;input</span> <span class="a">type="text"</span> <span class="a">name="sujet"</span> <span class="a">placeholder="Sujet *"</span> <span class="a">required</span><span class="t">&gt;</span>
+  <span class="t">&lt;textarea</span> <span class="a">name="message"</span> <span class="a">rows="5"</span>
+            <span class="a">maxlength="2000"</span> <span class="a">required</span><span class="t">&gt;&lt;/textarea&gt;</span>
+  <span class="t">&lt;button</span> <span class="a">type="submit"</span><span class="t">&gt;</span>Envoyer<span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/form&gt;</span>
+
+<span class="c">/* CSS */</span>
+<span class="k">.contact-form</span> { <span class="a">max-width</span>: <span class="v">680px</span>; <span class="a">margin</span>: <span class="v">0 auto</span>; <span class="a">width</span>: <span class="v">100%</span>; }
+<span class="k">.contact-form input</span>, <span class="k">.contact-form textarea</span> {
+  <span class="a">width</span>: <span class="v">100%</span>;
+  <span class="a">margin-bottom</span>: <span class="v">1rem</span>;
+  <span class="a">font-size</span>: <span class="v">1rem</span>; <span class="c">/* OBLIGATOIRE : evite zoom iOS (< 16px = zoom) */</span>
+  <span class="a">font-family</span>: <span class="v">inherit</span>;
+}
+<span class="k">.form-row</span> { <span class="a">display</span>: <span class="v">flex</span>; <span class="a">gap</span>: <span class="v">1rem</span>; }
+<span class="k">.form-row input</span> { <span class="a">flex</span>: <span class="v">1</span>; <span class="a">min-width</span>: <span class="v">0</span>; }
+
+<span class="k">@media (max-width: 600px)</span> {
+  <span class="k">.form-row</span> { <span class="a">flex-direction</span>: <span class="v">column</span>; <span class="a">gap</span>: <span class="v">0</span>; }
+  <span class="k">.contact-form button[type="submit"]</span> { <span class="a">width</span>: <span class="v">100%</span>; }
+}</pre>
+  </div>
+</div>
+
+<!-- PHASE 6 -->
+<div id="p6" class="phase-header">
+  <div class="phase-num">06</div>
+  <div>
+    <span class="phase-tag tag-important">Important &middot; 10 min</span>
+    <div class="phase-title">Typographie fluide</div>
+    <div class="phase-desc">Tailles qui s&apos;adaptent entre 320px et 1920px sans media query</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-a">6.1</div>
+    <div class="step-title">Remplacer les tailles fixes par clamp()</div>
+    <span class="step-where">style.css</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">clamp(min, fluide, max) : une seule r&egrave;gle remplace 3 breakpoints. La taille s&apos;adapte automatiquement &agrave; la largeur d&apos;&eacute;cran.</div>
+<pre><span class="k">h1</span> {
+  <span class="a">font-size</span>: <span class="v">clamp(1.6rem, 4vw + 0.8rem, 3.5rem)</span>;
+  <span class="a">line-height</span>: <span class="v">1.12</span>;
+}
+<span class="k">h2</span> {
+  <span class="a">font-size</span>: <span class="v">clamp(1.3rem, 3vw + 0.5rem, 2.5rem)</span>;
+  <span class="a">line-height</span>: <span class="v">1.2</span>;
+}
+<span class="k">h3</span> {
+  <span class="a">font-size</span>: <span class="v">clamp(1rem, 2vw + 0.4rem, 1.5rem)</span>;
+  <span class="a">line-height</span>: <span class="v">1.3</span>;
+}
+<span class="k">p</span>, <span class="k">li</span> {
+  <span class="a">font-size</span>: <span class="v">clamp(0.9rem, 1.5vw, 1.05rem)</span>;
+  <span class="a">line-height</span>: <span class="v">1.7</span>;
+}
+<span class="k">.section-label</span> {
+  <span class="c">/* Labels type "Nos partenaires", "Notre expertise" */</span>
+  <span class="a">font-size</span>: <span class="v">clamp(0.68rem, 1.2vw, 0.82rem)</span>;
+  <span class="a">letter-spacing</span>: <span class="v">0.1em</span>;
+  <span class="a">text-transform</span>: <span class="v">uppercase</span>;
+}</pre>
+  </div>
+</div>
+
+<!-- PHASE 7 -->
+<div id="p7" class="phase-header">
+  <div class="phase-num">07</div>
+  <div>
+    <span class="phase-tag tag-important">Important &middot; 15 min</span>
+    <div class="phase-title">Sous-pages HTML</div>
+    <div class="phase-desc">5 pages &agrave; corriger &mdash; m&ecirc;me menu, m&ecirc;me CSS</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-a">7.1</div>
+    <div class="step-title">Pages concern&eacute;es</div>
+    <span class="step-where">5 fichiers HTML</span>
+  </div>
+  <div class="step-body">
+    <div class="step-why">Le menu hamburger et le CSS responsive doivent &ecirc;tre appliqu&eacute;s sur TOUTES les pages.</div>
+    <ul class="checklist">
+      <li><span class="ci">&#128196;</span><div><strong>index.html</strong> &mdash; page principale : toutes les corrections</div></li>
+      <li><span class="ci">&#128196;</span><div><strong>methodes-maintenance.html</strong> &mdash; hamburger + grilles de services + listes</div></li>
+      <li><span class="ci">&#128196;</span><div><strong>climatisation.html</strong> &mdash; hamburger + listes d&apos;avantages</div></li>
+      <li><span class="ci">&#128196;</span><div><strong>pourquoi-choisir-immeit.html</strong> &mdash; hamburger + grille des 6 raisons</div></li>
+      <li><span class="ci">&#128196;</span><div><strong>maintenance-multi-technique.html</strong> &mdash; hamburger + CSS global</div></li>
+    </ul>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-a">7.2</div>
+    <div class="step-title">Lien CSS partag&eacute; dans le &lt;head&gt; de chaque page</div>
+    <span class="step-where">Toutes les pages</span>
+  </div>
+  <div class="step-body">
+<pre><span class="c">&lt;!-- Dans le &lt;head&gt; de CHAQUE page HTML --&gt;</span>
+<span class="t">&lt;meta</span> <span class="a">name="viewport"</span> <span class="a">content="width=device-width, initial-scale=1.0"</span><span class="t">&gt;</span>
+<span class="t">&lt;link</span> <span class="a">rel="stylesheet"</span> <span class="a">href="style.css"</span><span class="t">&gt;</span>
+
+<span class="c">&lt;!-- Avant &lt;/body&gt; de CHAQUE page HTML --&gt;</span>
+<span class="t">&lt;script</span> <span class="a">src="script.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></pre>
+  </div>
+</div>
+
+<!-- PHASE 8 -->
+<div id="p8" class="phase-header">
+  <div class="phase-num">08</div>
+  <div>
+    <span class="phase-tag tag-bonus">Validation &middot; 15 min</span>
+    <div class="phase-title">Tests &amp; validation</div>
+    <div class="phase-desc">V&eacute;rifier sur tous les breakpoints avant mise en ligne</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-header">
+    <div class="step-num num-g">8.1</div>
+    <div class="step-title">Breakpoints &agrave; tester</div>
+    <span class="step-where">Chrome DevTools &mdash; F12</span>
+  </div>
+  <div class="step-body">
+    <div class="test-grid">
+      <div class="test-card"><div class="test-device">&#128241;</div><div class="test-name">iPhone SE</div><div class="test-size">320px &times; 568px</div></div>
+      <div class="test-card"><div class="test-device">&#128241;</div><div class="test-name">iPhone 14</div><div class="test-size">390px &times; 844px</div></div>
+      <div class="test-card"><div class="test-device">&#128241;</div><div class="test-name">Samsung S21</div><div class="test-size">412px &times; 915px</div></div>
+      <div class="test-card"><div class="test-device">&#128251;</div><div class="test-name">iPad Mini</div><div class="test-size">768px &times; 1024px</div></div>
+      <div class="test-card"><div class="test-device">&#128251;</div><div class="test-name">iPad Pro</div><div class="test-size">1024px &times; 1366px</div></div>
+      <div class="test-card"><div class="test-device">&#128187;</div><div class="test-name">Desktop</div><div class="test-size">1280px &times; 800px</div></div>
+    </div>
+    <ul class="checklist">
+      <li><span class="ci">&#10003;</span><div>Menu hamburger s&apos;affiche et fonctionne sur &le; 900px</div></li>
+      <li><span class="ci">&#10003;</span><div>Pas de scroll horizontal sur aucun &eacute;cran</div></li>
+      <li><span class="ci">&#10003;</span><div>Image hero visible sur iOS Safari (background-attachment:scroll)</div></li>
+      <li><span class="ci">&#10003;</span><div>Grilles services/piliers en 1 colonne sur mobile 375px</div></li>
+      <li><span class="ci">&#10003;</span><div>Formulaire : Pr&eacute;nom + Nom en colonne unique sur mobile</div></li>
+      <li><span class="ci">&#10003;</span><div>Textes lisibles &mdash; h1 fluide, p &ge; 14px</div></li>
+      <li><span class="ci">&#10003;</span><div>Liens tel: cliquables sur mobile (appel direct)</div></li>
+      <li><span class="ci">&#10003;</span><div>Sous-pages aussi responsive (hamburger pr&eacute;sent)</div></li>
+      <li><span class="ci">&#10003;</span><div>Console DevTools : 0 erreur JavaScript</div></li>
+    </ul>
+  </div>
+</div>
+
+<!-- PROMPT IA -->
+<div id="prompt" class="phase-header">
+  <div class="phase-num">&#9733;</div>
+  <div>
+    <span class="phase-tag tag-bonus">Outil IA</span>
+    <div class="phase-title">Prompt IA tout-en-un</div>
+    <div class="phase-desc">Copier-coller ce prompt avec le fichier HTML en pi&egrave;ce jointe</div>
+  </div>
+</div>
+
+<div class="prompt-block">
+  <div class="prompt-label">&#9658; Prompt &agrave; copier-coller dans ChatGPT, Claude, Gemini, Copilot&hellip;</div>
+  <div class="prompt-text">Voici le fichier HTML de mon site www.immeit.com.
+Je veux que tu le rendes 100% responsive sans changer le contenu ni le design.
+
+Applique ces corrections dans l'ordre :
+
+ETAPE 1 — BASE CSS (coller en tout debut du CSS) :
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: hidden; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { overflow-x: hidden; width: 100%; }
+  img, picture, video, svg, iframe { max-width: 100%; height: auto; display: block; }
+
+ETAPE 2 — HAMBURGER (dans le &lt;nav&gt;, apres le logo, avant le &lt;ul&gt;) :
+  &lt;button class="hamburger" aria-label="Ouvrir le menu" aria-expanded="false"&gt;
+    &lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  Ajouter class="nav-links" sur le &lt;ul&gt; du menu.
+
+  CSS hamburger :
+  .hamburger{display:none;flex-direction:column;gap:5px;width:44px;height:44px;padding:8px;cursor:pointer;background:none;border:none}
+  .hamburger span{display:block;width:24px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s,opacity .3s}
+  .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .hamburger.active span:nth-child(2){opacity:0}
+  .hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media(max-width:900px){
+    .hamburger{display:flex}
+    .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:#111927;padding:1.5rem 1rem;gap:1.25rem;z-index:999}
+    .nav-links.open{display:flex}
+  }
+
+  JS hamburger (avant &lt;/body&gt;) :
+  document.addEventListener('DOMContentLoaded',function(){
+    const h=document.querySelector('.hamburger');
+    const n=document.querySelector('.nav-links');
+    if(!h||!n)return;
+    h.addEventListener('click',()=>{const o=n.classList.toggle('open');h.classList.toggle('active',o);h.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''});
+    n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{n.classList.remove('open');h.classList.remove('active');h.setAttribute('aria-expanded','false');document.body.style.overflow=''}));
+    document.addEventListener('click',e=>{if(!h.contains(e.target)&&!n.contains(e.target)){n.classList.remove('open');h.classList.remove('active');h.setAttribute('aria-expanded','false');document.body.style.overflow=''}});
+    window.addEventListener('resize',()=>{if(window.innerWidth>900){n.classList.remove('open');h.classList.remove('active');document.body.style.overflow=''}});
+  });
+
+ETAPE 3 — SECTIONS :
+  section{padding:clamp(3rem,8vw,7rem) clamp(1rem,5vw,5rem);width:100%}
+
+ETAPE 4 — GRILLES :
+  Sur les 3 cartes services, ajouter class="services-grid" au conteneur :
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+
+  Sur les 4 KPIs, ajouter class="kpi-grid" :
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+  @media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:400px){.kpi-grid{grid-template-columns:1fr}}
+
+  Sur les 5 etapes methodo, ajouter class="methodo-steps" au conteneur et class="methodo-step" sur chaque etape :
+  .methodo-steps{display:flex;overflow-x:auto;gap:1.25rem;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+  .methodo-step{min-width:clamp(200px,60vw,280px);flex-shrink:0;scroll-snap-align:start}
+  @media(min-width:900px){.methodo-steps{overflow-x:visible;flex-wrap:wrap}.methodo-step{min-width:0;flex:1}}
+
+  Sur les 9 piliers, ajouter class="piliers-grid" :
+  .piliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+  @media(max-width:900px){.piliers-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.piliers-grid{grid-template-columns:1fr}}
+
+  Sur les 3 temoignages, ajouter class="temoignages-grid" :
+  .temoignages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+
+ETAPE 5 — HERO :
+  #hero{background-size:cover;background-position:center;background-attachment:scroll!important;min-height:100svh;position:relative;padding:clamp(2rem,6vw,5rem) clamp(1rem,5vw,5rem)}
+  #hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:0}
+  #hero>*{position:relative;z-index:1}
+  @media(max-width:768px){#hero{text-align:center;justify-content:center}}
+
+ETAPE 6 — FORMULAIRE :
+  Entourer les champs Prenom + Nom dans &lt;div class="form-row"&gt;
+  Ajouter type="email" inputmode="email" sur le champ email
+  Assurer font-size:1rem sur tous les inputs (evite zoom iOS)
+  .form-row{display:flex;gap:1rem}
+  .form-row input{flex:1;min-width:0}
+  @media(max-width:600px){.form-row{flex-direction:column}.contact-form button[type=submit]{width:100%}}
+
+ETAPE 7 — TYPOGRAPHIE :
+  h1{font-size:clamp(1.6rem,4vw + .8rem,3.5rem);line-height:1.12}
+  h2{font-size:clamp(1.3rem,3vw + .5rem,2.5rem);line-height:1.2}
+  h3{font-size:clamp(1rem,2vw + .4rem,1.5rem)}
+  p,li{font-size:clamp(.9rem,1.5vw,1.05rem);line-height:1.7}
+
+Ne modifier aucun texte, aucune couleur, aucune image.
+Retourner le fichier HTML complet corrige.</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="alert alert-vert">
+  <span class="alert-icon">&#10003;</span>
+  <div><strong>Conseil :</strong> Utiliser ce prompt page par page. Commencer par index.html, v&eacute;rifier le r&eacute;sultat dans le navigateur, puis passer aux sous-pages dans l&apos;ordre : methodes-maintenance.html, climatisation.html, pourquoi-choisir-immeit.html, maintenance-multi-technique.html.</div>
+</div>
+
+</div>
+
+<div class="doc-footer">
+  Plan de correction Responsive &mdash; IMMEIT &middot; www.immeit.com &middot; G&eacute;n&eacute;r&eacute; par Claude Sonnet 4.6 &middot; Mai 2026
+</div>
+
+</body>
+</html>
