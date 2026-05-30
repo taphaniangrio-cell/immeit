@@ -1,7 +1,0 @@
-server/node_modules/
-server/.env
-server/data/
-server/logs/
-.env
-node_modules/
-.tunnel-url
