@@ -271,7 +271,8 @@ app.get('/', (_req, res) => {
   const indexPath = path.join(__dirname, '..', 'index.html');
   if (tunnelUrl) {
     let html = fs.readFileSync(indexPath, 'utf-8');
-    html = html.replace('</head>', `<script>window.SERVER_API_URL=${JSON.stringify(tunnelUrl)}</script></head>`);
+    const workerApiUrl = process.env.WORKER_API_URL || '';
+    html = html.replace('</head>', `<script>window.SERVER_API_URL=${JSON.stringify(tunnelUrl)};window.WORKER_API_URL=${JSON.stringify(workerApiUrl)}</script></head>`);
     res.type('html').send(html);
   } else {
     res.sendFile(indexPath);

@@ -1,184 +1,128 @@
-const TEMPLATE = `<!DOCTYPE html>
+function clean(str = '') {
+  return String(str).trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function buildEmailHtml({ prenom, nom, email, sujet, message, date }) {
+  const messageHtml = (message || '').replace(/\n/g, '<br/>');
+  return `<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #f4f4f6;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      padding: 40px 10px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    }
-    .header {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      padding: 48px 30px 36px;
-      text-align: center;
-    }
-    .header h1 {
-      color: #c99a3e;
-      font-size: 32px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .header p {
-      color: #7a8a9a;
-      font-size: 13px;
-      letter-spacing: 1px;
-    }
-    .content {
-      padding: 36px 30px;
-    }
-    .content h2 {
-      color: #1a1a2e;
-      font-size: 22px;
-      margin-bottom: 4px;
-    }
-    .content .date {
-      color: #888;
-      font-size: 14px;
-      margin-bottom: 32px;
-    }
-    .card {
-      margin-bottom: 28px;
-    }
-    .card-header {
-      padding: 10px 16px;
-      background: #f8f9fa;
-      border-radius: 8px 8px 0 0;
-      border-bottom: 2px solid #c99a3e;
-    }
-    .card-header strong {
-      color: #1a1a2e;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
-    .card-body {
-      padding: 16px;
-      border: 1px solid #e8e8ec;
-      border-top: 0;
-      border-radius: 0 0 8px 8px;
-    }
-    .card-body table {
-      width: 100%;
-    }
-    .card-body td {
-      padding: 5px 0;
-      color: #444;
-      font-size: 15px;
-    }
-    .card-body .label {
-      color: #1a1a2e;
-      font-weight: 600;
-      display: inline-block;
-      width: 70px;
-    }
-    .card-body a {
-      color: #c99a3e;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .message-body {
-      color: #333;
-      font-size: 15px;
-      line-height: 1.7;
-      margin: 0;
-      white-space: pre-wrap;
-    }
-    .footer {
-      background: #1a1a2e;
-      padding: 28px 30px;
-      text-align: center;
-    }
-    .footer p {
-      color: #7a8a9a;
-      font-size: 12px;
-      margin-bottom: 6px;
-    }
-    .footer a {
-      color: #c99a3e;
-      text-decoration: none;
-      font-size: 13px;
-    }
-    .disclaimer {
-      text-align: center;
-      color: #aaa;
-      font-size: 11px;
-      margin-top: 16px;
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Nouveau message</title>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>IMMEIT</h1>
-      <p>Installation &middot; M&eacute;thodes &middot; Maintenance</p>
-    </div>
-    <div class="content">
-      <h2>Nouveau message de contact</h2>
-      <p class="date">Re&ccedil;u le {{DATE}}</p>
+<body style="margin:0;padding:0;background-color:#e8eaf0;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#e8eaf0;padding:40px 16px;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.12);">
 
-      <div class="card">
-        <div class="card-header">
-          <strong>Exp&eacute;diteur</strong>
-        </div>
-        <div class="card-body">
-          <table>
-            <tr><td><span class="label">Pr&eacute;nom</span> {{PRENOM}}</td></tr>
-            <tr><td><span class="label">Nom</span> {{NOM}}</td></tr>
-            <tr><td><span class="label">Email</span> <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></td></tr>
-            <tr><td><span class="label">Sujet</span> {{SUJET}}</td></tr>
-          </table>
-        </div>
-      </div>
+        <tr>
+          <td style="background-color:#1a1f36;padding:32px 40px 0 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="56" valign="middle">
+                  <div style="width:48px;height:48px;background:#e8a020;border-radius:12px;text-align:center;line-height:48px;font-size:22px;">&#9993;</div>
+                </td>
+                <td valign="middle" style="padding-left:14px;">
+                  <p style="margin:0;color:#ffffff;font-size:20px;font-weight:700;letter-spacing:-0.3px;">Nouveau message re&ccedil;u</p>
+                  <p style="margin:4px 0 0;color:#8b91b0;font-size:12px;">Formulaire de contact &mdash; Installation, M&eacute;thodes et Maintenance des &Eacute;quipements Industriels et Tertiaires</p>
+                </td>
+              </tr>
+            </table>
+            <div style="margin-top:20px;height:1px;background:linear-gradient(90deg,#e8a020 0%,rgba(232,160,32,0) 70%);"></div>
+            <div style="height:24px;"></div>
+          </td>
+        </tr>
 
-      <div class="card">
-        <div class="card-header">
-          <strong>Message</strong>
-        </div>
-        <div class="card-body">
-          <p class="message-body">{{MESSAGE}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-      <p>IMMEIT &mdash; Installation &middot; M&eacute;thodes &middot; Maintenance</p>
-      <a href="https://www.immeit.com">www.immeit.com</a>
-    </div>
-  </div>
-  <p class="disclaimer">Cet email a &eacute;t&eacute; envoy&eacute; depuis le formulaire de contact.</p>
+        <tr>
+          <td style="padding:32px 40px 8px 40px;">
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f7f8fc;border-radius:12px;border-left:3px solid #e8a020;margin-bottom:24px;">
+              <tr>
+                <td style="padding:20px 24px;">
+                  <p style="margin:0 0 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b91b0;font-weight:700;">Exp&eacute;diteur</p>
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td width="50%" style="padding-bottom:12px;padding-right:10px;">
+                        <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Pr&eacute;nom</p>
+                        <p style="margin:0;font-size:15px;color:#1a1f36;font-weight:700;">${prenom}</p>
+                      </td>
+                      <td width="50%" style="padding-bottom:12px;padding-left:10px;">
+                        <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Nom</p>
+                        <p style="margin:0;font-size:15px;color:#1a1f36;font-weight:700;">${nom}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">Adresse email</p>
+                        <a href="mailto:${email}" style="color:#e8a020;font-size:14px;text-decoration:none;font-weight:500;">${email}</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
+              <tr>
+                <td>
+                  <span style="display:inline-block;background:#1a1f36;color:#ffffff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:20px;">Sujet</span>
+                  <span style="display:inline-block;font-size:15px;color:#1a1f36;font-style:italic;margin-left:10px;vertical-align:middle;">${sujet}</span>
+                </td>
+              </tr>
+            </table>
+
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fafafa;border:1px solid #e8eaf0;border-radius:12px;">
+              <tr>
+                <td style="padding:24px;">
+                  <p style="margin:0 0 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b91b0;font-weight:700;">Message</p>
+                  <p style="margin:0;font-size:15px;color:#2d3250;line-height:1.85;">${messageHtml}</p>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:24px 40px 32px;text-align:right;">
+            <a href="mailto:${email}?subject=Re: ${sujet}" style="display:inline-block;background:#e8a020;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;letter-spacing:0.2px;">&#8617; R&eacute;pondre &agrave; ${prenom}</a>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="background:#f7f8fc;padding:20px 40px;border-top:1px solid #e8eaf0;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="font-size:11px;color:#8b91b0;">Re&ccedil;u le ${date} via <a href="https://www.immeit.com" style="color:#8b91b0;">https://www.immeit.com</a></td>
+                <td align="right" style="font-size:11px;color:#8b91b0;">Ne pas r&eacute;pondre directement</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
 </body>
 </html>`;
+}
 
-function replacePlaceholders(html, data) {
-  const values = {
-    '{{PRENOM}}': data.prenom || '',
-    '{{NOM}}': data.nom || '',
-    '{{EMAIL}}': data.email || '',
-    '{{SUJET}}': data.sujet || 'Nouveau message',
-    '{{MESSAGE}}': (data.message || '').replace(/\n/g, '<br>'),
-    '{{DATE}}': new Date().toLocaleDateString('fr-FR', {
-      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-      hour: '2-digit', minute: '2-digit',
+function buildContactEmail(data) {
+  const safe = {
+    prenom: clean(data.prenom || ''),
+    nom: clean(data.nom || ''),
+    email: clean(data.email || ''),
+    sujet: clean(data.sujet || data.subject || 'Nouveau message'),
+    message: clean(data.message || ''),
+    date: new Date().toLocaleDateString('fr-FR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     }),
-    '{{SITE_NOM}}': 'IMMEIT',
-    '{{SITE_URL}}': 'https://www.immeit.com',
   };
-  let result = html;
-  for (const [key, val] of Object.entries(values)) {
-    result = result.split(key).join(val);
-  }
-  return result;
+  return buildEmailHtml(safe);
 }
 
 export default {
@@ -216,13 +160,13 @@ export default {
       });
     }
 
-    const html = replacePlaceholders(TEMPLATE, data);
+    const html = buildContactEmail(data);
 
     const mailPayload = {
       personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
       from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
       replyTo: { email: data.email, name: `${data.prenom || ''} ${data.nom || ''}`.trim() },
-      subject: `[IMMEIT] ${data.prenom || ''} ${data.nom || ''} - ${data.sujet || 'Nouveau message'}`.replace(/\s+/g, ' '),
+      subject: `[IMMEIT] ${data.prenom || ''} ${data.nom || ''} - ${data.sujet || data.subject || 'Nouveau message'}`.replace(/\s+/g, ' '),
       content: [{ type: 'text/html', value: html }],
     };
 
