@@ -619,17 +619,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d.success) ok = true;
     } catch {}
 
-    // Tentative via tunnel — toujours découvrir l'URL fraîche depuis GitHub
+    // Tentative via tunnel — avec retry (le tunnel TryCloudflare est instable)
     if (!ok) {
       const tunnel = await discoverApiUrl() || API_TUNNEL;
       if (tunnel) {
-        try {
-          const r = await fetch(tunnel + '/api/contact', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
-          });
-          const d = await r.json();
-          if (d.success) ok = true;
-        } catch {}
+        for (let attempt = 0; attempt < 3 && !ok; attempt++) {
+          if (attempt > 0) await new Promise(r => setTimeout(r, 2000 * attempt));
+          try {
+            const r = await fetch(tunnel + '/api/contact', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
+            });
+            const d = await r.json();
+            if (d.success) ok = true;
+          } catch {}
+        }
       }
     }
 
