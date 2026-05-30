@@ -1,0 +1,162 @@
+# IMMEIT — GUIDE D'INTÉGRATION RESPONSIVE
+# Instructions à donner à l'IA pour modifier le site
+
+=============================================================
+ÉTAPE 1 — FICHIERS À AJOUTER
+=============================================================
+
+Télécharge les 2 fichiers :
+  - immeit-responsive.css
+  - immeit-responsive.js
+
+Place-les à la racine de ton site (même dossier que index.html).
+
+
+=============================================================
+ÉTAPE 2 — DANS CHAQUE PAGE HTML
+=============================================================
+
+--- Dans le <head>, ajoute ces 2 lignes APRÈS ton CSS existant :
+
+  <link rel="stylesheet" href="immeit-responsive.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+--- Juste avant </body>, ajoute :
+
+  <script src="immeit-responsive.js"></script>
+
+
+=============================================================
+ÉTAPE 3 — CLASSES CSS À AJOUTER DANS LE HTML
+=============================================================
+
+Donne ces instructions à ton IA :
+
+
+NAVIGATION :
+  - Ajoute class="navbar" sur la balise <nav>
+  - Ajoute class="nav-links" sur le <ul> du menu
+  - Ajoute ce bouton hamburger juste après le logo :
+
+    <button class="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+
+SECTION SERVICES (3 cartes) :
+  - Entoure les 3 cartes dans : <div class="services-grid">
+  - Chaque carte : <div class="service-card">
+
+
+SECTION INDICATEURS (4 KPIs) :
+  - Entoure dans : <div class="indicateurs-grid">
+  - Sur chaque chiffre animé, ajoute : data-count="95" data-suffix="%"
+    Exemple : <span data-count="95" data-suffix="%">0%</span>
+
+
+SECTION MÉTHODOLOGIE (5 étapes) :
+  - Entoure dans : <div class="methodo-steps">
+  - Chaque étape : <div class="methodo-step">
+
+
+SECTION PILIERS (9 cartes) :
+  - Entoure dans : <div class="piliers-grid">
+  - Chaque pilier : <div class="pilier-card">
+
+
+SECTION ENGAGEMENTS (4 blocs) :
+  - Entoure dans : <div class="engagements-grid">
+
+
+SECTION TÉMOIGNAGES (3 cartes) :
+  - Entoure dans : <div class="temoignages-grid">
+  - Chaque témoignage : <div class="temoignage-card">
+
+
+FORMULAIRE DE CONTACT :
+  - Le formulaire : <form class="contact-form">
+  - Ligne Prénom + Nom côte à côte : <div class="form-row">
+
+
+FOOTER :
+  - Les colonnes du footer : <div class="footer-grid">
+  - Le bas du footer : <div class="footer-bottom">
+
+
+FAQ :
+  - Chaque question : <button class="faq-question">
+  - Chaque réponse  : <div class="faq-answer">
+
+
+ANIMATION AU SCROLL (optionnel) :
+  - Sur les sections ou cartes à animer : ajoute class="reveal"
+  - Exemple : <section id="services" class="reveal">
+
+
+=============================================================
+ÉTAPE 4 — PROMPT EXACT À DONNER À TON IA
+=============================================================
+
+Copie ce texte et donne-le à ton IA (ChatGPT, Claude, etc.)
+avec ton fichier HTML en pièce jointe :
+
+---
+
+Voici mon fichier HTML du site immeit.com.
+Je veux que tu le rendes 100% responsive.
+
+Fais exactement ces modifications :
+
+1. Dans le <head>, ajoute après les CSS existants :
+   <link rel="stylesheet" href="immeit-responsive.css">
+
+2. Juste avant </body>, ajoute :
+   <script src="immeit-responsive.js"></script>
+
+3. Sur la balise <nav>, ajoute class="navbar"
+
+4. Sur le <ul> du menu principal, ajoute class="nav-links"
+
+5. Après le logo dans la navbar, insère ce bouton :
+   <button class="hamburger" aria-label="Menu">
+     <span></span><span></span><span></span>
+   </button>
+
+6. Sur le conteneur des 3 cartes de services, ajoute class="services-grid"
+   Sur chaque carte : class="service-card"
+
+7. Sur le conteneur des 4 KPIs/indicateurs : class="indicateurs-grid"
+   Sur chaque valeur chiffrée (ex: "95%"), remplace par :
+   <span data-count="95" data-suffix="%">0%</span>
+
+8. Sur le conteneur des 5 étapes méthodo : class="methodo-steps"
+   Sur chaque étape : class="methodo-step"
+
+9. Sur le conteneur des 9 piliers : class="piliers-grid"
+   Sur chaque pilier : class="pilier-card"
+
+10. Sur le conteneur des 4 engagements : class="engagements-grid"
+
+11. Sur le conteneur des 3 témoignages : class="temoignages-grid"
+    Sur chaque témoignage : class="temoignage-card"
+
+12. Sur le formulaire de contact : class="contact-form"
+    Sur la ligne Prénom+Nom : <div class="form-row"> autour des 2 inputs
+
+13. Sur le footer : class="footer-grid" sur les colonnes
+    class="footer-bottom" sur le bas du footer
+
+14. Sur les questions FAQ : class="faq-question" sur chaque bouton/titre
+    Sur les réponses : class="faq-answer" sur chaque bloc réponse
+
+Ne modifie pas le style visuel existant (couleurs, polices).
+Ne change pas le contenu des textes.
+Retourne uniquement le fichier HTML complet modifié.
+
+---
+
+=============================================================
+FIN DU GUIDE
+=============================================================

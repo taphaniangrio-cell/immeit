@@ -1386,10 +1386,10 @@ img {
 }
 
 .contact__flag {
-  width: 16px;
-  height: 11px;
+  width: 1.1em;
+  height: 0.75em;
   border-radius: 2px;
-  display: inline-block;
+  display: inline;
   vertical-align: middle;
 }
 
@@ -2261,8 +2261,8 @@ img {
     max-width: 100%;
   }
   .hero__content p .contact__flag {
-    width: 14px;
-    height: 10px;
+    width: 1em;
+    height: 0.7em;
   }
   .hero__actions {
     margin-bottom: 18px;
@@ -2512,12 +2512,18 @@ img {
     font-size: 1.3rem;
   }
   .hero__content p {
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     word-break: break-word;
+    hyphens: auto;
+    max-width: 100%;
   }
   .hero__content p .contact__flag {
-    width: 12px;
-    height: 9px;
+    width: 0.9em;
+    height: 0.65em;
+  }
+  .hero__content {
+    max-width: 100%;
+    min-width: 0;
   }
   .hero__stats {
     grid-template-columns: 1fr;
@@ -2715,6 +2721,35 @@ img {
   }
 }
 
+/* Small phones */
+@media (max-width: 400px) {
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .hero__content p {
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
+  }
+  .hero__content p .contact__flag {
+    width: 0.85em;
+    height: 0.6em;
+  }
+  .hero__stats-group {
+    gap: 14px;
+  }
+  .hero__stat-num {
+    font-size: 1rem;
+  }
+  .hero__stat-label {
+    font-size: 0.7rem;
+  }
+}
+
 /* Very small phones */
 @media (max-width: 360px) {
   .container {
@@ -2729,6 +2764,16 @@ img {
   }
   .hero__content h1 {
     font-size: 1.15rem;
+  }
+  .hero__content p {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+  .hero__content p .contact__flag {
+    width: 0.8em;
+    height: 0.55em;
   }
   .hero__actions .btn {
     font-size: 0.82rem;
