@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const badgeInner = document.getElementById('badgeInner');
   const badgeEl = document.getElementById('badgeText');
   if (badgeInner && badgeEl) {
-    const sentence = 'IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : P2M et INDUSTRELEC';
+    const sentence = window.I18N?.__('hero.badge') || 'IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : P2M et INDUSTRELEC';
     badgeEl.textContent = sentence;
     const clone = badgeEl.cloneNode(true);
     clone.id = 'badgeTextClone';
@@ -399,8 +399,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function validatePrenom() {
     const val = prenomInput.value.trim();
     if (val.length === 0) { setFieldState(prenomInput, prenomError, null); return null; }
-    if (val.length < 2) { setFieldState(prenomInput, prenomError, false, 'Le prénom doit contenir au moins 2 caractères'); return false; }
-    if (val.length > 50) { setFieldState(prenomInput, prenomError, false, 'Le prénom ne peut pas dépasser 50 caractères'); return false; }
+    if (val.length < 2) { setFieldState(prenomInput, prenomError, false, (window.I18N?.__('validation.firstname.required') || 'Le prénom doit contenir au moins 2 caractères')); return false; }
+    if (val.length > 50) { setFieldState(prenomInput, prenomError, false, (window.I18N?.__('validation.firstname.max') || 'Le prénom ne peut pas dépasser 50 caractères')); return false; }
     setFieldState(prenomInput, prenomError, true);
     return true;
   }
@@ -408,8 +408,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function validateNom() {
     const val = nomInput.value.trim();
     if (val.length === 0) { setFieldState(nomInput, nomError, null); return null; }
-    if (val.length < 2) { setFieldState(nomInput, nomError, false, 'Le nom doit contenir au moins 2 caractères'); return false; }
-    if (val.length > 50) { setFieldState(nomInput, nomError, false, 'Le nom ne peut pas dépasser 50 caractères'); return false; }
+    if (val.length < 2) { setFieldState(nomInput, nomError, false, (window.I18N?.__('validation.lastname.required') || 'Le nom doit contenir au moins 2 caractères')); return false; }
+    if (val.length > 50) { setFieldState(nomInput, nomError, false, (window.I18N?.__('validation.lastname.max') || 'Le nom ne peut pas dépasser 50 caractères')); return false; }
     setFieldState(nomInput, nomError, true);
     return true;
   }
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const val = emailInput.value.trim();
     if (val.length === 0) { setFieldState(emailInput, emailError, null); return null; }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(val)) { setFieldState(emailInput, emailError, false, 'Email invalide (ex: nom@domaine.com)'); return false; }
+    if (!emailRegex.test(val)) { setFieldState(emailInput, emailError, false, (window.I18N?.__('validation.email.invalid') || 'Email invalide (ex: nom@domaine.com)')); return false; }
     setFieldState(emailInput, emailError, true);
     return true;
   }
@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function validateSubject() {
     const val = subjectInput.value.trim();
     if (val.length === 0) { setFieldState(subjectInput, subjectError, null); return null; }
-    if (val.length > 200) { setFieldState(subjectInput, subjectError, false, 'Le sujet ne peut pas dépasser 200 caractères'); return false; }
+    if (val.length > 200) { setFieldState(subjectInput, subjectError, false, (window.I18N?.__('validation.subject.max') || 'Le sujet ne peut pas dépasser 200 caractères')); return false; }
     setFieldState(subjectInput, subjectError, true);
     return true;
   }
@@ -434,8 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function validateMessage() {
     const val = messageInput.value.trim();
     if (val.length === 0) { setFieldState(messageInput, messageError, null); return null; }
-    if (val.length < 10) { setFieldState(messageInput, messageError, false, 'Le message doit contenir au moins 10 caractères'); return false; }
-    if (val.length > 2000) { setFieldState(messageInput, messageError, false, 'Le message ne peut pas dépasser 2000 caractères'); return false; }
+    if (val.length < 10) { setFieldState(messageInput, messageError, false, (window.I18N?.__('validation.message.required') || 'Le message doit contenir au moins 10 caractères')); return false; }
+    if (val.length > 2000) { setFieldState(messageInput, messageError, false, (window.I18N?.__('validation.message.max') || 'Le message ne peut pas dépasser 2000 caractères')); return false; }
     setFieldState(messageInput, messageError, true);
     return true;
   }
@@ -504,10 +504,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function setLoading(loading) {
     if (loading) {
-      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-spinner fa-spin"></i> Envoi en cours...</span><span class="btn__shimmer"></span>';
+      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-spinner fa-spin"></i> ' + (window.I18N?.__('form.sending') || 'Envoi en cours...') + '</span><span class="btn__shimmer"></span>';
       submitBtn.disabled = true;
     } else {
-      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-paper-plane"></i> Envoyer</span><span class="btn__shimmer"></span>';
+      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-paper-plane"></i> ' + (window.I18N?.__('form.send') || 'Envoyer') + '</span><span class="btn__shimmer"></span>';
       submitBtn.disabled = false;
     }
   }
@@ -542,38 +542,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const isSubjectValid = validateSubject();
     const isMessageValid = validateMessage();
 
+    const __t = (k, fb) => window.I18N?.__(k) || fb;
     if (!isPrenomValid || !isNomValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
       if (prenomInput.classList.contains('error')) {
         prenomInput.focus();
-        showToast('Veuillez remplir votre prénom', 'error');
+        showToast(__t('toast.firstname', 'Veuillez remplir votre prénom'), 'error');
       } else if (nomInput.classList.contains('error')) {
         nomInput.focus();
-        showToast('Veuillez remplir votre nom', 'error');
+        showToast(__t('toast.lastname', 'Veuillez remplir votre nom'), 'error');
       } else if (emailInput.classList.contains('error')) {
         emailInput.focus();
-        showToast('Veuillez remplir votre email', 'error');
+        showToast(__t('toast.email', 'Veuillez remplir votre email'), 'error');
       } else if (subjectInput.classList.contains('error')) {
         subjectInput.focus();
-        showToast('Veuillez remplir le sujet', 'error');
+        showToast(__t('toast.subject', 'Veuillez remplir le sujet'), 'error');
       } else if (messageInput.classList.contains('error')) {
         messageInput.focus();
-        showToast('Veuillez remplir votre message', 'error');
+        showToast(__t('toast.message', 'Veuillez remplir votre message'), 'error');
       } else {
+        const req = __t('toast.required', 'Veuillez remplir tous les champs obligatoires');
         if (!prenomInput.value.trim()) {
           prenomInput.focus();
-          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+          showToast(req, 'error');
         } else if (!nomInput.value.trim()) {
           nomInput.focus();
-          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+          showToast(req, 'error');
         } else if (!emailInput.value.trim()) {
           emailInput.focus();
-          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+          showToast(req, 'error');
         } else if (!subjectInput.value.trim()) {
           subjectInput.focus();
-          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+          showToast(req, 'error');
         } else {
           messageInput.focus();
-          showToast('Veuillez remplir tous les champs obligatoires', 'error');
+          showToast(req, 'error');
         }
       }
       form.classList.add('shake');
@@ -586,7 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prenom = prenomInput.value.trim();
     const nom = nomInput.value.trim();
     const email = emailInput.value.trim();
-    const sujet = subjectInput.value.trim() || 'Nouveau message';
+    const sujet = subjectInput.value.trim() || (window.I18N?.__('form.subject') || 'Nouveau message');
     const message = messageInput.value.trim();
     const fromName = `${prenom} ${nom}`;
 
@@ -675,14 +677,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (ok) {
       setLoading(false);
-      showConfirmation('<i class="fas fa-check-circle"></i> Message envoyé avec succès ! Nous vous répondrons sous 24h.');
+      showConfirmation('<i class="fas fa-check-circle"></i> ' + (window.I18N?.__('toast.success') || 'Message envoyé avec succès ! Nous vous répondrons sous 24h.'));
       clearForm();
       if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
       return;
     }
 
     setLoading(false);
-    showConfirmation('<i class="fas fa-exclamation-circle"></i> Échec de l\'envoi. Écrivez-nous à <a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+    showConfirmation('<i class="fas fa-exclamation-circle"></i> ' + (window.I18N?.__('toast.error') || 'Échec de l\'envoi. Écrivez-nous à ') + '<a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
   });
 
   // ===== Keyboard shortcut =====

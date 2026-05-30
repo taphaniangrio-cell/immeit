@@ -2937,3 +2937,61 @@ img {
 .blink-text {
   animation: blink 1s step-end infinite;
 }
+
+/* ===== LANGUAGE SWITCHER ===== */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-light);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lang-switcher:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+  transform: translateY(-1px);
+}
+
+.lang-switcher:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.lang-switcher::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(31, 83, 140, 0.08), rgba(201, 154, 62, 0.08));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lang-switcher:hover::before {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .lang-switcher {
+    min-width: 36px;
+    height: 28px;
+    font-size: 0.7rem;
+    padding: 0 8px;
+  }
+}
