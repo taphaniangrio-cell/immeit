@@ -611,8 +611,9 @@ img {
 .hero__logos {
   position: absolute;
   right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: auto;
+  bottom: 80px;
+  transform: none;
   display: flex;
   flex-direction: column;
   align-items: center;
