@@ -42,7 +42,8 @@ body {
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
   background: var(--bg);
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.6;
   overflow-x: hidden;
 }
 
@@ -1350,6 +1351,7 @@ img {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .contact__icon-ring {
@@ -1819,6 +1821,7 @@ img {
 .footer__social {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
   flex-shrink: 0;
 }
 
