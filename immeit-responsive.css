@@ -1,0 +1,148 @@
+/* ============================================================
+   IMMEIT — COMPLÉMENT RESPONSIVE
+   Ajouté le 30/05/2026
+   Classes additionnelles sans conflit avec style.css existant.
+   ============================================================ */
+
+/* === 1. Média universel : empêche tout débordement === */
+img, video, canvas, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+svg:not(.contact__flag) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* === 2. Grilles utilitaires (classes supplémentaires) === */
+.services-grid,
+.piliers-grid,
+.engagements-grid,
+.temoignages-grid,
+.indicateurs-grid,
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.service-card,
+.pilier-card,
+.temoignage-card {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: 12px;
+  width: 100%;
+}
+
+.methodo-steps {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.methodo-step {
+  min-width: clamp(180px, 25vw, 220px);
+  flex-shrink: 0;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+.form-row input,
+.form-row select {
+  flex: 1;
+  min-width: 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+}
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.partenaires-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+.partenaires-row img {
+  max-height: 60px;
+  max-width: 150px;
+  width: auto;
+  object-fit: contain;
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  padding: 1rem 0;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* === 3. Tablette (max-width: 1024px) === */
+@media (max-width: 1024px) {
+  .piliers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .temoignages-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* === 4. Mobile (max-width: 768px) === */
+@media (max-width: 768px) {
+  .services-grid,
+  .piliers-grid,
+  .engagements-grid,
+  .temoignages-grid,
+  .indicateurs-grid,
+  .kpi-grid,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+  .hero-content {
+    max-width: 100%;
+  }
+}
+
+/* === 5. Très petit mobile (max-width: 400px) === */
+@media (max-width: 400px) {
+  .indicateurs-grid,
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+  .hero-buttons .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* === 6. Utilitaires === */
+.text-center { text-align: center; }
+.w-full { width: 100%; }
