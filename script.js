@@ -591,25 +591,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromName = `${prenom} ${nom}`;
 
     const API_TUNNEL = window.SERVER_API_URL || localStorage.getItem('immeit_api_url') || '';
-
-    // Sauvegarder l'URL du tunnel quand le serveur la fournit
-    if (window.SERVER_API_URL) {
-      localStorage.setItem('immeit_api_url', window.SERVER_API_URL);
-    }
+    const WORKER_API = window.WORKER_API_URL || ''; // configurable via injection serveur
 
     function buildApiPayload() {
       return { prenom, nom, email, subject: sujet, message, name: fromName };
     }
 
-    async function discoverApiUrl() {
+    async function fetchTunnelUrl() {
       try {
         const r = await fetch('https://raw.githubusercontent.com/taphaniangrio-cell/immeit/main/tunnel-url.json?_=' + Date.now());
-        if (r.ok) { const d = await r.json(); if (d.api_url) { localStorage.setItem('immeit_api_url', d.api_url); return d.api_url; } }
+        if (r.ok) { const d = await r.json(); return d.api_url || ''; }
       } catch {}
       return '';
     }
 
-    // Envoi au serveur (SMTP → HTML) — primaire
+    // 1) Envoi direct au serveur (même origine)
     let ok = false;
     try {
       const r = await fetch('/api/contact', {
@@ -619,24 +615,43 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d.success) ok = true;
     } catch {}
 
-    // Tentative via tunnel — avec retry (le tunnel TryCloudflare est instable)
+    // 2) Tunnel — essayer TOUTES les URLs connues avec retry
     if (!ok) {
-      const tunnel = await discoverApiUrl() || API_TUNNEL;
-      if (tunnel) {
+      const candidates = new Set();
+      const gitUrl = await fetchTunnelUrl();
+      if (gitUrl) candidates.add(gitUrl);
+      if (API_TUNNEL && API_TUNNEL !== gitUrl) candidates.add(API_TUNNEL);
+
+      for (const url of candidates) {
         for (let attempt = 0; attempt < 3 && !ok; attempt++) {
-          if (attempt > 0) await new Promise(r => setTimeout(r, 2000 * attempt));
+          if (attempt > 0) await new Promise(r => setTimeout(r, 2000));
           try {
-            const r = await fetch(tunnel + '/api/contact', {
+            const r = await fetch(url + '/api/contact', {
               method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
             });
             const d = await r.json();
-            if (d.success) ok = true;
+            if (d.success) {
+              ok = true;
+              localStorage.setItem('immeit_api_url', url);
+              break;
+            }
           } catch {}
         }
       }
     }
 
-    // Fallback Web3Forms
+    // 3) Cloudflare Worker (MailChannels) — si configuré
+    if (!ok && WORKER_API) {
+      try {
+        const r = await fetch(WORKER_API, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
+        });
+        const d = await r.json();
+        if (d.success) ok = true;
+      } catch {}
+    }
+
+    // 4) Fallback Web3Forms
     if (!ok) {
       try {
         const r = await fetch('https://api.web3forms.com/submit', {
