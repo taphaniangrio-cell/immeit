@@ -5,7 +5,7 @@
   "meta.ogDescription": "IMMEIT - Maintenance methods and industrial performance, multi-technical maintenance, air conditioning installation. Based in Dakar Senegal and Paris France.",
   "meta.twitterDescription": "IMMEIT - Maintenance methods and industrial performance, multi-technical maintenance, air conditioning installation.",
 
-  "nav.tagline": "Installation, Methods and Maintenance of Industrial and Tertiary Equipment",
+  "nav.tagline": "Industrial & Tertiary Equipment - Installation, Methods & Maintenance",
   "nav.home": "Home",
   "nav.about": "About",
   "nav.services": "Services",
@@ -332,8 +332,5 @@
   "why.cta.title": "Ready to collaborate with IMMEIT?",
   "why.cta.desc": "Contact us to discuss your industrial and tertiary maintenance needs.",
   "why.cta.btn": "Contact us",
-  "why.cta.back": "Back to home",
-
-  "lang.switch": "FR",
-  "lang.label": "Français"
+  "why.cta.back": "Back to home"
 }

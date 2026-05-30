@@ -110,8 +110,14 @@
   function updateSwitcher() {
     const btn = document.querySelector('.lang-switcher');
     if (!btn) return;
-    btn.innerHTML = get('lang.switch') || (currentLang === 'fr' ? 'EN' : 'FR');
-    btn.setAttribute('aria-label', get('lang.label') || (currentLang === 'fr' ? 'English' : 'Français'));
+    const nextLang = currentLang === 'fr' ? 'en' : 'fr';
+    const flag = nextLang === 'fr'
+      ? '<svg class="lang-switcher__flag" viewBox="0 0 3 2" width="20" height="14"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>'
+      : '<svg class="lang-switcher__flag" viewBox="0 0 60 30" width="20" height="14"><rect width="60" height="30" fill="#012169"/><rect width="30" height="18" fill="#C8102E" x="15" y="6"/><rect width="12" height="30" fill="#C8102E" x="24"/><rect width="60" height="12" fill="#fff" y="9"/><rect width="24" height="30" fill="#fff" x="18"/></svg>';
+    btn.innerHTML = flag;
+    const label = nextLang === 'fr' ? 'Français' : 'English';
+    btn.setAttribute('aria-label', label);
+    btn.title = label;
   }
 
   function createSwitcher() {
