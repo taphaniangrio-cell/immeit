@@ -189,6 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', closeNav);
   });
 
+  // Fermer le menu si redimensionnement > 900px
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && navLinks.classList.contains('active')) {
+      closeNav();
+    }
+  });
+
   // ===== Active nav link on scroll =====
   const sections = document.querySelectorAll('section[id]');
 
