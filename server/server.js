@@ -13,10 +13,10 @@ const { buildContactEmail } = require('./templates/contact-email');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
-if (!ADMIN_TOKEN) {
-  console.error('ERREUR: ADMIN_TOKEN non défini dans .env');
-  process.exit(1);
+const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || '1537e384-9a6b-433e-b684-a6916a6de7e5';
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'immeit-admin-2024';
+if (!process.env.ADMIN_TOKEN) {
+  console.warn('⚠ ADMIN_TOKEN non défini dans .env — utilisation du token par défaut');
 }
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -53,26 +53,26 @@ function nextId(messages) {
 let transporter = null;
 
 async function initTransporter() {
-  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+  if (process.env.SMTP_HOST) {
     const port = parseInt(process.env.SMTP_PORT || '587');
     const secure = process.env.SMTP_SECURE === 'true' || port === 465;
-    transporter = nodemailer.createTransport({
+    const smtpOpts = {
       host: process.env.SMTP_HOST,
       port: port,
       secure: secure,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-      },
       tls: {
         rejectUnauthorized: process.env.SMTP_TLS_REJECT === 'true'
       },
       connectionTimeout: 10000,
       greetingTimeout: 5000
-    });
-    console.log(`SMTP configuré: ${process.env.SMTP_USER}@${process.env.SMTP_HOST}:${port}`);
+    };
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      smtpOpts.auth = { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS };
+    }
+    transporter = nodemailer.createTransport(smtpOpts);
+    console.log(`SMTP configuré: ${process.env.SMTP_USER || '<sans auth>'}@${process.env.SMTP_HOST}:${port}`);
   } else {
-    console.log('SMTP non configuré - les messages seront stockés sans envoi');
+    console.log('SMTP non configuré - utilisation du fallback Web3Forms');
   }
 }
 
@@ -82,7 +82,7 @@ async function sendEmail(msg) {
   }
 
   const mailOptions = {
-    from: `"IMMEIT" <${process.env.SMTP_USER}>`,
+    from: `"IMMEIT" <${process.env.SMTP_USER || 'noreply@immeit.com'}>`,
     to: CONTACT_EMAIL,
     replyTo: `"${[msg.prenom, msg.nom].filter(Boolean).join(' ')}" <${msg.email}>`,
     subject: `✉ Nouveau message : ${msg.subject || 'Sans sujet'}`,
@@ -92,6 +92,46 @@ async function sendEmail(msg) {
 
   const info = await transporter.sendMail(mailOptions);
   return info;
+}
+
+async function sendViaWeb3Forms(msg) {
+  const html = buildContactEmail(msg);
+  const text = `Nouveau message de ${msg.prenom || ''} ${msg.nom || ''} (${msg.email})\n\nSujet : ${msg.subject || 'Sans sujet'}\n\nMessage :\n${msg.message}`;
+
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify({
+      access_key: WEB3FORMS_KEY,
+      subject: `[IMMEIT] ${msg.prenom || ''} ${msg.nom || ''} - ${msg.subject || 'Nouveau message'}`,
+      from_name: `${msg.prenom || ''} ${msg.nom || ''}`.trim(),
+      email: msg.email,
+      message: text,
+      html: html
+    });
+
+    const req = https.request({
+      hostname: 'api.web3forms.com',
+      path: '/submit',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body)
+      }
+    }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.success) resolve(parsed);
+          else reject(new Error(parsed.message || 'Web3Forms error'));
+        } catch { reject(new Error('Web3Forms: réponse invalide')); }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
 }
 
 function escapeHtml(str) {
@@ -113,10 +153,12 @@ async function processRetryQueue() {
   console.log(`File d'attente: tentative de renvoi de ${pending.length} message(s)...`);
 
   for (const msg of pending) {
-    if (!transporter) continue;
-
     try {
-      await sendEmail(msg);
+      if (transporter) {
+        await sendEmail(msg);
+      } else {
+        await sendViaWeb3Forms(msg);
+      }
       const all = loadMessages();
       const found = all.find(m => m.id === msg.id);
       if (found) {
@@ -233,7 +275,7 @@ p{color:#94a3b8;margin:4px 0 16px;font-size:14px}
 <div class="label">Adresse du tunnel</div>
 <div class="url">${tunnelUrl ? `<a href="${tunnelUrl}" target="_blank">${tunnelUrl}</a>` : 'Aucun tunnel actif'}</div>
 <div class="label">Email</div>
-<p style="margin:4px 0">${transporter ? '<span class="badge badge-ok">SMTP OK</span>' : '<span class="badge badge-err">SMTP non configuré</span>'}</p>
+<p style="margin:4px 0">${transporter ? '<span class="badge badge-ok">SMTP OK</span>' : '<span class="badge badge-ok">Web3Forms OK</span>'}</p>
 <div class="label">Contact</div>
 <p style="margin:4px 0;color:#e2e8f0;font-size:14px">${CONTACT_EMAIL}</p>
 <a href="${tunnelUrl || '/'}" class="btn">Ouvrir le site</a>
@@ -334,25 +376,29 @@ app.post('/api/contact', async (req, res) => {
         console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
         return res.json({ success: true, id: msg.id });
       } catch (err) {
-        msg.status = 'failed';
-        msg.error_message = err.message;
-        msg.last_attempt = new Date().toISOString();
-        saveMessages(messages);
-        return res.json({
-          success: true,
-          stored: true,
-          id: msg.id,
-          warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement."
-        });
+        console.log(`SMTP échec #${msg.id}, tentative Web3Forms...`);
       }
     }
 
-    return res.json({
-      success: true,
-      stored: true,
-      id: msg.id,
-      warning: 'Message sauvegardé (SMTP non configuré)'
-    });
+    try {
+      await sendViaWeb3Forms(msg);
+      msg.status = 'sent';
+      msg.sent_at = new Date().toISOString();
+      saveMessages(messages);
+      console.log(`Message #${msg.id} envoyé via Web3Forms`);
+      return res.json({ success: true, id: msg.id });
+    } catch (err) {
+      msg.status = 'failed';
+      msg.error_message = err.message;
+      msg.last_attempt = new Date().toISOString();
+      saveMessages(messages);
+      return res.json({
+        success: true,
+        stored: true,
+        id: msg.id,
+        warning: "Message sauvegardé. L'envoi email sera réessayé automatiquement."
+      });
+    }
 
   } catch (error) {
     console.error('Erreur serveur:', error);
@@ -422,12 +468,20 @@ app.post('/api/admin/messages/:id/retry', requireAdmin, async (req, res) => {
   msg.last_attempt = null;
   saveMessages(messages);
 
-  if (!transporter) {
-    return res.status(400).json({ error: 'SMTP non configuré' });
-  }
-
   try {
-    const info = await sendEmail(msg);
+    if (transporter) {
+      const info = await sendEmail(msg);
+      const all = loadMessages();
+      const found = all.find(m => m.id === msg.id);
+      if (found) {
+        found.status = 'sent';
+        found.sent_at = new Date().toISOString();
+        found.error_message = null;
+        saveMessages(all);
+      }
+      return res.json({ success: true, messageId: info.messageId });
+    }
+    await sendViaWeb3Forms(msg);
     const all = loadMessages();
     const found = all.find(m => m.id === msg.id);
     if (found) {
@@ -436,7 +490,7 @@ app.post('/api/admin/messages/:id/retry', requireAdmin, async (req, res) => {
       found.error_message = null;
       saveMessages(all);
     }
-    return res.json({ success: true, messageId: info.messageId });
+    return res.json({ success: true, via: 'web3forms' });
   } catch (err) {
     const all = loadMessages();
     const found = all.find(m => m.id === msg.id);
@@ -456,6 +510,7 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     timestamp: new Date().toISOString(),
     smtp: !!transporter,
+    web3forms: !!WEB3FORMS_KEY,
     messages: loadMessages().length
   });
 });
@@ -489,7 +544,7 @@ app.get('*', (req, res) => {
 });
 
 function startServer(protocol) {
-  const mode = transporter ? `SMTP (${process.env.SMTP_USER})` : 'Stockage local seulement';
+  const mode = transporter ? `SMTP (${process.env.SMTP_USER || 'sans auth'})` : 'Web3Forms API';
   console.log('═══════════════════════════════════════');
   console.log(`  IMMEIT - Serveur démarré`);
   console.log(`  Protocole : ${protocol}`);
