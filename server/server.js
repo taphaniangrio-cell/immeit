@@ -13,7 +13,6 @@ const { buildContactEmail } = require('./templates/contact-email');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
-const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY || '1537e384-9a6b-433e-b684-a6916a6de7e5';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'immeit-admin-2024';
 if (!process.env.ADMIN_TOKEN) {
   console.warn('⚠ ADMIN_TOKEN non défini dans .env — utilisation du token par défaut');
@@ -72,7 +71,7 @@ async function initTransporter() {
     transporter = nodemailer.createTransport(smtpOpts);
     console.log(`SMTP configuré: ${process.env.SMTP_USER || '<sans auth>'}@${process.env.SMTP_HOST}:${port}`);
   } else {
-    console.log('SMTP non configuré - utilisation du fallback Web3Forms');
+    console.log('SMTP non configuré - utilisation du fallback Formsubmit.co');
   }
 }
 
@@ -94,27 +93,29 @@ async function sendEmail(msg) {
   return info;
 }
 
-async function sendViaWeb3Forms(msg) {
+async function sendViaFormsubmit(msg) {
   const html = buildContactEmail(msg);
-  const text = `Nouveau message de ${msg.prenom || ''} ${msg.nom || ''} (${msg.email})\n\nSujet : ${msg.subject || 'Sans sujet'}\n\nMessage :\n${msg.message}`;
 
   return new Promise((resolve, reject) => {
-    const body = JSON.stringify({
-      access_key: WEB3FORMS_KEY,
-      subject: `[IMMEIT] ${msg.prenom || ''} ${msg.nom || ''} - ${msg.subject || 'Nouveau message'}`,
-      from_name: `${msg.prenom || ''} ${msg.nom || ''}`.trim(),
+    const params = new URLSearchParams({
+      _subject: `[IMMEIT] ${msg.prenom || ''} ${msg.nom || ''} - ${msg.subject || 'Nouveau message'}`,
+      name: `${msg.prenom || ''} ${msg.nom || ''}`.trim(),
       email: msg.email,
-      message: text,
-      html: html
+      message: html,
+      _template: 'table',
+      _autoresponse: '',
     });
 
+    const body = params.toString();
     const req = https.request({
-      hostname: 'api.web3forms.com',
-      path: '/submit',
+      hostname: 'formsubmit.co',
+      path: '/ajax/demandes-p2m@immeit.com',
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(body)
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(body),
+        'Referer': 'https://www.immeit.com/',
+        'Accept': 'application/json'
       }
     }, (res) => {
       let data = '';
@@ -123,8 +124,8 @@ async function sendViaWeb3Forms(msg) {
         try {
           const parsed = JSON.parse(data);
           if (parsed.success) resolve(parsed);
-          else reject(new Error(parsed.message || 'Web3Forms error'));
-        } catch { reject(new Error('Web3Forms: réponse invalide')); }
+          else reject(new Error(parsed.message || 'Formsubmit error'));
+        } catch { reject(new Error('Formsubmit: réponse invalide')); }
       });
     });
 
@@ -157,7 +158,7 @@ async function processRetryQueue() {
       if (transporter) {
         await sendEmail(msg);
       } else {
-        await sendViaWeb3Forms(msg);
+        await sendViaFormsubmit(msg);
       }
       const all = loadMessages();
       const found = all.find(m => m.id === msg.id);
@@ -220,7 +221,7 @@ app.use(helmet({
       imgSrc: ["'self'", "data:"],
       connectSrc: ["'self'", "https://api.web3forms.com"],
       frameAncestors: ["'none'"],
-      formAction: ["'self'", "https://api.web3forms.com"],
+      formAction: ["'self'", "https://api.web3forms.com", "https://formsubmit.co"],
     },
   },
   crossOriginEmbedderPolicy: false,
@@ -275,7 +276,7 @@ p{color:#94a3b8;margin:4px 0 16px;font-size:14px}
 <div class="label">Adresse du tunnel</div>
 <div class="url">${tunnelUrl ? `<a href="${tunnelUrl}" target="_blank">${tunnelUrl}</a>` : 'Aucun tunnel actif'}</div>
 <div class="label">Email</div>
-<p style="margin:4px 0">${transporter ? '<span class="badge badge-ok">SMTP OK</span>' : '<span class="badge badge-ok">Web3Forms OK</span>'}</p>
+<p style="margin:4px 0">${transporter ? '<span class="badge badge-ok">SMTP OK</span>' : '<span class="badge badge-ok">Formsubmit.co OK</span>'}</p>
 <div class="label">Contact</div>
 <p style="margin:4px 0;color:#e2e8f0;font-size:14px">${CONTACT_EMAIL}</p>
 <a href="${tunnelUrl || '/'}" class="btn">Ouvrir le site</a>
@@ -376,16 +377,16 @@ app.post('/api/contact', async (req, res) => {
         console.log(`Message #${msg.id} envoyé SMTP (${info.messageId})`);
         return res.json({ success: true, id: msg.id });
       } catch (err) {
-        console.log(`SMTP échec #${msg.id}, tentative Web3Forms...`);
+        console.log(`SMTP échec #${msg.id}, tentative Formsubmit...`);
       }
     }
 
     try {
-      await sendViaWeb3Forms(msg);
+      await sendViaFormsubmit(msg);
       msg.status = 'sent';
       msg.sent_at = new Date().toISOString();
       saveMessages(messages);
-      console.log(`Message #${msg.id} envoyé via Web3Forms`);
+      console.log(`Message #${msg.id} envoyé via Formsubmit`);
       return res.json({ success: true, id: msg.id });
     } catch (err) {
       msg.status = 'failed';
@@ -481,7 +482,7 @@ app.post('/api/admin/messages/:id/retry', requireAdmin, async (req, res) => {
       }
       return res.json({ success: true, messageId: info.messageId });
     }
-    await sendViaWeb3Forms(msg);
+    await sendViaFormsubmit(msg);
     const all = loadMessages();
     const found = all.find(m => m.id === msg.id);
     if (found) {
@@ -510,7 +511,7 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     timestamp: new Date().toISOString(),
     smtp: !!transporter,
-    web3forms: !!WEB3FORMS_KEY,
+    formsubmit: true,
     messages: loadMessages().length
   });
 });
@@ -544,7 +545,7 @@ app.get('*', (req, res) => {
 });
 
 function startServer(protocol) {
-  const mode = transporter ? `SMTP (${process.env.SMTP_USER || 'sans auth'})` : 'Web3Forms API';
+  const mode = transporter ? `SMTP (${process.env.SMTP_USER || 'sans auth'})` : 'Formsubmit.co';
   console.log('═══════════════════════════════════════');
   console.log(`  IMMEIT - Serveur démarré`);
   console.log(`  Protocole : ${protocol}`);
