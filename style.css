@@ -389,6 +389,7 @@ img {
   align-items: center;
   gap: 12px;
   margin-left: auto;
+  padding-left: 12px;
 }
 
 .nav-overlay {
@@ -1997,6 +1998,19 @@ img {
   }
   .hero__logo-duplicate {
     width: 64px;
+  }
+}
+
+/* Medium screens — nav spacing fixes for French text */
+@media (max-width: 1100px) {
+  .nav__logo-text small {
+    display: none;
+  }
+  .nav__links {
+    gap: clamp(8px, 1.5vw, 16px);
+  }
+  .nav__link {
+    font-size: 0.78rem;
   }
 }
 
