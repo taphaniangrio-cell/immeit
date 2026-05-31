@@ -207,6 +207,22 @@ img {
   transform: translateY(-2px);
 }
 
+.btn--accent {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(201, 154, 62, 0.3);
+}
+
+.btn--accent:hover {
+  background: var(--accent-dark);
+  box-shadow: 0 8px 32px rgba(201, 154, 62, 0.45);
+  transform: translateY(-2px);
+}
+
+.btn--accent:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .pulse-btn {
   animation: pulseBtn 2s ease-in-out infinite;
 }
@@ -3012,7 +3028,7 @@ img {
 
 .service-detail__cta h3 {
   font-size: 1.4rem;
-  color: var(--accent);
+  color: #fff;
   margin-bottom: 10px;
 }
 
