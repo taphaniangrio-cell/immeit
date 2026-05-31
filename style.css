@@ -1191,6 +1191,7 @@ img {
   font-size: 0.95rem;
   margin-bottom: 20px;
   white-space: nowrap;
+  text-align: center;
 }
 
 /* ===== FAQ ===== */
