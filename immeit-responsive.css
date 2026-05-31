@@ -308,8 +308,8 @@ p, .section__text {
 }
 
 .methodo__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-md);
   margin-top: var(--space-xl);
 }
@@ -329,12 +329,13 @@ p, .section__text {
 
 .methodo__card {
   min-height: 180px;
+  flex: 1;
+  min-width: clamp(180px, 25vw, 220px);
 }
 
 @media (max-width: 1024px) {
   .services__grid,
-  .piliers-grid,
-  .methodo__grid {
+  .piliers-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -343,11 +344,37 @@ p, .section__text {
   }
 }
 
+@media (max-width: 900px) {
+  .methodo__grid {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+  .methodo__card {
+    min-width: clamp(200px, 60vw, 280px);
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+}
+
+@media (min-width: 901px) {
+  .methodo__grid {
+    overflow-x: visible;
+    flex-wrap: wrap;
+  }
+  .methodo__card {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
 @media (max-width: 768px) {
   .services__grid,
   .piliers-grid,
   .perf__grid,
-  .methodo__grid,
   .engagement__grid {
     grid-template-columns: 1fr;
     gap: var(--space-sm);
