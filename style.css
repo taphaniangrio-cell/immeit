@@ -34,6 +34,7 @@
 }
 
 html {
+  overflow-x: hidden;
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
   -webkit-text-size-adjust: 100%;
@@ -76,8 +77,9 @@ img {
 }
 
 .section {
-  padding: 28px 0;
+  padding: clamp(3rem, 8vw, 7rem) clamp(1rem, 5vw, 5rem);
   position: relative;
+  width: 100%;
 }
 
 #about {
