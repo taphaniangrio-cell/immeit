@@ -390,6 +390,12 @@ p, .section__text {
   background: rgba(255, 255, 255, 0.04);
 }
 
+.footer__social-link svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
 @media (max-width: 1024px) {
   .footer__links {
     gap: 12px;
