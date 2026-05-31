@@ -670,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 3) Cloudflare Worker (MailChannels) — si configuré
+    // 3) Cloudflare Worker — envoi via Mailchannels + fallback Web3Forms interne
     if (!ok && WORKER_API) {
       try {
         const r = await fetch(WORKER_API, {
