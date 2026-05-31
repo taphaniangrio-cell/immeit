@@ -149,7 +149,52 @@
     updateDots();
   }
 
-  /* ── 5. SCROLL REVEAL ─────────────────────────────────── */
+  /* ── 5. MÉTHODOLOGIE — DOTS PAGINATION ─────────────────── */
+  var methodoTrack = document.querySelector('.methodo__grid');
+  var methodoDots = document.querySelectorAll('.methodo-dots .dot');
+
+  if (methodoTrack && methodoDots.length) {
+    var methodoCards = methodoTrack.querySelectorAll('.methodo__card');
+
+    function updateMethodoDots() {
+      if (!methodoCards.length) return;
+      var trackCenter = methodoTrack.scrollLeft + methodoTrack.clientWidth / 2;
+      var activeIndex = 0;
+      var minDist = Infinity;
+      methodoCards.forEach(function (card, i) {
+        var cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        var dist = Math.abs(trackCenter - cardCenter);
+        if (dist < minDist) {
+          minDist = dist;
+          activeIndex = i;
+        }
+      });
+      methodoDots.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    }
+
+    methodoTrack.addEventListener('scroll', updateMethodoDots, { passive: true });
+    methodoTrack.addEventListener('scrollend', updateMethodoDots, { passive: true });
+    window.addEventListener('resize', updateMethodoDots);
+
+    methodoDots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () {
+        var card = methodoCards[i];
+        if (card) {
+          var scrollAmount = card.offsetLeft - (methodoTrack.clientWidth - card.offsetWidth) / 2;
+          methodoTrack.scrollTo({
+            left: Math.max(0, scrollAmount),
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    updateMethodoDots();
+  }
+
+  /* ── 6. SCROLL REVEAL ─────────────────────────────────── */
   var style = document.createElement('style');
   style.textContent = [
     '.reveal {',

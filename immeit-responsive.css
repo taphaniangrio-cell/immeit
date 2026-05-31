@@ -369,6 +369,40 @@ p, .section__text {
     min-width: 0;
     flex: 1;
   }
+  .methodo-dots {
+    display: none;
+  }
+}
+
+.methodo-dots {
+  display: none;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .methodo-dots {
+    display: flex;
+  }
+}
+
+.methodo-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--text, #fff);
+  opacity: 0.3;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  min-height: unset;
+}
+
+.methodo-dots .dot.active {
+  opacity: 1;
+  transform: scale(1.3);
 }
 
 @media (max-width: 768px) {
