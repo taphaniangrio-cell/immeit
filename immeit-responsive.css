@@ -202,7 +202,16 @@ p, .section__text {
   }
 
   .nav__logo-text small {
-    display: none;
+    display: block;
+    font-size: 0.4rem;
+    max-width: 140px;
+    white-space: normal;
+  }
+
+  .nav__inner {
+    width: 100%;
+    padding-left: max(16px, var(--container-padding));
+    padding-right: max(16px, var(--container-padding));
   }
 }
 
