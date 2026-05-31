@@ -638,9 +638,6 @@ p, .section__text {
     min-height: 200px;
   }
 
-  .testimonials-dots {
-    display: flex;
-  }
 }
 
 @media (max-width: 480px) {
