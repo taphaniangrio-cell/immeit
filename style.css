@@ -1193,7 +1193,8 @@ img {
   color: var(--text-light);
   font-size: 0.95rem;
   margin-bottom: 20px;
-  white-space: nowrap;
+  text-align: center;
+  width: 100%;
 }
 
 /* ===== FAQ ===== */
@@ -2431,7 +2432,6 @@ img {
   }
   .cta__content p {
     font-size: 0.88rem;
-    white-space: normal;
   }
 
   .faq__list {
@@ -2719,7 +2719,6 @@ img {
   }
   .cta__content p {
     font-size: 0.82rem;
-    white-space: normal;
   }
 
   .testimonial__card {
