@@ -3080,11 +3080,11 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 0 8px;
-  height: 32px;
-  border: 1.5px solid var(--border);
-  border-radius: 6px;
+  gap: 2px;
+  padding: 0 5px;
+  height: 24px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
   background: transparent;
   cursor: pointer;
   transition: var(--transition);
@@ -3093,7 +3093,7 @@ img {
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
   font-family: inherit;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -3126,9 +3126,9 @@ img {
 
 @media (max-width: 768px) {
   .lang-switcher {
-    padding: 0 6px;
-    height: 32px;
-    gap: 3px;
-    font-size: 0.7rem;
+    padding: 0 5px;
+    height: 24px;
+    gap: 2px;
+    font-size: 0.6rem;
   }
 }
