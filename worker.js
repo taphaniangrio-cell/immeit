@@ -1,3 +1,5 @@
+import { connect } from 'cloudflare:workers';
+
 async function smtpSend({ host, port, user, pass, to, from, fromName, replyTo, replyToName, subject, html }) {
   const socket = await connect({ hostname: host, port, tls: false });
   const w = socket.writable.getWriter();
