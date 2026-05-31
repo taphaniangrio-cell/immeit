@@ -285,12 +285,17 @@ p, .section__text {
 
 /* ── 5. GRILLES RESPONSIVES ──────────────────────────────── */
 
-.services__grid,
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
 .perf__grid,
 .engagement__grid,
 .testimonials__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-md);
   margin-top: var(--space-xl);
 }
