@@ -1,4 +1,4 @@
-name = "immeit-contact"
+name = "immeit"
 main = "worker.js"
 compatibility_date = "2025-04-01"
 
