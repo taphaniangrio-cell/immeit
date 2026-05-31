@@ -3072,7 +3072,7 @@ img {
   50% { opacity: 0; }
 }
 .blink-text {
-  animation: blink 1s step-end infinite;
+  animation: none;
 }
 
 /* ===== LANGUAGE SWITCHER ===== */
