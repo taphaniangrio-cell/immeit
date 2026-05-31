@@ -1,55 +1,3 @@
-import { connect } from 'cloudflare:workers';
-
-async function smtpSend({ host, port, user, pass, to, from, fromName, replyTo, replyToName, subject, html }) {
-  const socket = await connect({ hostname: host, port, tls: false });
-  const w = socket.writable.getWriter();
-  const enc = new TextEncoder();
-  let buf = '';
-
-  async function rd() {
-    for (;;) {
-      const i = buf.indexOf('\n');
-      if (i >= 0) { const l = buf.slice(0, i).replace(/\r$/, ''); buf = buf.slice(i + 1); return l; }
-      const r = await socket.readable.getReader().read();
-      if (r.done) return '';
-      buf += new TextDecoder().decode(r.value, { stream: true });
-    }
-  }
-
-  async function wr(c) {
-    await w.write(enc.encode(c + '\r\n'));
-    await new Promise(r => setTimeout(r, 200));
-    return rd();
-  }
-
-  let r;
-  r = await rd();
-  r = await wr('EHLO immeit.com');
-  if (port === 587) {
-    r = await wr('STARTTLS');
-    await socket.startTls();
-    r = await wr('EHLO immeit.com');
-  }
-  r = await wr('AUTH LOGIN');
-  r = await wr(btoa(user));
-  r = await wr(btoa(pass));
-  r = await wr(`MAIL FROM:<${from}>`);
-  r = await wr(`RCPT TO:<${to}>`);
-  r = await wr('DATA');
-
-  const body = html.replace(/^\./gm, '..');
-  const raw = [
-    `From: ${fromName} <${from}>`, `To: ${to}`,
-    `Reply-To: ${replyToName || replyTo} <${replyTo}>`,
-    `Subject: ${subject}`, 'MIME-Version: 1.0',
-    'Content-Type: text/html; charset=UTF-8', 'Content-Transfer-Encoding: 7bit',
-    '', body, '.'
-  ].join('\r\n');
-  r = await wr(raw);
-  await wr('QUIT');
-  w.close();
-}
-
 function clean(str = '') {
   return String(str).trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -234,34 +182,14 @@ export default {
       if (mcResp.ok) ok = true;
     } catch {}
 
-    // 2) SMTP direct (Gmail App Password via wrangler.toml vars)
-    if (!ok && env?.SMTP_USER) {
-      try {
-        const smtpPass = [env.SMTP_A, env.SMTP_B, env.SMTP_C, env.SMTP_D].filter(Boolean).join(' ');
-        await smtpSend({
-          host: env.SMTP_HOST || 'smtp.gmail.com',
-          port: parseInt(env.SMTP_PORT || '587'),
-          user: env.SMTP_USER,
-          pass: smtpPass,
-          to: 'demandes-p2m@immeit.com',
-          from: 'noreply@immeit.com',
-          fromName: 'IMMEIT - Formulaire de contact',
-          replyTo: data.email,
-          replyToName: toName,
-          subject,
-          html,
-        });
-        ok = true;
-      } catch {}
-    }
-
-    if (ok) {
-      return new Response(JSON.stringify({ success: true }), {
+    // 2) Fallback vers le client (Web3Forms) si Mailchannels échoue
+    if (!ok) {
+      return new Response(JSON.stringify({ success: false }), {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       });
     }
 
-    return new Response(JSON.stringify({ success: false }), {
+    return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     });
   },
