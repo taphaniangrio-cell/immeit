@@ -386,6 +386,10 @@ p, .section__text {
 
 /* ── 8. FOOTER ───────────────────────────────────────────── */
 
+.footer__social-link {
+  background: rgba(255, 255, 255, 0.04);
+}
+
 @media (max-width: 1024px) {
   .footer__links {
     gap: 12px;
