@@ -827,11 +827,23 @@ img {
 }
 
 /* ===== SERVICES ===== */
+#services .container {
+  max-width: none;
+  padding: 0;
+}
+
+#services .section__header {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  padding: 0 24px;
+}
+
 .services__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   align-items: stretch;
+  padding: 0 24px;
 }
 
 .service-card {
