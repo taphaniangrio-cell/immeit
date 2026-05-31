@@ -200,7 +200,7 @@ export default {
             content: [{ type: 'text/html', value: html }],
           }),
         });
-        if (sgResp.ok) ok = true;
+        if (sgResp.ok) { ok = true; }
       } catch {}
     }
 
