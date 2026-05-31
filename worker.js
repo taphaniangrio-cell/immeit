@@ -169,7 +169,7 @@ export default {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
-        from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
+        from: { email: 'noreply@immeit.taphaniangrio.workers.dev', name: 'IMMEIT - Formulaire de contact' },
         replyTo: { email: data.email, name: toName },
         subject,
         content: [{ type: 'text/html', value: html }],
