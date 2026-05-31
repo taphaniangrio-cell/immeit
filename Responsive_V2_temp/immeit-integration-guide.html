@@ -1,0 +1,265 @@
+<!--
+  ================================================================
+  IMMEIT — Guide d'intégration des corrections responsive
+  Script JS minimal requis pour les composants interactifs
+  ================================================================
+  
+  1. Ajouter ce fichier CSS dans le <head> de votre HTML :
+     <link rel="stylesheet" href="immeit-responsive-fixes.css">
+  
+  2. Modifier les classes HTML selon les indications ci-dessous
+  
+  3. Ajouter le script JS en fin de <body>
+  ================================================================
+-->
+
+<!-- ============================================================
+  NAVIGATION — Ajouter les classes et le bouton toggle
+  Modifier votre <nav> actuel pour correspondre à cette structure :
+  ============================================================ -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <a href="/">
+      <img src="/logo-immeit.jpeg" alt="IMMEIT" width="140" height="44">
+    </a>
+  </div>
+  
+  <!-- Bouton hamburger — À AJOUTER dans votre HTML -->
+  <button class="nav-toggle" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="nav-menu">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </button>
+  
+  <!-- Votre nav existant — ajouter id="nav-menu" et class="nav-links" -->
+  <ul class="nav-links" id="nav-menu" role="navigation">
+    <li><a href="#hero">Accueil</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#methodo">Méthodologie</a></li>
+    <li><a href="#piliers">Piliers</a></li>
+    <li><a href="#engagement">Engagements</a></li>
+    <li><a href="/pourquoi-choisir-immeit.html">Pourquoi IMMEIT ?</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+
+<!-- ============================================================
+  SCRIPT JS COMPLET — Ajouter juste avant </body>
+  ============================================================ -->
+<script>
+(function() {
+  'use strict';
+  
+  // ── 1. Menu Hamburger ──────────────────────────────────────
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks  = document.querySelector('.nav-links');
+  
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', function() {
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!isExpanded));
+      navLinks.classList.toggle('is-open');
+      document.body.style.overflow = !isExpanded ? 'hidden' : '';
+    });
+    
+    // Fermer le menu au clic sur un lien
+    navLinks.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navLinks.classList.remove('is-open');
+        document.body.style.overflow = '';
+      });
+    });
+    
+    // Fermer au clic en dehors
+    document.addEventListener('click', function(e) {
+      if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navLinks.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // Fermer avec Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navLinks.classList.contains('is-open')) {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navLinks.classList.remove('is-open');
+        document.body.style.overflow = '';
+        navToggle.focus();
+      }
+    });
+  }
+  
+  // ── 2. FAQ Accordion ──────────────────────────────────────
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(function(item) {
+    const question = item.querySelector('.faq-question');
+    const answer   = item.querySelector('.faq-answer');
+    
+    if (!question || !answer) return;
+    
+    // Accessibilité ARIA
+    const answerId = 'faq-answer-' + Math.random().toString(36).substr(2, 9);
+    answer.id = answerId;
+    question.setAttribute('aria-controls', answerId);
+    question.setAttribute('aria-expanded', 'false');
+    
+    question.addEventListener('click', function() {
+      const isOpen = item.classList.contains('is-open');
+      
+      // Fermer tous les autres (comportement accordéon)
+      faqItems.forEach(function(otherItem) {
+        otherItem.classList.remove('is-open');
+        const otherQuestion = otherItem.querySelector('.faq-question');
+        if (otherQuestion) otherQuestion.setAttribute('aria-expanded', 'false');
+      });
+      
+      // Toggle l'item cliqué
+      if (!isOpen) {
+        item.classList.add('is-open');
+        question.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+  
+  // ── 3. Compteurs animés (hero + KPI) ─────────────────────
+  function animateCounter(el, target, duration) {
+    var start = 0;
+    var increment = target / (duration / 16);
+    var current = start;
+    
+    var timer = setInterval(function() {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      // Formater selon le type
+      if (el.dataset.suffix) {
+        el.textContent = Math.round(current) + el.dataset.suffix;
+      } else {
+        el.textContent = Math.round(current);
+      }
+    }, 16);
+  }
+  
+  // Observer pour déclencher l'animation quand visible
+  if ('IntersectionObserver' in window) {
+    var counterObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          var target = parseInt(entry.target.dataset.target || entry.target.textContent, 10);
+          animateCounter(entry.target, target, 1500);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    document.querySelectorAll('[data-counter]').forEach(function(el) {
+      counterObserver.observe(el);
+    });
+  }
+  
+  // ── 4. Témoignages — Dots de pagination ───────────────────
+  var track = document.querySelector('.testimonials-track');
+  var dots  = document.querySelectorAll('.dot');
+  
+  if (track && dots.length) {
+    var cards = track.querySelectorAll('.testimonial-card');
+    
+    function updateDots() {
+      var scrollLeft  = track.scrollLeft;
+      var totalScroll = track.scrollWidth - track.clientWidth;
+      var progress    = totalScroll > 0 ? scrollLeft / totalScroll : 0;
+      var activeIndex = Math.round(progress * (dots.length - 1));
+      
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    }
+    
+    track.addEventListener('scroll', updateDots, { passive: true });
+    
+    dots.forEach(function(dot, i) {
+      dot.addEventListener('click', function() {
+        var card = cards[i];
+        if (card) {
+          track.scrollTo({
+            left: card.offsetLeft - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--container-padding') || 16),
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    updateDots();
+  }
+  
+  // ── 5. Fermer le menu si resize vers desktop ──────────────
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768 && navLinks && navLinks.classList.contains('is-open')) {
+      navToggle && navToggle.setAttribute('aria-expanded', 'false');
+      navLinks.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  });
+  
+})();
+</script>
+
+<!--
+  ================================================================
+  RÉSUMÉ DES MODIFICATIONS HTML À APPORTER :
+  ================================================================
+  
+  NAVIGATION :
+  ✓ Ajouter class="navbar" sur <nav>
+  ✓ Ajouter class="nav-brand" sur la div du logo
+  ✓ Ajouter le bouton .nav-toggle AVANT la liste des liens
+  ✓ Ajouter class="nav-links" id="nav-menu" sur le <ul> des liens
+  
+  SERVICES (section 3 domaines) :
+  ✓ Ajouter class="services-grid" sur le conteneur
+  ✓ Ajouter class="service-card" sur chaque carte
+  
+  KPI / STATISTIQUES :
+  ✓ Ajouter class="kpi-grid" sur le conteneur des 4 stats
+  ✓ Ajouter class="kpi-card", "kpi-number", "kpi-label" sur chaque stat
+  ✓ Sur les chiffres animés : ajouter data-counter data-target="95" data-suffix="%"
+  
+  MÉTHODOLOGIE :
+  ✓ Ajouter class="timeline" sur le conteneur des étapes
+  ✓ Ajouter class="timeline-step" sur chaque étape
+  ✓ Ajouter class="timeline-number" sur le numéro (01, 02...)
+  ✓ Ajouter class="timeline-content" sur le texte de l'étape
+  
+  PILIERS :
+  ✓ Ajouter class="pillars-grid" sur le conteneur
+  ✓ Ajouter class="pillar-card" sur chaque pilier
+  
+  FAQ :
+  ✓ Ajouter class="faq-list" sur le <dl> ou <div> parent
+  ✓ Ajouter class="faq-item" sur chaque Q/R
+  ✓ Ajouter class="faq-question" sur chaque question (transformer en <button>)
+  ✓ Ajouter class="faq-answer" sur chaque réponse
+  
+  TÉMOIGNAGES :
+  ✓ Ajouter class="testimonials-track" sur le conteneur des témoignages
+  ✓ Ajouter class="testimonial-card" sur chaque témoignage
+  ✓ Ajouter les dots : <div class="testimonials-dots"><button class="dot active"></button>...</div>
+  
+  FORMULAIRE :
+  ✓ Grouper Prénom + Nom dans <div class="form-row">
+  ✓ Chaque champ dans <div class="form-group">
+  ✓ Tous les inputs ont déjà font-size:16px via le CSS (critique iOS)
+  
+  FOOTER :
+  ✓ Ajouter class="footer-content" sur la grille du footer
+  ✓ Ajouter class="footer-social" sur les liens réseaux sociaux
+  ✓ Ajouter class="social-link" sur chaque lien social (min 44x44px)
+  ================================================================
+-->
