@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const badgeInner = document.getElementById('badgeInner');
   const badgeEl = document.getElementById('badgeText');
   if (badgeInner && badgeEl) {
-    const sentence = window.I18N?.__('hero.badge') || 'IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : P2M et INDUSTRELEC';
+    const sentence = window.I18N?.__('hero.badge') || 'IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : méthodes maintenance et performance industrielle';
     badgeEl.textContent = sentence;
     const clone = badgeEl.cloneNode(true);
     clone.id = 'badgeTextClone';

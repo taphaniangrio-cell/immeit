@@ -15,7 +15,7 @@
   "nav.whyUs": "Pourquoi choisir IMMEIT ?",
   "nav.contact": "Contact",
 
-  "hero.badge": "Méthodes maintenance & performance industrielle",
+  "hero.badge": "IMMEIT — Méthodes maintenance et performance industrielle · Maintenance multi-technique · Installation et maintenance de climatisation | Sénégal & France | Expertise grands comptes : méthodes maintenance et performance industrielle",
   "hero.title": "Méthodes fiables<br/> pour une <span class=\"hero__accent\">production durable</span>",
   "hero.description": "IMMEIT est spécialisée dans la <span class=\"text--accent\">méthode</span> maintenance et la <span class=\"text--accent\">performance</span> industrielle, la maintenance <span class=\"text--accent\">multi-technique</span> et l'installation de systèmes de <span class=\"text--accent\">climatisation</span>. Basée au Sénégal <svg class=\"contact__flag\" viewBox=\"0 0 3 2\" width=\"16\" height=\"12\"><rect width=\"1\" height=\"2\" fill=\"#00853F\"/><rect x=\"1\" width=\"1\" height=\"2\" fill=\"#FDEF42\"/><rect x=\"2\" width=\"1\" height=\"2\" fill=\"#E31B23\"/><polygon points=\"1.5,0.65 1.6,0.9 1.88,0.93 1.67,1.13 1.71,1.4 1.5,1.27 1.29,1.4 1.33,1.13 1.12,0.93 1.4,0.9\" fill=\"#00853F\"/></svg> Dakar et en France <svg class=\"contact__flag\" viewBox=\"0 0 3 2\" width=\"16\" height=\"12\"><rect width=\"1\" height=\"2\" fill=\"#002395\"/><rect x=\"1\" width=\"1\" height=\"2\" fill=\"#fff\"/><rect x=\"2\" width=\"1\" height=\"2\" fill=\"#ED2939\"/></svg> Paris, nous concevons des solutions sur mesure pour garantir la <span class=\"text--accent\">performance</span>, la <span class=\"text--accent\">fiabilité</span> et la <span class=\"text--accent\">longévité</span> de vos équipements.",
   "hero.cta": "Nous contacter",
