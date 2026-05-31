@@ -170,13 +170,4 @@
     });
   }
 
-  /* ── 6. FLIP-CARD TOUCH (mobile) ──────────────────────── */
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-    document.querySelectorAll('.flip-card').forEach(function (card) {
-      card.addEventListener('click', function () {
-        this.classList.toggle('flipped');
-      });
-    });
-  }
-
 })();
