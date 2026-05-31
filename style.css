@@ -639,7 +639,8 @@ img {
     order: 2;
   }
   .hero__logos-title {
-    display: none;
+    width: 160px;
+    height: 56px;
   }
   .hero__content {
     order: 1;
