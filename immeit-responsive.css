@@ -623,8 +623,10 @@ p, .section__text {
   height: 8px;
   border-radius: 50%;
   border: none;
+  background: var(--text, #fff);
   opacity: 0.3;
   cursor: pointer;
+  padding: 0;
   transition: opacity 0.2s ease, transform 0.2s ease;
   min-height: unset;
 }
