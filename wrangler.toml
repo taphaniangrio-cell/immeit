@@ -3,5 +3,14 @@ main = "worker.js"
 compatibility_date = "2025-04-01"
 workers_dev = true
 
+[vars]
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = "587"
+SMTP_USER = "taphaniangrio@gmail.com"
+SMTP_A = "ohuz"
+SMTP_B = "jabs"
+SMTP_C = "jqaa"
+SMTP_D = "xfas"
+
 [env.production]
 workers_dev = true
