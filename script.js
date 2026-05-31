@@ -676,7 +676,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 3) Cloudflare Worker (Mailchannels) — si configuré
+    // 3) PHP send_mail (si le serveur supporte PHP)
+    if (!ok) {
+      try {
+        const fd = new FormData();
+        fd.append('prenom', prenom);
+        fd.append('nom', nom);
+        fd.append('email', email);
+        fd.append('sujet', sujet);
+        fd.append('message', message);
+        const r = await fetch('/send_mail.php', { method: 'POST', body: fd });
+        const d = await r.json();
+        if (d.success) ok = true;
+      } catch {}
+    }
+
+    // 4) Cloudflare Worker (Mailchannels + SendGrid) — si configuré
     if (!ok && WORKER_API) {
       try {
         const r = await fetch(WORKER_API, {
@@ -687,7 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch {}
     }
 
-    // 4) Fallback Web3Forms
+    // 5) Fallback Web3Forms
     if (!ok) {
       try {
         const r = await fetch('https://api.web3forms.com/submit', {
