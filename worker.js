@@ -162,60 +162,27 @@ export default {
 
     const html = buildContactEmail(data);
     const toName = `${data.prenom || ''} ${data.nom || ''}`.trim() || data.email;
-    const fromName = `${data.prenom || ''} ${data.nom || ''}`.trim() || 'Visiteur IMMEIT';
     const subject = `[IMMEIT] ${data.prenom || ''} ${data.nom || ''} - ${data.sujet || data.subject || 'Nouveau message'}`.replace(/\s+/g, ' ');
 
-    // 1) Mailchannels (template custom — nécessite DNS _mailchannels)
-    let ok = false;
-    try {
-      const mcResp = await fetch('https://api.mailchannels.net/tx/v1/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
-          from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
-          replyTo: { email: data.email, name: toName },
-          subject,
-          content: [{ type: 'text/html', value: html }],
-        }),
-      });
-      if (mcResp.ok) ok = true;
-    } catch {}
+    const mcResp = await fetch('https://api.mailchannels.net/tx/v1/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
+        from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
+        replyTo: { email: data.email, name: toName },
+        subject,
+        content: [{ type: 'text/html', value: html }],
+      }),
+    });
 
-    // 2) Fallback Web3Forms (template table — sans DNS)
-    if (!ok) {
-      try {
-        const wfBody = new URLSearchParams({
-          access_key: '1537e384-9a6b-433e-b684-a6916a6de7e5',
-          subject,
-          from_name: fromName,
-          email: data.email,
-          Prénom: data.prenom || '',
-          Nom: data.nom || '',
-          Sujet: data.sujet || data.subject || 'Nouveau message',
-          Message: data.message || '',
-          _template: 'table',
-          _replyto: data.email,
-          _replyto_name: fromName,
-        });
-        const wfResp = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: wfBody.toString(),
-        });
-        const wfData = await wfResp.json().catch(() => ({}));
-        if (wfData.success) ok = true;
-      } catch {}
-    }
-
-    if (ok) {
+    if (mcResp.ok) {
       return new Response(JSON.stringify({ success: true }), {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       });
     }
 
-    return new Response(JSON.stringify({ success: false, error: 'Tous les canaux d\'envoi ont échoué' }), {
-      status: 500,
+    return new Response(JSON.stringify({ success: false }), {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     });
   },
