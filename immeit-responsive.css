@@ -650,10 +650,16 @@ p, .section__text {
 }
 
 .testimonials-dots {
-  display: flex;
+  display: none;
   justify-content: center;
   gap: 6px;
   margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .testimonials-dots {
+    display: flex;
+  }
 }
 
 .testimonials-dots .dot {
