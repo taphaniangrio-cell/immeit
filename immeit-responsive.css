@@ -351,7 +351,11 @@ p, .section__text {
     padding-bottom: 1rem;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .methodo__grid::-webkit-scrollbar {
+    display: none;
   }
   .methodo__card {
     min-width: clamp(200px, 60vw, 280px);
