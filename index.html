@@ -12,10 +12,12 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires" />
-  <meta name="twitter:description" content="IMMEIT - Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation." />
-  <link rel="canonical" href="https://www.immeit.com" />
-  <link rel="robots" href="/robots.txt" />
-  <title>Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires</title>
+    <meta name="twitter:description" content="IMMEIT - Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation." />
+    <link rel="canonical" href="https://www.immeit.com" />
+    <meta name="csrf-token" content="" id="csrf-token">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com stats.g.doubleclick.net; frame-src 'self'; object-src 'none'; base-uri 'self';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires</title>
   <link rel="icon" type="image/jpeg" href="logo-immeit.jpeg" />
   <link rel="apple-touch-icon" href="logo-immeit.jpeg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -36,8 +38,9 @@
     .hero__overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(17,25,39,.92),rgba(17,25,39,.6) 50%,rgba(17,25,39,.85))}
     .container{max-width:1200px;margin:0 auto;padding:0 24px}
   </style>
-  <link rel="stylesheet" href="style.css?v=11" />
-  <link rel="stylesheet" href="immeit-responsive.css?v=1" />
+   <link rel="stylesheet" href="style.css?v=11" />
+   <link rel="stylesheet" href="immeit-responsive.css?v=1" />
+   <meta name="csrf-token" content="" id="csrf-token">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -588,7 +591,8 @@
               <a href="mailto:demandes-p2m@immeit.com" onclick="gtag('event', 'email_click', { event_category: 'Contact', event_label: 'Email cliqué' })"><i class="fas fa-envelope"></i> <span data-i18n="contact.email">demandes-p2m@immeit.com</span></a>
             </div>
           </div>
-          <form class="contact__form reveal" id="contactForm" novalidate>
+           <form class="contact__form reveal" id="contactForm" novalidate>
+             <input type="hidden" name="csrf_token" id="csrf_token_input" value="">
             <div class="form__row">
               <div class="form__group">
                 <div class="form__input-wrap">
