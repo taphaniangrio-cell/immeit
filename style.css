@@ -2029,7 +2029,10 @@ img {
 /* Medium screens — nav spacing fixes for French text */
 @media (max-width: 1100px) {
   .nav__logo-text small {
-    display: none;
+    display: block;
+    font-size: 0.42rem;
+    max-width: 160px;
+    white-space: normal;
   }
   .nav__links {
     gap: clamp(8px, 1.5vw, 16px);
