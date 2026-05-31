@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
- 
+
+  if (window.location.hash === '#contact') {
+    document.documentElement.style.scrollBehavior = 'auto';
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ block: 'start' });
+    document.documentElement.style.scrollBehavior = '';
+  }
  
    // ===== CSRF Token =====
    function generateCSRFToken() {
