@@ -1,7 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-
-  // ===== Loader =====
+ 
+ 
+   // ===== CSRF Token =====
+   function generateCSRFToken() {
+     // Generate a random token
+     const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+     // Set it in the meta tag and hidden input
+     const metaTag = document.getElementById('csrf-token');
+     const hiddenInput = document.getElementById('csrf_token_input');
+     if (metaTag) metaTag.content = token;
+     if (hiddenInput) hiddenInput.value = token;
+     return token;
+   }
+   
+   // Generate token on page load
+   generateCSRFToken();
+   
+   // Regenerate token periodically (every hour) to prevent token theft
+   setInterval(generateCSRFToken, 3600000);
+ 
+   // ===== Loader =====
   const loader = document.getElementById('loader');
   window.addEventListener('load', () => {
     setTimeout(() => loader.classList.add('hidden'), 300);
@@ -604,9 +622,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const API_TUNNEL = window.SERVER_API_URL || localStorage.getItem('immeit_api_url') || '';
     const WORKER_API = window.WORKER_API_URL || ''; // configurable via injection serveur
 
-    function buildApiPayload() {
-      return { prenom, nom, email, subject: sujet, message, name: fromName };
-    }
+     function buildApiPayload() {
+       const csrfToken = document.getElementById('csrf_token_input')?.value || '';
+       return { prenom, nom, email, subject: sujet, message, name: fromName, csrf_token: csrfToken };
+     }
 
     async function fetchTunnelUrl() {
       try {
