@@ -903,28 +903,29 @@ img {
 
 .service-card__cta {
   margin-top: auto;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #fff;
-  font-weight: 500;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  opacity: 0.7;
+  gap: 8px;
+  opacity: 0.85;
   transition: var(--transition);
 }
 
 .service-card:hover .service-card__cta {
   opacity: 1;
+  gap: 12px;
 }
 
 .service-card__cta i {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   color: var(--accent);
   transition: transform 0.3s ease;
 }
 
 .service-card:hover .service-card__cta i {
-  transform: translateX(6px);
+  transform: translateX(8px);
 }
 
 /* ===== PERFORMANCE ===== */
