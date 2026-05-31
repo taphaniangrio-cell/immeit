@@ -204,8 +204,7 @@ p, .section__text {
   .nav__logo-text small {
     display: block;
     font-size: 0.4rem;
-    max-width: 200px;
-    white-space: normal;
+    white-space: nowrap;
   }
 
   .nav__inner {
