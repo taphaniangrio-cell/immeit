@@ -919,11 +919,12 @@ img {
 
 .service-card__cta i {
   font-size: 0.7rem;
+  color: var(--accent);
   transition: transform 0.3s ease;
 }
 
 .service-card:hover .service-card__cta i {
-  transform: translateX(4px);
+  transform: translateX(6px);
 }
 
 /* ===== PERFORMANCE ===== */
