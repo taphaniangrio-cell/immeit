@@ -292,6 +292,13 @@ p, .section__text {
   margin-top: var(--space-xl);
 }
 
+.piliers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
 .perf__grid,
 .engagement__grid,
 .testimonials__grid {
@@ -326,6 +333,7 @@ p, .section__text {
 
 @media (max-width: 1024px) {
   .services__grid,
+  .piliers-grid,
   .methodo__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -337,6 +345,7 @@ p, .section__text {
 
 @media (max-width: 768px) {
   .services__grid,
+  .piliers-grid,
   .perf__grid,
   .methodo__grid,
   .engagement__grid {
