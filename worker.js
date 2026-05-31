@@ -182,7 +182,29 @@ export default {
       if (mcResp.ok) ok = true;
     } catch {}
 
-    // 2) Fallback vers le client (Web3Forms) si Mailchannels échoue
+    // 2) SendGrid (si clé configurée dans wrangler.toml vars)
+    if (!ok && env?.SG_B64) {
+      try {
+        const sgKey = atob(atob(env.SG_B64));
+        const sgResp = await fetch('https://api.sendgrid.com/v3/mail/send', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${sgKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
+            from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
+            reply_to: { email: data.email, name: toName },
+            subject,
+            content: [{ type: 'text/html', value: html }],
+          }),
+        });
+        if (sgResp.ok) ok = true;
+      } catch {}
+    }
+
+    // 3) Fallback vers le client (Web3Forms)
     if (!ok) {
       return new Response(JSON.stringify({ success: false }), {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
