@@ -717,3 +717,109 @@ p, .section__text {
   .text-center-mobile { text-align: center; }
   .mx-auto-mobile { margin-inline: auto; }
 }
+
+/* ── 10. OUTILS MÉTHODES (mobile) ──────────────────── */
+@media (max-width: 768px) {
+  [style*="grid-template-columns: repeat(3,1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── 11. FLIP-CARD TOUCH (mobile) ──────────────────── */
+@media (hover: none) and (max-width: 768px) {
+  .flip-card__inner {
+    cursor: pointer;
+  }
+  .flip-card.flipped .flip-card__inner {
+    transform: rotateY(180deg);
+  }
+}
+
+/* ── 12. TÉMOIGNAGES DOTS ──────────────────────────── */
+.testimonials-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 1.5rem;
+}
+.testimonials-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  opacity: 0.3;
+  transition: opacity 0.2s, transform 0.2s;
+  min-height: unset;
+  cursor: pointer;
+  background: var(--text-muted);
+  padding: 0;
+}
+.testimonials-dots .dot.active {
+  opacity: 1;
+  transform: scale(1.3);
+  background: var(--accent);
+}
+
+/* ── 13. FOOTER SOCIAL ROBUSTE ──────────────────────── */
+.footer__social-link svg {
+  width: 20px !important;
+  height: 20px !important;
+  display: block !important;
+  pointer-events: none;
+}
+.footer__social {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  flex-shrink: 0 !important;
+  align-items: center !important;
+}
+
+/* ── 14. TIMELINE VERTICAL (Pourquoi IMMEIT) ────────── */
+.hero__logo-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.hero__logo-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .services__grid .methodo__card {
+    position: relative;
+    padding-left: 48px;
+  }
+  .services__grid .methodo__card::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 36px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .services__grid .methodo__card:last-child::before {
+    display: none;
+  }
+  .services__grid .methodo__card .methodo__num {
+    position: absolute;
+    left: 2px;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    line-height: 1;
+  }
+}
