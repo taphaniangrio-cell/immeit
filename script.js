@@ -695,7 +695,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'Nom': nom,
             'Sujet': sujet,
             'Message': message,
-            '_template': 'box',
+            '_template': 'table',
+            '_replyto': email,
+            '_replyto_name': fromName,
           })
         });
         const d = await r.json();
