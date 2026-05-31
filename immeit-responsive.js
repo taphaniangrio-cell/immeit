@@ -1,83 +1,88 @@
 /* ============================================================
-   IMMEIT — JAVASCRIPT RESPONSIVE
-   Instruction pour l'IA : Ajoute ce script juste avant
-   la balise </body> de chaque page HTML avec :
-   <script src="immeit-responsive.js"></script>
-   Ou copie tout ce contenu dans ton fichier JS existant.
+   IMMEIT — JAVASCRIPT RESPONSIVE V2
+   Hamburger, FAQ Accordéon, Compteurs, Témoignages dots
    ============================================================ */
 
+(function () {
+  'use strict';
 
-document.addEventListener('DOMContentLoaded', function () {
-
-
-  /* ----------------------------------------------------------
-     1. MENU HAMBURGER
-     Cherche automatiquement .hamburger et .nav-links
-  ---------------------------------------------------------- */
-
+  /* ── 1. MENU HAMBURGER ───────────────────────────────── */
   const hamburger = document.querySelector('.hamburger');
-  const navLinks  = document.querySelector('.nav-links');
+  const navLinks  = document.querySelector('.nav__links');
+  const navOverlay = document.querySelector('.nav-overlay');
 
   if (hamburger && navLinks) {
 
-    hamburger.setAttribute('aria-label', 'Ouvrir le menu');
+    hamburger.setAttribute('aria-label', 'Ouvrir le menu de navigation');
     hamburger.setAttribute('aria-expanded', 'false');
 
-    hamburger.addEventListener('click', function () {
-      const isOpen = navLinks.classList.toggle('open');
+    function toggleMenu(open) {
+      const isOpen = open !== undefined ? open : !navLinks.classList.contains('open');
+      navLinks.classList.toggle('open', isOpen);
       hamburger.classList.toggle('active', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
+      hamburger.setAttribute('aria-expanded', String(isOpen));
       document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (navOverlay) navOverlay.classList.toggle('active', isOpen);
+    }
+
+    hamburger.addEventListener('click', function () {
+      toggleMenu();
     });
 
-    /* Fermer le menu quand on clique sur un lien */
     navLinks.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
-        navLinks.classList.remove('open');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        toggleMenu(false);
       });
     });
 
-    /* Fermer si on clique en dehors du menu */
-    document.addEventListener('click', function (e) {
-      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-        navLinks.classList.remove('open');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+    if (navOverlay) {
+      navOverlay.addEventListener('click', function () {
+        toggleMenu(false);
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        toggleMenu(false);
+        hamburger.focus();
       }
     });
 
-    /* Fermer si on redimensionne au-dessus de 768px */
     window.addEventListener('resize', function () {
       if (window.innerWidth > 768) {
-        navLinks.classList.remove('open');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        toggleMenu(false);
       }
     });
   }
 
+  /* ── 2. FAQ ACCORDÉON ─────────────────────────────────── */
+  const faqItems = document.querySelectorAll('.faq__item');
 
-  /* ----------------------------------------------------------
-     2. COMPTEURS ANIMÉS (Clients, Collaborateurs, etc.)
-     Cherche tous les éléments avec data-count="NNN"
-  ---------------------------------------------------------- */
-
-  function animateCounter(el, target, duration) {
-    var start     = 0;
-    var step      = Math.ceil(target / (duration / 16));
-    var interval  = setInterval(function () {
-      start += step;
-      if (start >= target) {
-        el.textContent = target + (el.dataset.suffix || '');
-        clearInterval(interval);
-      } else {
-        el.textContent = start + (el.dataset.suffix || '');
+  if (faqItems.length > 0 && typeof toggleFaq === 'undefined') {
+    window.toggleFaq = function (el) {
+      const isOpen = el.classList.contains('open');
+      faqItems.forEach(function (item) {
+        item.classList.remove('open');
+      });
+      if (!isOpen) {
+        el.classList.add('open');
       }
+    };
+  }
+
+  /* ── 3. COMPTEURS ANIMÉS ──────────────────────────────── */
+  function animateCounter(el, target, duration) {
+    var start = 0;
+    var increment = target / (duration / 16);
+    var current = start;
+
+    var timer = setInterval(function () {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = Math.round(current) + (el.dataset.suffix || '');
     }, 16);
   }
 
@@ -99,12 +104,41 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ── 4. TÉMOIGNAGES — DOTS PAGINATION ─────────────────── */
+  var testimonialsTrack = document.querySelector('.testimonials__grid');
+  var dots = document.querySelectorAll('.testimonials-dots .dot');
 
-  /* ----------------------------------------------------------
-     3. SCROLL REVEAL — apparition des sections au scroll
-     S'applique aux éléments avec class="reveal"
-  ---------------------------------------------------------- */
+  if (testimonialsTrack && dots.length) {
+    function updateDots() {
+      var scrollLeft = testimonialsTrack.scrollLeft;
+      var totalScroll = testimonialsTrack.scrollWidth - testimonialsTrack.clientWidth;
+      var progress = totalScroll > 0 ? scrollLeft / totalScroll : 0;
+      var activeIndex = Math.round(progress * (dots.length - 1));
 
+      dots.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    }
+
+    testimonialsTrack.addEventListener('scroll', updateDots, { passive: true });
+
+    var cards = testimonialsTrack.querySelectorAll('.testimonial__card');
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () {
+        var card = cards[i];
+        if (card) {
+          testimonialsTrack.scrollTo({
+            left: card.offsetLeft - 16,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    updateDots();
+  }
+
+  /* ── 5. SCROLL REVEAL ─────────────────────────────────── */
   var style = document.createElement('style');
   style.textContent = [
     '.reveal {',
@@ -136,83 +170,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-
-  /* ----------------------------------------------------------
-     4. FAQ ACCORDÉON
-     Cherche automatiquement les .faq-question et .faq-answer
-  ---------------------------------------------------------- */
-
-  var faqStyle = document.createElement('style');
-  faqStyle.textContent = [
-    '.faq-answer {',
-    '  max-height: 0;',
-    '  overflow: hidden;',
-    '  transition: max-height 0.35s ease, padding 0.35s ease;',
-    '  padding: 0;',
-    '}',
-    '.faq-answer.open {',
-    '  max-height: 500px;',
-    '  padding-bottom: 1rem;',
-    '}'
-  ].join('');
-  document.head.appendChild(faqStyle);
-
-  var faqQuestions = document.querySelectorAll('.faq-question');
-
-  faqQuestions.forEach(function (question) {
-    question.addEventListener('click', function () {
-      var answer = question.nextElementSibling;
-      if (!answer) return;
-      var isOpen = answer.classList.toggle('open');
-      question.setAttribute('aria-expanded', isOpen);
-    });
-  });
-
-
-  /* ----------------------------------------------------------
-     5. BOUTON "RETOUR EN HAUT" automatique
-  ---------------------------------------------------------- */
-
-  var backBtn = document.createElement('button');
-  backBtn.innerHTML    = '&#8679;';
-  backBtn.title        = 'Retour en haut';
-  backBtn.setAttribute('aria-label', 'Retour en haut de page');
-
-  var backStyle = [
-    'position:fixed',
-    'bottom:1.5rem',
-    'right:1.5rem',
-    'width:44px',
-    'height:44px',
-    'border-radius:50%',
-    'border:none',
-    'font-size:1.4rem',
-    'cursor:pointer',
-    'opacity:0',
-    'pointer-events:none',
-    'transition:opacity 0.3s',
-    'z-index:9999',
-    'display:flex',
-    'align-items:center',
-    'justify-content:center'
-  ].join(';');
-
-  backBtn.setAttribute('style', backStyle);
-  document.body.appendChild(backBtn);
-
-  window.addEventListener('scroll', function () {
-    var show = window.scrollY > 400;
-    backBtn.style.opacity        = show ? '1' : '0';
-    backBtn.style.pointerEvents  = show ? 'auto' : 'none';
-  });
-
-  backBtn.addEventListener('click', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-
-});
-
-/* ============================================================
-   FIN DU FICHIER IMMEIT-RESPONSIVE.JS
-   ============================================================ */
+})();
