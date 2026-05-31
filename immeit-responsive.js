@@ -109,26 +109,37 @@
   var dots = document.querySelectorAll('.testimonials-dots .dot');
 
   if (testimonialsTrack && dots.length) {
-    function updateDots() {
-      var scrollLeft = testimonialsTrack.scrollLeft;
-      var totalScroll = testimonialsTrack.scrollWidth - testimonialsTrack.clientWidth;
-      var progress = totalScroll > 0 ? scrollLeft / totalScroll : 0;
-      var activeIndex = Math.round(progress * (dots.length - 1));
+    var cards = testimonialsTrack.querySelectorAll('.testimonial__card');
 
+    function updateDots() {
+      if (!cards.length) return;
+      var trackCenter = testimonialsTrack.scrollLeft + testimonialsTrack.clientWidth / 2;
+      var activeIndex = 0;
+      var minDist = Infinity;
+      cards.forEach(function (card, i) {
+        var cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        var dist = Math.abs(trackCenter - cardCenter);
+        if (dist < minDist) {
+          minDist = dist;
+          activeIndex = i;
+        }
+      });
       dots.forEach(function (dot, i) {
         dot.classList.toggle('active', i === activeIndex);
       });
     }
 
     testimonialsTrack.addEventListener('scroll', updateDots, { passive: true });
+    testimonialsTrack.addEventListener('scrollend', updateDots, { passive: true });
+    window.addEventListener('resize', updateDots);
 
-    var cards = testimonialsTrack.querySelectorAll('.testimonial__card');
     dots.forEach(function (dot, i) {
       dot.addEventListener('click', function () {
         var card = cards[i];
         if (card) {
+          var scrollAmount = card.offsetLeft - (testimonialsTrack.clientWidth - card.offsetWidth) / 2;
           testimonialsTrack.scrollTo({
-            left: card.offsetLeft - 16,
+            left: Math.max(0, scrollAmount),
             behavior: 'smooth'
           });
         }
