@@ -627,7 +627,23 @@ img {
 }
 
 @media (max-width: 900px) {
-  .hero__logos { display: none; }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero__logos {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 1.5rem;
+    order: 2;
+  }
+  .hero__logos-title {
+    display: none;
+  }
+  .hero__content {
+    order: 1;
+  }
 }
 
 .hero__logos-title {
@@ -2025,9 +2041,6 @@ img {
 
 /* Tablets landscape */
 @media (max-width: 1024px) {
-  .hero__logos {
-    display: none;
-  }
   .hero__content p {
     max-width: 100%;
   }
