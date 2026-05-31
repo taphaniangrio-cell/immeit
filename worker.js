@@ -126,7 +126,7 @@ function buildContactEmail(data) {
 }
 
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         headers: {
@@ -164,19 +164,46 @@ export default {
     const toName = `${data.prenom || ''} ${data.nom || ''}`.trim() || data.email;
     const subject = `[IMMEIT] ${data.prenom || ''} ${data.nom || ''} - ${data.sujet || data.subject || 'Nouveau message'}`.replace(/\s+/g, ' ');
 
-    const mcResp = await fetch('https://api.mailchannels.net/tx/v1/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
-        from: { email: 'noreply@immeit.taphaniangrio.workers.dev', name: 'IMMEIT - Formulaire de contact' },
-        replyTo: { email: data.email, name: toName },
-        subject,
-        content: [{ type: 'text/html', value: html }],
-      }),
-    });
+    let ok = false;
 
-    if (mcResp.ok) {
+    // 1) Mailchannels (nécessite DNS _mailchannels)
+    try {
+      const mcResp = await fetch('https://api.mailchannels.net/tx/v1/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
+          from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
+          replyTo: { email: data.email, name: toName },
+          subject,
+          content: [{ type: 'text/html', value: html }],
+        }),
+      });
+      if (mcResp.ok) ok = true;
+    } catch {}
+
+    // 2) SendGrid (si API key configurée dans les secrets Worker)
+    if (!ok && env?.SENDGRID_API_KEY) {
+      try {
+        const sgResp = await fetch('https://api.sendgrid.com/v3/mail/send', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${env.SENDGRID_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
+            from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
+            reply_to: { email: data.email, name: toName },
+            subject,
+            content: [{ type: 'text/html', value: html }],
+          }),
+        });
+        if (sgResp.ok) ok = true;
+      } catch {}
+    }
+
+    if (ok) {
       return new Response(JSON.stringify({ success: true }), {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
       });
