@@ -376,11 +376,11 @@ Outils acceptables : `sharp`, `imagemagick`, `squoosh`, ou outil de build exista
 ## CORRECTION 4 — Grilles de services et piliers responsive [P2 — IMPORTANT]
 
 ### Problème
-La section "3 domaines d'activités" et la section "9 piliers" utilisent probablement des grilles fixes. Sur mobile < 600px, les cartes sont trop étroites ou débordent.
+La section "2 domaines d'activités" et la section "9 piliers" utilisent probablement des grilles fixes. Sur mobile < 600px, les cartes sont trop étroites ou débordent.
 
 ### Ce que tu dois faire
 
-**4.1 — Section "3 domaines d'activités"**
+**4.1 — Section "2 domaines d'activités"**
 
 ```css
 /* Remplacer la grille fixe par une grille auto-adaptative */
