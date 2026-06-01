@@ -48,7 +48,7 @@
 
   "perf.tag": "Indicateurs de performance",
   "perf.title": "Des résultats <span class=\"text--accent\">mesurables</span> et concrets",
-  "perf.subtitle": "Notre méthodologie se traduit par des indicateurs de performance clés : disponibilité, réduction des coûts, fiabilité et satisfaction.",
+  "perf.subtitle": "Notre méthodologie se traduit par des indicateurs de performance clés : <span class=\"text--accent\">disponibilité</span>, réduction des <span class=\"text--accent\">coûts</span>, <span class=\"text--accent\">fiabilité</span> et <span class=\"text--accent\">satisfaction</span>.",
   "perf.card1.title": "Taux de disponibilité",
   "perf.card1.desc": "Disponibilité des équipements après optimisation de vos plans de maintenance.",
   "perf.card2.title": "Réduction des coûts",
