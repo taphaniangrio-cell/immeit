@@ -654,10 +654,6 @@ img {
     margin-top: 1.5rem;
     order: 2;
   }
-  .hero__logos-title {
-    width: 160px;
-    height: 56px;
-  }
   .hero__content {
     order: 1;
   }
@@ -665,9 +661,11 @@ img {
 
 .hero__logos-title {
   color: var(--text-muted);
-  display: block;
-  width: 200px;
-  height: 70px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .hero__logos-group {
@@ -676,18 +674,30 @@ img {
 }
 
 .hero__logo-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   transition: var(--transition);
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .hero__logo-link:hover {
-  transform: scale(1.08);
-  opacity: 0.85;
+  transform: scale(1.05) rotate(-3deg);
+  border-color: var(--primary);
+  opacity: 0.9;
 }
 
 .hero__logo-duplicate {
-  width: 80px;
-  height: auto;
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  border-radius: 6px;
 }
 
 .hero__stats {
@@ -2044,12 +2054,14 @@ img {
   .hero__logos {
     right: 20px;
   }
-  .hero__logos-title {
-    width: 160px;
-    height: 56px;
-  }
-  .hero__logo-duplicate {
+  .hero__logo-link {
     width: 64px;
+    height: 64px;
+  }
+
+  .hero__logo-duplicate {
+    width: 52px;
+    height: 52px;
   }
 }
 
