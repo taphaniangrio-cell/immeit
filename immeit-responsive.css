@@ -479,6 +479,7 @@ p, .section__text {
   .footer__links {
     gap: 12px;
   }
+
 }
 
 @media (max-width: 768px) {
