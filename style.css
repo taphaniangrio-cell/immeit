@@ -95,6 +95,10 @@ img {
   padding: 0 0 10px;
 }
 
+#services .services__grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 #methodo {
   padding: 0 0 100px;
 }
