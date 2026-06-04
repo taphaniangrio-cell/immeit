@@ -104,16 +104,32 @@ img {
   padding: 0 0 100px;
 }
 
+#methodo .methodo__grid {
+  margin-top: 1rem;
+}
+
 #piliers {
   padding: 0 0 100px;
+}
+
+#piliers .piliers-grid {
+  margin-top: 1rem;
 }
 
 #engagement {
   padding: 0 0 100px;
 }
 
+#engagement .engagement__grid {
+  margin-top: 1rem;
+}
+
 #why {
   padding: 0 0 100px;
+}
+
+#why .services__grid {
+  margin-top: 1rem;
 }
 
 #perf {
