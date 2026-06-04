@@ -223,14 +223,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Active nav link on scroll =====
   const sections = document.querySelectorAll('section[id]');
 
-  const SECTION_ORDER = ['hero', 'about', 'services', 'perf', 'methodo', 'piliers', 'engagement', 'faq', 'testimonials', 'contact'];
-  let currentSectionId = 'hero';
+  const SECTION_ORDER = ['hero', 'about', 'services', 'methodo', 'piliers', 'engagement', 'contact'];
+
+  function getCurrentSectionId() {
+    const active = document.querySelector('.nav__link.active');
+    if (active) {
+      const href = active.getAttribute('href');
+      if (href && href.startsWith('#')) return href.slice(1);
+    }
+    return 'hero';
+  }
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          currentSectionId = entry.target.id;
           navLinkItems.forEach(link => link.classList.remove('active'));
           const activeLink = document.querySelector(`.nav__link[href="#${entry.target.id}"]`);
           if (activeLink) activeLink.classList.add('active');
@@ -381,10 +388,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (backToTop) {
     backToTop.addEventListener('click', () => {
-      const idx = SECTION_ORDER.indexOf(currentSectionId);
+      const current = getCurrentSectionId();
+      const idx = SECTION_ORDER.indexOf(current);
       if (idx > 0) {
-        currentSectionId = SECTION_ORDER[idx - 1];
-        const prev = document.getElementById(currentSectionId);
+        const prev = document.getElementById(SECTION_ORDER[idx - 1]);
         if (prev) prev.scrollIntoView({ behavior: 'smooth' });
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
