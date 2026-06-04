@@ -505,6 +505,10 @@ p, .section__text {
   .footer__brand {
     justify-content: center;
   }
+
+  .footer__legal {
+    justify-content: center;
+  }
 }
 
 /* ── 9. FORMULAIRE RESPONSIVE ────────────────────────────── */
