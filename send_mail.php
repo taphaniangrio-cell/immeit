@@ -10,7 +10,7 @@
 // ============================================================
 //  CONFIG — à adapter à ton hébergeur
 // ============================================================
-define('MAIL_TO',      'demandes-p2m@immeit.com');   // Email de réception
+define('MAIL_TO',      'contact@immeit.com');   // Email de réception
 define('MAIL_FROM',    'noreply@immeit.com');          // Expéditeur (doit exister sur ton hébergeur)
 define('MAIL_SUBJECT_PREFIX', '[IMMEIT - Demande]');  // Préfixe du sujet
 define('ALLOWED_ORIGIN', 'https://www.immeit.com');   // Ton domaine (anti-CSRF)

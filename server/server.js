@@ -12,7 +12,7 @@ const { buildContactEmail } = require('./templates/contact-email');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'demandes-p2m@immeit.com';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'contact@immeit.com';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'immeit-admin-2024';
 if (!process.env.ADMIN_TOKEN) {
   console.warn('⚠ ADMIN_TOKEN non défini dans .env — utilisation du token par défaut');
@@ -115,7 +115,7 @@ async function sendViaFormsubmit(msg) {
     const body = params.toString();
     const req = https.request({
       hostname: 'formsubmit.co',
-      path: '/ajax/demandes-p2m@immeit.com',
+      path: '/ajax/contact@immeit.com',
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',

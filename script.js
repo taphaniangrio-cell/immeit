@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setLoading(false);
-    showConfirmation('<i class="fas fa-exclamation-circle"></i> ' + (window.I18N?.__('toast.error') || 'Échec de l\'envoi. Écrivez-nous à ') + '<a href="mailto:demandes-p2m@immeit.com">demandes-p2m@immeit.com</a>');
+    showConfirmation('<i class="fas fa-exclamation-circle"></i> ' + (window.I18N?.__('toast.error') || 'Échec de l\'envoi. Écrivez-nous à ') + '<a href="mailto:contact@immeit.com">contact@immeit.com</a>');
   });
 
   // ===== Keyboard shortcut =====

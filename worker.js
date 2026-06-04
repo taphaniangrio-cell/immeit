@@ -179,7 +179,7 @@ export default {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
+          personalizations: [{ to: [{ email: 'contact@immeit.com' }] }],
           from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
           replyTo: { email: data.email, name: toName },
           subject,
@@ -200,7 +200,7 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            personalizations: [{ to: [{ email: 'demandes-p2m@immeit.com' }] }],
+            personalizations: [{ to: [{ email: 'contact@immeit.com' }] }],
             from: { email: 'noreply@immeit.com', name: 'IMMEIT - Formulaire de contact' },
             reply_to: { email: data.email, name: toName },
             subject,
