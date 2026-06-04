@@ -377,7 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (backToTop) {
     backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (document.referrer) {
+        history.back();
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   }
 
