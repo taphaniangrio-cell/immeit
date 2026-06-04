@@ -1088,7 +1088,13 @@ img {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
   border-color: var(--primary);
-  background: var(--bg-card-hover);
+}
+
+.methodo__desc {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-light);
 }
 
 .methodo__icon {
