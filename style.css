@@ -3096,51 +3096,21 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  padding: 0 5px;
-  height: 24px;
-  background: transparent;
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
+  padding: 0;
+  margin: 0 4px;
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
-  font-family: inherit;
-  font-size: 0.6rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.lang-switcher:hover {
-  color: var(--accent);
-  transform: translateY(-1px);
-}
-
-.lang-switcher:active {
-  transform: translateY(0) scale(0.93);
+  line-height: 0;
 }
 
 .lang-switcher__flag {
   display: block;
-  border-radius: 2px;
   object-fit: cover;
-}
-
-.lang-switcher__code {
-  line-height: 1;
 }
 
 .hamburger {
   margin-left: 0;
-}
-
-@media (max-width: 768px) {
-  .lang-switcher {
-    padding: 0 4px;
-    height: 22px;
-    gap: 2px;
-    font-size: 0.55rem;
-  }
 }
