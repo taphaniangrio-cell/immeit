@@ -1970,6 +1970,24 @@ img {
   flex-shrink: 0;
 }
 
+.footer__legal {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.footer__legal a {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__legal a:hover {
+  color: var(--accent);
+}
+
 .footer--fixed {
   position: fixed;
   bottom: 0;

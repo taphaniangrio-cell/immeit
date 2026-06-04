@@ -7,8 +7,10 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="description" content="IMMEIT — Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires. Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation. Basé à Dakar Sénégal et Paris France." />
-  <meta name="theme-color" content="#111927" />
-  <meta property="og:title" content="IMMEIT — Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires" />
+     <meta name="theme-color" content="#111927" />
+   <meta name="language" content="fr">
+   <meta name="author" content="IMMEIT">
+   <meta property="og:title" content="IMMEIT — Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires" />
   <meta property="og:description" content="IMMEIT - Méthodes maintenance et performance industrielle, maintenance multi-technique, installation de climatisation. Basé à Dakar Sénégal et Paris France." />
   <meta property="og:image" content="https://www.immeit.com/logo-immeit.jpeg" />
   <meta property="og:url" content="https://www.immeit.com" />
@@ -34,6 +36,10 @@
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{font-family:Poppins,-apple-system,BlinkMacSystemFont,sans-serif;color:#f1f5f9;background:#111927;font-size:16px;line-height:1.6;overflow-x:hidden}
+    .skip-link{position:absolute;top:-999px;left:-999px;z-index:9999}
+    .skip-link:focus{top:0;left:0;padding:0.75rem 1.5rem;background:#fff;color:#111927;font-weight:600;text-decoration:none}
+    *:focus-visible{outline:2px solid #C99A3E;outline-offset:2px}
+    *:focus:not(:focus-visible){outline:none}
     .nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(17,25,39,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(36,48,68,.6)}
     .hero{min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden}
     .hero__bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -43,25 +49,30 @@
    <link rel="stylesheet" href="style.css?v=17" />
    <link rel="stylesheet" href="immeit-responsive.css?v=9" />
    <script>window.WORKER_API_URL='https://immeit.taphaniangrio.workers.dev'</script>
-   <meta name="csrf-token" content="" id="csrf-token">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "ProfessionalService",
     "name": "IMMEIT",
-    "description": "IMMEIT — Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires",
+    "alternateName": "Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires",
     "url": "https://www.immeit.com",
     "logo": "https://www.immeit.com/logo-immeit.jpeg",
+    "description": "Société spécialisée en méthodes de maintenance, performance industrielle, fiabilisation des équipements et climatisation.",
+    "foundingDate": "2024",
+    "founder": {
+      "@type": "Person",
+      "name": "Yelli NIANG"
+    },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Cité Safco Niacoulrab, villa N°40",
+      "streetAddress": "Cité Safco Niacoulrab, Villa N°40",
+      "postalCode": "11515",
       "addressLocality": "Keur Massar, Dakar",
       "addressCountry": "SN"
     },
-    "contactPoint": [
-      { "@type": "ContactPoint", "telephone": "+221-71-033-88-09", "contactType": "customer service" },
-      { "@type": "ContactPoint", "telephone": "+33-7-54-01-19-45", "contactType": "customer service" }
-    ],
+    "telephone": ["+221710338809", "+33754011945"],
+    "email": "contact@immeit.com",
+    "areaServed": ["SN", "FR", "ML", "CI"],
     "sameAs": [
       "https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/"
     ]
@@ -77,6 +88,7 @@
   </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link" data-i18n="skipLink">Aller au contenu principal</a>
 
   <div class="loader" id="loader">
     <div class="loader__spinner"></div>
@@ -124,7 +136,7 @@
     </div>
     <div class="nav-overlay" id="navOverlay"></div>
   </nav>
-   <main class="container-fluid">
+   <main class="container-fluid" id="main-content">
 
    <!-- HERO -->
     <section class="hero" id="hero">
@@ -132,7 +144,7 @@
          <picture>
            <source srcset="indicateur-de-production.webp" type="image/webp">
            <source srcset="indicateur-de-production.jpg" type="image/jpeg">
-           <img src="indicateur-de-production.jpg" alt="" width="1080" height="675" class="hero__bg-img" fetchpriority="high" loading="lazy">
+           <img src="indicateur-de-production.jpg" alt="Tableau de bord d'indicateurs de production industrielle" width="1080" height="675" class="hero__bg-img" fetchpriority="high" loading="eager">
          </picture>
          <div class="hero__gears" id="heroGears"></div>
        </div>
@@ -729,6 +741,10 @@
           <a href="https://wa.me/221710338809" target="_blank" rel="noopener" aria-label="WhatsApp" class="footer__social-link footer__social-link--whatsapp">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           </a>
+        </div>
+        <div class="footer__legal">
+          <a href="mentions-legales.html">Mentions légales</a>
+          <a href="politique-confidentialite.html">Politique de confidentialité</a>
         </div>
         <span class="footer__copy" data-i18n="footer.copyright">&copy; 2026 IMMEIT</span>
       </div>
