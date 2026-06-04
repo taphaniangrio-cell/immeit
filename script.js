@@ -383,7 +383,8 @@ document.addEventListener('DOMContentLoaded', () => {
     backToTop.addEventListener('click', () => {
       const idx = SECTION_ORDER.indexOf(currentSectionId);
       if (idx > 0) {
-        const prev = document.getElementById(SECTION_ORDER[idx - 1]);
+        currentSectionId = SECTION_ORDER[idx - 1];
+        const prev = document.getElementById(currentSectionId);
         if (prev) prev.scrollIntoView({ behavior: 'smooth' });
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
