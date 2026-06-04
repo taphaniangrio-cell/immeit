@@ -39,11 +39,12 @@ function clean(string $val): string {
     return htmlspecialchars(strip_tags(trim($val)), ENT_QUOTES, 'UTF-8');
 }
 
-$prenom  = clean($_POST['prenom']  ?? '');
-$nom     = clean($_POST['nom']     ?? '');
-$email   = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
-$sujet   = clean($_POST['sujet']   ?? '');
-$message = clean($_POST['message'] ?? '');
+$prenom    = clean($_POST['prenom']     ?? '');
+$nom       = clean($_POST['nom']        ?? '');
+$email     = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$telephone = clean($_POST['telephone']  ?? '');
+$sujet     = clean($_POST['sujet']      ?? '');
+$message   = clean($_POST['message']    ?? '');
 
 // ---- Validation ----
 $errors = [];
@@ -281,6 +282,7 @@ $messageHtml = <<<HTML
                 <a href="mailto:{EMAIL}">{EMAIL}</a>
               </td>
             </tr>
+            {TELEPHONE}
             <tr>
               <td class="info-label" style="padding-top:8px;">Sujet</td>
               <td class="info-value" style="padding-top:8px;">{SUJET}</td>
@@ -326,9 +328,12 @@ $messageHtml = <<<HTML
 HTML;
 
 // ---- Injection des variables dans le template ----
+$telephoneRow = $telephone
+    ? '<tr><td class="info-label" style="padding-top:8px;">Téléphone</td><td class="info-value" style="padding-top:8px;"><a href="tel:' . $telephone . '">' . $telephone . '</a></td></tr>'
+    : '';
 $messageHtml = str_replace(
-    ['{DATE}', '{PRENOM}', '{NOM}', '{EMAIL}', '{SUJET}', '{MESSAGE}'],
-    [$dateEnvoi, $prenom, $nom, $email, $sujet, nl2br($message)],
+    ['{DATE}', '{PRENOM}', '{NOM}', '{EMAIL}', '{TELEPHONE}', '{SUJET}', '{MESSAGE}'],
+    [$dateEnvoi, $prenom, $nom, $email, $telephoneRow, $sujet, nl2br($message)],
     $messageHtml
 );
 
