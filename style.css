@@ -2885,7 +2885,7 @@ img {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-top: 40px;
+  margin-top: 1rem;
 }
 
 .flip-card {
@@ -3003,6 +3003,10 @@ img {
 
 .service-detail__hero .section__header {
   margin-bottom: 0;
+}
+
+.service-detail__hero .services__grid {
+  margin-top: 1rem;
 }
 
 .service-detail__hero::before {
