@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Active nav link on scroll =====
   const sections = document.querySelectorAll('section[id]');
 
-  const SECTION_ORDER = ['hero', 'about', 'services', 'methodo', 'piliers', 'engagement', 'contact'];
+  const SECTION_ORDER = ['hero', 'about', 'services', 'methodo', 'piliers', 'engagement', 'why', 'contact'];
 
   function getCurrentSectionId() {
     const active = document.querySelector('.nav__link.active');
