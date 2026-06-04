@@ -2249,30 +2249,7 @@ img {
   }
 }
 
-.nav__link--special {
-  background: var(--gradient-accent);
-  color: #fff !important;
-  padding: 6px 18px;
-  border-radius: 20px;
-  font-weight: 600;
-  box-shadow: 0 0 20px rgba(201, 154, 62, 0.3);
-  animation: navPulse 2s ease-in-out infinite;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
 
-.nav__link--special::after {
-  display: none;
-}
-
-.nav__link--special:hover {
-  box-shadow: 0 0 35px rgba(201, 154, 62, 0.55);
-  transform: scale(1.06);
-}
-
-@keyframes navPulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(201, 154, 62, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(201, 154, 62, 0.6); }
-}
 
 /* Small tablets & large phones */
 @media (max-width: 768px) {
