@@ -8,16 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
  
    // ===== CSRF Token =====
-   function generateCSRFToken() {
-     // Generate a random token
-     const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-     // Set it in the meta tag and hidden input
-     const metaTag = document.getElementById('csrf-token');
-     const hiddenInput = document.getElementById('csrf_token_input');
-     if (metaTag) metaTag.content = token;
-     if (hiddenInput) hiddenInput.value = token;
-     return token;
-   }
+    function generateCSRFToken() {
+      const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const hiddenInput = document.getElementById('csrf_token_input');
+      if (hiddenInput) hiddenInput.value = token;
+      return token;
+    }
    
    // Generate token on page load
    generateCSRFToken();
