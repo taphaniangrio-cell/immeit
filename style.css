@@ -97,6 +97,7 @@ img {
 
 #services .services__grid {
   grid-template-columns: repeat(2, 1fr);
+  margin-top: 1rem;
 }
 
 #methodo {
