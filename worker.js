@@ -2,7 +2,7 @@ function clean(str = '') {
   return String(str).trim().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function buildEmailHtml({ prenom, nom, email, sujet, message, date }) {
+function buildEmailHtml({ prenom, nom, email, telephone, sujet, message, date }) {
   const messageHtml = (message || '').replace(/\n/g, '<br/>');
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -59,6 +59,12 @@ function buildEmailHtml({ prenom, nom, email, sujet, message, date }) {
                         <a href="mailto:${email}" style="color:#e8a020;font-size:14px;text-decoration:none;font-weight:500;">${email}</a>
                       </td>
                     </tr>
+                    ${telephone ? `<tr>
+                      <td colspan="2" style="padding-top:8px;">
+                        <p style="margin:0 0 3px;font-size:11px;color:#8b91b0;">T&#233;l&#233;phone</p>
+                        <a href="tel:${telephone}" style="color:#e8a020;font-size:14px;text-decoration:none;font-weight:500;">${telephone}</a>
+                      </td>
+                    </tr>` : ''}
                   </table>
                 </td>
               </tr>
@@ -115,6 +121,7 @@ function buildContactEmail(data) {
     prenom: clean(data.prenom || ''),
     nom: clean(data.nom || ''),
     email: clean(data.email || ''),
+    telephone: clean(data.telephone || ''),
     sujet: clean(data.sujet || data.subject || 'Nouveau message'),
     message: clean(data.message || ''),
     date: new Date().toLocaleDateString('fr-FR', {

@@ -307,7 +307,7 @@ function requireAdmin(req, res, next) {
 
 app.post('/api/contact', async (req, res) => {
   try {
-    const { name, prenom, nom, email, subject, message } = req.body;
+    const { name, prenom, nom, email, telephone, subject, message } = req.body;
 
     const safeName = (name || '').trim();
     const safePrenom = (prenom || '').trim();
@@ -333,6 +333,7 @@ app.post('/api/contact', async (req, res) => {
       prenom: safePrenom || undefined,
       nom: safeNom || undefined,
       email: email.trim(),
+      telephone: (telephone || '').trim() || undefined,
       subject: subject ? subject.trim() : 'Nouveau message IMMEIT',
       message: message.trim(),
       status: 'pending',

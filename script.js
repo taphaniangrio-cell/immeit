@@ -403,11 +403,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const prenomInput = document.getElementById('prenom');
   const nomInput = document.getElementById('nom');
   const emailInput = document.getElementById('email');
+  const telephoneInput = document.getElementById('telephone');
   const subjectInput = document.getElementById('subject');
   const messageInput = document.getElementById('message');
   const prenomError = document.getElementById('prenomError');
   const nomError = document.getElementById('nomError');
   const emailError = document.getElementById('emailError');
+  const telephoneError = document.getElementById('telephoneError');
   const subjectError = document.getElementById('subjectError');
   const messageError = document.getElementById('messageError');
   const submitBtn = document.getElementById('submitBtn');
@@ -456,6 +458,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
+  function validateTelephone() {
+    const val = telephoneInput.value.trim();
+    if (val.length === 0) { setFieldState(telephoneInput, telephoneError, null); return null; }
+    const phoneRegex = /^[+]?[\d\s\-().]{6,20}$/;
+    if (!phoneRegex.test(val)) { setFieldState(telephoneInput, telephoneError, false, (window.I18N?.__('validation.phone.invalid') || 'Numéro de téléphone invalide')); return false; }
+    setFieldState(telephoneInput, telephoneError, true);
+    return true;
+  }
+
   function validateSubject() {
     const val = subjectInput.value.trim();
     if (val.length === 0) { setFieldState(subjectInput, subjectError, null); return null; }
@@ -486,6 +497,11 @@ document.addEventListener('DOMContentLoaded', () => {
   emailInput.addEventListener('blur', validateEmail);
   emailInput.addEventListener('input', function () {
     if (this.classList.contains('error') || this.classList.contains('success')) validateEmail();
+  });
+
+  telephoneInput.addEventListener('blur', validateTelephone);
+  telephoneInput.addEventListener('input', function () {
+    if (this.classList.contains('error') || this.classList.contains('success')) validateTelephone();
   });
 
   subjectInput.addEventListener('blur', validateSubject);
@@ -547,8 +563,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function clearForm() {
     form.reset();
-    [prenomInput, nomInput, emailInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
-    [prenomError, nomError, emailError, subjectError, messageError].forEach(el => el.textContent = '');
+    [prenomInput, nomInput, emailInput, telephoneInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
+    [prenomError, nomError, emailError, telephoneError, subjectError, messageError].forEach(el => el.textContent = '');
     updateCharCounter();
     if (messageInput) {
       messageInput.style.height = 'auto';
@@ -572,11 +588,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const isPrenomValid = validatePrenom();
     const isNomValid = validateNom();
     const isEmailValid = validateEmail();
+    const isTelephoneValid = validateTelephone();
     const isSubjectValid = validateSubject();
     const isMessageValid = validateMessage();
 
     const __t = (k, fb) => window.I18N?.__(k) || fb;
-    if (!isPrenomValid || !isNomValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
+    if (!isPrenomValid || !isNomValid || !isEmailValid || isTelephoneValid === false || !isSubjectValid || !isMessageValid) {
       if (prenomInput.classList.contains('error')) {
         prenomInput.focus();
         showToast(__t('toast.firstname', 'Veuillez remplir votre prénom'), 'error');
@@ -586,6 +603,9 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (emailInput.classList.contains('error')) {
         emailInput.focus();
         showToast(__t('toast.email', 'Veuillez remplir votre email'), 'error');
+      } else if (telephoneInput.classList.contains('error')) {
+        telephoneInput.focus();
+        showToast(__t('toast.phone', 'Numéro de téléphone invalide'), 'error');
       } else if (subjectInput.classList.contains('error')) {
         subjectInput.focus();
         showToast(__t('toast.subject', 'Veuillez remplir le sujet'), 'error');
@@ -621,6 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prenom = prenomInput.value.trim();
     const nom = nomInput.value.trim();
     const email = emailInput.value.trim();
+    const telephone = telephoneInput.value.trim();
     const sujet = subjectInput.value.trim() || (window.I18N?.__('form.subject') || 'Nouveau message');
     const message = messageInput.value.trim();
     const fromName = `${prenom} ${nom}`;
@@ -629,9 +650,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const WORKER_API = window.WORKER_API_URL || ''; // configurable via injection serveur
 
      function buildApiPayload() {
-       const csrfToken = document.getElementById('csrf_token_input')?.value || '';
-       return { prenom, nom, email, subject: sujet, message, name: fromName, csrf_token: csrfToken };
-     }
+        const csrfToken = document.getElementById('csrf_token_input')?.value || '';
+        return { prenom, nom, email, telephone, subject: sujet, message, name: fromName, csrf_token: csrfToken };
+      }
 
     async function fetchTunnelUrl() {
       try {
@@ -683,6 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fd.append('prenom', prenom);
         fd.append('nom', nom);
         fd.append('email', email);
+        fd.append('telephone', telephone);
         fd.append('sujet', sujet);
         fd.append('message', message);
         const r = await fetch('/send_mail.php', { method: 'POST', body: fd });
@@ -714,6 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'email': email,
             'Prénom': prenom,
             'Nom': nom,
+            'Téléphone': telephone,
             'Sujet': sujet,
             'Message': message,
             '_template': 'table',

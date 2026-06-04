@@ -109,7 +109,6 @@
         </div>
       </a>
       <ul class="nav__links" id="navLinks">
-        <li><a href="#hero" class="nav__link active" data-i18n="nav.home">Accueil</a></li>
         <li><a href="#about" class="nav__link" data-i18n="nav.about">À propos</a></li>
         <li><a href="#services" class="nav__link" data-i18n="nav.services">Services</a></li>
         <li><a href="#methodo" class="nav__link" data-i18n="nav.methodology">Méthodologie</a></li>
@@ -605,13 +604,23 @@
                 <span class="form__error" id="nomError"></span>
               </div>
             </div>
-            <div class="form__group">
-              <div class="form__input-wrap">
-                <i class="fas fa-envelope form__icon"></i>
-                <input type="email" id="email" name="email" placeholder=" " required autocomplete="email" />
-                <label for="email" data-i18n="form.email">Email <span class="form__required">*</span></label>
+            <div class="form__row">
+              <div class="form__group">
+                <div class="form__input-wrap">
+                  <i class="fas fa-envelope form__icon"></i>
+                  <input type="email" id="email" name="email" placeholder=" " required autocomplete="email" />
+                  <label for="email" data-i18n="form.email">Email <span class="form__required">*</span></label>
+                </div>
+                <span class="form__error" id="emailError"></span>
               </div>
-              <span class="form__error" id="emailError"></span>
+              <div class="form__group">
+                <div class="form__input-wrap">
+                  <i class="fas fa-phone form__icon"></i>
+                  <input type="tel" id="telephone" name="telephone" placeholder=" " autocomplete="tel" />
+                  <label for="telephone" data-i18n="form.phone">Téléphone</label>
+                </div>
+                <span class="form__error" id="telephoneError"></span>
+              </div>
             </div>
             <div class="form__group">
               <div class="form__input-wrap">
