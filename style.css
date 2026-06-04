@@ -107,6 +107,10 @@ img {
   padding: 0 0 100px;
 }
 
+#why {
+  padding: 0 0 100px;
+}
+
 #perf {
   padding-bottom: 100px;
 }
@@ -2130,7 +2134,7 @@ img {
   .section {
     padding: 24px 0;
   }
-  #about, #services, #methodo, #piliers, #engagement, #perf {
+  #about, #services, #methodo, #piliers, #engagement, #perf, #why {
     padding-bottom: 60px;
   }
   .section__title {
@@ -2262,7 +2266,7 @@ img {
   .section {
     padding: 20px 0;
   }
-  #about, #services, #methodo, #piliers, #engagement, #perf {
+  #about, #services, #methodo, #piliers, #engagement, #perf, #why {
     padding-bottom: 50px;
   }
   .section__title {
@@ -2531,7 +2535,7 @@ img {
   .section {
     padding: 16px 0;
   }
-  #about, #services, #methodo, #piliers, #engagement, #perf {
+  #about, #services, #methodo, #piliers, #engagement, #perf, #why {
     padding-bottom: 36px;
   }
 
@@ -3054,7 +3058,7 @@ img {
   }
 }
 
-#piliers, #faq, #engagement, #methodo {
+#piliers, #faq, #engagement, #methodo, #why {
   content-visibility: auto;
   contain-intrinsic-size: 600px;
 }
