@@ -251,8 +251,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (contactSection && footerEl) {
     function pinFooter() {
-      const h = footerEl.offsetHeight + 80;
-      footerEl.style.setProperty('--footer-h', h + 'px');
+      const h = footerEl.offsetHeight + 40;
+      document.documentElement.style.setProperty('--footer-h', h + 'px');
       footerEl.classList.add('footer--fixed');
       contactSection.classList.add('footer-pinned');
     }
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pinFooter();
         const form = document.getElementById('contactForm');
         if (form) {
-          const target = form.getBoundingClientRect().top + window.scrollY - 80;
+          const target = form.getBoundingClientRect().top + window.scrollY - 70;
           window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
         } else {
           window.scrollTo({ top: Math.max(0, contactSection.offsetTop - 10), behavior: 'smooth' });

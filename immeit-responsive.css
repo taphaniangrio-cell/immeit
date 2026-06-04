@@ -465,10 +465,6 @@ p, .section__text {
 
 /* ── 8. FOOTER ───────────────────────────────────────────── */
 
-.footer__social-link {
-  background: rgba(255, 255, 255, 0.06);
-}
-
 .footer__social-link svg {
   width: 20px !important;
   height: 20px !important;
@@ -485,12 +481,18 @@ p, .section__text {
 @media (max-width: 768px) {
   .footer__inner {
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
+  }
+
+  .footer__group {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
   }
 
   .footer__links {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     align-items: center;
   }
 
