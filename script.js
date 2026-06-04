@@ -223,10 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Active nav link on scroll =====
   const sections = document.querySelectorAll('section[id]');
 
+  const SECTION_ORDER = ['hero', 'about', 'services', 'perf', 'methodo', 'piliers', 'engagement', 'faq', 'testimonials', 'contact'];
+  let currentSectionId = 'hero';
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          currentSectionId = entry.target.id;
           navLinkItems.forEach(link => link.classList.remove('active'));
           const activeLink = document.querySelector(`.nav__link[href="#${entry.target.id}"]`);
           if (activeLink) activeLink.classList.add('active');
@@ -377,8 +381,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (backToTop) {
     backToTop.addEventListener('click', () => {
-      if (document.referrer) {
-        history.back();
+      const idx = SECTION_ORDER.indexOf(currentSectionId);
+      if (idx > 0) {
+        const prev = document.getElementById(SECTION_ORDER[idx - 1]);
+        if (prev) prev.scrollIntoView({ behavior: 'smooth' });
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
