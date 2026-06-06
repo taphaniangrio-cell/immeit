@@ -504,6 +504,10 @@ p, .section__text {
     justify-content: center;
   }
 
+  .footer__bottom {
+    justify-content: center;
+  }
+
   .footer__brand {
     justify-content: center;
   }
