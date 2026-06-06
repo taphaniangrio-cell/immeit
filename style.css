@@ -1919,14 +1919,7 @@ img {
 .footer__bottom {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.footer__social {
-  display: flex;
   gap: 8px;
-  flex-wrap: wrap;
   flex-shrink: 0;
 }
 
