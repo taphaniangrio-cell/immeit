@@ -1968,20 +1968,28 @@ img {
 }
 
 .footer__legal a {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s ease;
   display: block;
-  line-height: 1.2;
+  line-height: 0.7;
   padding: 0;
   margin: 0;
 }
 
+.footer__legal a:first-child {
+  display: flex;
+  align-items: flex-end;
+  height: 0.9rem;
+  padding-bottom: 3px;
+  margin-bottom: 0;
+}
+
 .footer__legal a + a {
   border-top: 1px solid var(--text-muted);
-  padding-top: 1px;
-  margin-top: 1px;
+  padding-top: 3px;
+  margin-top: 0;
 }
 
 .footer__legal a:hover {
@@ -2297,9 +2305,7 @@ img {
   .footer__copy {
     margin-left: auto;
   }
-  .footer__legal {
-    gap: 2px;
-  }
+
   .testimonials__grid {
     grid-template-columns: 1fr;
   }
