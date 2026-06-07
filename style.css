@@ -1402,6 +1402,11 @@ img {
   content-visibility: visible;
 }
 
+#contact .reveal {
+  opacity: 1;
+  transform: none;
+}
+
 .contact__wrap {
   display: flex;
   gap: 24px;
