@@ -1847,48 +1847,48 @@ img {
 .footer {
   background: var(--bg-alt);
   border-top: 1px solid var(--border);
-  padding: 6px 0;
+  padding: 2px 0;
 }
 
 .footer__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
-  padding-bottom: 4px;
+  gap: 3px;
+  padding-bottom: 1px;
   border-bottom: none;
 }
 
 .footer__group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
 }
 
 .footer__brand {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
   flex-shrink: 0;
 }
 
 .footer__mark {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 3px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 .footer__brand div span {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   font-weight: 700;
   display: block;
   line-height: 1;
 }
 
 .footer__brand div small {
-  font-size: 0.4rem;
+  font-size: 0.36rem;
   text-transform: uppercase;
   letter-spacing: 0.2px;
   color: var(--text-muted);
@@ -1899,11 +1899,11 @@ img {
 .footer__links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 3px;
 }
 
 .footer__links a {
-  font-size: 0.65rem;
+  font-size: 0.55rem;
   color: var(--text-light);
   transition: var(--transition);
   white-space: nowrap;
@@ -1919,7 +1919,7 @@ img {
 .footer__bottom {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 3px;
   flex-shrink: 0;
 }
 
@@ -1928,7 +1928,7 @@ img {
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
 }
 
 .footer__social-link--linkedin {
@@ -1956,7 +1956,7 @@ img {
 }
 
 .footer__copy {
-  font-size: 0.6rem;
+  font-size: 0.5rem;
   color: var(--text-muted);
   flex-shrink: 0;
 }
@@ -1968,12 +1968,12 @@ img {
 }
 
 .footer__legal a {
-  font-size: 0.65rem;
+  font-size: 0.55rem;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s ease;
   display: block;
-  line-height: 0.65;
+  line-height: 0.55;
   padding: 0;
   margin: 0;
 }
@@ -1981,14 +1981,14 @@ img {
 .footer__legal a:first-child {
   display: flex;
   align-items: flex-end;
-  height: 0.8rem;
-  padding-bottom: 2px;
+  height: 0.6rem;
+  padding-bottom: 0;
   margin-bottom: 0;
 }
 
 .footer__legal a + a {
   border-top: 1px solid var(--text-muted);
-  padding-top: 2px;
+  padding-top: 0;
   margin-top: 0;
 }
 
