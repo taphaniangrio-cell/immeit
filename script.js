@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (contactSection && footerEl) {
     function pinFooter() {
-      const h = footerEl.offsetHeight + 40;
+      const h = footerEl.offsetHeight;
       document.documentElement.style.setProperty('--footer-h', h + 'px');
       footerEl.classList.add('footer--fixed');
       contactSection.classList.add('footer-pinned');
@@ -273,12 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
     footerObserver.observe(contactSection);
 
     document.querySelectorAll('a[href="#contact"]').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        history.pushState(null, '', '#contact');
-        setTimeout(() => {
-          contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 50);
+      link.addEventListener('click', () => {
+        setTimeout(pinFooter, 500);
       });
     });
 
