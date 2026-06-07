@@ -273,8 +273,18 @@ document.addEventListener('DOMContentLoaded', () => {
     footerObserver.observe(contactSection);
 
     document.querySelectorAll('a[href="#contact"]').forEach(link => {
-      link.addEventListener('click', () => {
-        setTimeout(pinFooter, 500);
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        contactSection.querySelectorAll('.reveal').forEach(el => {
+          el.classList.remove('reveal');
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+        pinFooter();
+        requestAnimationFrame(() => {
+          const target = contactSection.getBoundingClientRect().top + window.pageYOffset - 100;
+          window.scrollTo({ top: target, behavior: 'smooth' });
+        });
       });
     });
 
