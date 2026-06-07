@@ -1862,7 +1862,7 @@ img {
 .footer__group {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 
 .footer__brand {
@@ -1881,14 +1881,14 @@ img {
 }
 
 .footer__brand div span {
-  font-size: 0.68rem;
+  font-size: 0.85rem;
   font-weight: 700;
   display: block;
   line-height: 1;
 }
 
 .footer__brand div small {
-  font-size: 0.4rem;
+  font-size: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.2px;
   color: var(--text-muted);
@@ -1903,7 +1903,7 @@ img {
 }
 
 .footer__links a {
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: var(--text-light);
   transition: var(--transition);
   white-space: nowrap;
@@ -1928,7 +1928,7 @@ img {
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
-  font-size: 0.72rem;
+  font-size: 0.9rem;
 }
 
 .footer__social-link--linkedin {
@@ -1956,7 +1956,7 @@ img {
 }
 
 .footer__copy {
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   flex-shrink: 0;
 }
@@ -1968,7 +1968,7 @@ img {
 }
 
 .footer__legal a {
-  font-size: 0.6rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s ease;
