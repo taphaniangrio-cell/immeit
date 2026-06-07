@@ -275,9 +275,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href="#contact"]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
+        document.querySelectorAll('#contact .reveal').forEach(el => el.classList.add('visible'));
         pinFooter();
         const form = document.getElementById('contactForm');
-        if (form) {
+        const submitBtn = document.getElementById('submitBtn');
+        if (form && submitBtn) {
+          const footerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--footer-h')) || 80;
+          const btnRect = submitBtn.getBoundingClientRect();
+          const target = btnRect.top + window.scrollY - footerH - 20;
+          window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+        } else if (form) {
           const target = form.getBoundingClientRect().top + window.scrollY - 70;
           window.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
         } else {
