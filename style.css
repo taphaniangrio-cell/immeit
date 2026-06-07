@@ -1847,69 +1847,69 @@ img {
 .footer {
   background: var(--bg-alt);
   border-top: 1px solid var(--border);
-  padding: 10px 0 8px;
+  padding: 4px 0;
 }
 
 .footer__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
+  gap: 4px;
+  padding-bottom: 2px;
+  border-bottom: none;
 }
 
 .footer__group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .footer__brand {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
 .footer__mark {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 .footer__brand div span {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
   display: block;
   line-height: 1;
 }
 
 .footer__brand div small {
-  font-size: 0.42rem;
+  font-size: 0.38rem;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   color: var(--text-muted);
   display: block;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .footer__links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .footer__links a {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   color: var(--text-light);
   transition: var(--transition);
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
-  line-height: 1.1;
+  line-height: 1;
 }
 
 .footer__links a:hover {
@@ -1919,7 +1919,7 @@ img {
 .footer__bottom {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
@@ -1928,7 +1928,7 @@ img {
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
 }
 
 .footer__social-link--linkedin {
@@ -1956,7 +1956,7 @@ img {
 }
 
 .footer__copy {
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   color: var(--text-muted);
   flex-shrink: 0;
 }
@@ -1968,12 +1968,12 @@ img {
 }
 
 .footer__legal a {
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s ease;
   display: block;
-  line-height: 0.7;
+  line-height: 0.6;
   padding: 0;
   margin: 0;
 }
@@ -1981,14 +1981,14 @@ img {
 .footer__legal a:first-child {
   display: flex;
   align-items: flex-end;
-  height: 0.9rem;
-  padding-bottom: 3px;
+  height: 0.7rem;
+  padding-bottom: 1px;
   margin-bottom: 0;
 }
 
 .footer__legal a + a {
   border-top: 1px solid var(--text-muted);
-  padding-top: 3px;
+  padding-top: 1px;
   margin-top: 0;
 }
 
