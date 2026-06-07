@@ -1881,14 +1881,14 @@ img {
 }
 
 .footer__brand div span {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   display: block;
   line-height: 1;
 }
 
 .footer__brand div small {
-  font-size: 0.5rem;
+  font-size: 0.55rem;
   text-transform: uppercase;
   letter-spacing: 0.2px;
   color: var(--text-muted);
@@ -1903,7 +1903,7 @@ img {
 }
 
 .footer__links a {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--text-light);
   transition: var(--transition);
   white-space: nowrap;
@@ -1956,7 +1956,7 @@ img {
 }
 
 .footer__copy {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
   flex-shrink: 0;
 }
@@ -1968,7 +1968,7 @@ img {
 }
 
 .footer__legal a {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s ease;
