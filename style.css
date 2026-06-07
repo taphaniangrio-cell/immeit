@@ -1973,14 +1973,15 @@ img {
   text-decoration: none;
   transition: color 0.2s ease;
   display: block;
-  line-height: 1;
+  line-height: 1.2;
   padding: 0;
+  margin: 0;
 }
 
 .footer__legal a + a {
   border-top: 1px solid var(--text-muted);
-  padding-top: 2px;
-  margin-top: 2px;
+  padding-top: 1px;
+  margin-top: 1px;
 }
 
 .footer__legal a:hover {
