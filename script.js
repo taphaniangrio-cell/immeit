@@ -282,8 +282,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         pinFooter();
         requestAnimationFrame(() => {
-          const target = contactSection.getBoundingClientRect().top + window.pageYOffset - 100;
-          window.scrollTo({ top: target, behavior: 'smooth' });
+          const btn = document.getElementById('submitBtn');
+          if (btn) {
+            const btnRect = btn.getBoundingClientRect();
+            const footerH = footerEl.offsetHeight;
+            const target = btnRect.top + window.pageYOffset - (window.innerHeight - btnRect.height - footerH - 20);
+            window.scrollTo({ top: target, behavior: 'smooth' });
+          }
         });
       });
     });
