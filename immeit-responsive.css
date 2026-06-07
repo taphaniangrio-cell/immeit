@@ -466,38 +466,34 @@ p, .section__text {
 /* ── 8. FOOTER ───────────────────────────────────────────── */
 
 .footer__social-link svg {
-  width: 20px !important;
-  height: 20px !important;
+  width: 14px !important;
+  height: 14px !important;
   display: block !important;
-}
-
-@media (max-width: 1024px) {
-  .footer__links {
-    gap: 12px;
-  }
-
 }
 
 @media (max-width: 768px) {
   .footer__inner {
     flex-direction: column;
-    gap: 1rem;
+    gap: 4px;
   }
 
   .footer__group {
-    flex-direction: column;
-    gap: 0.75rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
     align-items: center;
   }
 
   .footer__links {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
     align-items: center;
+    justify-content: center;
   }
 
   .footer__links a {
-    font-size: 0.95rem;
+    font-size: 0.6rem;
   }
 
   .footer__bottom {
@@ -505,10 +501,6 @@ p, .section__text {
   }
 
   .footer__brand {
-    justify-content: center;
-  }
-
-  .footer__legal {
     justify-content: center;
   }
 }
