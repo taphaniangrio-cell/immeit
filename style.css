@@ -1266,8 +1266,6 @@ img {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  content-visibility: auto;
-  contain-intrinsic-size: 400px;
 }
 
 .faq__item {
@@ -1324,8 +1322,6 @@ img {
 /* ===== TESTIMONIALS ===== */
 .testimonials-section {
   background: var(--bg-alt);
-  content-visibility: auto;
-  contain-intrinsic-size: 500px;
 }
 
 .testimonials__grid {
@@ -3122,8 +3118,7 @@ img {
 }
 
 #piliers, #faq, #engagement, #methodo, #why {
-  content-visibility: auto;
-  contain-intrinsic-size: 600px;
+  contain-intrinsic-size: auto;
 }
 
 /* Blink animation */
