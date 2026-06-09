@@ -4,6 +4,27 @@
    Adapté aux classes BEM réelles du HTML
    ============================================================ */
 
+/* ── LANGUAGE SWITCHER ──────────────────────────────────── */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 0;
+  line-height: 0;
+}
+
+.lang-switcher__flag {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 /* ── 1. VARIABLES & BASE ──────────────────────────────────── */
 
 :root {
