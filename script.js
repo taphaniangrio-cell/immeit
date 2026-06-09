@@ -159,50 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
     badgeInner.classList.add('scroll');
   }
 
-  // ===== Mobile menu =====
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  const navOverlay = document.getElementById('navOverlay');
-  const navLinkItems = document.querySelectorAll('.nav__link');
-
-  function closeNav() {
-    hamburger.classList.remove('active');
-    hamburger.setAttribute('aria-expanded', 'false');
-    navLinks.classList.remove('active');
-    navOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  function openNav() {
-    hamburger.classList.add('active');
-    hamburger.setAttribute('aria-expanded', 'true');
-    navLinks.classList.add('active');
-    navOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  hamburger.addEventListener('click', () => {
-    if (navLinks.classList.contains('active')) {
-      closeNav();
-    } else {
-      openNav();
-    }
-  });
-
-  navOverlay.addEventListener('click', closeNav);
-
-  navLinkItems.forEach(link => {
-    link.addEventListener('click', closeNav);
-  });
-
-  // Fermer le menu si redimensionnement > 900px
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 900 && navLinks.classList.contains('active')) {
-      closeNav();
-    }
-  });
-
   // ===== Active nav link on scroll =====
+  const navLinkItems = document.querySelectorAll('.nav__link');
   const sections = document.querySelectorAll('section[id]');
 
   const SECTION_ORDER = ['hero', 'about', 'services', 'perf', 'methodo', 'piliers', 'engagement', 'why', 'faq', 'contact'];
@@ -284,37 +242,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===== Counter animation =====
-  const counters = document.querySelectorAll('[data-count]');
-
-  const counterObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          if (el.dataset.animated) return;
-          el.dataset.animated = 'true';
-          const target = parseInt(el.getAttribute('data-count'));
-          const suffix = el.getAttribute('data-suffix') || '+';
-          let current = 0;
-          const increment = Math.ceil(target / 60);
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              current = target;
-              clearInterval(timer);
-            }
-            el.textContent = current + suffix;
-          }, 30);
-          counterObserver.unobserve(el);
-        }
-      });
-    },
-    { threshold: 0.5 }
-  );
-
-  counters.forEach(counter => counterObserver.observe(counter));
-
   // ===== Performance bars =====
   const perfBars = document.querySelectorAll('.perf__bar');
   const perfValues = document.querySelectorAll('[id^="perfVal"]');
@@ -355,23 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   perfBars.forEach(bar => perfObserver.observe(bar));
-
-  // ===== Reveal on scroll =====
-  const revealElements = document.querySelectorAll('.reveal');
-
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.08 }
-  );
-
-  revealElements.forEach(el => revealObserver.observe(el));
 
   // ===== Back to top =====
   const backToTop = document.getElementById('backToTop');
@@ -731,31 +641,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch {}
     }
 
-    // 5) Fallback Web3Forms
-    if (!ok) {
-      try {
-        const r = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          body: new URLSearchParams({
-            'access_key': '1537e384-9a6b-433e-b684-a6916a6de7e5',
-            'subject': `[IMMEIT] ${fromName} - ${sujet}`,
-            'from_name': fromName,
-            'email': email,
-            'Prénom': prenom,
-            'Nom': nom,
-            'Téléphone': telephone,
-            'Sujet': sujet,
-            'Message': message,
-            '_template': 'table',
-            '_replyto': email,
-            '_replyto_name': fromName,
-          })
-        });
-        const d = await r.json();
-        if (d.success) ok = true;
-      } catch {}
-    }
-
     if (ok) {
       setLoading(false);
       showConfirmation('<i class="fas fa-check-circle"></i> ' + (window.I18N?.__('toast.success') || 'Message envoyé avec succès ! Nous vous répondrons sous 24h.'));
@@ -766,13 +651,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLoading(false);
     showConfirmation('<i class="fas fa-exclamation-circle"></i> ' + (window.I18N?.__('toast.error') || 'Échec de l\'envoi. Écrivez-nous à ') + '<a href="mailto:contact@immeit.com">contact@immeit.com</a>');
-  });
-
-  // ===== Keyboard shortcut =====
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-      closeNav();
-    }
   });
 
   // ===== GA tracking — contact links =====

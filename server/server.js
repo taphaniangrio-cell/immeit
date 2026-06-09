@@ -211,7 +211,7 @@ const SOCIAL_BOTS = /facebookexternalhit|Facebot|WhatsApp|Twitterbot|LinkedInBot
 app.use((req, res, next) => {
   const ua = req.headers['user-agent'] || '';
   if (req.path === '/' && SOCIAL_BOTS.test(ua)) {
-    return res.sendFile(path.join(__dirname, 'og-share.html'));
+    return res.sendFile(path.join(__dirname, '..', 'index.html'));
   }
   next();
 });
@@ -497,9 +497,7 @@ app.get('/api/config', (req, res) => {
   });
 });
 
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
-});
+// Admin route removed — admin.html does not exist in this project
 
 app.get('/api/*', (req, res) => {
   res.status(404).json({ error: 'Not found' });
@@ -507,7 +505,7 @@ app.get('/api/*', (req, res) => {
 
 app.get('*', (req, res) => {
   if (req.accepts('html')) {
-    res.status(404).sendFile(path.join(__dirname, '404.html'));
+    res.status(404).sendFile(path.join(__dirname, '..', '404.html'));
   } else if (req.accepts('json')) {
     res.status(404).json({ error: 'Not found' });
   } else {
