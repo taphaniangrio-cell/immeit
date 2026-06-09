@@ -3061,17 +3061,22 @@ img {
   padding: 30px 0;
   background: linear-gradient(135deg, rgba(31, 83, 140, 0.06), rgba(201, 154, 62, 0.04));
   border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .service-detail__cta h3 {
   font-size: 1.4rem;
   color: #fff;
   margin-bottom: 10px;
+  max-width: 600px;
 }
 
 .service-detail__cta p {
   color: var(--text-light);
   margin-bottom: 20px;
+  max-width: 600px;
 }
 
 @media (max-width: 992px) {
