@@ -5,6 +5,8 @@
   "meta.ogDescription": "IMMEIT - Maintenance methods and industrial performance, multi-technical maintenance, air conditioning installation. Based in Dakar Senegal and Paris France.",
   "meta.twitterDescription": "IMMEIT - Maintenance methods and industrial performance, multi-technical maintenance, air conditioning installation.",
 
+  "skipLink": "Skip to main content",
+
   "nav.tagline": "Installation, Methods & Maintenance<br>of Industrial & Tertiary Equipment",
   "nav.home": "Home",
   "nav.about": "About",
@@ -20,11 +22,8 @@
   "hero.description": "IMMEIT specializes in <span class=\"text--accent\">maintenance</span> methods and industrial <span class=\"text--accent\">performance</span>, <span class=\"text--accent\">multi-technical</span> maintenance and <span class=\"text--accent\">air conditioning</span> system installation. Based in Senegal <svg class=\"contact__flag\" viewBox=\"0 0 3 2\" width=\"16\" height=\"12\"><rect width=\"1\" height=\"2\" fill=\"#00853F\"/><rect x=\"1\" width=\"1\" height=\"2\" fill=\"#FDEF42\"/><rect x=\"2\" width=\"1\" height=\"2\" fill=\"#E31B23\"/><polygon points=\"1.5,0.65 1.6,0.9 1.88,0.93 1.67,1.13 1.71,1.4 1.5,1.27 1.29,1.4 1.33,1.13 1.12,0.93 1.4,0.9\" fill=\"#00853F\"/></svg> Dakar and France <svg class=\"contact__flag\" viewBox=\"0 0 3 2\" width=\"16\" height=\"12\"><rect width=\"1\" height=\"2\" fill=\"#002395\"/><rect x=\"1\" width=\"1\" height=\"2\" fill=\"#fff\"/><rect x=\"2\" width=\"1\" height=\"2\" fill=\"#ED2939\"/></svg> Paris, we design tailor-made solutions to guarantee the <span class=\"text--accent\">performance</span>, <span class=\"text--accent\">reliability</span> and <span class=\"text--accent\">longevity</span> of your equipment.",
   "hero.cta": "Contact us",
   "hero.services": "Our services",
-  "hero.stat1.value": "2+",
   "hero.stat1.label": "Clients supported",
-  "hero.stat2.value": "5",
   "hero.stat2.label": "Employees",
-  "hero.stat3.value": "5+",
   "hero.stat3.label": "Areas of expertise",
   "hero.partners": "Our partners",
 
@@ -43,8 +42,6 @@
   "services.card1.cta": "Discover <i class=\"fas fa-arrow-right\"></i>",
   "services.card2.title": "Air Conditioning",
   "services.card2.cta": "Discover <i class=\"fas fa-arrow-right\"></i>",
-  "services.card3.title": "Multi-technical Maintenance",
-  "services.card3.cta": "Discover <i class=\"fas fa-arrow-right\"></i>",
 
   "perf.tag": "Performance indicators",
   "perf.title": "<span class=\"text--accent\">Measurable</span> and concrete results",
@@ -145,7 +142,6 @@
   "form.message": "Message",
   "form.send": "Send",
   "form.sending": "Sending...",
-  "form.charRemaining": "2000",
 
   "footer.about": "About",
   "footer.services": "Services",
@@ -174,6 +170,7 @@
   "toast.message": "Please fill in your message",
   "toast.required": "Please fill in all required fields",
   "toast.success": "Message sent successfully! We will respond within 24h.",
+  "toast.phone": "Invalid phone number",
   "toast.error": "Sending failed. Write to us at ",
 
   "mm.meta.title": "Maintenance Methods & Performance - IMMEIT",
@@ -274,7 +271,5 @@
   "clim.cta.desc1": "Our expertise in maintenance and performance of technical equipment allows us to offer sustainable solutions adapted to the requirements of tertiary, industrial and residential environments.",
   "clim.cta.title2": "Contact us",
   "clim.cta.desc2": "Add value to your air conditioning installations with a reliable, efficient and controlled solution.",
-  "clim.cta.desc3": "IMMEIT is your partner for sustainable comfort and optimal performance.",
-
   "clim.cta.desc3": "IMMEIT is your partner for sustainable comfort and optimal performance."
 }
