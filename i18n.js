@@ -93,8 +93,6 @@
     const path = window.location.pathname;
     if (path.includes('methodes-maintenance')) return 'mm.';
     if (path.includes('climatisation')) return 'clim.';
-    if (path.includes('maintenance-multi-technique')) return 'mmt.';
-    if (path.includes('pourquoi-choisir-immeit')) return 'why.';
     return '';
   }
 
