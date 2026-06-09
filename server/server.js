@@ -141,16 +141,6 @@ async function sendViaFormsubmit(msg) {
   });
 }
 
-function escapeHtml(str) {
-  if (typeof str !== 'string') return '';
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
 async function processRetryQueue() {
   const messages = loadMessages();
   const pending = messages.filter(m => m.status === 'pending');

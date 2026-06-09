@@ -235,22 +235,6 @@ img {
   transform: translateY(-2px);
 }
 
-.btn--accent {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(201, 154, 62, 0.3);
-}
-
-.btn--accent:hover {
-  background: var(--accent-dark);
-  box-shadow: 0 8px 32px rgba(201, 154, 62, 0.45);
-  transform: translateY(-2px);
-}
-
-.btn--accent:active {
-  transform: translateY(0) scale(0.98);
-}
-
 .pulse-btn {
   animation: pulseBtn 2s ease-in-out infinite;
 }
@@ -1939,14 +1923,6 @@ img {
   color: #083d73;
 }
 
-.footer__social-link--facebook {
-  color: #1877F2;
-}
-
-.footer__social-link--facebook:hover {
-  color: #0f5cb8;
-}
-
 .footer__social-link--whatsapp {
   color: #25D366;
 }
@@ -3123,35 +3099,6 @@ img {
 
 #piliers, #faq, #engagement, #methodo, #why {
   contain-intrinsic-size: auto;
-}
-
-/* Blink animation */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.blink-text {
-  animation: none;
-}
-
-/* ===== LANGUAGE SWITCHER ===== */
-.lang-switcher {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0 4px;
-  -webkit-tap-highlight-color: transparent;
-  flex-shrink: 0;
-  line-height: 0;
-}
-
-.lang-switcher__flag {
-  display: block;
-  object-fit: cover;
 }
 
 .hamburger {

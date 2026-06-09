@@ -7,21 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.style.scrollBehavior = '';
   }
  
-   // ===== CSRF Token =====
-    function generateCSRFToken() {
-      const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      const hiddenInput = document.getElementById('csrf_token_input');
-      if (hiddenInput) hiddenInput.value = token;
-      return token;
-    }
-   
-   // Generate token on page load
-   generateCSRFToken();
-   
-   // Regenerate token periodically (every hour) to prevent token theft
-   setInterval(generateCSRFToken, 3600000);
- 
-   // ===== Loader =====
+  // ===== Loader =====
   const loader = document.getElementById('loader');
   window.addEventListener('load', () => {
     setTimeout(() => loader.classList.add('hidden'), 300);
@@ -670,8 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const WORKER_API = window.WORKER_API_URL || ''; // configurable via injection serveur
 
      function buildApiPayload() {
-        const csrfToken = document.getElementById('csrf_token_input')?.value || '';
-        return { prenom, nom, email, telephone, subject: sujet, message, name: fromName, csrf_token: csrfToken };
+        return { prenom, nom, email, telephone, subject: sujet, message, name: fromName };
       }
 
     async function fetchTunnelUrl() {
