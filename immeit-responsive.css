@@ -7,17 +7,13 @@
 /* ── 1. VARIABLES & BASE ──────────────────────────────────── */
 
 :root {
-  --bp-mobile: 480px;
-  --bp-tablet: 768px;
-  --bp-laptop: 1024px;
-  --bp-desktop: 1280px;
 
-  --space-xs:  clamp(0.5rem, 1vw, 0.75rem);
-  --space-sm:  clamp(0.75rem, 1.5vw, 1rem);
+
+  --space-sm: clamp(0.75rem, 1.5vw, 1rem);
   --space-md:  clamp(1rem, 2.5vw, 1.5rem);
   --space-lg:  clamp(1.5rem, 4vw, 3rem);
   --space-xl:  clamp(2rem, 6vw, 5rem);
-  --space-xxl: clamp(3rem, 8vw, 7rem);
+
 
   --container-padding: clamp(1rem, 5vw, 2rem);
 }
@@ -51,7 +47,7 @@ input[type="submit"], input[type="button"] {
 
 /* ── 2. TYPOGRAPHIE FLUIDE ───────────────────────────────── */
 
-h1, .h1-like {
+h1 {
   font-size: clamp(1.75rem, 4vw + 0.75rem, 3.5rem);
   line-height: 1.15;
 }
@@ -136,6 +132,7 @@ p, .section__text {
   }
 
   .nav__links {
+    display: flex;
     position: fixed;
     top: 0;
     right: -100%;
@@ -392,6 +389,10 @@ p, .section__text {
   .engagement__grid {
     grid-template-columns: 1fr;
     gap: var(--space-sm);
+  }
+
+  #services .services__grid {
+    grid-template-columns: 1fr;
   }
 
   .service-card,
