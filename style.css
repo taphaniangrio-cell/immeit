@@ -13,7 +13,6 @@
   --text-light: #c8d0dc;
   --text-muted: #8899b0;
   --border: #243044;
-  --border-light: #2d3a4e;
   --success: #10b981;
   --error: #ef4444;
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
@@ -2028,6 +2027,11 @@ img {
   transform: translateY(-4px);
 }
 
+/* ===== LEGAL PAGES ===== */
+.legal-page {
+  min-height: 100vh;
+}
+
 /* ===== REVEAL ON SCROLL ===== */
 .reveal {
   opacity: 0;
@@ -2038,6 +2042,10 @@ img {
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.blink-text {
+  color: var(--text-light);
 }
 
 @keyframes shake {
@@ -2156,9 +2164,6 @@ img {
   }
   .hero__stats-group {
     gap: 20px;
-  }
-  .hero__stats .btn {
-    display: none;
   }
 
   .section {
@@ -3027,10 +3032,6 @@ img {
 
 .service-detail__hero .section__header {
   margin-bottom: 0;
-}
-
-.service-detail__hero .services__grid {
-  margin-top: 1rem;
 }
 
 .service-detail__hero::before {

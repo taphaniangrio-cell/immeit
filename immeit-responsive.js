@@ -55,21 +55,6 @@
     });
   }
 
-  /* ── 2. FAQ ACCORDÉON ─────────────────────────────────── */
-  const faqItems = document.querySelectorAll('.faq__item');
-
-  if (faqItems.length > 0 && typeof toggleFaq === 'undefined') {
-    window.toggleFaq = function (el) {
-      const isOpen = el.classList.contains('open');
-      faqItems.forEach(function (item) {
-        item.classList.remove('open');
-      });
-      if (!isOpen) {
-        el.classList.add('open');
-      }
-    };
-  }
-
   /* ── 3. COMPTEURS ANIMÉS ──────────────────────────────── */
   function animateCounter(el, target, duration) {
     var start = 0;
@@ -195,20 +180,6 @@
   }
 
   /* ── 6. SCROLL REVEAL ─────────────────────────────────── */
-  var style = document.createElement('style');
-  style.textContent = [
-    '.reveal {',
-    '  opacity: 0;',
-    '  transform: translateY(30px);',
-    '  transition: opacity 0.6s ease, transform 0.6s ease;',
-    '}',
-    '.reveal.visible {',
-    '  opacity: 1;',
-    '  transform: translateY(0);',
-    '}'
-  ].join('');
-  document.head.appendChild(style);
-
   var revealEls = document.querySelectorAll('.reveal');
 
   if (revealEls.length > 0 && 'IntersectionObserver' in window) {

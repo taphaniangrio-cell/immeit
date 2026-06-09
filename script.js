@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== Active nav link on scroll =====
   const sections = document.querySelectorAll('section[id]');
 
-  const SECTION_ORDER = ['hero', 'about', 'services', 'methodo', 'piliers', 'engagement', 'why', 'contact'];
+  const SECTION_ORDER = ['hero', 'about', 'services', 'perf', 'methodo', 'piliers', 'engagement', 'why', 'faq', 'contact'];
 
   function getCurrentSectionId() {
     const active = document.querySelector('.nav__link.active');
@@ -292,6 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
+          if (el.dataset.animated) return;
+          el.dataset.animated = 'true';
           const target = parseInt(el.getAttribute('data-count'));
           const suffix = el.getAttribute('data-suffix') || '+';
           let current = 0;
