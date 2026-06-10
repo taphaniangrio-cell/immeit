@@ -13,7 +13,11 @@
    <meta name="author" content="IMMEIT">
    <meta property="og:title" content="IMMEIT — Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires" />
   <meta property="og:description" content="IMMEIT - Méthodes maintenance et performance industrielle, installation climatisation. Basé à Dakar Sénégal et Paris France." />
-  <meta property="og:image" content="https://www.immeit.com/og-image.svg" />
+  <meta property="og:image" content="https://www.immeit.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="IMMEIT — Expert en méthodes de maintenance et performance industrielle" />
   <meta property="og:url" content="https://www.immeit.com" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -28,11 +32,13 @@
     <title>IMMEIT — Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires</title>
   <link rel="icon" type="image/jpeg" href="logo-immeit.jpeg" />
   <link rel="apple-touch-icon" href="logo-immeit.jpeg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <!-- Preconnect pour ressources tierces -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="//formspree.io">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
   <link rel="preload" as="image" href="indicateur-de-production.jpg" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -53,35 +59,73 @@
 <link rel="stylesheet" href="style.css?v=38" />
     <link rel="stylesheet" href="immeit-responsive.css?v=16" />
    <script>window.WORKER_API_URL='https://immeit.taphaniangrio.workers.dev'</script>
+  <!-- Données structurées Schema.org — LocalBusiness -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "IMMEIT",
-    "alternateName": "Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires",
+    "alternateName": "Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires",
+    "description": "Cabinet expert en méthodes de maintenance et performance industrielle, accompagnant les entreprises de Dakar à Paris dans la fiabilisation de leurs équipements.",
     "url": "https://www.immeit.com",
-    "logo": "https://www.immeit.com/logo-immeit.jpeg",
-    "description": "Société spécialisée en méthodes de maintenance, performance industrielle, fiabilisation des équipements et climatisation.",
+    "logo": "https://www.immeit.com/logo-immeit.svg",
+    "image": "https://www.immeit.com/og-image.png",
+    "telephone": "+221710338809",
+    "email": "contact@immeit.com",
     "foundingDate": "2024",
     "founder": {
       "@type": "Person",
       "name": "Yelli NIANG"
     },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Cité Safco Niacoulrab, Villa N°40",
-      "postalCode": "11515",
-      "addressLocality": "Keur Massar, Dakar",
-      "addressCountry": "SN"
-    },
-    "telephone": ["+221710338809", "+33754011945"],
-    "email": "contact@immeit.com",
-    "areaServed": ["SN", "FR", "ML", "CI"],
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "Cité Safco Niacoulrab, Villa N°40",
+        "postalCode": "11515",
+        "addressLocality": "Keur Massar, Dakar",
+        "addressCountry": "SN"
+      },
+      {
+        "@type": "PostalAddress",
+        "addressLocality": "Paris",
+        "addressCountry": "FR"
+      }
+    ],
+    "areaServed": [
+      { "@type": "Country", "name": "Sénégal" },
+      { "@type": "Country", "name": "France" },
+      { "@type": "Country", "name": "Mali" },
+      { "@type": "Country", "name": "Côte d'Ivoire" }
+    ],
     "sameAs": [
       "https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/"
-    ]
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Services IMMEIT",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Audit de maintenance industrielle" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Méthodes de maintenance (AMDEC, GMAO, KPI)" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Maintenance climatisation CVC" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Plans de maintenance préventive et réglementaire" } }
+      ]
+    }
   }
   </script>
+  <!-- Consent Mode v2 Google — refus par défaut (RGPD) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'analytics_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'wait_for_update': 2000
+    });
+    gtag('js', new Date());
+  </script>
+
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZR5ML3JB"></script>
   <script>
@@ -89,6 +133,84 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-5YZR5ML3JB');
+  </script>
+
+  <!-- Bandeau consentement cookies (cookieconsent v3 — gratuit, RGPD-ready) -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css">
+  <script defer
+    src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js">
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      CookieConsent.run({
+        guiOptions: {
+          consentModal: { layout: 'bar', position: 'bottom' }
+        },
+        categories: {
+          necessary: {
+            enabled: true,
+            readOnly: true
+          },
+          analytics: {
+            enabled: false,
+            services: {
+              ga4: {
+                label: 'Google Analytics 4',
+                onAccept: function () {
+                  gtag('consent', 'update', { 'analytics_storage': 'granted' });
+                },
+                onReject: function () {
+                  gtag('consent', 'update', { 'analytics_storage': 'denied' });
+                }
+              }
+            }
+          }
+        },
+        language: {
+          default: 'fr',
+          translations: {
+            fr: {
+              consentModal: {
+                title: 'Nous utilisons des cookies',
+                description: 'IMMEIT utilise Google Analytics pour mesurer l\'audience du site de façon anonymisée. Vous pouvez accepter ou refuser ce cookie.',
+                acceptAllBtn: 'Tout accepter',
+                acceptNecessaryBtn: 'Refuser',
+                showPreferencesBtn: 'Personnaliser',
+                footer: '<a href="/mentions-legales.html">Mentions légales</a> · <a href="/politique-confidentialite.html">Politique de confidentialité</a>'
+              },
+              preferencesModal: {
+                title: 'Préférences cookies',
+                acceptAllBtn: 'Tout accepter',
+                acceptNecessaryBtn: 'Tout refuser',
+                savePreferencesBtn: 'Enregistrer',
+                sections: [
+                  {
+                    title: 'Cookies nécessaires',
+                    description: 'Ces cookies sont indispensables au fonctionnement du site.',
+                    linkedCategory: 'necessary'
+                  },
+                  {
+                    title: 'Cookies de mesure d\'audience',
+                    description: 'Google Analytics mesure les visites de façon anonymisée pour améliorer le site.',
+                    linkedCategory: 'analytics'
+                  }
+                ]
+              }
+            }
+          }
+        }
+      });
+
+      // Lien "Gérer mes cookies" dans mentions légales
+      var btn = document.getElementById('open-cookie-preferences');
+      if (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          CookieConsent.showPreferences();
+        });
+      }
+    });
   </script>
 </head>
 <body>
@@ -159,10 +281,16 @@
           <span class="hero__logos-title" data-i18n="hero.partners">Nos partenaires</span>
           <div class="hero__logos-group">
             <a href="https://p2m-icm.com/" class="hero__logo-link" id="p2mLogo" target="_blank" rel="noopener">
-              <img src="logo-P2M.jpeg" alt="Logo P2M - Partenaire" class="hero__logo-duplicate" loading="lazy">
+              <picture>
+                <source srcset="logo-P2M.webp" type="image/webp">
+                <img src="logo-P2M.jpeg" alt="Logo P2M - Partenaire" class="hero__logo-duplicate" loading="lazy" width="120" height="60">
+              </picture>
             </a>
             <a href="https://www.industrelec.com/" class="hero__logo-link" id="industrielecLogo" target="_blank" rel="noopener">
-              <img src="logo-INDUSTRELEC.jpeg" alt="Logo INDUSTRELEC - Partenaire" class="hero__logo-duplicate" loading="lazy">
+              <picture>
+                <source srcset="logo-INDUSTRELEC.webp" type="image/webp">
+                <img src="logo-INDUSTRELEC.jpeg" alt="Logo INDUSTRELEC - Partenaire" class="hero__logo-duplicate" loading="lazy" width="120" height="60">
+              </picture>
             </a>
           </div>
         </div>
@@ -727,7 +855,7 @@
       <div class="footer__inner">
         <div class="footer__group">
           <div class="footer__brand">
-            <img src="logo-immeit.jpeg" alt="IMMEIT" width="60" height="60" class="footer__mark" loading="lazy" />
+            <img src="/logo-immeit.svg" alt="IMMEIT" width="110" height="55" onerror="this.onerror=null; this.src='/logo-immeit.jpeg';" loading="lazy" />
           </div>
           <div class="footer__links">
             <a href="#about" data-i18n="footer.about">À propos</a>
@@ -748,6 +876,11 @@
           </a>
           <span class="footer__copy" data-i18n="footer.copyright">&copy; 2026 IMMEIT</span>
           <a href="https://wa.me/221710338809" target="_blank" rel="noopener" aria-label="WhatsApp" class="footer__social-link footer__social-link--whatsapp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="https://wa.me/33754011945"
+            target="_blank" rel="noopener" aria-label="Contacter IMMEIT sur WhatsApp France"
+            class="footer__social-link footer__social-link--whatsapp">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           </a>
         </div>
