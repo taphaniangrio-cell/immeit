@@ -268,8 +268,11 @@
 
       <div class="footer-brand">
         <a href="/">
-          <img src="/logo-immeit.svg" alt="IMMEIT — Retour à l'accueil" width="110" height="55"
-            onerror="this.onerror=null; this.src='/logo-immeit.jpeg';">
+          <picture>
+            <source srcset="/logo-immeit.webp" type="image/webp">
+            <source srcset="/logo-immeit.jpeg" type="image/jpeg">
+            <img src="/logo-immeit.jpeg" alt="IMMEIT — Retour à l'accueil" width="120" height="40" loading="lazy">
+          </picture>
         </a>
         <p class="footer-tagline">Expert en méthodes de maintenance<br>et performance industrielle</p>
       </div>
