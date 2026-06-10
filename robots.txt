@@ -1,9 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /server/
-Disallow: /send_mail.php
-Disallow: /api/
-Disallow: /*.json$
-Disallow: /*.env$
+Disallow:
 
 Sitemap: https://www.immeit.com/sitemap.xml
