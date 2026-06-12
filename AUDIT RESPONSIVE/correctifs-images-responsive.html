@@ -1,0 +1,233 @@
+<!--
+  ============================================================
+  CORRECTIFS IMAGES RESPONSIVE — IMMEIT (www.immeit.com)
+  Ce fichier documente les remplacements à effectuer dans index.html
+  et les pages secondaires.
+  ============================================================
+
+  ÉTAPE 1 — Convertir en WebP (via cPanel File Manager ou outils locaux)
+  -----------------------------------------------------------------------
+  Outils gratuits recommandés :
+    - https://squoosh.app (en ligne, qualité 80, WebP)
+    - cwebp (ligne de commande) : cwebp -q 80 input.jpg -o output.webp
+    - Photoshop / GIMP → Exporter en WebP
+
+  Images à convertir :
+    indicateur-de-production.jpg  → indicateur-de-production.webp (+ srcset 480w/768w/1200w)
+    logo-immeit.jpeg              → logo-immeit.webp
+    logo-P2M.jpeg                 → logo-P2M.webp
+    logo-INDUSTRELEC.jpeg         → logo-INDUSTRELEC.webp
+
+  ÉTAPE 2 — Remplacer les balises <img> dans le HTML
+  ---------------------------------------------------
+  Conserver les JPEG en fallback via <picture> pour les anciens navigateurs.
+-->
+
+<!-- ============================================================
+     IMAGE HÉRO — indicateur-de-production
+     Remplacement dans index.html
+     ============================================================ -->
+
+<!-- AVANT (version actuelle) : -->
+<img src="https://www.immeit.com/indicateur-de-production.jpg"
+     alt="Tableau de bord d'indicateurs de production industrielle">
+
+<!-- APRÈS (version corrigée — WebP + srcset + dimensions + preload) : -->
+<!-- NOTE : ajouter dans <head> AVANT le CSS :
+     <link rel="preload" as="image" href="indicateur-de-production.webp" type="image/webp">
+-->
+<picture>
+  <source
+    type="image/webp"
+    srcset="indicateur-de-production-480.webp 480w,
+            indicateur-de-production-768.webp 768w,
+            indicateur-de-production.webp 1200w"
+    sizes="(max-width: 480px) 100vw,
+           (max-width: 768px) 100vw,
+           100vw">
+  <source
+    type="image/jpeg"
+    srcset="indicateur-de-production-480.jpg 480w,
+            indicateur-de-production-768.jpg 768w,
+            indicateur-de-production.jpg 1200w"
+    sizes="(max-width: 480px) 100vw,
+           (max-width: 768px) 100vw,
+           100vw">
+  <img
+    src="indicateur-de-production.jpg"
+    alt="Tableau de bord d'indicateurs de production industrielle"
+    width="1200"
+    height="675"
+    fetchpriority="high"
+    decoding="async">
+</picture>
+
+
+<!-- ============================================================
+     LOGO IMMEIT (section about et footer)
+     ============================================================ -->
+
+<!-- AVANT : -->
+<img src="https://www.immeit.com/logo-immeit.jpeg" alt="IMMEIT">
+
+<!-- APRÈS : -->
+<picture>
+  <source type="image/webp" srcset="logo-immeit.webp">
+  <img
+    src="logo-immeit.jpeg"
+    alt="IMMEIT — Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires"
+    width="200"
+    height="80"
+    loading="lazy"
+    decoding="async">
+</picture>
+
+
+<!-- ============================================================
+     LOGO P2M (partenaires)
+     ============================================================ -->
+
+<!-- AVANT : -->
+<a href="https://p2m-icm.com/">
+  <img src="https://www.immeit.com/logo-P2M.jpeg" alt="Logo P2M - Partenaire">
+</a>
+
+<!-- APRÈS : -->
+<a href="https://p2m-icm.com/" target="_blank" rel="noopener noreferrer">
+  <picture>
+    <source type="image/webp" srcset="logo-P2M.webp">
+    <img
+      src="logo-P2M.jpeg"
+      alt="P2M — Partenaire IMMEIT"
+      width="160"
+      height="64"
+      loading="lazy"
+      decoding="async">
+  </picture>
+</a>
+
+
+<!-- ============================================================
+     LOGO INDUSTRELEC (partenaires)
+     ============================================================ -->
+
+<!-- AVANT : -->
+<a href="https://www.industrelec.com/">
+  <img src="https://www.immeit.com/logo-INDUSTRELEC.jpeg" alt="Logo INDUSTRELEC - Partenaire">
+</a>
+
+<!-- APRÈS : -->
+<a href="https://www.industrelec.com/" target="_blank" rel="noopener noreferrer">
+  <picture>
+    <source type="image/webp" srcset="logo-INDUSTRELEC.webp">
+    <img
+      src="logo-INDUSTRELEC.jpeg"
+      alt="Industrelec — Partenaire IMMEIT"
+      width="160"
+      height="64"
+      loading="lazy"
+      decoding="async">
+  </picture>
+</a>
+
+
+<!-- ============================================================
+     CORRECTIF COMPTEURS KPI — IntersectionObserver fallback
+     Remplacer/compléter le script JS existant des compteurs
+     ============================================================ -->
+<script>
+// Compteurs KPI — version robuste avec fallback iOS Safari
+document.addEventListener('DOMContentLoaded', function() {
+  const counters = document.querySelectorAll('[data-target]');
+
+  // Valeurs cibles (ajouter data-target="XX" sur chaque élément counter dans le HTML)
+  // Exemple HTML : <span class="counter" data-target="95" data-suffix="%">0</span>
+
+  if (!('IntersectionObserver' in window)) {
+    // Fallback : afficher directement les valeurs finales
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target'), 10);
+      const suffix = counter.getAttribute('data-suffix') || '';
+      counter.textContent = target + suffix;
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counter = entry.target;
+          const target = parseInt(counter.getAttribute('data-target'), 10);
+          const suffix = counter.getAttribute('data-suffix') || '';
+          const duration = 1500;
+          const step = target / (duration / 16);
+          let current = 0;
+
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              counter.textContent = target + suffix;
+              clearInterval(timer);
+            } else {
+              counter.textContent = Math.floor(current) + suffix;
+            }
+          }, 16);
+
+          observer.unobserve(counter);
+        }
+      });
+    },
+    {
+      threshold: 0.1,          // Déclenche dès 10% visible (au lieu de 50%)
+      rootMargin: '0px 0px -50px 0px'  // Déclenchement légèrement avant la fin du viewport
+    }
+  );
+
+  counters.forEach(counter => {
+    observer.observe(counter);
+  });
+});
+</script>
+
+
+<!-- ============================================================
+     CORRECTIF OVERFLOW-X — CSS à ajouter dans style.css
+     ============================================================ -->
+<style>
+/* Prévention overflow horizontal global */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Contraindre les grilles sur petits écrans */
+.piliers-grid,
+.why-grid,
+.methodo-grid,
+.engagement-grid {
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .piliers-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .engagement-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Zones tactiles minimales 44px (WCAG 2.5.5) */
+@media (max-width: 768px) {
+  nav a,
+  .btn,
+  .cta,
+  button[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>

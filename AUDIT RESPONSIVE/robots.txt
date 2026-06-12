@@ -1,0 +1,35 @@
+# robots.txt — IMMEIT (www.immeit.com)
+# Généré le 2026-06-12
+
+# ===== CRAWLERS PRINCIPAUX =====
+User-agent: *
+Allow: /
+
+# Exclure les assets non pertinents pour l'indexation
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /.htaccess
+Disallow: /php-error.log
+Disallow: /config.php
+
+# ===== CONTRÔLE DES ROBOTS IA (optionnel) =====
+# Décommenter les lignes ci-dessous si vous souhaitez
+# exclure les crawlers d'entraînement des modèles IA :
+
+# User-agent: GPTBot
+# Disallow: /
+
+# User-agent: ChatGPT-User
+# Disallow: /
+
+# User-agent: CCBot
+# Disallow: /
+
+# User-agent: anthropic-ai
+# Disallow: /
+
+# User-agent: Google-Extended
+# Disallow: /
+
+# ===== SITEMAP =====
+Sitemap: https://www.immeit.com/sitemap.xml

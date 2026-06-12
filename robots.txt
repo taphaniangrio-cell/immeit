@@ -1,5 +1,28 @@
+# robots.txt — IMMEIT (www.immeit.com)
+
 User-agent: *
 Allow: /
-Disallow:
+
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /.htaccess
+Disallow: /php-error.log
+Disallow: /config.php
+
+# Bloquer les crawlers d'entraînement IA
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
 
 Sitemap: https://www.immeit.com/sitemap.xml

@@ -7,7 +7,7 @@
 ## Contexte du projet
 
 - **Site :** www.immeit.com — site vitrine statique HTML/CSS/JS
-- **Hébergeur :** Vercel (déploiement depuis GitHub)
+- **Hébergeur :** Amen (déploiement depuis GitHub)
 - **Pages existantes :**
   - `index.html` — page principale
   - `methodes-maintenance.html` — page service
@@ -31,43 +31,9 @@
 
 ## PRIORITÉ 1 — Critique (RGPD + Sécurité)
 
-### T01 — Créer `vercel.json` avec headers de sécurité
+### T01 — Créer `.htaccess` avec headers de sécurité
 
-Créer le fichier `vercel.json` à la racine du projet avec ce contenu exact :
-
-```json
-{
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(), payment=()"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://formspree.io; frame-ancestors 'none'"
-        }
-      ]
-    }
-  ]
-}
-```
+Voir le fichier `.htaccess` à la racine du projet pour les en-têtes de sécurité, compression Gzip et cache des assets statiques.
 
 ---
 
@@ -263,7 +229,7 @@ Dans la section `<head>`, après les balises existantes (`<title>`, `<meta chars
 
 ### T06 — Créer `robots.txt`
 
-Créer le fichier `robots.txt` à la racine du projet (dossier `public/` si Vercel utilise un dossier source, sinon à la racine) :
+Créer le fichier `robots.txt` à la racine du projet :
 
 ```
 User-agent: *
@@ -670,7 +636,7 @@ Dans le footer existant de `index.html`, ajouter le lien WhatsApp France à côt
 
 | Fichier | Action | Tâches |
 |---|---|---|
-| `vercel.json` | **Créer** | T01 |
+| `.htaccess` | **Créer** | T01 |
 | `index.html` | **Modifier** | T03, T04, T08, T15, T16, T18 |
 | `methodes-maintenance.html` | **Modifier** | T05, T09, T10, T14 |
 | `climatisation.html` | **Modifier** | T05, T09, T10, T17 |
@@ -682,9 +648,9 @@ Dans le footer existant de `index.html`, ajouter le lien WhatsApp France à côt
 
 ## Actions manuelles requises (non automatisables par l'IA)
 
-- [ ] Créer `og-image.png` (1200×630 px) — Canva / Figma / GIMP
-- [ ] Créer `og-methodes.png` et `og-climatisation.png` pour les sous-pages
-- [ ] Convertir les fichiers JPEG en WebP : `cwebp -q 85 fichier.jpg -o fichier.webp`
+- [x] Créer `og-image.png` (1200×630 px) — **Déjà fait**
+- [x] Créer `og-methodes.png` et `og-climatisation.png` — **Déjà fait**
+- [x] Convertir les fichiers JPEG en WebP — **Déjà fait**
 - [ ] Tester le bandeau CMP sur mobile iOS Safari après déploiement
 - [ ] Valider le sitemap dans Google Search Console après déploiement
 - [ ] Soumettre robots.txt dans Google Search Console
