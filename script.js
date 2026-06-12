@@ -564,57 +564,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = messageInput.value.trim();
     const fromName = `${prenom} ${nom}`;
 
-    const API_TUNNEL = window.SERVER_API_URL || localStorage.getItem('immeit_api_url') || '';
-    const WORKER_API = window.WORKER_API_URL || ''; // configurable via injection serveur
+    const WORKER_API = window.WORKER_API_URL || '';
 
-     function buildApiPayload() {
-        return { prenom, nom, email, telephone, subject: sujet, message, name: fromName };
-      }
-
-    async function fetchTunnelUrl() {
-      try {
-        const r = await fetch('https://raw.githubusercontent.com/taphaniangrio-cell/immeit/main/tunnel-url.json?_=' + Date.now());
-        if (r.ok) { const d = await r.json(); return d.api_url || ''; }
-      } catch {}
-      return '';
-    }
-
-    // 1) Envoi direct au serveur (même origine)
     let ok = false;
-    try {
-      const r = await fetch('/api/contact', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
-      });
-      const d = await r.json();
-      if (d.success) ok = true;
-    } catch {}
 
-    // 2) Tunnel — essayer TOUTES les URLs connues avec retry
-    if (!ok) {
-      const candidates = new Set();
-      const gitUrl = await fetchTunnelUrl();
-      if (gitUrl) candidates.add(gitUrl);
-      if (API_TUNNEL && API_TUNNEL !== gitUrl) candidates.add(API_TUNNEL);
-
-      for (const url of candidates) {
-        for (let attempt = 0; attempt < 3 && !ok; attempt++) {
-          if (attempt > 0) await new Promise(r => setTimeout(r, 2000));
-          try {
-            const r = await fetch(url + '/api/contact', {
-              method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
-            });
-            const d = await r.json();
-            if (d.success) {
-              ok = true;
-              localStorage.setItem('immeit_api_url', url);
-              break;
-            }
-          } catch {}
-        }
-      }
-    }
-
-    // 3) PHP send_mail (si le serveur supporte PHP)
+    // 1) PHP send_mail (hébergement Amen)
     if (!ok) {
       try {
         const fd = new FormData();
