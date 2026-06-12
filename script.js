@@ -566,6 +566,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const WORKER_API = window.WORKER_API_URL || '';
 
+    function buildApiPayload() {
+      return { prenom, nom, email, telephone, subject: sujet, message, name: fromName };
+    }
+
     let ok = false;
 
     // 1) PHP send_mail (hébergement Amen)
