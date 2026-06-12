@@ -1,0 +1,223 @@
+<!--
+  ============================================================
+  SCHEMA.ORG JSON-LD — IMMEIT (www.immeit.com)
+  À insérer dans le <head> de index.html UNIQUEMENT.
+  Pages secondaires : adapter le @type Service uniquement.
+  ============================================================
+-->
+
+<!-- 1. Organization + LocalBusiness principal (Dakar) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["Organization", "LocalBusiness"],
+      "@id": "https://www.immeit.com/#organization",
+      "name": "IMMEIT",
+      "legalName": "IMMEIT — Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires",
+      "url": "https://www.immeit.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.immeit.com/logo-immeit.jpeg",
+        "width": 200,
+        "height": 80
+      },
+      "image": "https://www.immeit.com/og-image.png",
+      "description": "IMMEIT est spécialisée dans les méthodes de maintenance, la performance industrielle, la fiabilisation des équipements et la climatisation. Basée à Dakar (Sénégal) et Paris (France).",
+      "foundingDate": "2024",
+      "founder": {
+        "@type": "Person",
+        "name": "Yelli NIANG",
+        "jobTitle": "Fondateur & Responsable Méthodes et Performance Industrielle"
+      },
+      "address": [
+        {
+          "@type": "PostalAddress",
+          "@id": "https://www.immeit.com/#address-dakar",
+          "streetAddress": "Cité Safco Niacoulrab, Villa N°40",
+          "postalCode": "11515",
+          "addressLocality": "Keur Massar",
+          "addressRegion": "Dakar",
+          "addressCountry": "SN"
+        }
+      ],
+      "telephone": ["+221710338809", "+33754011945"],
+      "email": "contact@immeit.com",
+      "areaServed": [
+        {
+          "@type": "Country",
+          "name": "Sénégal"
+        },
+        {
+          "@type": "Country",
+          "name": "France"
+        },
+        {
+          "@type": "Country",
+          "name": "Mali"
+        },
+        {
+          "@type": "Country",
+          "name": "Côte d'Ivoire"
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/"
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+221710338809",
+          "contactType": "customer service",
+          "areaServed": "SN",
+          "availableLanguage": "French"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "+33754011945",
+          "contactType": "customer service",
+          "areaServed": "FR",
+          "availableLanguage": "French"
+        }
+      ],
+      "knowsAbout": [
+        "Méthodes de maintenance industrielle",
+        "Performance industrielle",
+        "GMAO",
+        "AMDEC",
+        "RCM",
+        "Maintenance préventive",
+        "Maintenance conditionnelle",
+        "Maintenance prédictive",
+        "Climatisation",
+        "Indicateurs KPI maintenance",
+        "Fiabilisation des équipements"
+      ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.immeit.com/#localbusiness-paris",
+      "name": "IMMEIT — Bureau Paris",
+      "parentOrganization": {
+        "@id": "https://www.immeit.com/#organization"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Paris",
+        "addressCountry": "FR"
+      },
+      "telephone": "+33754011945",
+      "url": "https://www.immeit.com"
+    }
+  ]
+}
+</script>
+
+<!-- 2. Services principaux -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Méthodes Maintenance & Performance Industrielle",
+  "provider": {
+    "@id": "https://www.immeit.com/#organization"
+  },
+  "name": "Méthodes Maintenance & Performance Industrielle",
+  "description": "Audit, analyse de criticité, AMDEC, plans de maintenance préventive et réglementaire, indicateurs KPI, GMAO, digitalisation des processus de maintenance.",
+  "url": "https://www.immeit.com/methodes-maintenance.html",
+  "areaServed": ["Sénégal", "France", "Mali", "Côte d'Ivoire"],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Services Méthodes Maintenance",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Audit & Amélioration des Performances"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Maintenance Préventive & Stratégie"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Indicateurs & Pilotage de la Maintenance (KPI)"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "GMAO & Gestion des Données"
+        }
+      }
+    ]
+  }
+}
+</script>
+
+<!-- 3. FAQ Page (section FAQ de l'accueil) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quels secteurs IMMEIT couvre-t-il ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IMMEIT intervient dans les secteurs industriel, tertiaire et résidentiel. Nous travaillons avec des grands comptes (Renault, Stellantis, SAFRAN, SUEZ) comme avec des PME et des particuliers pour la climatisation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "IMMEIT intervient-il uniquement au Sénégal ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. IMMEIT est présent au Sénégal (siège à Keur Massar, Dakar), en France (Paris) et intervient également au Mali et en Côte d'Ivoire."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "IMMEIT propose-t-il des contrats de maintenance ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, IMMEIT propose des contrats de maintenance préventive et corrective sur mesure, avec un suivi rigoureux et des rapports mensuels de performance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quels logiciels GMAO IMMEIT maîtrise-t-il ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IMMEIT maîtrise Coswin 8i, SAP, Maximo, CARL, DIMOMAINT et Compas R3. Nous accompagnons nos clients sur le déploiement, le paramétrage et l'optimisation de leurs outils GMAO."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- 4. BreadcrumbList (pour la page d'accueil — optionnel mais recommandé) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://www.immeit.com/"
+    }
+  ]
+}
+</script>
