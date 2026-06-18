@@ -20,11 +20,19 @@ define('ALLOWED_ORIGIN', 'https://www.immeit.com');   // Ton domaine (anti-CSRF)
 header('Content-Type: application/json; charset=utf-8');
 
 // Vérification de l'origine (anti-spam basique)
+$allowedOrigins = ['https://www.immeit.com', 'https://immeit.com', 'http://localhost:3000', 'http://localhost:3001'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_REFERER'] ?? '';
-if (!str_contains($origin, 'immeit.com') && !empty($origin)) {
-    http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'Origine non autorisée.']);
-    exit;
+if (!empty($origin)) {
+    $parsed = parse_url($origin, PHP_URL_HOST);
+    $isAllowed = false;
+    foreach ($allowedOrigins as $a) {
+        if ($origin === $a) { $isAllowed = true; break; }
+    }
+    if (!$isAllowed) {
+        http_response_code(403);
+        echo json_encode(['success' => false, 'message' => 'Origine non autorisée.']);
+        exit;
+    }
 }
 
 // Vérification méthode POST
@@ -340,8 +348,13 @@ $messageHtml = str_replace(
 // ---- En-têtes mail (HTML obligatoire) ----
 $boundary = '----=_IMMEIT_' . md5(uniqid(rand(), true));
 
+// Nettoyage anti-injection d'en-têtes
+$safePrenom = str_replace(["\r", "\n"], '', $prenom);
+$safeNom    = str_replace(["\r", "\n"], '', $nom);
+$safeEmail  = str_replace(["\r", "\n"], '', $email);
+
 $headers  = "From: IMMEIT Contact <" . MAIL_FROM . ">\r\n";
-$headers .= "Reply-To: {$prenom} {$nom} <{$email}>\r\n";
+$headers .= "Reply-To: {$safePrenom} {$safeNom} <{$safeEmail}>\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";

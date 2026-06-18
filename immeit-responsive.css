@@ -9,19 +9,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 14px;
-  height: 10px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: none;
-  background: none;
+  background: rgba(255,255,255,0.06);
   cursor: pointer;
-  border-radius: 0;
+  border-radius: 8px;
   line-height: 0;
+  transition: background 0.3s ease;
+  flex-shrink: 0;
+}
+
+.lang-switcher:hover {
+  background: rgba(255,255,255,0.12);
 }
 
 .lang-switcher__flag {
   display: block;
-  max-width: 100%;
+  width: 18px;
   height: auto;
 }
 
@@ -744,6 +750,4 @@ p, .section__text {
 .container-fluid {
   width: 100%;
   padding: 0 var(--container-padding);
-}
-
 }
