@@ -13,7 +13,6 @@
 define('MAIL_TO',      'contact@immeit.com');   // Email de réception
 define('MAIL_FROM',    'noreply@immeit.com');          // Expéditeur (doit exister sur ton hébergeur)
 define('MAIL_SUBJECT_PREFIX', '[IMMEIT - Demande]');  // Préfixe du sujet
-define('ALLOWED_ORIGIN', 'https://www.immeit.com');   // Ton domaine (anti-CSRF)
 // ============================================================
 
 // ---- Sécurité de base ----
@@ -23,7 +22,6 @@ header('Content-Type: application/json; charset=utf-8');
 $allowedOrigins = ['https://www.immeit.com', 'https://immeit.com', 'http://localhost:3000', 'http://localhost:3001'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_REFERER'] ?? '';
 if (!empty($origin)) {
-    $parsed = parse_url($origin, PHP_URL_HOST);
     $isAllowed = false;
     foreach ($allowedOrigins as $a) {
         if ($origin === $a) { $isAllowed = true; break; }
