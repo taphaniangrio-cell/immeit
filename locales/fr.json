@@ -168,6 +168,10 @@
   "footer.whyUs": "Pourquoi choisir IMMEIT ?",
   "footer.copyright": "© 2026 IMMEIT",
 
+  "404.title": "Page introuvable",
+  "404.desc": "Cette page n'existe pas ou a été déplacée. Retournez à l'accueil pour retrouver nos services.",
+  "404.cta": "Retour à l'accueil",
+
   "backToTop.label": "Retour en haut",
 
   "validation.firstname.required": "Le prénom doit contenir au moins 2 caractères",

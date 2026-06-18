@@ -168,6 +168,10 @@
   "footer.whyUs": "Why choose IMMEIT?",
   "footer.copyright": "© 2026 IMMEIT",
 
+  "404.title": "Page not found",
+  "404.desc": "This page does not exist or has been moved. Return to the homepage to find our services.",
+  "404.cta": "Back to homepage",
+
   "backToTop.label": "Back to top",
 
   "validation.firstname.required": "First name must contain at least 2 characters",
@@ -192,6 +196,8 @@
 
   "mm.meta.title": "Maintenance Methods & Performance - IMMEIT",
   "mm.meta.description": "IMMEIT - Maintenance Methods & Industrial Performance",
+  "mm.meta.ogTitle": "Maintenance Methods & Industrial Performance - IMMEIT",
+  "mm.meta.ogDescription": "IMMEIT provides structured maintenance solutions: audit, CMMS, KPI, FMECA. Based in Dakar Senegal and Paris France.",
   "mm.hero.tag": "Maintenance Methods & Industrial Performance",
   "mm.hero.title": "<span class=\"text--accent\">Maintenance</span> Methods &amp; <span class=\"text--accent\">Industrial</span> Performance",
   "mm.hero.p1": "In increasingly demanding industrial and tertiary environments, <span class=\"text--accent\">cost control</span>, <span class=\"text--accent\">equipment availability</span> and continuous <span class=\"text--accent\">performance</span> improvement are major challenges. IMMEIT supports companies in implementing structured and efficient maintenance methods to guarantee <span class=\"text--accent\">installation reliability</span>, optimize resources and sustainably improve <span class=\"text--accent\">productivity</span>.",
@@ -258,6 +264,9 @@
 
   "clim.meta.title": "Air Conditioning - IMMEIT",
   "clim.meta.description": "IMMEIT - Industrial, tertiary and residential air conditioning",
+  "clim.meta.ogTitle": "Air Conditioning Installation & Maintenance - IMMEIT",
+  "clim.meta.ogDescription": "IMMEIT installs and maintains air conditioning systems in Dakar and Paris. Fast intervention, free quote.",
+  "clim.meta.twitterDescription": "IMMEIT air conditioning expert in Dakar and Paris: sales, installation, CVC maintenance.",
   "clim.hero.tag": "Air Conditioning",
   "clim.hero.title": "<span class=\"text--accent\">Air Conditioning</span>",
   "clim.hero.p": "Sale, installation, preventive and corrective maintenance of air conditioning systems for industrial, tertiary and residential sectors.",

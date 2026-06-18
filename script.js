@@ -585,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const r = await fetch('/send_mail.php', { method: 'POST', body: fd });
         const d = await r.json();
         if (d.success) ok = true;
-      } catch {}
+      } catch (e) { console.warn('send_mail.php failed:', e); }
     }
 
     // 4) Cloudflare Worker (Mailchannels + SendGrid) — si configuré
@@ -596,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const d = await r.json();
         if (d.success) ok = true;
-      } catch {}
+      } catch (e) { console.warn('Worker API failed:', e); }
     }
 
     if (ok) {

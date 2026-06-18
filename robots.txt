@@ -3,8 +3,6 @@
 User-agent: *
 Allow: /
 
-Disallow: /wp-admin/
-Disallow: /wp-includes/
 Disallow: /.htaccess
 Disallow: /php-error.log
 Disallow: /config.php
