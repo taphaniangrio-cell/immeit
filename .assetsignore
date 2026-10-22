@@ -1,0 +1,15 @@
+# Fichiers exclus de l'upload Cloudflare Workers Static Assets.
+# Syntaxe gitignore. Empeche la publication de .git (historique complet du
+# depot), des fichiers de configuration et des artefacts de build.
+
+.git
+.gitignore
+.assetsignore
+.wrangler
+node_modules
+package.json
+package-lock.json
+wrangler.jsonc
+worker.js
+*.map
+README*.md

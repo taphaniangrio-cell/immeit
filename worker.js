@@ -173,6 +173,14 @@ export default {
       return handleContact(request, env);
     }
 
+    // Avec html_handling "none", la racine "/" ne pointe pas automatiquement
+    // sur index.html : on le fait explicitement pour que la page d'accueil
+    // reste accessible, tout en servant les .html a leur URL exacte
+    // (coherent avec les balises canonical du site).
+    if ((url.pathname === '/' || url.pathname === '') && request.method === 'GET') {
+      return env.ASSETS.fetch(new Request(new URL('/index.html', url).toString(), request));
+    }
+
     return env.ASSETS.fetch(request);
   },
 };
