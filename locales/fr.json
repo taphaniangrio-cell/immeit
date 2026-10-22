@@ -193,6 +193,7 @@
   "toast.success": "Message envoyé avec succès ! Nous vous répondrons sous 24h.",
   "toast.phone": "Numéro de téléphone invalide",
   "toast.error": "Échec de l'envoi. Écrivez-nous à ",
+  "toast.fallback": "Votre logiciel de messagerie va s'ouvrir avec le message pré-rempli. Sinon, écrivez-nous à ",
 
   "mm.meta.title": "Méthodes Maintenance & Performance - IMMEIT",
   "mm.meta.description": "IMMEIT - Méthodes Maintenance & Performance industrielle",
