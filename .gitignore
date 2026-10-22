@@ -1,4 +1,39 @@
+# ── Secrets / environnements ──
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ── Outils d'automatisation hébergeur (NE PLUS JAMAIS committer) ──
+# Login/cookies AMEN, explorateurs de session, workers, builds Node
+amen*
+debug-amen*
+debug-*.html
+debug-*.mjs
+raw-login*
+session-explorer*
+capture-token*
+deploy-worker*
+start-server*
+server/
+wrangler.toml
+wrangler.json
+playwright-profile/
+*.playwright/
+auth-state/
+*.json.bak
+credentials*
+logs/
+tmp-debug/
+
+# ── Build / Node ──
 node_modules/
 dist/
 *.log
+npm-debug.log*
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+desktop.ini
