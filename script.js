@@ -564,15 +564,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = messageInput.value.trim();
     const fromName = `${prenom} ${nom}`;
 
-    const WORKER_API = window.WORKER_API_URL || '';
+    const WORKER_API  = window.WORKER_API_URL  || '';
+    const FORMSPREE_ID = window.FORMSPREE_FORM_ID || '';
 
     function buildApiPayload() {
-      return { prenom, nom, email, telephone, subject: sujet, message, name: fromName };
+      return { prenom, nom, email, telephone, sujet, subject: sujet, message, name: fromName };
+    }
+
+    // Lit une réponse JSON sans propager une erreur de parsing (405/404/HTML)
+    async function readJson(r) {
+      const type = (r.headers.get('content-type') || '').toLowerCase();
+      if (!type.includes('application/json')) return null;
+      try { return await r.json(); } catch (e) { return null; }
     }
 
     let ok = false;
 
-    // 1) PHP send_mail (hébergement Amen)
+    // 0) PHP send_mail — uniquement si l'hôte exécute du PHP (hébergement AMEN).
+    //    Sur un hébergeur statique la réponse n'est pas du JSON : ignorée sans erreur.
     if (!ok) {
       try {
         const fd = new FormData();
@@ -583,20 +592,33 @@ document.addEventListener('DOMContentLoaded', () => {
         fd.append('sujet', sujet);
         fd.append('message', message);
         const r = await fetch('/send_mail.php', { method: 'POST', body: fd });
-        const d = await r.json();
-        if (d.success) ok = true;
+        const d = await readJson(r);
+        if (d && d.success) ok = true;
       } catch (e) { console.warn('send_mail.php failed:', e); }
     }
 
-    // 4) Cloudflare Worker (Mailchannels + SendGrid) — si configuré
+    // 1) Cloudflare Worker — API JSON (prioritaire si configurée)
     if (!ok && WORKER_API) {
       try {
         const r = await fetch(WORKER_API, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
         });
-        const d = await r.json();
-        if (d.success) ok = true;
+        const d = await readJson(r);
+        if (d && d.success) ok = true;
       } catch (e) { console.warn('Worker API failed:', e); }
+    }
+
+    // 2) Formspree — hébergement 100 % statique, aucun serveur requis
+    if (!ok && FORMSPREE_ID) {
+      try {
+        const r = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(buildApiPayload())
+        });
+        const d = await readJson(r);
+        if (d && d.success) ok = true;
+      } catch (e) { console.warn('Formspree failed:', e); }
     }
 
     if (ok) {
@@ -607,8 +629,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // 3) Repli mailto: — ouvre le logiciel de messagerie du visiteur
+    const mailBody = `Prénom: ${prenom}\nNom: ${nom}\nEmail: ${email}\nTéléphone: ${telephone}\nSujet: ${sujet}\n\n${message}`;
+    window.location.href = 'mailto:contact@immeit.com'
+      + '?subject=' + encodeURIComponent('[IMMEIT - Demande] ' + sujet)
+      + '&body='   + encodeURIComponent(mailBody);
+
     setLoading(false);
-    showConfirmation('<i class="fas fa-exclamation-circle"></i> ' + (window.I18N?.__('toast.error') || 'Échec de l\'envoi. Écrivez-nous à ') + '<a href="mailto:contact@immeit.com">contact@immeit.com</a>');
+    showConfirmation('<i class="fas fa-info-circle"></i> ' + (window.I18N?.__('toast.fallback') || 'Votre logiciel de messagerie va s\'ouvrir avec le message pré-rempli. Sinon, écrivez-nous à ') + '<a href="mailto:contact@immeit.com">contact@immeit.com</a>');
   });
 
   // ===== GA tracking — contact links =====

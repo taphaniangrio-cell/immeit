@@ -56,7 +56,15 @@
   </style>
 <link rel="stylesheet" href="style.css?v=38" />
     <link rel="stylesheet" href="immeit-responsive.css?v=16" />
-   <script>window.WORKER_API_URL='https://immeit.taphaniangrio.workers.dev'</script>
+   <script>
+    // --- Configuration du formulaire de contact -----------------------------
+    // Le site est hébergé en statique (GitHub Pages) : aucun PHP n'est exécuté.
+    // 1) Worker Cloudflare  : renseigné quand worker.js est déployé (route /api/contact)
+    // 2) Formspree          : coller l'ID du formulaire (ex. "abcdwxyz") issu de formspree.io
+    // 3) Repli mailto:      utilisé automatiquement si aucun des deux ne répond
+    window.WORKER_API_URL = 'https://immeit.taphaniangrio.workers.dev/api/contact';
+    window.FORMSPREE_FORM_ID = '';
+  </script>
   <!-- Données structurées Schema.org — Organization + Services + FAQ -->
   <script type="application/ld+json">
   {

@@ -193,6 +193,7 @@
   "toast.success": "Message sent successfully! We will respond within 24h.",
   "toast.phone": "Invalid phone number",
   "toast.error": "Sending failed. Write to us at ",
+  "toast.fallback": "Your mail app should open with the message pre-filled. Otherwise, write to us at ",
 
   "mm.meta.title": "Maintenance Methods & Performance - IMMEIT",
   "mm.meta.description": "IMMEIT - Maintenance Methods & Industrial Performance",
