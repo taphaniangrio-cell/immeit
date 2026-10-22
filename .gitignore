@@ -27,6 +27,10 @@ credentials*
 logs/
 tmp-debug/
 
+# ── Fichiers serveur AMEN (conservés sur la branche `amen-hosting`) ──
+.htaccess
+send_mail.php
+
 # ── Build / Node ──
 node_modules/
 dist/
