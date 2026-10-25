@@ -59,10 +59,12 @@
    <script>
     // --- Configuration du formulaire de contact -----------------------------
     // Le site est hébergé en statique (GitHub Pages) : aucun PHP n'est exécuté.
-    // 1) Worker Cloudflare  : renseigné quand worker.js est déployé (route /api/contact)
+    // 1) Worker Cloudflare  : DÉSACTIVÉ (Worker supprimé le 25/10/2026 — il exposait les
+    //    métadonnées .git et sa route /api/contact renvoyait 404, build en échec).
+    //    Laisser vide : le formulaire passe directement au repli ci-dessous.
     // 2) Formspree          : coller l'ID du formulaire (ex. "abcdwxyz") issu de formspree.io
     // 3) Repli mailto:      utilisé automatiquement si aucun des deux ne répond
-    window.WORKER_API_URL = 'https://immeit.taphaniangrio.workers.dev/api/contact';
+    window.WORKER_API_URL = '';
     window.FORMSPREE_FORM_ID = '';
   </script>
   <!-- Données structurées Schema.org — Organization + Services + FAQ -->
