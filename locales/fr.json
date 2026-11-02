@@ -132,7 +132,7 @@
   "faq.q3": "Proposez-vous des contrats de maintenance ?",
   "faq.a3": "Oui, nous proposons des contrats de maintenance préventive et corrective sur mesure, avec un suivi rigoureux et des rapports mensuels de performance.",
   "faq.q4": "Quels logiciels GMAO maîtrisez-vous ?",
-  "faq.a4": "Coswin, SAP, Maximo, CARL, DIMOMAINT — nous accompagnons nos clients sur le déploiement, la paramétrage et l'optimisation de leurs outils GMAO.",
+  "faq.a4": "Coswin, SAP, Maximo, CARL, DIMOMAINT — nous accompagnons nos clients sur le déploiement, le paramétrage et l'optimisation de leurs outils GMAO.",
 
   "testimonials.tag": "Témoignages",
   "testimonials.title": "Ils nous font confiance",
@@ -330,6 +330,7 @@
   "footer.legalTitle": "Légal",
   "footer.legal": "Mentions légales",
   "footer.privacy": "Politique de confidentialité",
+  "footer.cookies": "Gérer mes cookies",
   "form.requiredNote": "* Champs obligatoires",
   "mm.tools.cat1": "GMAO",
   "mm.tools.cat2": "Plan de prévention",

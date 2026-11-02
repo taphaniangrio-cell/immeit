@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromName = `${prenom} ${nom}`;
 
     const WORKER_API  = window.WORKER_API_URL  || '';
-    const FORMSPREE_ID = window.FORMSPREE_FORM_ID || '';
+    const WEB3FORMS_KEY = window.WEB3FORMS_KEY || '';
 
     function buildApiPayload() {
       return { prenom, nom, email, telephone, sujet, subject: sujet, message, name: fromName };
@@ -516,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 0) PHP send_mail — uniquement si aucun service n'est configuré et si l'hôte exécute du PHP
     //    (hébergement AMEN). Sur un hébergeur statique la réponse n'est pas du JSON : ignorée sans erreur.
-    if (!WORKER_API && !FORMSPREE_ID) {
+    if (!WORKER_API && !WEB3FORMS_KEY) {
       try {
         const fd = new FormData();
         fd.append('prenom', prenom);
@@ -542,22 +542,32 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) { console.warn('Worker API failed:', e); }
     }
 
-    // 2) Formspree — hébergement 100 % statique, aucun serveur requis
-    if (!ok && FORMSPREE_ID) {
+    // 2) Web3Forms — hébergement 100 % statique, aucun serveur requis
+    if (!ok && WEB3FORMS_KEY) {
       try {
-        const r = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+        // Corps encodé en URL : les noms de champs accentués passent mal en multipart
+        const params = new URLSearchParams({
+          access_key: WEB3FORMS_KEY,
+          subject: '[IMMEIT - Demande] ' + sujet,
+          from_name: fromName,
+          email,
+          Prenom: prenom,
+          Nom: nom,
+          Telephone: telephone,
+          Sujet: sujet,
+          Message: message
+        });
+        if (form.querySelector('[name="botcheck"]')?.checked) params.append('botcheck', 'true');
+        const r = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            prenom, nom, email, telephone, sujet, message,
-            _subject: '[IMMEIT - Demande] ' + sujet,
-            _gotcha: form.querySelector('[name="_gotcha"]')?.value || ''
-          }),
+          headers: { 'Accept': 'application/json' },
+          body: params,
           signal: AbortSignal.timeout(15000)
         });
-        if (r.ok) ok = true;
-        else console.warn('Formspree failed:', r.status);
-      } catch (e) { console.warn('Formspree failed:', e); }
+        const d = await readJson(r);
+        if (r.ok && d && d.success) ok = true;
+        else console.warn('Web3Forms failed:', r.status, d && d.message);
+      } catch (e) { console.warn('Web3Forms failed:', e); }
     }
 
     if (ok) {

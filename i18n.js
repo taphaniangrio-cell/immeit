@@ -103,9 +103,9 @@
     return translations[key] !== undefined ? translations[key] : null;
   }
 
+  // null si la traduction manque : les appelants fournissent alors leur texte de secours
   function __(key) {
-    const val = get(key);
-    return val !== null ? val : key;
+    return get(key);
   }
 
   function updateSwitcher() {

@@ -50,7 +50,7 @@ fournisseurs dans l'ordre et retombe sur `mailto:` si aucun ne répond.
 |---|---|---|
 | 0 | `send_mail.php` (PHP) | Uniquement si aucun service n'est configuré et si l'hôte exécute du PHP (branche `amen-hosting`) |
 | 1 | Cloudflare Worker | `window.WORKER_API_URL` — désactivé, laisser vide (Worker supprimé) |
-| 2 | Formspree | `window.FORMSPREE_FORM_ID` — coller l'ID du formulaire dans `index.html` (offre gratuite : 50 envois par mois) |
+| 2 | Web3Forms | `window.WEB3FORMS_KEY` — clé d'accès dans `index.html`, publique par conception (offre gratuite : 250 envois par mois) |
 | 3 | `mailto:` | Repli automatique, ouvre le client mail du visiteur |
 
 Les deux points de configuration sont dans `index.html` (bloc `<script>` en tête de page).
