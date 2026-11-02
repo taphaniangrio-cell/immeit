@@ -44,12 +44,10 @@
    <script>
     // --- Configuration du formulaire de contact -----------------------------
     // Le site est hébergé en statique (GitHub Pages) : aucun PHP n'est exécuté.
-    // 1) Worker Cloudflare  : DÉSACTIVÉ (Worker supprimé le 25/10/2026 — il exposait les
-    //    métadonnées .git et sa route /api/contact renvoyait 404, build en échec).
-    //    Laisser vide : le formulaire passe directement au repli ci-dessous.
-    // 2) Web3Forms         : clé d'accès issue de web3forms.com (publique par conception)
+    // 1) Worker Cloudflare  : immeit-contact, envoi par la messagerie AMEN avec le modèle de mail IMMEIT
+    // 2) Web3Forms         : secours, clé d'accès issue de web3forms.com (publique par conception)
     // 3) Repli mailto:      utilisé automatiquement si aucun des deux ne répond
-    window.WORKER_API_URL = '';
+    window.WORKER_API_URL = 'https://immeit-contact.taphaniangrio.workers.dev/api/contact';
     window.WEB3FORMS_KEY = '1537e384-9a6b-433e-b684-a6916a6de7e5';
   </script>
   <!-- Données structurées Schema.org — Organization + Services + FAQ -->
@@ -779,6 +777,6 @@
   </button>
 
   <script src="/i18n.js?v=6"></script>
-  <script src="/script.js?v=54"></script>
+  <script src="/script.js?v=55"></script>
 </body>
 </html>

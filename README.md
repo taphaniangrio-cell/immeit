@@ -49,8 +49,8 @@ fournisseurs dans l'ordre et retombe sur `mailto:` si aucun ne répond.
 | Ordre | Fournisseur | Configuration |
 |---|---|---|
 | 0 | `send_mail.php` (PHP) | Uniquement si aucun service n'est configuré et si l'hôte exécute du PHP (branche `amen-hosting`) |
-| 1 | Cloudflare Worker | `window.WORKER_API_URL` — désactivé, laisser vide (Worker supprimé) |
-| 2 | Web3Forms | `window.WEB3FORMS_KEY` — clé d'accès dans `index.html`, publique par conception (offre gratuite : 250 envois par mois) |
+| 1 | Cloudflare Worker `immeit-contact` | `window.WORKER_API_URL` — envoi par la boîte mail AMEN (SMTP) avec le modèle de mail IMMEIT. Code sur la branche `cloudflare/contact-worker` |
+| 2 | Web3Forms | `window.WEB3FORMS_KEY` — secours si le Worker échoue ; clé d'accès dans `index.html`, publique par conception (offre gratuite : 250 envois par mois) |
 | 3 | `mailto:` | Repli automatique, ouvre le client mail du visiteur |
 
 Les deux points de configuration sont dans `index.html` (bloc `<script>` en tête de page).

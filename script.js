@@ -502,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const WEB3FORMS_KEY = window.WEB3FORMS_KEY || '';
 
     function buildApiPayload() {
-      return { prenom, nom, email, telephone, sujet, subject: sujet, message, name: fromName };
+      return { prenom, nom, email, telephone, sujet, subject: sujet, message, name: fromName, botcheck: !!form.querySelector('[name="botcheck"]')?.checked };
     }
 
     // Lit une réponse JSON sans propager une erreur de parsing (405/404/HTML)
@@ -535,7 +535,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!ok && WORKER_API) {
       try {
         const r = await fetch(WORKER_API, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload())
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildApiPayload()),
+          signal: AbortSignal.timeout(15000)
         });
         const d = await readJson(r);
         if (d && d.success) ok = true;
