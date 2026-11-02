@@ -12,6 +12,7 @@ registerHooks({
 });
 const { state, reset } = await import(STUB);
 const { default: worker } = await import('./worker.js');
+const { LOGO_JPEG_BASE64 } = await import('./logo.js');
 
 const URL_API = 'https://immeit-contact.exemple.test/api/contact';
 const ORIGIN = 'https://www.immeit.com';
@@ -46,12 +47,20 @@ function parseMessage(raw) {
   const header = (name) => (unfolded.match(new RegExp(`^${name}: (.*)$`, 'mi')) || [])[1];
   const decodeWords = (v) => (v || '').replace(/=\?UTF-8\?B\?([^?]+)\?=/g, (_, b) => `\u0000${b}\u0000`).split('\u0000')
     .map((x, i) => (i % 2 ? Buffer.from(x, 'base64') : Buffer.from(x))).reduce((a, b) => Buffer.concat([a, b]), Buffer.alloc(0)).toString('utf8');
-  const boundary = header('Content-Type').match(/boundary="([^"]+)"/)[1];
-  const parts = rest.join('\r\n\r\n').split(`--${boundary}`).slice(1, -1).map((p) => {
-    const [h, b] = p.replace(/^\r\n/, '').split('\r\n\r\n');
-    return { type: h.match(/Content-Type: ([^;]+)/)[1], body: Buffer.from(b.replace(/\s/g, ''), 'base64').toString('utf8'), longest: Math.max(...b.split('\r\n').map((l) => l.length)) };
-  });
-  return { head, header, subject: decodeWords(header('Subject')), from: header('From'), to: header('To'), replyTo: header('Reply-To'), date: header('Date'), id: header('Message-ID'), parts, text: parts.find((p) => p.type === 'text/plain'), html: parts.find((p) => p.type === 'text/html') };
+  // Parcourt les parties imbriquées : texte, puis HTML et logo regroupés
+  const leaves = (contentType, body) => {
+    const boundary = contentType.match(/boundary="([^"]+)"/)[1];
+    return body.split(`--${boundary}`).slice(1, -1).flatMap((p) => {
+      const [h, ...b] = p.replace(/^\r\n/, '').split('\r\n\r\n');
+      const inner = b.join('\r\n\r\n');
+      const type = h.match(/Content-Type: ([^;\r\n]+)/)[1];
+      if (type.startsWith('multipart/')) return leaves(h, inner);
+      const raw = Buffer.from(inner.replace(/\s/g, ''), 'base64');
+      return [{ type, headers: h, raw, body: raw.toString('utf8'), longest: Math.max(...inner.split('\r\n').map((l) => l.length)) }];
+    });
+  };
+  const parts = leaves(header('Content-Type'), rest.join('\r\n\r\n'));
+  return { head, header, subject: decodeWords(header('Subject')), from: header('From'), to: header('To'), replyTo: header('Reply-To'), date: header('Date'), id: header('Message-ID'), parts, text: parts.find((p) => p.type === 'text/plain'), html: parts.find((p) => p.type === 'text/html'), logo: parts.find((p) => p.type === 'image/jpeg') };
 }
 
 let failures = 0;
@@ -118,13 +127,16 @@ check('répondre va au visiteur', m.replyTo === `<${OK.email}>`, m.replyTo);
 check('objet identique à l’ancien mail, accents corrects', m.subject === '[IMMEIT - Demande] Demande de devis — Prénom Exemple', m.subject);
 check('en-têtes en ASCII', !/[^\x00-\x7f]/.test(m.head));
 check('en-têtes de date et d’identifiant', /\+0000$/.test(m.date) && /@immeit\.com>$/.test(m.id), m.date);
-check('deux versions : texte et HTML', m.parts.length === 2 && m.text && m.html);
+check('texte, HTML et logo présents', m.parts.length === 3 && m.text && m.html && m.logo);
+check('logo identique au fichier du site', m.logo.raw.equals(Buffer.from(LOGO_JPEG_BASE64, 'base64')) && m.logo.raw[0] === 0xff && m.logo.raw[1] === 0xd8);
+check('logo joint au mail et appelé par le HTML', /Content-ID: <logo@immeit\.com>/.test(m.logo.headers) && /Content-Disposition: inline/.test(m.logo.headers) && m.html.body.includes('src="cid:logo@immeit.com"'));
+check('aucune image externe dans le mail', !/<img[^>]+src="https?:/i.test(m.html.body));
 check('lignes de 76 caractères au plus', m.parts.every((p) => p.longest <= 76));
 check('version texte complète', m.text.body.includes('Téléphone : +221 00 000 00 00') && m.text.body.includes('Aucun message'));
 check('HTML : éléments de l’ancien mail', ['Nouveau message reçu', 'Un visiteur vous a contacté', 'Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires', 'Répondre à Prénom', 'Villa N°40', '+33 7 54 01 19 45'].every((t) => m.html.body.includes(t)));
 check('HTML : date au format attendu', /Message reçu le \d{2}\/\d{2}\/\d{4} à \d{2}:\d{2} depuis/.test(m.html.body));
 check('mot de passe absent du message', !s.message.includes(FAKE_PASSWORD));
-writeFileSync(fileURLToPath(new URL('./apercu-nouveau-mail.html', import.meta.url)), m.html.body);
+writeFileSync(fileURLToPath(new URL('./apercu-nouveau-mail.html', import.meta.url)), m.html.body.replace('cid:logo@immeit.com', `data:image/jpeg;base64,${LOGO_JPEG_BASE64}`));
 
 r = await call({ body: { ...OK, telephone: '' } });
 let mm = parseMessage(r.session.message);
@@ -139,7 +151,7 @@ check('point seul sur une ligne : message entier', r.status === 200 && mm.text.b
 const hostile = { ...OK, prenom: '<script>alert(1)</script>', nom: '"><img src=x onerror=alert(1)>', sujet: 'x\r\nBcc: pirate@exemple.test', telephone: '"><b>1', message: '<a href="https://pirate.test">clic</a>\n&\'"\r\n.\r\nRCPT TO:<pirate@exemple.test>' };
 r = await call({ body: hostile });
 mm = parseMessage(r.session.message);
-check('balises du visiteur neutralisées', !mm.html.body.includes('<script') && !mm.html.body.includes('<img') && !mm.html.body.includes('<a href="https://pirate.test"') && mm.html.body.includes('&lt;script&gt;'));
+check('balises du visiteur neutralisées', !mm.html.body.includes('<script') && !mm.html.body.includes('<img src=x') && !mm.html.body.includes('onerror=alert(1)>') && !mm.html.body.includes('<a href="https://pirate.test"') && mm.html.body.includes('&lt;script&gt;'));
 check('objet sur une seule ligne, sans en-tête ajouté', !/[\r\n]/.test(mm.subject) && !/^Bcc:/mi.test(mm.head), JSON.stringify(mm.subject));
 check('aucun destinataire ajouté par le message', r.session.commands.filter((c) => c.startsWith('RCPT')).length === 1);
 check('sauts de ligne du message conservés', mm.html.body.includes('clic&lt;/a&gt;<br>&amp;'));

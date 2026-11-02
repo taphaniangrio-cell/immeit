@@ -13,7 +13,9 @@
  */
 
 import { connect } from 'cloudflare:sockets';
+import { LOGO_JPEG_BASE64 } from './logo.js';
 
+const LOGO_CID = 'logo@immeit.com';
 const ALLOWED_ORIGINS = ['https://www.immeit.com', 'https://immeit.com'];
 const MAX_BODY_BYTES = 20000;
 const SMTP_HOST = 'smtp-fr.securemail.pro';
@@ -137,6 +139,7 @@ function buildHtml(d, date) {
           <!-- En-tête -->
           <tr>
             <td class="pad" align="center" style="background-color:#111927;background-image:linear-gradient(135deg,#111927 0%,#1e3a5f 100%);padding:36px 40px 28px 40px;">
+              <img src="cid:${LOGO_CID}" width="96" height="96" alt="Logo IMMEIT" style="display:block;width:96px;height:96px;margin:0 auto 14px auto;border:0;border-radius:50%;background-color:#ffffff;">
               <div style="font-size:28px;font-weight:800;color:#ffffff;letter-spacing:3px;text-transform:uppercase;">IMMEIT</div>
               <div style="font-size:11px;color:#8fa8c8;letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;line-height:1.6;">Installation, Méthodes et Maintenance des Équipements Industriels et Tertiaires</div>
               <div style="display:inline-block;margin-top:16px;background-color:#e8a000;color:#111927;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:20px;">📩 Nouveau message reçu</div>
@@ -248,18 +251,38 @@ function encodeHeader(text) {
 }
 
 /** Corps en base64 : aucune ligne ne peut commencer par le point de fin de message SMTP. */
+function foldBase64(base64) {
+  return base64.replace(/(.{76})/g, '$1\r\n').trimEnd();
+}
+
 function encodeBody(text) {
-  return toBase64(new TextEncoder().encode(text)).replace(/(.{76})/g, '$1\r\n').trimEnd();
+  return foldBase64(toBase64(new TextEncoder().encode(text)));
 }
 
 function buildMessage(env, d, date) {
   const boundary = `=_immeit_${crypto.randomUUID()}`;
-  const part = (type, content) => [
-    `--${boundary}`,
+  const relatedBoundary = `=_immeit_${crypto.randomUUID()}`;
+  const textPart = (type, content) => [
     `Content-Type: ${type}; charset=UTF-8`,
     'Content-Transfer-Encoding: base64',
     '',
     encodeBody(content),
+  ].join('\r\n');
+
+  // Le logo voyage avec le HTML : il s'affiche même si les images externes sont bloquées
+  const related = [
+    `Content-Type: multipart/related; boundary="${relatedBoundary}"; type="text/html"`,
+    '',
+    `--${relatedBoundary}`,
+    textPart('text/html', buildHtml(d, date)),
+    `--${relatedBoundary}`,
+    'Content-Type: image/jpeg; name="logo-immeit.jpg"',
+    'Content-Transfer-Encoding: base64',
+    `Content-ID: <${LOGO_CID}>`,
+    'Content-Disposition: inline; filename="logo-immeit.jpg"',
+    '',
+    foldBase64(LOGO_JPEG_BASE64),
+    `--${relatedBoundary}--`,
   ].join('\r\n');
 
   return [
@@ -272,8 +295,10 @@ function buildMessage(env, d, date) {
     'MIME-Version: 1.0',
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
     '',
-    part('text/plain', buildText(d, date)),
-    part('text/html', buildHtml(d, date)),
+    `--${boundary}`,
+    textPart('text/plain', buildText(d, date)),
+    `--${boundary}`,
+    related,
     `--${boundary}--`,
   ].join('\r\n');
 }

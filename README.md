@@ -11,6 +11,7 @@ En ligne : https://immeit-contact.taphaniangrio.workers.dev/api/contact
 | Fichier | Rôle |
 |---|---|
 | `worker.js` | Le Worker et le modèle de mail |
+| `logo.js` | Le logo officiel, joint à chaque mail pour s'afficher sans image externe |
 | `test.mjs`, `sockets-stub.mjs` | Tests avec un faux serveur SMTP : rien ne sort sur le réseau |
 | `saisir-mot-de-passe.ps1` | Fenêtre Windows : vérifie le mot de passe auprès d'AMEN, puis l'enregistre chez Cloudflare |
 
