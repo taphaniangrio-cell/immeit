@@ -2,7 +2,7 @@
  * IMMEIT — Worker du formulaire de contact
  * ------------------------------------------------------------------
  * Expose POST /api/contact et envoie le message par la boîte mail AMEN (SMTP),
- * avec le modèle de mail de l'ancien send_mail.php (branche amen-hosting).
+ * avec le modèle de mail de l'ancien send_mail.php.
  *
  * Secret (wrangler secret put) : MAILBOX_PASSWORD
  * Variables (wrangler.jsonc)   : SMTP_USER, MAIL_TO, MAIL_FROM_NAME
