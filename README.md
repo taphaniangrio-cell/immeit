@@ -27,8 +27,6 @@ vers GitHub Pages :
 | `A` | `@` (apex) | `185.199.111.153` |
 | `CNAME` | `www` | `taphaniangrio-cell.github.io` |
 
-À supprimer : les enregistrements `A` pointant vers `81.88.57.96` (ancien hôte AMEN).
-
 GitHub émet et renouvelle automatiquement le certificat TLS pour `immeit.com` **et**
 `www.immeit.com`. `https_enforced` est actif : HTTP est redirigé vers HTTPS.
 L'apex `immeit.com` redirige (301) vers `www.immeit.com`.
@@ -81,18 +79,3 @@ git push origin main
 ```
 
 Statut du build : `gh api repos/taphaniangrio-cell/immeit/pages/builds/latest`
-
----
-
-## Journal d'incident
-
-**2026-10-22 — Site inaccessible (`ERR_CONNECTION_TIMED_OUT`)**
-
-- Cause : DNS apex/`www` pointait vers l'IP AMEN `81.88.57.96`, dont le port 443
-  n'était pas ouvert. Le HSTS (`includeSubDomains`) forçait Chrome vers HTTPS.
-- Constat complémentaire : le dossier racine AMEN était vide (`index.html` en 500
-  PHP, tout le reste en 404, `.htaccess` non chargé).
-- Correctif : DNS basculé vers GitHub Pages, certificat déjà provisionné.
-- Correctifs annexes : `send_mail.php` retiré de l'espace publié (code source
-  exposé publiquement), chaîne d'envoi du formulaire refaite pour un hébergement
-  statique, `sitemap.xml` complété (pages légales).

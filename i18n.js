@@ -107,9 +107,6 @@
   }
 
   function createSwitcher() {
-    const existing = document.querySelector('.lang-switcher');
-    if (existing) return;
-
     const actions = document.querySelector('.nav__actions');
     if (!actions) return;
 
