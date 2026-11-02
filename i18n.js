@@ -26,7 +26,7 @@
       applyTranslations();
       listeners.forEach(fn => fn(lang));
       return true;
-    } catch (e) {
+    } catch {
       if (lang !== DEFAULT_LANG) {
         return loadLang(DEFAULT_LANG);
       }
@@ -46,14 +46,6 @@
         el.setAttribute(attr, value);
       } else {
         el.innerHTML = value;
-      }
-    });
-
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      const value = get(key);
-      if (value !== null && value !== undefined) {
-        el.setAttribute('placeholder', value);
       }
     });
 
@@ -99,13 +91,9 @@
     return '';
   }
 
+  // null si la traduction manque : les appelants fournissent alors leur texte de secours
   function get(key) {
     return translations[key] !== undefined ? translations[key] : null;
-  }
-
-  // null si la traduction manque : les appelants fournissent alors leur texte de secours
-  function __(key) {
-    return get(key);
   }
 
   function updateSwitcher() {
@@ -144,9 +132,7 @@
 
   window.I18N = {
     get currentLang() { return currentLang; },
-    loadLang,
-    __,
-    get,
+    __: get,
     onLanguageChange,
   };
 

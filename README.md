@@ -10,9 +10,7 @@ Site statique (HTML / CSS / JS pur, aucun build). Déploiement principal :
 | Branche | Rôle |
 |---|---|
 | `main` | **Source de vérité + site publié** par GitHub Pages. Ne contient que des fichiers statiques servables tels quels. |
-| `gh-pages` | Miroir de `main` (sauvegarde). La configuration Pages utilise `main` comme source. |
-| `cloudflare/workers-autoconfig` | Déploiement Cloudflare Worker : sert les assets + expose `POST /api/contact`. Voir `README-deploy.md`. |
-| `amen-hosting` | Kit de déploiement pour l'hébergement AMEN (Apache + PHP) : contient en plus `.htaccess` et `send_mail.php`. |
+| `cloudflare/contact-worker` | Code du Worker `immeit-contact` qui envoie les messages du formulaire. Voir son `README.md`. |
 
 ---
 
@@ -48,7 +46,6 @@ fournisseurs dans l'ordre et retombe sur `mailto:` si aucun ne répond.
 
 | Ordre | Fournisseur | Configuration |
 |---|---|---|
-| 0 | `send_mail.php` (PHP) | Uniquement si aucun service n'est configuré et si l'hôte exécute du PHP (branche `amen-hosting`) |
 | 1 | Cloudflare Worker `immeit-contact` | `window.WORKER_API_URL` — envoi par la boîte mail AMEN (SMTP) avec le modèle de mail IMMEIT. Code sur la branche `cloudflare/contact-worker` |
 | 2 | Web3Forms | `window.WEB3FORMS_KEY` — secours si le Worker échoue ; clé d'accès dans `index.html`, publique par conception (offre gratuite : 250 envois par mois) |
 | 3 | `mailto:` | Repli automatique, ouvre le client mail du visiteur |
@@ -84,20 +81,6 @@ git push origin main
 ```
 
 Statut du build : `gh api repos/taphaniangrio-cell/immeit/pages/builds/latest`
-
----
-
-## Restauration de l'hébergement AMEN (si souhaité)
-
-```bash
-git checkout amen-hosting
-#	uploader le contenu du dossier sur le docroot AMEN (FTP)
-#	activer un certificat SSL pour immeit.com et www.immeit.com dans le panel AMEN
-```
-
-Contraintes AMEN : le SSL doit être actif (port 443) et le dossier racine doit
-contenir `.htaccess` + `send_mail.php` + les fichiers du site. L'hébergement AMEN
-historique ne(listenerait plus) le port 443 et servait un dossier racine vide.
 
 ---
 

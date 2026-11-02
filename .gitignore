@@ -20,6 +20,7 @@ server/
 wrangler.toml
 wrangler.json
 .wrangler/
+.claude/
 playwright-profile/
 *.playwright/
 auth-state/
@@ -28,7 +29,7 @@ credentials*
 logs/
 tmp-debug/
 
-# ── Fichiers serveur AMEN (conservés sur la branche `amen-hosting`) ──
+# ── Anciens fichiers serveur AMEN (à ne pas republier) ──
 .htaccess
 send_mail.php
 

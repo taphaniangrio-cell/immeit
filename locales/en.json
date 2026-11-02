@@ -8,7 +8,6 @@
   "skipLink": "Skip to main content",
 
   "nav.tagline": "Installation, Methods & Maintenance<br>of Industrial & Tertiary Equipment",
-  "nav.home": "Home",
   "nav.about": "About",
   "nav.services": "Services",
   "nav.methodology": "Methodology",
@@ -16,8 +15,6 @@
   "nav.commitments": "Commitments",
   "nav.whyUs": "Why IMMEIT",
   "nav.contact": "Contact",
-
-  "hero.badge": "IMMEIT – Maintenance Methods & Industrial Performance | Sale, Installation, Commissioning and Maintenance of Air Conditioning Systems | Multi-technical Maintenance | Senegal & France | Major accounts expertise: P2M & INDUSTRELEC",
   "hero.title": "Reliable methods<br/> for <span class=\"hero__accent\">sustainable<br/> production</span>",
   "hero.description": "IMMEIT specializes in maintenance methods and industrial performance, multi-technical maintenance and air conditioning system installation. Based in Dakar (Senegal) and Paris (France), we design tailor-made solutions to guarantee the performance, reliability and longevity of your equipment.",
   "hero.cta": "Contact us",
@@ -32,7 +29,6 @@
   "about.p1": "IMMEIT is a company specializing in maintenance methods, industrial performance, equipment reliability, digitalization of maintenance processes, multi-technical maintenance and air conditioning.",
   "about.p2": "We support industrial and tertiary companies in optimizing their performance through tailored solutions aimed at improving availability, reliability, safety and productivity of their facilities.",
   "about.p3": "Founded in 2024 by Yelli NIANG, IMMEIT leverages expertise developed within major industrial groups such as Renault Group, Stellantis, Safran, SNCF, Keolis, Air Liquide, SUEZ and ICM Ingénierie, where its founder held positions as methods engineer then manager of methods and industrial performance.",
-  "about.address": "<br />Head office :<br />Cité Safco Niacoulrab, Villa N°40<br />11515 Keur Massar, Dakar – Senegal",
   "about.p4": "IMMEIT: Your partner in maintenance, reliability and industrial performance.",
 
   "services.tag": "Our expertise",
@@ -116,7 +112,6 @@
   "why.card5.desc": "We support you in compliance with current regulations and industrial standards.",
   "why.card6.title": "Extended lifespan",
   "why.card6.desc": "Rigorous and adapted maintenance significantly extends the lifespan of your industrial equipment.",
-  "why.objective": "<strong>Objective:</strong> Sustainable operational performance, equipment reliability and cost control",
   "why.cta.title": "Ready to collaborate with IMMEIT?",
 
   "cta.title": "Cra<span class=\"text--accent\">ving</span> performance?",
@@ -192,7 +187,6 @@
   "toast.required": "Please fill in all required fields",
   "toast.success": "Message sent successfully! We will respond within 24h.",
   "toast.phone": "Invalid phone number",
-  "toast.error": "Sending failed. Write to us at ",
   "toast.fallback": "Your mail app should open with the message pre-filled. Otherwise, write to us at ",
 
   "mm.meta.title": "Maintenance Methods & Performance - IMMEIT",

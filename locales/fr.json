@@ -8,7 +8,6 @@
   "skipLink": "Aller au contenu principal",
 
   "nav.tagline": "Installation, Méthodes et Maintenance<br>des Equipements Industriels et Tertiaires",
-  "nav.home": "Accueil",
   "nav.about": "À propos",
   "nav.services": "Services",
   "nav.methodology": "Méthodologie",
@@ -16,8 +15,6 @@
   "nav.commitments": "Engagements",
   "nav.whyUs": "Pourquoi IMMEIT",
   "nav.contact": "Contact",
-
-  "hero.badge": "IMMEIT – Méthodes Maintenance & Performance Industrielle | Vente, Installation, Mise en Service et Maintenance de Systèmes de Climatisation | Sénégal & France | Expertise grands comptes : P2M et INDUSTRELEC",
   "hero.title": "Méthodes fiables<br/> pour une<br/> <span class=\"hero__accent\">production durable</span>",
   "hero.description": "IMMEIT est spécialisée dans la méthode maintenance et la performance industrielle et l'installation de systèmes de climatisation. Basée à Dakar (Sénégal) et à Paris (France), nous concevons des solutions sur mesure pour garantir la performance, la fiabilité et la longévité de vos équipements.",
   "hero.cta": "Nous contacter",
@@ -32,7 +29,6 @@
   "about.p1": "IMMEIT est une société spécialisée dans les méthodes de maintenance, la performance industrielle, la fiabilisation des équipements, la digitalisation des processus de maintenance et la climatisation.",
   "about.p2": "Nous accompagnons les entreprises industrielles et tertiaires dans l'optimisation de leurs performances grâce à des solutions adaptées visant à améliorer la disponibilité, la fiabilité, la sécurité et la productivité de leurs installations.",
   "about.p3": "Fondée en 2024 par Yelli NIANG, IMMEIT s'appuie sur une expertise développée au sein de grands groupes industriels tels que Renault Group, Stellantis, Safran, SNCF, Keolis, Air Liquide, SUEZ et ICM Ingénierie, où son fondateur a occupé des fonctions d'ingénieur méthodes puis de responsable méthodes et performance industrielle.",
-  "about.address": "<br />Siège social :<br />Cité Safco Niacoulrab, Villa N°40<br />11515 Keur Massar, Dakar – Sénégal",
   "about.p4": "IMMEIT : Votre partenaire en maintenance, fiabilité et performance industrielle.",
 
   "services.tag": "Notre expertise",
@@ -116,7 +112,6 @@
   "why.card5.desc": "Nous vous accompagnons dans la conformité aux réglementations en vigueur et aux normes industrielles.",
   "why.card6.title": "Augmentation de la durée de vie",
   "why.card6.desc": "Une maintenance rigoureuse et adaptée prolonge significativement la durée de vie de vos équipements industriels.",
-  "why.objective": "<strong>Objectif :</strong> Performance opérationnelle durable, fiabilité des équipements et maîtrise des coûts",
   "why.cta.title": "Prêt à collaborer avec IMMEIT ?",
 
   "cta.title": "En<span class=\"text--accent\">vie</span> de performance ?",
@@ -192,7 +187,6 @@
   "toast.required": "Veuillez remplir tous les champs obligatoires",
   "toast.success": "Message envoyé avec succès ! Nous vous répondrons sous 24h.",
   "toast.phone": "Numéro de téléphone invalide",
-  "toast.error": "Échec de l'envoi. Écrivez-nous à ",
   "toast.fallback": "Votre logiciel de messagerie va s'ouvrir avec le message pré-rempli. Sinon, écrivez-nous à ",
 
   "mm.meta.title": "Méthodes Maintenance & Performance - IMMEIT",

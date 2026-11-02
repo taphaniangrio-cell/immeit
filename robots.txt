@@ -3,10 +3,6 @@
 User-agent: *
 Allow: /
 
-Disallow: /.htaccess
-Disallow: /php-error.log
-Disallow: /config.php
-
 # Bloquer les crawlers d'entraînement IA
 User-agent: GPTBot
 Disallow: /

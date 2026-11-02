@@ -244,19 +244,15 @@ document.addEventListener('DOMContentLoaded', () => {
     Array.from(grid.children).forEach((child, i) => child.style.setProperty('--i', Math.min(i, 5)));
   });
 
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('visible');
-        entry.target.querySelectorAll?.('.kpi__num').forEach(animateKpi);
-        revealObserver.unobserve(entry.target);
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
-    observed.forEach(el => revealObserver.observe(el));
-  } else {
-    observed.forEach(el => el.classList.add('visible'));
-  }
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      entry.target.querySelectorAll?.('.kpi__num').forEach(animateKpi);
+      revealObserver.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+  observed.forEach(el => revealObserver.observe(el));
 
   // ===== Toast =====
   function showToast(message, type) {
@@ -502,34 +498,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const WEB3FORMS_KEY = window.WEB3FORMS_KEY || '';
 
     function buildApiPayload() {
-      return { prenom, nom, email, telephone, sujet, subject: sujet, message, name: fromName, botcheck: !!form.querySelector('[name="botcheck"]')?.checked };
+      return { prenom, nom, email, telephone, sujet, message, botcheck: !!form.querySelector('[name="botcheck"]')?.checked };
     }
 
     // Lit une réponse JSON sans propager une erreur de parsing (405/404/HTML)
     async function readJson(r) {
       const type = (r.headers.get('content-type') || '').toLowerCase();
       if (!type.includes('application/json')) return null;
-      try { return await r.json(); } catch (e) { return null; }
+      try { return await r.json(); } catch { return null; }
     }
 
     let ok = false;
-
-    // 0) PHP send_mail — uniquement si aucun service n'est configuré et si l'hôte exécute du PHP
-    //    (hébergement AMEN). Sur un hébergeur statique la réponse n'est pas du JSON : ignorée sans erreur.
-    if (!WORKER_API && !WEB3FORMS_KEY) {
-      try {
-        const fd = new FormData();
-        fd.append('prenom', prenom);
-        fd.append('nom', nom);
-        fd.append('email', email);
-        fd.append('telephone', telephone);
-        fd.append('sujet', sujet);
-        fd.append('message', message);
-        const r = await fetch('/send_mail.php', { method: 'POST', body: fd });
-        const d = await readJson(r);
-        if (d && d.success) ok = true;
-      } catch (e) { console.warn('send_mail.php failed:', e); }
-    }
 
     // 1) Cloudflare Worker — API JSON (prioritaire si configurée)
     if (!ok && WORKER_API) {
