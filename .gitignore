@@ -19,6 +19,7 @@ start-server*
 server/
 wrangler.toml
 wrangler.json
+.wrangler/
 playwright-profile/
 *.playwright/
 auth-state/
