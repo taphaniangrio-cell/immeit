@@ -8,7 +8,7 @@
     <meta http-equiv="Expires" content="0">
     <meta name="robots" content="index, follow">
     <meta name="description" content="IMMEIT — Méthodes maintenance et performance industrielle, installation climatisation. Expert en maintenance industrielle et tertiaire à Dakar et Paris." />
-     <meta name="theme-color" content="#111927" />
+     <meta name="theme-color" content="#0A1626" />
    <meta name="language" content="fr">
    <meta name="author" content="IMMEIT">
    <meta property="og:title" content="IMMEIT — Installation, Méthodes et Maintenance des Equipements Industriels et Tertiaires" />
@@ -29,33 +29,18 @@
     <link rel="alternate" hreflang="x-default" href="https://www.immeit.com" />
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>IMMEIT — Maintenance Industrielle &amp; Méthodes | Dakar · Paris</title>
-  <link rel="icon" type="image/jpeg" href="logo-immeit.jpeg" />
-  <link rel="apple-touch-icon" href="logo-immeit.jpeg" />
-  <!-- Preconnect pour ressources tierces -->
+  <link rel="icon" type="image/jpeg" href="/logo-immeit.jpeg">
+  <link rel="apple-touch-icon" href="/logo-immeit.jpeg">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="/img/hero-usine.webp" type="image/webp" media="(min-width: 761px)" fetchpriority="high">
+  <link rel="preload" as="image" href="/img/hero-usine-860.webp" type="image/webp" media="(max-width: 760px)" fetchpriority="high">
+  <link rel="stylesheet" href="/style.css?v=52">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-  <link rel="preload" as="image" href="indicateur-de-production.webp" type="image/webp" fetchpriority="high" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{font-family:Poppins,-apple-system,BlinkMacSystemFont,sans-serif;color:#f1f5f9;background:#111927;font-size:16px;line-height:1.6;overflow-x:hidden}
-    .skip-link{position:absolute;top:-999px;left:-999px;z-index:9999}
-    .skip-link:focus{top:0;left:0;padding:0.75rem 1.5rem;background:#fff;color:#111927;font-weight:600;text-decoration:none}
-    *:focus-visible{outline:2px solid #C99A3E;outline-offset:2px}
-    *:focus:not(:focus-visible){outline:none}
-    .nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(17,25,39,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(36,48,68,.6)}
-    .hero{min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden}
-    .hero__bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .hero__overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(17,25,39,.92),rgba(17,25,39,.6) 50%,rgba(17,25,39,.85))}
-    .container{max-width:1200px;margin:0 auto;padding:0 24px}
-  </style>
-<link rel="stylesheet" href="style.css?v=38" />
-    <link rel="stylesheet" href="immeit-responsive.css?v=16" />
    <script>
     // --- Configuration du formulaire de contact -----------------------------
     // Le site est hébergé en statique (GitHub Pages) : aucun PHP n'est exécuté.
@@ -273,7 +258,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       CookieConsent.run({
         guiOptions: {
-          consentModal: { layout: 'bar', position: 'bottom' }
+          consentModal: { layout: 'box', position: 'bottom right' }
         },
         categories: {
           necessary: {
@@ -344,34 +329,11 @@
 <body>
   <a href="#main-content" class="skip-link" data-i18n="skipLink">Aller au contenu principal</a>
 
-  <div class="loader" id="loader">
-    <div class="loader__spinner"></div>
-  </div>
-
-  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
-    <defs>
-      <linearGradient id="perfGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#1F538C" />
-        <stop offset="100%" style="stop-color:#C99A3E" />
-      </linearGradient>
-    </defs>
-  </svg>
-
-  <!-- NAV -->
-  <nav class="navbar" id="navbar">
+  <nav class="navbar on-ink" id="navbar">
     <div class="nav__inner">
-      <a href="/" class="nav__logo">
-        <span class="nav__logo-frame">
-            <picture>
-              <source srcset="logo-immeit.webp" type="image/webp">
-              <source srcset="logo-immeit.jpeg" type="image/jpeg">
-              <img src="logo-immeit.jpeg" alt="IMMEIT" width="120" height="40" loading="eager">
-            </picture>
-        </span>
-        <div class="nav__logo-text">
-          <span>IMMEIT</span>
-          <small data-i18n="nav.tagline">Installation, Méthodes et Maintenance<br>des Equipements Industriels et Tertiaires</small>
-        </div>
+      <a href="/" class="nav__logo" aria-label="IMMEIT">
+        <span class="logo-badge"><picture><source srcset="/logo-immeit.webp" type="image/webp"><img src="/logo-immeit.jpeg" alt="" width="200" height="200"></picture></span>
+        <span class="nav__name">IMMEIT</span>
       </a>
       <ul class="nav__links" id="navLinks">
         <li><a href="#about" class="nav__link" data-i18n="nav.about">À propos</a></li>
@@ -379,663 +341,446 @@
         <li><a href="#methodo" class="nav__link" data-i18n="nav.methodology">Méthodologie</a></li>
         <li><a href="#piliers" class="nav__link" data-i18n="nav.pillars">Piliers</a></li>
         <li><a href="#engagement" class="nav__link" data-i18n="nav.commitments">Engagements</a></li>
-        <li><a href="#why" class="nav__link" data-i18n="nav.whyUs">Pourquoi choisir IMMEIT ?</a></li>
-        <li><a href="#contact" class="nav__link" data-i18n="nav.contact">Contact</a></li>
+        <li><a href="#why" class="nav__link" data-i18n="nav.whyUs">Pourquoi IMMEIT</a></li>
+        <li><a href="#contact" class="nav__link nav__link--cta" data-i18n="nav.contact">Contact</a></li>
       </ul>
       <div class="nav__actions">
-        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+        <button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
       </div>
     </div>
-    <div class="nav-overlay" id="navOverlay"></div>
   </nav>
-   <main class="container-fluid" id="main-content">
 
-   <!-- HERO -->
-    <section class="hero" id="hero">
-       <div class="hero__bg">
-         <picture>
-           <source srcset="indicateur-de-production.webp" type="image/webp">
-           <source srcset="indicateur-de-production.jpg" type="image/jpeg">
-           <img src="indicateur-de-production.jpg" alt="Tableau de bord d'indicateurs de production industrielle" width="1080" height="675" class="hero__bg-img" fetchpriority="high" loading="eager">
-         </picture>
-         <div class="hero__gears" id="heroGears"></div>
-       </div>
-      <div class="hero__particles" id="particles"></div>
-      <div class="hero__gradient"></div>
-      <div class="hero__inner">
-        <div class="hero__logos">
-          <span class="hero__logos-title" data-i18n="hero.partners">Nos partenaires</span>
-          <div class="hero__logos-group">
-            <a href="https://p2m-icm.com/" class="hero__logo-link" id="p2mLogo" target="_blank" rel="noopener">
-              <picture>
-                <source srcset="logo-P2M.webp" type="image/webp">
-                <img src="logo-P2M.jpeg" alt="Logo P2M - Partenaire" class="hero__logo-duplicate" loading="lazy" width="120" height="60">
-              </picture>
-            </a>
-            <a href="https://www.industrelec.com/" class="hero__logo-link" id="industrielecLogo" target="_blank" rel="noopener">
-              <picture>
-                <source srcset="logo-INDUSTRELEC.webp" type="image/webp">
-                <img src="logo-INDUSTRELEC.jpeg" alt="Logo INDUSTRELEC - Partenaire" class="hero__logo-duplicate" loading="lazy" width="120" height="60">
-              </picture>
-            </a>
-          </div>
-        </div>
-        <div class="hero__content">
-          <div class="hero__badge-track">
-            <div class="hero__badge-inner" id="badgeInner">
-              <span class="hero__badge-text" id="badgeText" data-i18n="hero.badge">Méthodes maintenance &amp; performance industrielle</span>
-            </div>
-          </div>
-          <h1 data-i18n="hero.title">
-            Méthodes fiables<br/>
-            pour une <span class="hero__accent">production durable</span>
-          </h1>
-          <p data-i18n="hero.description">
-            IMMEIT est spécialisée dans la <span class="text--accent">méthode</span> maintenance et la <span class="text--accent">performance</span> industrielle et l'installation de systèmes de <span class="text--accent">climatisation</span>. Basée au Sénégal <svg class="contact__flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#00853F"/><rect x="1" width="1" height="2" fill="#FDEF42"/><rect x="2" width="1" height="2" fill="#E31B23"/><polygon points="1.5,0.65 1.6,0.9 1.88,0.93 1.67,1.13 1.71,1.4 1.5,1.27 1.29,1.4 1.33,1.13 1.12,0.93 1.4,0.9" fill="#00853F"/></svg> Dakar et en France <svg class="contact__flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg> Paris, nous concevons des solutions sur mesure pour garantir la <span class="text--accent">performance</span>, la <span class="text--accent">fiabilité</span> et la <span class="text--accent">longévité</span> de vos équipements.
-          </p>
-          <div class="hero__actions">
-            <a href="#contact" class="btn btn--primary btn--lg">
-              <i class="fas fa-paper-plane" style="color:#C99A3E"></i> Nous contacter
-            </a>
-            <a href="#services" class="btn btn--ghost btn--lg" data-i18n="hero.services">Nos services <i class="fas fa-arrow-right"></i></a>
-          </div>
-           <div class="hero__stats">
-             <div class="hero__stats-group">
-               <div class="hero__stat">
-                  <span class="hero__stat-num" data-count="2" data-suffix="+">0</span>
-                  <span class="hero__stat-label" data-i18n="hero.stat1.label">Clients accompagnés</span>
-                </div>
-                <div class="hero__stat">
-                  <span class="hero__stat-num" data-count="5">0</span>
-                  <span class="hero__stat-label" data-i18n="hero.stat2.label">Collaborateurs</span>
-                </div>
-                <div class="hero__stat">
-                  <span class="hero__stat-num" data-count="5" data-suffix="+">0</span>
-                  <span class="hero__stat-label" data-i18n="hero.stat3.label">Domaines d'expertise</span>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="section" id="about">
-      <div class="container">
-        <div class="about__grid">
-          <div class="about__media reveal">
-            <div class="about__logo-showcase">
-              <div class="about__logo-ring">
-                <picture>
-                  <source srcset="logo-immeit.webp" type="image/webp">
-                  <source srcset="logo-immeit.jpeg" type="image/jpeg">
-                  <img src="logo-immeit.jpeg" alt="IMMEIT" width="200" height="200" class="about__logo-img" loading="lazy">
-                </picture>
-              </div>
-              <div class="about__orbit about__orbit--1"></div>
-              <div class="about__orbit about__orbit--2"></div>
-            </div>
-          </div>
-          <div class="about__content reveal">
-            <span class="section__tag" data-i18n="about.tag">Qui sommes-nous ?</span>
-            <h2 class="section__title" data-i18n="about.title">Expert en <span class="text--accent">méthodes</span> <span style="color:var(--text)">maintenance</span> <span style="color:var(--text)">&amp;</span> <span class="text--accent">performance</span> industrielle</h2>
-            <p class="section__text" data-i18n="about.p1">
-              IMMEIT est une société spécialisée dans les <span class="text--accent">méthodes</span> de <span style="color:var(--text)">maintenance</span>, la <span class="text--accent">performance</span> industrielle, la <span class="text--accent">fiabilisation</span> des équipements, la <span class="text--accent">digitalisation</span> des processus de <span style="color:var(--text)">maintenance</span> et la <span class="text--accent">climatisation</span>.
-            </p>
-            <p class="section__text" data-i18n="about.p2">
-              Nous accompagnons les entreprises industrielles et tertiaires dans l'<span class="text--accent">optimisation</span> de leurs <span class="text--accent">performances</span> grâce à des solutions <span class="text--accent">adaptées</span> visant à améliorer la <span class="text--accent">disponibilité</span>, la <span class="text--accent">fiabilité</span>, la <span class="text--accent">sécurité</span> et la <span class="text--accent">productivité</span> de leurs installations.
-            </p>
-            <p class="section__text" data-i18n="about.p3">
-              Fondée en 2024 par Yelli NIANG, IMMEIT s'appuie sur une expertise développée au sein de grands groupes industriels tels que <span class="text--accent">Renault Group</span>, <span class="text--accent">Stellantis</span>, <span class="text--accent">Safran</span>, <span class="text--accent">SNCF</span>, <span class="text--accent">Keolis</span>, <span class="text--accent">Air Liquide</span>, <span class="text--accent">SUEZ</span> et <span class="text--accent">ICM Ingénierie</span>, où son fondateur a occupé des fonctions d'<span class="text--accent">ingénieur</span> méthodes puis de <span class="text--accent">responsable</span> méthodes et performance industrielle.
-            </p>
-            <p class="section__text" data-i18n="about.address">
-              <br />Siège social :<br />
-              Cité Safco Niacoulrab, Villa N°40<br />
-              11515 Keur Massar, Dakar – Sénégal
-            </p>
-            <p class="section__text" data-i18n="about.p4">
-              IMMEIT : Votre partenaire en <span class="text--accent">maintenance</span>, <span class="text--accent">fiabilité</span> et <span class="text--accent">performance</span> industrielle.
-            </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="section" id="services">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="services.tag">Notre expertise</span>
-          <h2 class="section__title" data-i18n="services.title"><span class="text--accent">2</span> domaines d'<span class="text--accent">activités</span></h2>
-          <p class="section__text"><span class="blink-text" data-i18n="services.subtitle">Deux expertises complémentaires pour la performance de vos installations</span></p>
-        </div>
-        <div class="services__grid">
-          <a href="methodes-maintenance.html" class="service-card-link">
-            <div class="service-card reveal">
-              <div class="service-card__icon"><i class="fas fa-chart-bar"></i></div>
-              <h3 data-i18n="services.card1.title">Méthodes Maintenance <span style="color:#fff">&amp;</span> Performance Industrielle</h3>
-              <span class="service-card__cta" data-i18n="services.card1.cta">Découvrir <i class="fas fa-arrow-right"></i></span>
-            </div>
+  <main id="main-content">
+<section class="hero on-ink" id="hero">
+  <picture class="hero__media">
+    <source media="(max-width: 760px)" srcset="/img/hero-usine-860.webp" type="image/webp">
+    <source srcset="/img/hero-usine.webp" type="image/webp">
+    <img src="/img/hero-usine.jpg" alt="" width="1536" height="864" fetchpriority="high">
+  </picture>
+  <div class="hero__inner container">
+    <p class="hero__kicker" data-i18n="hero.kicker">Méthodes maintenance & performance industrielle</p>
+    <h1 class="hero__title" data-i18n="hero.title">Méthodes fiables<br/> pour une<br/> <span class="hero__accent">production durable</span></h1>
+    <p class="hero__lead" data-i18n="hero.description">IMMEIT est spécialisée dans la méthode maintenance et la performance industrielle et l'installation de systèmes de climatisation. Basée à Dakar (Sénégal) et à Paris (France), nous concevons des solutions sur mesure pour garantir la performance, la fiabilité et la longévité de vos équipements.</p>
+    <div class="hero__actions">
+      <a href="#contact" class="btn btn--primary"><span data-i18n="hero.cta">Nous contacter</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
+      <a href="#services" class="btn btn--ghost" data-i18n="hero.services">Nos services</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="hero__rail">
+      <div>
+        <span class="rail__label" data-i18n="hero.partners">Nos partenaires</span>
+        <div class="partners">
+          <a href="https://p2m-icm.com/" target="_blank" rel="noopener">
+            <picture><source srcset="/logo-P2M.webp" type="image/webp"><img src="/logo-P2M.jpeg" alt="P2M" width="56" height="56" loading="lazy"></picture>
           </a>
-          <a href="climatisation.html" class="service-card-link">
-            <div class="service-card reveal">
-              <div class="service-card__icon"><i class="fas fa-snowflake"></i></div>
-              <h3 data-i18n="services.card2.title">Climatisation</h3>
-              <span class="service-card__cta" data-i18n="services.card2.cta">Découvrir <i class="fas fa-arrow-right"></i></span>
-            </div>
+          <a href="https://www.industrelec.com/" target="_blank" rel="noopener">
+            <picture><source srcset="/logo-INDUSTRELEC.webp" type="image/webp"><img src="/logo-INDUSTRELEC.jpeg" alt="INDUSTRELEC" width="56" height="56" loading="lazy"></picture>
           </a>
         </div>
       </div>
-    </section>
+      <div><span class="rail__label" data-i18n="hero.office.dakar">Dakar, Sénégal</span><a class="rail__value" href="tel:+221710338809" data-i18n="contact.phoneSN">+221 71 033 88 09</a></div>
+      <div><span class="rail__label" data-i18n="hero.office.paris">Paris, France</span><a class="rail__value" href="tel:+33754011945" data-i18n="contact.phoneFR">+33 7 54 01 19 45</a></div>
+      <div><span class="rail__label" data-i18n="hero.write">Écrire</span><a class="rail__value" href="mailto:contact@immeit.com" data-i18n="contact.email">contact@immeit.com</a></div>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track"><span>RCM</span><span>MTBF</span><span>MTTR</span><span>KPI</span><span>HSE</span><span>CAPEX</span><span>OPEX</span><span>Coswin</span><span>SAP</span><span>Maximo</span><span>CARL</span><span>Power BI</span><span>Spotfire</span><span>Looker Studio</span><span>RCM</span><span>MTBF</span><span>MTTR</span><span>KPI</span><span>HSE</span><span>CAPEX</span><span>OPEX</span><span>Coswin</span><span>SAP</span><span>Maximo</span><span>CARL</span><span>Power BI</span><span>Spotfire</span><span>Looker Studio</span></div>
+  </div>
+</section>
 
-    <!-- PERFORMANCE -->
-    <section class="section perf" id="perf">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="perf.tag">Indicateurs de performance</span>
-          <h2 class="section__title" data-i18n="perf.title">Des résultats <span class="text--accent">mesurables</span> et concrets</h2>
-          <p class="section__text" data-i18n="perf.subtitle">Notre méthodologie se traduit par des indicateurs de performance clés : <span class="text--accent">disponibilité</span>, réduction des <span class="text--accent">coûts</span>, <span class="text--accent">fiabilité</span> et <span class="text--accent">satisfaction</span>.</p>
-        </div>
-        <div class="perf__grid">
-          <div class="perf__card reveal">
-            <div class="perf__ring">
-              <svg viewBox="0 0 150 150">
-                <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar1" cx="75" cy="75" r="60" data-target="98.5" data-decimal="1"/>
-              </svg>
-              <div class="perf__value"><span id="perfVal1">0</span><small>%</small></div>
-            </div>
-            <div class="perf__icon"><i class="fas fa-chart-pie"></i></div>
-            <h3 data-i18n="perf.card1.title">Taux de disponibilité</h3>
-            <p data-i18n="perf.card1.desc">Disponibilité des équipements après optimisation de vos plans de maintenance.</p>
-          </div>
-          <div class="perf__card reveal">
-            <div class="perf__ring">
-              <svg viewBox="0 0 150 150">
-                <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar2" cx="75" cy="75" r="60" data-target="35" data-decimal="0"/>
-              </svg>
-              <div class="perf__value"><span id="perfVal2">0</span><small>%</small></div>
-            </div>
-            <div class="perf__icon"><i class="fas fa-coins"></i></div>
-            <h3 data-i18n="perf.card2.title">Réduction des coûts</h3>
-            <p data-i18n="perf.card2.desc">Baisse des coûts opérationnels grâce à une maintenance préventive optimisée.</p>
-          </div>
-          <div class="perf__card reveal">
-            <div class="perf__ring">
-              <svg viewBox="0 0 150 150">
-                <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar3" cx="75" cy="75" r="60" data-target="45" data-decimal="0"/>
-              </svg>
-              <div class="perf__value"><span id="perfVal3">0</span><small>%</small></div>
-            </div>
-            <div class="perf__icon"><i class="fas fa-shield-alt"></i></div>
-            <h3 data-i18n="perf.card3.title">Fiabilité améliorée</h3>
-            <p data-i18n="perf.card3.desc">Augmentation de la fiabilité et de la durée de vie de vos installations.</p>
-          </div>
-          <div class="perf__card reveal">
-            <div class="perf__ring">
-              <svg viewBox="0 0 150 150">
-                <circle class="perf__track" cx="75" cy="75" r="60"/>
-                <circle class="perf__bar" id="perfBar4" cx="75" cy="75" r="60" data-target="97" data-decimal="0"/>
-              </svg>
-              <div class="perf__value"><span id="perfVal4">0</span><small>%</small></div>
-            </div>
-            <div class="perf__icon"><i class="fas fa-star"></i></div>
-            <h3 data-i18n="perf.card4.title">Satisfaction client</h3>
-            <p data-i18n="perf.card4.desc">Taux de satisfaction mesuré auprès de nos clients accompagnés.</p>
-          </div>
+<section class="panel" id="about">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">01</span><span data-i18n="about.tag">Qui sommes-nous ?</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="about.title">Expert en méthodes maintenance &amp; performance industrielle</h2>
+    </div>
+    <div class="about" data-compact>
+    <div class="about__main">
+      <p class="section__text about__claim reveal" data-i18n="about.p4">IMMEIT : Votre partenaire en maintenance, fiabilité et performance industrielle.</p>
+      <div class="about__text reveal">
+        <div class="acc"><div class="acc__head about__more"><h3 data-i18n="about.more.intro">Présentation</h3></div><p class="acc__body intro" data-i18n="about.p1">IMMEIT est une société spécialisée dans les méthodes de maintenance, la performance industrielle, la fiabilisation des équipements, la digitalisation des processus de maintenance et la climatisation.</p></div>
+        <div class="about__cols">
+          <div class="acc"><div class="acc__head about__more"><h3 data-i18n="about.more.approach">Notre accompagnement</h3></div><p class="acc__body" data-i18n="about.p2">Nous accompagnons les entreprises industrielles et tertiaires dans l'optimisation de leurs performances grâce à des solutions adaptées visant à améliorer la disponibilité, la fiabilité, la sécurité et la productivité de leurs installations.</p></div>
+          <div class="acc"><div class="acc__head about__more"><h3 data-i18n="about.more.history">Notre parcours</h3></div><p class="acc__body" data-i18n="about.p3">Fondée en 2024 par Yelli NIANG, IMMEIT s'appuie sur une expertise développée au sein de grands groupes industriels tels que Renault Group, Stellantis, Safran, SNCF, Keolis, Air Liquide, SUEZ et ICM Ingénierie, où son fondateur a occupé des fonctions d'ingénieur méthodes puis de responsable méthodes et performance industrielle.</p></div>
         </div>
       </div>
-    </section>
-
-    <!-- METHODOLOGY -->
-    <section class="section" id="methodo">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="methodo.tag">Notre méthodologie</span>
-          <h2 class="section__title" data-i18n="methodo.title">Une approche structurée en <span class="text--accent">5 étapes</span></h2>
-          <p class="section__text" data-i18n="methodo.subtitle">Nous concevons et déployons des modèles de maintenance optimisés, garantissant un équilibre durable entre performance, fiabilité et maîtrise des coûts.</p>
+    </div>
+      <aside class="sheet acc reveal">
+        <div class="sheet__head acc__head"><span data-i18n="about.sheet.title">Cartouche</span><span>IMMEIT</span></div>
+        <div class="acc__body">
+          <div class="sheet__brand">
+            <picture><source srcset="/logo-immeit.webp" type="image/webp"><img src="/logo-immeit.jpeg" alt="Logo IMMEIT" width="60" height="60" loading="lazy"></picture>
+            <span data-i18n="nav.tagline">Installation, Méthodes et Maintenance<br>des Equipements Industriels et Tertiaires</span>
+          </div>
+          <dl class="sheet__grid">
+            <div class="sheet__cell"><dt data-i18n="about.sheet.founded.k">Fondée en</dt><dd data-i18n="about.sheet.founded.v">2024, par Yelli NIANG</dd></div>
+            <div class="sheet__cell"><dt data-i18n="about.sheet.office.k">Bureau</dt><dd data-i18n="about.sheet.office.v">Paris, France</dd></div>
+            <div class="sheet__cell sheet__cell--full"><dt data-i18n="about.sheet.hq.k">Siège social</dt><dd data-i18n="about.sheet.hq.v">Cité Safco Niacoulrab, Villa N°40<br />11515 Keur Massar, Dakar – Sénégal</dd></div>
+            <div class="sheet__cell sheet__cell--full"><dt data-i18n="about.sheet.area.k">Interventions</dt><dd data-i18n="about.sheet.area.v">Sénégal, France, Mali, Côte d'Ivoire</dd></div>
+            <div class="sheet__cell sheet__cell--third"><dt data-i18n="hero.stat1.label">Clients accompagnés</dt><dd>2+</dd></div>
+            <div class="sheet__cell sheet__cell--third"><dt data-i18n="hero.stat2.label">Collaborateurs</dt><dd>5</dd></div>
+            <div class="sheet__cell sheet__cell--third"><dt data-i18n="hero.stat3.label">Domaines d'expertise</dt><dd>5+</dd></div>
+          </dl>
         </div>
-        <div class="methodo__grid">
-          <div class="methodo__card reveal">
-            <div class="methodo__num">01</div>
-            <div class="methodo__icon"><i class="fas fa-search"></i></div>
-            <h3 data-i18n="methodo.step1.title">Analyser</h3>
-            <p data-i18n="methodo.step1.desc">Analyse de criticité et hiérarchisation des actifs pour identifier les équipements prioritaires et les axes d'amélioration.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">02</div>
-            <div class="methodo__icon"><i class="fas fa-tasks"></i></div>
-            <h3 data-i18n="methodo.step2.title">Stratégie</h3>
-            <p data-i18n="methodo.step2.desc">Définition de stratégies de maintenance adaptées aux enjeux spécifiques de chaque installation et processus.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">03</div>
-            <div class="methodo__icon"><i class="fas fa-tools"></i></div>
-            <h3 data-i18n="methodo.step3.title">Optimiser</h3>
-            <p data-i18n="methodo.step3.desc">Optimisation des plans et standards d'intervention pour maximiser la disponibilité et réduire les coûts opérationnels.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">04</div>
-            <div class="methodo__icon"><i class="fas fa-laptop-code"></i></div>
-            <h3 data-i18n="methodo.step4.title">Structurer</h3>
-            <p data-i18n="methodo.step4.desc">Structuration des données techniques et déploiement des outils GMAO pour une gestion centralisée et fiable.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">05</div>
-            <div class="methodo__icon"><i class="fas fa-chart-line"></i></div>
-            <h3 data-i18n="methodo.step5.title">Piloter</h3>
-            <p data-i18n="methodo.step5.desc">Pilotage par indicateurs clairs et amélioration continue pour garantir la performance dans la durée.</p>
-          </div>
-        </div>
-        <div class="methodo-dots">
-          <button class="dot active" aria-label="Étape 1"></button>
-          <button class="dot" aria-label="Étape 2"></button>
-          <button class="dot" aria-label="Étape 3"></button>
-          <button class="dot" aria-label="Étape 4"></button>
-          <button class="dot" aria-label="Étape 5"></button>
-        </div>
-        <div class="methodo__bottom reveal">
-          <p data-i18n="methodo.objective"><strong>Objectif :</strong> <span class="text--accent">Performance</span> opérationnelle <span class="text--accent">durable</span>, <span class="text--accent">fiabilité</span> des équipements et maîtrise des <span class="text--accent">coûts</span></p>
-        </div>
+      </aside>
+      <div class="groups acc reveal">
+        <p class="groups__label acc__head" data-i18n="about.groups">Expertise du fondateur, développée au sein de</p>
+        <ul class="groups__list acc__body">
+          <li>Renault Group</li>
+          <li>Stellantis</li>
+          <li>Safran</li>
+          <li>SNCF</li>
+          <li>Keolis</li>
+          <li>Air Liquide</li>
+          <li>SUEZ</li>
+          <li>ICM Ingénierie</li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- PILIERS -->
-    <section class="section" id="piliers">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="piliers.tag">Expertise</span>
-          <h2 class="section__title" data-i18n="piliers.title">Nos <span class="text--accent">9</span> piliers d'accompagnement</h2>
-        </div>
-        <div class="piliers-grid">
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-search"></i></div>
-            <h3 data-i18n="piliers.p1.title">1. Analyse <span style="color:var(--text)">&amp;</span> Diagnostic</h3>
-            <p data-i18n="piliers.p1.desc">Cartographie des actifs, analyse de criticité et diagnostic complet des performances des équipements.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-sitemap"></i></div>
-            <h3 data-i18n="piliers.p2.title">2. Organisation <span style="color:var(--text)">&amp;</span> Processus</h3>
-            <p data-i18n="piliers.p2.desc">Structuration des équipes, méthodes de travail et processus pour une maintenance efficace.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-shield-alt"></i></div>
-            <h3 data-i18n="piliers.p3.title">3. Politique de Maintenance Optimisée</h3>
-            <p data-i18n="piliers.p3.desc">Mise en place d'une maintenance préventive, conditionnelle et prédictive pour réduire les pannes.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-cogs"></i></div>
-            <h3 data-i18n="piliers.p4.title">4. Fiabilisation des Installations</h3>
-            <p data-i18n="piliers.p4.desc">Application des méthodes AMDEC et RCM pour améliorer la fiabilité et la disponibilité des installations.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-laptop-code"></i></div>
-            <h3 data-i18n="piliers.p5.title">5. Digitalisation <span style="color:var(--text)">&amp;</span> GMAO</h3>
-            <p data-i18n="piliers.p5.desc">Utilisation de la GMAO et des outils digitaux pour exploiter les données et piloter les interventions.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-road"></i></div>
-            <h3 data-i18n="piliers.p6.title">6. Schéma Directeur de Maintenance</h3>
-            <p data-i18n="piliers.p6.desc">Définition d'une stratégie de maintenance alignée avec les objectifs industriels et financiers.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-boxes"></i></div>
-            <h3 data-i18n="piliers.p7.title">7. Gestion des Pièces Stratégiques</h3>
-            <p data-i18n="piliers.p7.desc">Optimisation de la gestion des pièces de rechange et maîtrise des stocks critiques.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-chart-bar"></i></div>
-            <h3 data-i18n="piliers.p8.title">8. Rechange <span style="color:var(--text)">&amp;</span> Maîtrise des Stocks Critiques</h3>
-            <p data-i18n="piliers.p8.desc">Suivi des indicateurs clés : MTBF, MTTR, disponibilité des équipements et coûts de maintenance.</p>
-          </div>
-          <div class="service-card reveal">
-            <div class="service-card__icon"><i class="fas fa-project-diagram"></i></div>
-            <h3 data-i18n="piliers.p9.title">9. Gestion de Projets <span style="color:var(--text)">&amp;</span> Investissements</h3>
-            <p data-i18n="piliers.p9.desc">Sécurisation des investissements industriels et gestion efficace des projets CAPEX / OPEX.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+<section class="panel services on-ink" id="services">
+  <div class="container">
+    <p class="section__tag"><span class="section__num">02</span><span data-i18n="services.tag">Notre expertise</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="services.title">2 domaines d'activités</h2>
+      <p class="section__text" data-i18n="services.subtitle">Deux expertises complémentaires pour la performance de vos installations</p>
+    </div>
+  </div>
+  <div class="services__grid">
+    <a class="svc on-ink" href="/methodes-maintenance.html">
+      <picture>
+        <source media="(max-width: 760px)" srcset="/img/engrenages-860.webp" type="image/webp">
+        <source srcset="/img/engrenages.webp" type="image/webp">
+        <img src="/img/engrenages.jpg" alt="" width="1536" height="1024" loading="lazy">
+      </picture>
+      <span class="svc__body">
+        <span class="svc__tags" data-i18n="services.card1.tags">Audit · AMDEC · GMAO · KPI · HSE</span>
+        <h3 class="svc__title" data-i18n="services.card1.title">Méthodes Maintenance &amp; Performance Industrielle</h3>
+        <span class="svc__cta"><span data-i18n="services.card1.cta">Découvrir</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></span>
+      </span>
+    </a>
+    <a class="svc svc--right on-ink" href="/climatisation.html">
+      <picture>
+        <source media="(max-width: 760px)" srcset="/img/climatisation-toit-860.webp" type="image/webp">
+        <source srcset="/img/climatisation-toit.webp" type="image/webp">
+        <img src="/img/climatisation-toit.jpg" alt="" width="1536" height="864" loading="lazy">
+      </picture>
+      <span class="svc__body">
+        <span class="svc__tags" data-i18n="services.card2.tags">Vente · Installation · Préventif · Correctif</span>
+        <h3 class="svc__title" data-i18n="services.card2.title">Climatisation</h3>
+        <span class="svc__cta"><span data-i18n="services.card2.cta">Découvrir</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></span>
+      </span>
+    </a>
+  </div>
+</section>
 
-    <!-- ENGAGEMENTS -->
-    <section class="section" id="engagement">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="engagement.tag">Engagements</span>
-          <h2 class="section__title" data-i18n="engagement.title">Une collaboration fondée sur <span class="text--accent">la confiance</span></h2>
-        </div>
-        <div class="engagement__grid">
-          <div class="engagement__card reveal">
-            <div class="engagement__card-icon"><i class="fas fa-euro-sign"></i></div>
-            <h3 data-i18n="engagement.card1.title">Tarifs compétitifs</h3>
-            <p data-i18n="engagement.card1.desc">Des prestations de qualité à prix justes, avec un excellent rapport qualité-prix et des devis clairs sans surprises.</p>
-          </div>
-          <div class="engagement__card reveal">
-            <div class="engagement__card-icon"><i class="fas fa-file-invoice"></i></div>
-            <h3 data-i18n="engagement.card2.title">Transparence totale</h3>
-            <p data-i18n="engagement.card2.desc">Contrats et devis sans coûts cachés. Vous savez exactement ce que vous payez, en toute confiance.</p>
-          </div>
-          <div class="engagement__card reveal">
-            <div class="engagement__card-icon"><i class="fas fa-rocket"></i></div>
-            <h3 data-i18n="engagement.card3.title">Réactivité</h3>
-            <p data-i18n="engagement.card3.desc">Actions rapides sur vos contrats et devis pour garantir une expérience client optimale et des délais tenus.</p>
-          </div>
-          <div class="engagement__card reveal">
-            <div class="engagement__card-icon"><i class="fas fa-clipboard-check"></i></div>
-            <h3 data-i18n="engagement.card4.title">Suivi rigoureux</h3>
-            <p data-i18n="engagement.card4.desc">Suivi quotidien des prestations, audits mensuels, formation continue de nos équipes pour une qualité constante.</p>
-          </div>
-        </div>
+<section class="panel panel--alt" id="perf">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">03</span><span data-i18n="perf.tag">Indicateurs de performance</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="perf.title">Des résultats mesurables et concrets</h2>
+      <p class="section__text" data-i18n="perf.subtitle">Notre méthodologie se traduit par des indicateurs de performance clés : disponibilité, réduction des coûts, fiabilité et satisfaction.</p>
+    </div>
+    <div class="panel__body">
+      <div class="kpis">
+        <article class="kpi reveal">
+          <p class="kpi__value"><span class="kpi__num" data-target="98.5" data-decimal="1">98,5</span><span class="kpi__unit">%</span></p>
+          <div class="kpi__gauge" aria-hidden="true"><span style="--v:98.5%"></span></div>
+          <h3 data-i18n="perf.card1.title">Taux de disponibilité</h3>
+          <p data-i18n="perf.card1.desc">Disponibilité des équipements après optimisation de vos plans de maintenance.</p>
+        </article>
+        <article class="kpi reveal">
+          <p class="kpi__value"><span class="kpi__num" data-target="35" data-decimal="0">35</span><span class="kpi__unit">%</span></p>
+          <div class="kpi__gauge" aria-hidden="true"><span style="--v:35%"></span></div>
+          <h3 data-i18n="perf.card2.title">Réduction des coûts</h3>
+          <p data-i18n="perf.card2.desc">Baisse des coûts opérationnels grâce à une maintenance préventive optimisée.</p>
+        </article>
+        <article class="kpi reveal">
+          <p class="kpi__value"><span class="kpi__num" data-target="45" data-decimal="0">45</span><span class="kpi__unit">%</span></p>
+          <div class="kpi__gauge" aria-hidden="true"><span style="--v:45%"></span></div>
+          <h3 data-i18n="perf.card3.title">Fiabilité améliorée</h3>
+          <p data-i18n="perf.card3.desc">Augmentation de la fiabilité et de la durée de vie de vos installations.</p>
+        </article>
+        <article class="kpi reveal">
+          <p class="kpi__value"><span class="kpi__num" data-target="97" data-decimal="0">97</span><span class="kpi__unit">%</span></p>
+          <div class="kpi__gauge" aria-hidden="true"><span style="--v:97%"></span></div>
+          <h3 data-i18n="perf.card4.title">Satisfaction client</h3>
+          <p data-i18n="perf.card4.desc">Taux de satisfaction mesuré auprès de nos clients accompagnés.</p>
+        </article>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- POURQUOI CHOISIR IMMEIT -->
-    <section class="section" id="why">
-      <div class="container">
-        <div class="section__header reveal" style="margin-bottom: 2.5rem;">
-          <span class="section__tag" data-i18n="why.hero.tag">Pourquoi nous choisir</span>
-          <p class="section__text" data-i18n="why.hero.p">Des <span class="text--accent">résultats concrets</span> pour vos installations industrielles et tertiaires, grâce à une approche <span class="text--accent">rigoureuse</span> et <span class="text--accent">personnalisée</span>.</p>
-        </div>
-        <div class="services__grid">
-          <div class="methodo__card reveal">
-            <div class="methodo__num">01</div>
-            <div class="methodo__icon"><i class="fas fa-chart-line"></i></div>
-            <h3 data-i18n="why.card1.title">Réduction des arrêts de production</h3>
-            <p class="methodo__desc" data-i18n="why.card1.desc">Nous identifions et éliminons les causes racines des pannes pour maximiser la disponibilité de vos équipements.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">02</div>
-            <div class="methodo__icon"><i class="fas fa-clock"></i></div>
-            <h3 data-i18n="why.card2.title">Amélioration de la disponibilité</h3>
-            <p class="methodo__desc" data-i18n="why.card2.desc">Nos stratégies de maintenance préventive et prédictive augmentent le taux de disponibilité de vos installations.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">03</div>
-            <div class="methodo__icon"><i class="fas fa-euro-sign"></i></div>
-            <h3 data-i18n="why.card3.title">Optimisation des coûts de maintenance</h3>
-            <p class="methodo__desc" data-i18n="why.card3.desc">Nous réduisons vos coûts de maintenance tout en améliorant la performance grâce à une gestion optimisée des ressources.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">04</div>
-            <div class="methodo__icon"><i class="fas fa-shield-alt"></i></div>
-            <h3 data-i18n="why.card4.title">Renforcement de la sécurité</h3>
-            <p class="methodo__desc" data-i18n="why.card4.desc">Nos processus intègrent les normes HSE les plus strictes pour garantir la sécurité de vos équipes et installations.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">05</div>
-            <div class="methodo__icon"><i class="fas fa-gavel"></i></div>
-            <h3 data-i18n="why.card5.title">Respect des obligations réglementaires</h3>
-            <p class="methodo__desc" data-i18n="why.card5.desc">Nous vous accompagnons dans la conformité aux réglementations en vigueur et aux normes industrielles.</p>
-          </div>
-          <div class="methodo__card reveal">
-            <div class="methodo__num">06</div>
-            <div class="methodo__icon"><i class="fas fa-heartbeat"></i></div>
-            <h3 data-i18n="why.card6.title">Augmentation de la durée de vie</h3>
-            <p class="methodo__desc" data-i18n="why.card6.desc">Une maintenance rigoureuse et adaptée prolonge significativement la durée de vie de vos équipements industriels.</p>
-          </div>
-        </div>
-        <div class="methodo__bottom reveal" style="margin-top: 2rem;">
-          <p data-i18n="why.objective"><strong>Objectif :</strong> <span class="text--accent">Performance</span> opérationnelle <span class="text--accent">durable</span>, <span class="text--accent">fiabilité</span> des équipements et maîtrise des <span class="text--accent">coûts</span></p>
-        </div>
-        <div class="service-detail__cta reveal" style="text-align:center;margin-top:2.5rem;">
-          <h3 data-i18n="why.cta.title">Prêt à collaborer avec IMMEIT ?</h3>
-          <a href="#contact" class="btn btn--primary btn--lg" style="margin-top:1rem;">
-            <i class="fas fa-paper-plane" style="color:#C99A3E"></i> Nous contacter
-          </a>
-        </div>
-      </div>
-    </section>
+<section class="panel on-ink grid-lines" id="methodo">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">04</span><span data-i18n="methodo.tag">Notre méthodologie</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="methodo.title">Une approche structurée en 5 étapes</h2>
+      <p class="section__text" data-i18n="methodo.subtitle">Nous concevons et déployons des modèles de maintenance optimisés, garantissant un équilibre durable entre performance, fiabilité et maîtrise des coûts.</p>
+    </div>
+    <div class="panel__body">
+      <ol class="steps" data-observe data-compact>
+        <li class="step acc reveal"><div class="acc__head"><span class="item__num">01</span><h3 data-i18n="methodo.step1.title">Analyser</h3></div><p class="acc__body" data-i18n="methodo.step1.desc">Analyse de criticité et hiérarchisation des actifs pour identifier les équipements prioritaires et les axes d'amélioration.</p></li>
+        <li class="step acc reveal"><div class="acc__head"><span class="item__num">02</span><h3 data-i18n="methodo.step2.title">Stratégie</h3></div><p class="acc__body" data-i18n="methodo.step2.desc">Définition de stratégies de maintenance adaptées aux enjeux spécifiques de chaque installation et processus.</p></li>
+        <li class="step acc reveal"><div class="acc__head"><span class="item__num">03</span><h3 data-i18n="methodo.step3.title">Optimiser</h3></div><p class="acc__body" data-i18n="methodo.step3.desc">Optimisation des plans et standards d'intervention pour maximiser la disponibilité et réduire les coûts opérationnels.</p></li>
+        <li class="step acc reveal"><div class="acc__head"><span class="item__num">04</span><h3 data-i18n="methodo.step4.title">Structurer</h3></div><p class="acc__body" data-i18n="methodo.step4.desc">Structuration des données techniques et déploiement des outils GMAO pour une gestion centralisée et fiable.</p></li>
+        <li class="step acc reveal"><div class="acc__head"><span class="item__num">05</span><h3 data-i18n="methodo.step5.title">Piloter</h3></div><p class="acc__body" data-i18n="methodo.step5.desc">Pilotage par indicateurs clairs et amélioration continue pour garantir la performance dans la durée.</p></li>
+      </ol>
+      <p class="objective reveal" data-i18n="methodo.objective"><strong>Objectif :</strong> Performance opérationnelle durable, fiabilité des équipements et maîtrise des coûts</p>
+    </div>
+  </div>
+</section>
 
-    <!-- CTA -->
-    <section class="section cta-section">
-      <div class="container">
-        <div class="cta__content reveal">
-          <h2 data-i18n="cta.title">En<span class="text--accent">vie</span> de performance ?</h2>
-          <p data-i18n="cta.desc">Contactez-nous dès aujourd'hui pour un devis gratuit et personnalisé. Présents au Sénégal et en France.</p>
-          <a href="#contact" class="btn btn--primary btn--lg" style="margin-top:1rem;">
-            <i class="fas fa-paper-plane" style="color:#C99A3E"></i> Nous contacter
-          </a>
-        </div>
-      </div>
-    </section>
+<section class="panel" id="piliers">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">05</span><span data-i18n="piliers.tag">Expertise</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="piliers.title">Nos 9 piliers d'accompagnement</h2>
+    </div>
+    <div class="pillars" data-compact>
+              <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">01</span><h3 data-i18n="piliers.p1.title">Analyse &amp; Diagnostic</h3></div><p class="acc__body" data-i18n="piliers.p1.desc">Cartographie des actifs, analyse de criticité et diagnostic complet des performances des équipements.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">02</span><h3 data-i18n="piliers.p2.title">Organisation &amp; Processus</h3></div><p class="acc__body" data-i18n="piliers.p2.desc">Structuration des équipes, méthodes de travail et processus pour une maintenance efficace.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">03</span><h3 data-i18n="piliers.p3.title">Politique de Maintenance Optimisée</h3></div><p class="acc__body" data-i18n="piliers.p3.desc">Mise en place d'une maintenance préventive, conditionnelle et prédictive pour réduire les pannes.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">04</span><h3 data-i18n="piliers.p4.title">Fiabilisation des Installations</h3></div><p class="acc__body" data-i18n="piliers.p4.desc">Application des méthodes AMDEC et RCM pour améliorer la fiabilité et la disponibilité des installations.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">05</span><h3 data-i18n="piliers.p5.title">Digitalisation &amp; GMAO</h3></div><p class="acc__body" data-i18n="piliers.p5.desc">Utilisation de la GMAO et des outils digitaux pour exploiter les données et piloter les interventions.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">06</span><h3 data-i18n="piliers.p6.title">Schéma Directeur de Maintenance</h3></div><p class="acc__body" data-i18n="piliers.p6.desc">Définition d'une stratégie de maintenance alignée avec les objectifs industriels et financiers.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">07</span><h3 data-i18n="piliers.p7.title">Gestion des Pièces Stratégiques</h3></div><p class="acc__body" data-i18n="piliers.p7.desc">Optimisation de la gestion des pièces de rechange et maîtrise des stocks critiques.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">08</span><h3 data-i18n="piliers.p8.title">Rechange &amp; Maîtrise des Stocks Critiques</h3></div><p class="acc__body" data-i18n="piliers.p8.desc">Suivi des indicateurs clés : MTBF, MTTR, disponibilité des équipements et coûts de maintenance.</p></article>
+        <article class="pillar acc reveal"><div class="acc__head"><span class="item__num">09</span><h3 data-i18n="piliers.p9.title">Gestion de Projets &amp; Investissements</h3></div><p class="acc__body" data-i18n="piliers.p9.desc">Sécurisation des investissements industriels et gestion efficace des projets CAPEX / OPEX.</p></article>
+    </div>
+  </div>
+</section>
 
-    <!-- FAQ -->
-    <section class="section" id="faq">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="faq.tag">FAQ</span>
-          <h2 class="section__title" data-i18n="faq.title">Questions <span class="text--accent">fréquentes</span></h2>
-        </div>
-        <div class="faq__list reveal">
-          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
-            <div class="faq__question">
-              <span data-i18n="faq.q1">Quels secteurs couvrez-vous ?</span>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="faq__answer" data-i18n="faq.a1">Industriel, tertiaire et résidentiel. Nous travaillons avec des grands comptes (Renault, Stellantis, SAFRAN, SUEZ) comme avec des PME et particuliers pour la climatisation.</div>
-          </div>
-          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
-            <div class="faq__question">
-              <span data-i18n="faq.q2">Intervenez-vous uniquement au Sénégal ?</span>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="faq__answer" data-i18n="faq.a2">Non. Nous sommes présents au Sénégal (siège à Keur Massar), en France (Paris) et intervenons également au Mali et en Côte d'Ivoire.</div>
-          </div>
-          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
-            <div class="faq__question">
-              <span data-i18n="faq.q3">Proposez-vous des contrats de maintenance ?</span>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="faq__answer" data-i18n="faq.a3">Oui, nous proposons des contrats de maintenance préventive et corrective sur mesure, avec un suivi rigoureux et des rapports mensuels de performance.</div>
-          </div>
-          <div class="faq__item" onclick="toggleFaq(this)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
-            <div class="faq__question">
-              <span data-i18n="faq.q4">Quels logiciels GMAO maîtrisez-vous ?</span>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="faq__answer" data-i18n="faq.a4">Coswin, SAP, Maximo, CARL, DIMOMAINT — nous accompagnons nos clients sur le déploiement, la paramétrage et l'optimisation de leurs outils GMAO.</div>
-          </div>
-        </div>
-        </div>
-    </section>
+<section class="panel panel--alt" id="engagement">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">06</span><span data-i18n="engagement.tag">Engagements</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="engagement.title">Une collaboration fondée sur la confiance</h2>
+    </div>
+    <div class="panel__body">
+      <div class="commitments" data-compact>
+        <article class="commitment acc reveal"><div class="acc__head"><span class="item__num">01</span><h3 data-i18n="engagement.card1.title">Tarifs compétitifs</h3></div><p class="acc__body" data-i18n="engagement.card1.desc">Des prestations de qualité à prix justes, avec un excellent rapport qualité-prix et des devis clairs sans surprises.</p></article>
+        <article class="commitment acc reveal"><div class="acc__head"><span class="item__num">02</span><h3 data-i18n="engagement.card2.title">Transparence totale</h3></div><p class="acc__body" data-i18n="engagement.card2.desc">Contrats et devis sans coûts cachés. Vous savez exactement ce que vous payez, en toute confiance.</p></article>
+        <article class="commitment acc reveal"><div class="acc__head"><span class="item__num">03</span><h3 data-i18n="engagement.card3.title">Réactivité</h3></div><p class="acc__body" data-i18n="engagement.card3.desc">Actions rapides sur vos contrats et devis pour garantir une expérience client optimale et des délais tenus.</p></article>
+        <article class="commitment acc reveal"><div class="acc__head"><span class="item__num">04</span><h3 data-i18n="engagement.card4.title">Suivi rigoureux</h3></div><p class="acc__body" data-i18n="engagement.card4.desc">Suivi quotidien des prestations, audits mensuels, formation continue de nos équipes pour une qualité constante.</p></article>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- TESTIMONIALS -->
-    <section class="section testimonials-section">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="testimonials.tag">Témoignages</span>
-          <h2 class="section__title" data-i18n="testimonials.title">Ils nous <span class="text--accent">font confiance</span></h2>
-        </div>
-        <div class="testimonials__grid">
-          <div class="testimonial__card reveal">
-            <div class="testimonial__stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p data-i18n="testimonials.t1.text">"Merci pour la qualité du travail réalisé dans la gestion des rapports de maintenance et la mise à jour des KPI. La rigueur, la réactivité et le professionnalisme apportés contribuent efficacement au suivi de nos activités et de nos performances. La disponibilité et la qualité du travail à distance sont également très appréciées."</p>
-            <div class="testimonial__author">
-              <div class="testimonial__avatar">RN</div>
-              <div>
-                <strong data-i18n="testimonials.t1.author">Responsable Maintenance</strong>
-                <span data-i18n="testimonials.t1.org">PME, France</span>
-              </div>
-            </div>
-          </div>
-          <div class="testimonial__card reveal">
-            <div class="testimonial__stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-             <p data-i18n="testimonials.t2.text">Notre collaboration sur la gestion et le contrôle de nos rapports de maintenance a permis d'optimiser notre mode de fonctionnement. Elle a également contribué à faire monter en compétences nos collaborateurs, assurant ainsi une meilleure gestion opérationnelle. Par ailleurs, la valeur ajoutée apportée dans l'évolution de nos fichiers de suivi ainsi que dans les différentes analyses fonctionnelles nous a permis de gagner du temps dans le traitement des données utiles à nos livrables.</p>
-            <div class="testimonial__author">
-              <div class="testimonial__avatar">SB</div>
-              <div>
-                <strong data-i18n="testimonials.t2.author">Responsable Opérationnel France</strong>
-                <span data-i18n="testimonials.t2.org">P2M, France</span>
-              </div>
-            </div>
-          </div>
-          <div class="testimonial__card reveal">
-            <div class="testimonial__stars">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-            </div>
-            <p data-i18n="testimonials.t3.text">"Grâce à ce partenariat, il a été possible de répondre aux appels d'offres tout en réduisant les coûts des prestations, ce qui permet de se positionner au niveau des concurrents. Malgré la distance, la réactivité, l'écoute et le professionnalisme facilitent grandement le partenariat ainsi que la collaboration avec les équipes sur place. J'espère que notre partenariat continuera sur le long terme."</p>
-            <div class="testimonial__author">
-              <div class="testimonial__avatar">MS</div>
-              <div>
-                <strong data-i18n="testimonials.t3.author">Responsable d'activités</strong>
-                <span data-i18n="testimonials.t3.org">PME, France</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonials-dots">
-          <button class="dot active" aria-label="Témoignage 1"></button>
-          <button class="dot" aria-label="Témoignage 2"></button>
-          <button class="dot" aria-label="Témoignage 3"></button>
-        </div>
+<section class="panel panel--night on-ink grid-lines" id="why">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">07</span><span data-i18n="why.hero.tag">Pourquoi nous choisir</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="footer.whyUs">Pourquoi choisir IMMEIT ?</h2>
+      <p class="section__text" data-i18n="why.hero.p">Des résultats concrets pour vos installations industrielles et tertiaires, grâce à une approche rigoureuse et personnalisée.</p>
+    </div>
+    <div class="why">
+      <figure class="why__figure reveal">
+        <svg class="curve" data-observe viewBox="0 0 640 350" role="img" aria-labelledby="curveCaption">
+          <path class="curve__axis" d="M40 18V306H624"/>
+          <path class="curve__zone" d="M212 18V306M452 18V306"/>
+          <path class="curve__base" pathLength="1" d="M44 30C70 170 130 226 212 232L452 232C522 232 572 190 616 34"/>
+          <path class="curve__with" pathLength="1" d="M44 122C80 212 140 256 212 260L500 260C560 260 598 234 624 192"/>
+          <text x="48" y="14" data-i18n="why.fig.axis">Taux de défaillance λ(t)</text>
+          <text x="624" y="296" text-anchor="end" data-i18n="why.fig.time">Temps</text>
+          <text x="126" y="330" text-anchor="middle" data-i18n="why.fig.young">Jeunesse</text>
+          <text x="332" y="330" text-anchor="middle" data-i18n="why.fig.mature">Maturité</text>
+          <text x="538" y="330" text-anchor="middle" data-i18n="why.fig.old">Vieillesse</text>
+          <text x="332" y="222" text-anchor="middle" data-i18n="why.fig.without">Sans plan</text>
+          <text class="curve__with-label" x="332" y="286" text-anchor="middle" data-i18n="why.fig.with">Avec plan de maintenance</text>
+        </svg>
+        <figcaption class="why__caption" id="curveCaption" data-i18n="why.fig.caption">Fig. 1 — Courbe en baignoire : taux de défaillance au cours de la vie d'un équipement. Schéma de principe.</figcaption>
+      </figure>
+      <ol class="reasons" data-compact>
+        <li class="reason acc reveal"><div class="acc__head"><span class="item__num">01</span><h3 data-i18n="why.card1.title">Réduction des arrêts de production</h3></div><p class="acc__body" data-i18n="why.card1.desc">Nous identifions et éliminons les causes racines des pannes pour maximiser la disponibilité de vos équipements.</p></li>
+        <li class="reason acc reveal"><div class="acc__head"><span class="item__num">02</span><h3 data-i18n="why.card2.title">Amélioration de la disponibilité</h3></div><p class="acc__body" data-i18n="why.card2.desc">Nos stratégies de maintenance préventive et prédictive augmentent le taux de disponibilité de vos installations.</p></li>
+        <li class="reason acc reveal"><div class="acc__head"><span class="item__num">03</span><h3 data-i18n="why.card3.title">Optimisation des coûts de maintenance</h3></div><p class="acc__body" data-i18n="why.card3.desc">Nous réduisons vos coûts de maintenance tout en améliorant la performance grâce à une gestion optimisée des ressources.</p></li>
+        <li class="reason acc reveal"><div class="acc__head"><span class="item__num">04</span><h3 data-i18n="why.card4.title">Renforcement de la sécurité</h3></div><p class="acc__body" data-i18n="why.card4.desc">Nos processus intègrent les normes HSE les plus strictes pour garantir la sécurité de vos équipes et installations.</p></li>
+        <li class="reason acc reveal"><div class="acc__head"><span class="item__num">05</span><h3 data-i18n="why.card5.title">Respect des obligations réglementaires</h3></div><p class="acc__body" data-i18n="why.card5.desc">Nous vous accompagnons dans la conformité aux réglementations en vigueur et aux normes industrielles.</p></li>
+        <li class="reason acc reveal"><div class="acc__head"><span class="item__num">06</span><h3 data-i18n="why.card6.title">Augmentation de la durée de vie</h3></div><p class="acc__body" data-i18n="why.card6.desc">Une maintenance rigoureuse et adaptée prolonge significativement la durée de vie de vos équipements industriels.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="temoignages">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">08</span><span data-i18n="testimonials.tag">Témoignages</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="testimonials.title">Ils nous font confiance</h2>
+    </div>
+    <div class="panel__body">
+      <div class="quotes">
+        <figure class="quote reveal">
+          <blockquote data-i18n="testimonials.t1.text">Merci pour la qualité du travail réalisé dans la gestion des rapports de maintenance et la mise à jour des KPI. La rigueur, la réactivité et le professionnalisme apportés contribuent efficacement au suivi de nos activités et de nos performances. La disponibilité et la qualité du travail à distance sont également très appréciées.</blockquote>
+          <figcaption class="quote__author"><span class="quote__initials" aria-hidden="true">RN</span><span><strong data-i18n="testimonials.t1.author">Responsable Maintenance</strong><span data-i18n="testimonials.t1.org">PME, France</span></span></figcaption>
+        </figure>
+        <figure class="quote reveal">
+          <blockquote data-i18n="testimonials.t2.text">Notre collaboration sur la gestion et le contrôle de nos rapports de maintenance a permis d'optimiser notre mode de fonctionnement. Elle a également contribué à faire monter en compétences nos collaborateurs, assurant ainsi une meilleure gestion opérationnelle. Par ailleurs, la valeur ajoutée apportée dans l'évolution de nos fichiers de suivi ainsi que dans les différentes analyses fonctionnelles nous a permis de gagner du temps dans le traitement des données utiles à nos livrables.</blockquote>
+          <figcaption class="quote__author"><span class="quote__initials" aria-hidden="true">SB</span><span><strong data-i18n="testimonials.t2.author">Responsable Opérationnel France</strong><span data-i18n="testimonials.t2.org">P2M, France</span></span></figcaption>
+        </figure>
+        <figure class="quote reveal">
+          <blockquote data-i18n="testimonials.t3.text">Grâce à ce partenariat, il a été possible de répondre aux appels d'offres tout en réduisant les coûts des prestations, ce qui permet de se positionner au niveau des concurrents. Malgré la distance, la réactivité, l'écoute et le professionnalisme facilitent grandement le partenariat ainsi que la collaboration avec les équipes sur place. J'espère que notre partenariat continuera sur le long terme.</blockquote>
+          <figcaption class="quote__author"><span class="quote__initials" aria-hidden="true">MS</span><span><strong data-i18n="testimonials.t3.author">Responsable d'activités</strong><span data-i18n="testimonials.t3.org">PME, France</span></span></figcaption>
+        </figure>
       </div>
-    </section>
-    <!-- CONTACT -->
-    <section class="section section--compact" id="contact">
-      <div class="container">
-        <div class="contact__wrap reveal">
-          <div class="contact__info">
-            <div class="contact__info-head">
-              <div class="contact__icon-ring">
-                <i class="fas fa-pen-nib"></i>
-              </div>
-              <div>
-                <h2 class="section__title" data-i18n="contact.title">Une question, un projet ?</h2>
-              </div>
-            </div>
-            <p class="contact__info-text" data-i18n="contact.subtitle">Notre équipe vous répond sous 24h.</p>
-            <div class="contact__links">
-              <a href="tel:+221710338809"><i class="fas fa-phone"></i> <svg class="contact__flag" viewBox="0 0 3 2" width="16" height="12"><rect width="1" height="2" fill="#00853F"/><rect x="1" width="1" height="2" fill="#FDEF42"/><rect x="2" width="1" height="2" fill="#E31B23"/><polygon points="1.5,0.65 1.6,0.9 1.88,0.93 1.67,1.13 1.71,1.4 1.5,1.27 1.29,1.4 1.33,1.13 1.12,0.93 1.4,0.9" fill="#00853F"/></svg> <span data-i18n="contact.phoneSN">+221 71 033 88 09</span></a>
-              <a href="tel:+33754011945"><i class="fas fa-phone"></i> <svg class="contact__flag" viewBox="0 0 3 2" width="16" height="12"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg> <span data-i18n="contact.phoneFR">+33 7 54 01 19 45</span></a>
-              <a href="mailto:contact@immeit.com"><i class="fas fa-envelope"></i> <span data-i18n="contact.email">contact@immeit.com</span></a>
-            </div>
-          </div>
-           <form class="contact__form reveal" id="contactForm" novalidate>
-            <div class="form__row">
-              <div class="form__group">
-                <div class="form__input-wrap">
-                  <i class="fas fa-user form__icon"></i>
-                  <input type="text" id="prenom" name="prenom" placeholder=" " required minlength="2" maxlength="50" autocomplete="given-name"  />
-                  <label for="prenom" data-i18n="form.firstname">Prénom <span class="form__required">*</span></label>
-                </div>
-                <span class="form__error" id="prenomError"></span>
-              </div>
-              <div class="form__group">
-                <div class="form__input-wrap">
-                  <i class="fas fa-user form__icon"></i>
-                  <input type="text" id="nom" name="nom" placeholder=" " required minlength="2" maxlength="50" autocomplete="family-name" />
-                  <label for="nom" data-i18n="form.lastname">Nom <span class="form__required">*</span></label>
-                </div>
-                <span class="form__error" id="nomError"></span>
-              </div>
-            </div>
-            <div class="form__row">
-              <div class="form__group">
-                <div class="form__input-wrap">
-                  <i class="fas fa-envelope form__icon"></i>
-                  <input type="email" id="email" name="email" placeholder=" " required autocomplete="email" />
-                  <label for="email" data-i18n="form.email">Email <span class="form__required">*</span></label>
-                </div>
-                <span class="form__error" id="emailError"></span>
-              </div>
-              <div class="form__group">
-                <div class="form__input-wrap">
-                  <i class="fas fa-phone form__icon"></i>
-                  <input type="tel" id="telephone" name="telephone" placeholder=" " autocomplete="tel" />
-                  <label for="telephone" data-i18n="form.phone">Téléphone</label>
-                </div>
-                <span class="form__error" id="telephoneError"></span>
-              </div>
-            </div>
-            <div class="form__group">
-              <div class="form__input-wrap">
-                <i class="fas fa-tag form__icon"></i>
-                <input type="text" id="subject" name="subject" placeholder=" " required maxlength="200" />
-                <label for="subject" data-i18n="form.subject">Sujet <span class="form__required">*</span></label>
-              </div>
-              <span class="form__error" id="subjectError"></span>
-            </div>
-            <div class="form__group">
-              <div class="form__input-wrap">
-                <i class="fas fa-comment form__icon"></i>
-                <textarea id="message" name="message" rows="2" placeholder=" " required minlength="10" maxlength="2000"></textarea>
-                <label for="message" data-i18n="form.message">Message <span class="form__required">*</span></label>
-                <span class="form__char-counter" id="charCounter">2000</span>
-              </div>
-              <span class="form__error" id="messageError"></span>
-            </div>
-            <button type="submit" class="btn" id="submitBtn">
-              <span class="btn__text" data-i18n="form.send"><i class="fas fa-paper-plane" style="color:#C99A3E"></i> Envoyer</span>
-              <span class="btn__shimmer"></span>
-            </button>
-          </form>
-        </div>
+    </div>
+  </div>
+</section>
+
+<section class="band panel">
+  <div class="band__content reveal">
+    <p class="band__eyebrow" data-i18n="why.cta.title">Prêt à collaborer avec IMMEIT ?</p>
+    <h2 class="band__title" data-i18n="cta.title">En<span class="text--accent">vie</span> de performance ?</h2>
+    <p class="band__text" data-i18n="cta.desc">Contactez-nous dès aujourd'hui pour un devis gratuit et personnalisé. Présents au Sénégal et en France.</p>
+    <div class="band__actions">
+      <a href="#contact" class="btn btn--dark"><span data-i18n="cta.btn">Nous contacter</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
+    </div>
+  </div>
+  <picture class="band__media">
+    <source srcset="/img/hero-usine.webp" type="image/webp">
+    <img src="/img/hero-usine.jpg" alt="" width="1536" height="864" loading="lazy">
+  </picture>
+</section>
+
+<section class="panel panel--alt" id="faq">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">09</span><span data-i18n="faq.tag">FAQ</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="faq.title">Questions fréquentes</h2>
+      <a href="#contact" class="btn btn--ghost section__action"><span data-i18n="cta.btn">Nous contacter</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
+    </div>
+    <div class="panel__body">
+      <div class="faq__list reveal">
+        <details class="faq__item" name="faq" open><summary><span data-i18n="faq.q1">Quels secteurs couvrez-vous ?</span><span class="faq__icon" aria-hidden="true"></span></summary><div class="faq__answer" data-i18n="faq.a1">Industriel, tertiaire et résidentiel. Nous travaillons avec des grands comptes (Renault, Stellantis, SAFRAN, SUEZ) comme avec des PME et particuliers pour la climatisation.</div></details>
+        <details class="faq__item" name="faq"><summary><span data-i18n="faq.q2">Intervenez-vous uniquement au Sénégal ?</span><span class="faq__icon" aria-hidden="true"></span></summary><div class="faq__answer" data-i18n="faq.a2">Non. Nous sommes présents au Sénégal (siège à Keur Massar), en France (Paris) et intervenons également au Mali et en Côte d'Ivoire.</div></details>
+        <details class="faq__item" name="faq"><summary><span data-i18n="faq.q3">Proposez-vous des contrats de maintenance ?</span><span class="faq__icon" aria-hidden="true"></span></summary><div class="faq__answer" data-i18n="faq.a3">Oui, nous proposons des contrats de maintenance préventive et corrective sur mesure, avec un suivi rigoureux et des rapports mensuels de performance.</div></details>
+        <details class="faq__item" name="faq"><summary><span data-i18n="faq.q4">Quels logiciels GMAO maîtrisez-vous ?</span><span class="faq__icon" aria-hidden="true"></span></summary><div class="faq__answer" data-i18n="faq.a4">Coswin, SAP, Maximo, CARL, DIMOMAINT — nous accompagnons nos clients sur le déploiement, la paramétrage et l'optimisation de leurs outils GMAO.</div></details>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+<section class="panel on-ink grid-lines" id="contact">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">10</span><span data-i18n="nav.contact">Contact</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="contact.title">Une question, un projet ?</h2>
+      <p class="section__text" data-i18n="contact.subtitle">Notre équipe vous répond sous 24h.</p>
+    </div>
+    <div class="contact">
+      <div class="contact__links reveal">
+        <a href="tel:+221710338809"><span data-i18n="hero.office.dakar">Dakar, Sénégal</span><span data-i18n="contact.phoneSN">+221 71 033 88 09</span></a>
+        <a href="tel:+33754011945"><span data-i18n="hero.office.paris">Paris, France</span><span data-i18n="contact.phoneFR">+33 7 54 01 19 45</span></a>
+        <a href="mailto:contact@immeit.com"><span data-i18n="form.email">Email</span><span data-i18n="contact.email">contact@immeit.com</span></a>
+      </div>
+      <form class="contact__form reveal" id="contactForm" novalidate>
+        <div class="form__row">
+          <div class="field field--req">
+            <input type="text" id="prenom" name="prenom" placeholder=" " required minlength="2" maxlength="50" autocomplete="given-name" aria-describedby="prenomError">
+            <label for="prenom" data-i18n="form.firstname">Prénom</label>
+            <span class="form__error" id="prenomError"></span>
+          </div>
+          <div class="field field--req">
+            <input type="text" id="nom" name="nom" placeholder=" " required minlength="2" maxlength="50" autocomplete="family-name" aria-describedby="nomError">
+            <label for="nom" data-i18n="form.lastname">Nom</label>
+            <span class="form__error" id="nomError"></span>
+          </div>
+        </div>
+        <div class="form__row">
+          <div class="field field--req">
+            <input type="email" id="email" name="email" placeholder=" " required autocomplete="email" aria-describedby="emailError">
+            <label for="email" data-i18n="form.email">Email</label>
+            <span class="form__error" id="emailError"></span>
+          </div>
+          <div class="field">
+            <input type="tel" id="telephone" name="telephone" placeholder=" " autocomplete="tel" aria-describedby="telephoneError">
+            <label for="telephone" data-i18n="form.phone">Téléphone</label>
+            <span class="form__error" id="telephoneError"></span>
+          </div>
+        </div>
+        <div class="field field--req">
+          <input type="text" id="subject" name="subject" placeholder=" " required maxlength="200" aria-describedby="subjectError">
+          <label for="subject" data-i18n="form.subject">Sujet</label>
+          <span class="form__error" id="subjectError"></span>
+        </div>
+        <div class="field field--req field--grow">
+          <textarea id="message" name="message" rows="3" placeholder=" " required minlength="10" maxlength="2000" aria-describedby="messageError"></textarea>
+          <label for="message" data-i18n="form.message">Message</label>
+          <span class="form__char-counter" id="charCounter" aria-hidden="true">2000</span>
+          <span class="form__error" id="messageError"></span>
+        </div>
+        <div class="form__foot">
+          <span class="form__note" data-i18n="form.requiredNote">* Champs obligatoires</span>
+          <button type="submit" class="btn btn--primary" id="submitBtn"><span class="btn__text" data-i18n="form.send">Envoyer</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
+  <footer class="footer on-ink">
     <div class="container">
-      <div class="footer__inner">
-        <div class="footer__group">
-          <div class="footer__brand">
-            <span class="footer__logo-frame">
-              <picture>
-                <source srcset="/logo-immeit.webp" type="image/webp">
-                <source srcset="/logo-immeit.jpeg" type="image/jpeg">
-                <img src="/logo-immeit.jpeg" alt="IMMEIT" width="120" height="40" loading="lazy">
-              </picture>
-            </span>
-          </div>
-          <div class="footer__links">
-            <a href="#about" data-i18n="footer.about">À propos</a>
-            <a href="#services" data-i18n="footer.services">Services</a>
-            <a href="#methodo" data-i18n="footer.methodology">Méthodologie</a>
-            <a href="#piliers" data-i18n="footer.pillars">Piliers</a>
-            <a href="#engagement" data-i18n="footer.commitments">Engagements</a>
-            <a href="#why" data-i18n="footer.whyUs">Pourquoi choisir IMMEIT ?</a>
-          </div>
-          <div class="footer__legal">
-            <a href="mentions-legales.html">Mentions légales</a>
-            <a href="politique-confidentialite.html">Politique de confidentialité</a>
-          </div>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="/" class="nav__logo" aria-label="IMMEIT"><span class="logo-badge"><picture><source srcset="/logo-immeit.webp" type="image/webp"><img src="/logo-immeit.jpeg" alt="" width="200" height="200"></picture></span><span class="nav__name">IMMEIT</span></a>
+          <p data-i18n="nav.tagline">Installation, Méthodes et Maintenance<br>des Equipements Industriels et Tertiaires</p>
         </div>
-        <div class="footer__bottom">
-          <a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer__social-link footer__social-link--linkedin">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <span class="footer__copy" data-i18n="footer.copyright">&copy; 2026 IMMEIT</span>
-          <a href="https://wa.me/221710338809" target="_blank" rel="noopener" aria-label="WhatsApp Sénégal" class="footer__social-link footer__social-link--whatsapp">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <span>🇸🇳</span>
-          </a>
-          <a href="https://wa.me/33754011945"
-            target="_blank" rel="noopener" aria-label="WhatsApp France"
-            class="footer__social-link footer__social-link--whatsapp">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <span>🇫🇷</span>
-          </a>
+        <div>
+          <p class="footer__title" data-i18n="footer.navigation">Navigation</p>
+          <ul class="footer__list">
+            <li><a href="#about" data-i18n="footer.about">À propos</a></li>
+            <li><a href="#services" data-i18n="footer.services">Services</a></li>
+            <li><a href="#methodo" data-i18n="footer.methodology">Méthodologie</a></li>
+            <li><a href="#piliers" data-i18n="footer.pillars">Piliers</a></li>
+            <li><a href="#engagement" data-i18n="footer.commitments">Engagements</a></li>
+            <li><a href="#why" data-i18n="footer.whyUs">Pourquoi choisir IMMEIT ?</a></li>
+          </ul>
         </div>
+        <div>
+          <p class="footer__title" data-i18n="footer.expertise">Expertise</p>
+          <ul class="footer__list">
+            <li><a href="/methodes-maintenance.html" data-i18n="services.card1.title">Méthodes Maintenance &amp; Performance Industrielle</a></li>
+            <li><a href="/climatisation.html" data-i18n="services.card2.title">Climatisation</a></li>
+          </ul>
+          <p class="footer__title footer__title--spaced" data-i18n="footer.legalTitle">Légal</p>
+          <ul class="footer__list">
+            <li><a href="/mentions-legales.html" data-i18n="footer.legal">Mentions légales</a></li>
+            <li><a href="/politique-confidentialite.html" data-i18n="footer.privacy">Politique de confidentialité</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__title" data-i18n="footer.contactTitle">Contact</p>
+          <ul class="footer__list">
+            <li><a href="tel:+221710338809" data-i18n="contact.phoneSN">+221 71 033 88 09</a></li>
+            <li><a href="tel:+33754011945" data-i18n="contact.phoneFR">+33 7 54 01 19 45</a></li>
+            <li><a href="mailto:contact@immeit.com" data-i18n="contact.email">contact@immeit.com</a></li>
+            <li><a href="https://wa.me/221710338809" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp Sénégal</a></li>
+            <li><a href="https://wa.me/33754011945" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp France</a></li>
+            <li><a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__wordmark" aria-hidden="true">IMMEIT</div>
+      <div class="footer__bottom">
+        <span data-i18n="footer.copyright">© 2026 IMMEIT</span>
+        <span>Dakar · Paris</span>
       </div>
     </div>
   </footer>
 
-  <!-- BACK TO TOP -->
-  <button class="back-to-top" id="backToTop" aria-label="Retour en haut" data-i18n-attr="aria-label" data-i18n="backToTop.label">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2l-8 9h5v11h6V11h5z"/></svg>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Retour en haut" data-i18n-attr="aria-label" data-i18n="backToTop.label">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 17V4M5 9l5-5 5 5"/></svg>
   </button>
 
-    <script src="i18n.js?v=3"></script>
-    <script src="script.js?v=40"></script>
-   <script src="immeit-responsive.js?v=2"></script>
+  <script src="/i18n.js?v=5"></script>
+  <script src="/script.js?v=52"></script>
 </body>
 </html>
-

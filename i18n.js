@@ -18,7 +18,7 @@
 
   async function loadLang(lang) {
     try {
-      const resp = await fetch('locales/' + lang + '.json?v=' + Date.now());
+      const resp = await fetch('/locales/' + lang + '.json?v=' + Date.now());
       translations = await resp.json();
       currentLang = lang;
       loaded = true;
@@ -63,6 +63,11 @@
     const twitterDesc = document.querySelector('meta[name="twitter:description"]');
     const titleEl = document.querySelector('title');
 
+    updateSwitcher();
+
+    // Les pages légales et la 404 gardent leur propre titre et description
+    if (document.body.hasAttribute('data-static-meta')) return;
+
     const page = getPagePrefix();
 
     if (titleEl) {
@@ -85,8 +90,6 @@
       const d = get(page + 'meta.twitterDescription') || get(page + 'meta.description') || get('meta.twitterDescription');
       if (d) twitterDesc.setAttribute('content', d);
     }
-
-    updateSwitcher();
   }
 
   function getPagePrefix() {
@@ -109,11 +112,7 @@
     const btn = document.querySelector('.lang-switcher');
     if (!btn) return;
     const nextLang = currentLang === 'fr' ? 'en' : 'fr';
-    const code = nextLang === 'fr' ? 'FR' : 'EN';
-    const flag = nextLang === 'fr'
-      ? '<svg class="lang-switcher__flag" viewBox="0 0 3 2" width="14" height="10"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>'
-      : '<svg class="lang-switcher__flag" viewBox="0 0 60 30" width="14" height="10"><defs><clipPath id="uk-cp"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath></defs><path d="M0,0 v30 h60 v-30 z" fill="#012169"/><path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#uk-cp)" stroke="#C8102E" stroke-width="4"/><path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/><path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/></svg>';
-    btn.innerHTML = flag;
+    btn.innerHTML = currentLang === 'fr' ? '<b>FR</b> / EN' : 'FR / <b>EN</b>';
     const label = nextLang === 'fr' ? 'Français' : 'English';
     btn.setAttribute('aria-label', label);
     btn.title = label;

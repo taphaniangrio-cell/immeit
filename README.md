@@ -57,6 +57,24 @@ Les deux points de configuration sont dans `index.html` (bloc `<script>` en têt
 
 ---
 
+## Design system
+
+Direction « plan technique » : tout le style vit dans `style.css` et tout le comportement dans `script.js`.
+
+| Élément | Choix |
+|---|---|
+| Polices | Archivo (titres et texte), IBM Plex Mono (annotations et chiffres) |
+| Couleurs | Variables en tête de `style.css` : Encre `#0A1626`, Signal `#E5A93C`, Papier `#F5F6F4` |
+| Thèmes | Clair par défaut, classe `.on-ink` pour les sections sombres |
+| Tailles | Échelle unique `--t-*` en tête de `style.css` : ne pas ajouter d'autre taille de police. Toutes les dimensions sont en `rem` et le `rem` suit la taille de la fenêtre |
+| Sections | Classe `.panel` : chaque section occupe un écran. `script.js` (`fitPanels`) réduit le `rem` si une section dépasse. Si un texte s'allonge beaucoup, revérifier le rendu à 1280×560 (écran 1080p avec zoom Windows à 150 %) |
+| Textes | `locales/fr.json` et `locales/en.json` : `i18n.js` remplace le contenu des éléments `data-i18n` au chargement. Modifier un texte dans le HTML seul ne suffit pas |
+| Photos | `img/` : visuels générés par IA, à remplacer par des photos de terrain réelles dès que possible |
+
+Après une modification de `style.css` ou `script.js`, incrémenter le `?v=` dans les pages HTML.
+
+---
+
 ## Publication
 
 Le site est publié automatiquement à chaque `push` sur `main` :

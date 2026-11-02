@@ -1,310 +1,269 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  if (window.location.hash === '#contact') {
-    document.documentElement.style.scrollBehavior = 'auto';
-    const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ block: 'start' });
-    document.documentElement.style.scrollBehavior = '';
-  }
- 
-  // ===== Loader =====
-  const loader = document.getElementById('loader');
-  window.addEventListener('load', () => {
-    setTimeout(() => loader.classList.add('hidden'), 300);
-  });
-  setTimeout(() => loader.classList.add('hidden'), 2000);
-
-  // ===== Particles =====
-  const particlesContainer = document.getElementById('particles');
-  if (particlesContainer) {
-    for (let i = 0; i < 35; i++) {
-      const p = document.createElement('div');
-      p.className = 'hero__particle';
-      p.style.left = Math.random() * 100 + '%';
-      p.style.width = (Math.random() * 3 + 2) + 'px';
-      p.style.height = p.style.width;
-      p.style.animationDelay = (Math.random() * 20) + 's';
-      p.style.animationDuration = (15 + Math.random() * 15) + 's';
-      p.style.opacity = (Math.random() * 0.5 + 0.1);
-      particlesContainer.appendChild(p);
-    }
-  }
-  // ===== Gear SVG =====
-  (function initGear() {
-    var c = document.getElementById('heroGears');
-    if (!c) return;
-    var ns = 'http://www.w3.org/2000/svg';
-    var svg = document.createElementNS(ns, 'svg');
-    svg.setAttribute('viewBox', '0 0 200 200');
-    svg.style.cssText = 'position:absolute;top:2%;right:2%;width:180px;height:180px;display:block;overflow:visible';
-    svg.style.animation = 'spin 60s linear infinite';
-    svg.classList.add('hero__gear');
-    var defs = document.createElementNS(ns, 'defs');
-    function addGrad(id, cx, cy, r, stops) {
-      var g = document.createElementNS(ns, 'radialGradient');
-      g.setAttribute('id', id);
-      if (cx !== undefined) { g.setAttribute('cx', cx); g.setAttribute('cy', cy); g.setAttribute('r', r); }
-      stops.forEach(function (s) {
-        var el = document.createElementNS(ns, 'stop');
-        el.setAttribute('offset', s[0]); el.setAttribute('stop-color', s[1]);
-        g.appendChild(el);
-      });
-      defs.appendChild(g);
-    }
-    addGrad('m1', '35%', '30%', '75%', [['0%','#f5f5f5'],['25%','#d4d4d4'],['55%','#9a9a9a'],['80%','#707070'],['100%','#555555']]);
-    addGrad('m2', '60%', '65%', '72%', [['0%','#b8b8b8'],['40%','#888888'],['80%','#606060'],['100%','#444444']]);
-    addGrad('m3', '40%', '40%', '70%', [['0%','#e0e0e0'],['50%','#a0a0a0'],['100%','#6a6a6a']]);
-    addGrad('m4', undefined, undefined, undefined, [['0%','#7a7a7a'],['100%','#4a4a4a']]);
-    svg.appendChild(defs);
-    // shadow
-    var sh = document.createElementNS(ns, 'ellipse');
-    sh.setAttribute('cx', '104'); sh.setAttribute('cy', '104');
-    sh.setAttribute('rx', '90'); sh.setAttribute('ry', '88');
-    sh.setAttribute('fill', 'rgba(0,0,0,0.18)');
-    svg.appendChild(sh);
-    // teeth (12)
-    var tg = document.createElementNS(ns, 'g');
-    for (var i = 0; i < 12; i++) {
-      var t = document.createElementNS(ns, 'path');
-      t.setAttribute('d', 'M87,4 L113,4 L115,16 Q115,20 110,20 L90,20 Q85,20 85,16 Z');
-      t.setAttribute('fill', 'url(#m1)');
-      t.setAttribute('transform', 'rotate(' + (i * 30) + ' 100 100)');
-      tg.appendChild(t);
-    }
-    svg.appendChild(tg);
-    // outer rim
-    var rim = document.createElementNS(ns, 'circle');
-    rim.setAttribute('cx', '100'); rim.setAttribute('cy', '100');
-    rim.setAttribute('r', '82'); rim.setAttribute('fill', 'url(#m1)');
-    svg.appendChild(rim);
-    // bevel
-    var bev = document.createElementNS(ns, 'circle');
-    bev.setAttribute('cx', '100'); bev.setAttribute('cy', '100');
-    bev.setAttribute('r', '78'); bev.setAttribute('fill', 'url(#m2)');
-    svg.appendChild(bev);
-    // inner face
-    var face = document.createElementNS(ns, 'circle');
-    face.setAttribute('cx', '100'); face.setAttribute('cy', '100');
-    face.setAttribute('r', '74'); face.setAttribute('fill', 'url(#m3)');
-    svg.appendChild(face);
-    // thin highlight ring
-    var hr = document.createElementNS(ns, 'circle');
-    hr.setAttribute('cx', '100'); hr.setAttribute('cy', '100');
-    hr.setAttribute('r', '76'); hr.setAttribute('fill', 'none');
-    hr.setAttribute('stroke', 'rgba(255,255,255,0.25)');
-    hr.setAttribute('stroke-width', '1');
-    svg.appendChild(hr);
-    // cutout zone (bg color)
-    var cut = document.createElementNS(ns, 'circle');
-    cut.setAttribute('cx', '100'); cut.setAttribute('cy', '100');
-    cut.setAttribute('r', '48'); cut.setAttribute('fill', '#111927');
-    svg.appendChild(cut);
-    // 6 spokes
-    var sg = document.createElementNS(ns, 'g');
-    for (var i = 0; i < 6; i++) {
-      var sp = document.createElementNS(ns, 'path');
-      sp.setAttribute('d', 'M95,50 L105,50 L105,90 L95,90 Z');
-      sp.setAttribute('fill', 'url(#m4)');
-      sp.setAttribute('transform', 'rotate(' + (i * 60) + ' 100 100)');
-      sg.appendChild(sp);
-    }
-    svg.appendChild(sg);
-    // hub
-    var hub = document.createElementNS(ns, 'circle');
-    hub.setAttribute('cx', '100'); hub.setAttribute('cy', '100');
-    hub.setAttribute('r', '22'); hub.setAttribute('fill', 'url(#m1)');
-    svg.appendChild(hub);
-    var hub2 = document.createElementNS(ns, 'circle');
-    hub2.setAttribute('cx', '100'); hub2.setAttribute('cy', '100');
-    hub2.setAttribute('r', '18'); hub2.setAttribute('fill', 'url(#m2)');
-    svg.appendChild(hub2);
-    // bore
-    var bore = document.createElementNS(ns, 'circle');
-    bore.setAttribute('cx', '100'); bore.setAttribute('cy', '100');
-    bore.setAttribute('r', '7'); bore.setAttribute('fill', '#111927');
-    svg.appendChild(bore);
-    // keyway
-    var kw = document.createElementNS(ns, 'path');
-    kw.setAttribute('d', 'M96,100 L96,108 L104,108 L104,100 Z');
-    kw.setAttribute('fill', '#111927');
-    svg.appendChild(kw);
-    c.appendChild(svg);
-  })();
-
-  // ===== Navbar scroll =====
+  // ===== Navigation =====
   const navbar = document.getElementById('navbar');
+  const backToTop = document.getElementById('backToTop');
+
+  const contactPanel = document.getElementById('contact');
 
   let scrollTicking = false;
+  function onScroll() {
+    navbar?.classList.toggle('scrolled', window.scrollY > 40);
+    // Le bouton de retour ne doit pas recouvrir celui du formulaire
+    const contactRect = contactPanel?.getBoundingClientRect();
+    const onContact = contactRect && contactRect.top < window.innerHeight / 2 && contactRect.bottom > window.innerHeight / 2;
+    backToTop?.classList.toggle('visible', window.scrollY > 600 && !onContact);
+    scrollTicking = false;
+  }
   window.addEventListener('scroll', () => {
     if (!scrollTicking) {
-      requestAnimationFrame(() => {
-        navbar.classList.toggle('scrolled', window.scrollY > 60);
-        backToTop?.classList.toggle('visible', window.scrollY > 400);
-        scrollTicking = false;
-      });
+      requestAnimationFrame(onScroll);
       scrollTicking = true;
     }
-  });
+  }, { passive: true });
+  onScroll();
 
-  // ===== Badge scroll =====
-  const badgeInner = document.getElementById('badgeInner');
-  const badgeEl = document.getElementById('badgeText');
-  if (badgeInner && badgeEl) {
-    const sentence = window.I18N?.__('hero.badge') || 'IMMEIT – Méthodes Maintenance & Performance Industrielle | Vente, Installation, Mise en Service et Maintenance de Systèmes de Climatisation | Sénégal & France | Expertise grands comptes : P2M et INDUSTRELEC';
-    badgeEl.textContent = sentence;
-    const clone = badgeEl.cloneNode(true);
-    clone.id = 'badgeTextClone';
-    clone.setAttribute('aria-hidden', 'true');
-    badgeInner.appendChild(clone);
-    badgeInner.classList.add('scroll');
-  }
+  backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // ===== Active nav link on scroll =====
-  const navLinkItems = document.querySelectorAll('.nav__link');
-  const sections = document.querySelectorAll('section[id]');
+  // ===== Menu mobile =====
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
 
-  const SECTION_ORDER = ['hero', 'about', 'services', 'perf', 'methodo', 'piliers', 'engagement', 'why', 'faq', 'contact'];
-
-  function getCurrentSectionId() {
-    const active = document.querySelector('.nav__link.active');
-    if (active) {
-      const href = active.getAttribute('href');
-      if (href && href.startsWith('#')) return href.slice(1);
-    }
-    return 'hero';
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinkItems.forEach(link => link.classList.remove('active'));
-          const activeLink = document.querySelector(`.nav__link[href="#${entry.target.id}"]`);
-          if (activeLink) activeLink.classList.add('active');
-        }
-      });
-    },
-    { rootMargin: '-50% 0px -50% 0px' }
-  );
-
-  sections.forEach(section => observer.observe(section));
-
-  // ===== Footer fixed on contact =====
-  const contactSection = document.getElementById('contact');
-  const footerEl = document.querySelector('.footer');
-
-  if (contactSection && footerEl) {
-    function pinFooter() {
-      const h = footerEl.offsetHeight;
-      document.documentElement.style.setProperty('--footer-h', h + 'px');
-      footerEl.classList.add('footer--fixed');
-      contactSection.classList.add('footer-pinned');
+  if (hamburger && navLinks) {
+    function toggleMenu(open) {
+      const isOpen = open !== undefined ? open : !navLinks.classList.contains('open');
+      navLinks.classList.toggle('open', isOpen);
+      hamburger.classList.toggle('active', isOpen);
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     }
 
-    function unpinFooter() {
-      footerEl.classList.remove('footer--fixed');
-      contactSection.classList.remove('footer-pinned');
-    }
+    hamburger.addEventListener('click', () => toggleMenu());
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => toggleMenu(false)));
 
-    const footerObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          entry.isIntersecting ? pinFooter() : unpinFooter();
-        });
-      },
-      { threshold: 0 }
-    );
-    footerObserver.observe(contactSection);
-
-    document.querySelectorAll('a[href="#contact"]').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        contactSection.querySelectorAll('.reveal').forEach(el => {
-          el.classList.remove('reveal');
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-        });
-        pinFooter();
-        requestAnimationFrame(() => {
-          const btn = document.getElementById('submitBtn');
-          if (btn) {
-            const btnRect = btn.getBoundingClientRect();
-            const footerH = footerEl.offsetHeight;
-            const target = btnRect.top + window.pageYOffset - (window.innerHeight - btnRect.height - footerH - 20);
-            window.scrollTo({ top: target, behavior: 'smooth' });
-          }
-        });
-      });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        toggleMenu(false);
+        hamburger.focus();
+      }
     });
 
     window.addEventListener('resize', () => {
-      if (footerEl.classList.contains('footer--fixed')) pinFooter();
+      if (window.innerWidth > 899) toggleMenu(false);
     });
   }
 
-  // ===== Performance bars =====
-  const perfBars = document.querySelectorAll('.perf__bar');
-  const perfValues = document.querySelectorAll('[id^="perfVal"]');
-  const CIRCUMFERENCE = 2 * Math.PI * 60;
+  // ===== Listes dépliables =====
+  const mobileQuery = window.matchMedia('(max-width: 899px)');
 
-  function animatePerfBar(bar, valueEl) {
-    const target = parseFloat(bar.getAttribute('data-target'));
-    const decimal = parseInt(bar.getAttribute('data-decimal')) || 0;
-    const offset = CIRCUMFERENCE * (1 - target / 100);
-    bar.style.setProperty('--offset', offset + 'px');
-    bar.classList.add('animated');
+  // Index + détail : un seul service affiché à la fois
+  document.querySelectorAll('[data-browser]').forEach(list => {
+    const items = Array.from(list.querySelectorAll('.browser__item'));
 
-    let current = 0;
-    const step = target / 60;
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= target) {
-        current = target;
-        clearInterval(timer);
-      }
-      valueEl.textContent = current.toFixed(decimal);
-    }, 30);
-  }
+    items.forEach(item => {
+      item.querySelector('.browser__head').addEventListener('click', () => {
+        items.forEach(other => {
+          const isOpen = other === item;
+          other.classList.toggle('is-open', isOpen);
+          other.querySelector('.browser__head').setAttribute('aria-expanded', String(isOpen));
+        });
+      });
+    });
+  });
 
-  const perfObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const index = Array.from(perfBars).indexOf(entry.target);
-          if (index >= 0 && perfValues[index]) {
-            animatePerfBar(entry.target, perfValues[index]);
-          }
-          perfObserver.unobserve(entry.target);
+  // Listes [data-compact] : tout est visible sur ordinateur, dépliable sur mobile
+  function syncCompactLists() {
+    document.querySelectorAll('[data-compact]').forEach(list => {
+      list.querySelectorAll('.acc').forEach((item, i) => {
+        const head = item.querySelector('.acc__head');
+        if (mobileQuery.matches) {
+          const isOpen = i === 0;
+          item.classList.toggle('is-open', isOpen);
+          head.setAttribute('role', 'button');
+          head.setAttribute('tabindex', '0');
+          head.setAttribute('aria-expanded', String(isOpen));
+        } else {
+          item.classList.remove('is-open');
+          head.removeAttribute('role');
+          head.removeAttribute('tabindex');
+          head.removeAttribute('aria-expanded');
         }
       });
-    },
-    { threshold: 0.4 }
-  );
-
-  perfBars.forEach(bar => perfObserver.observe(bar));
-
-  // ===== Back to top =====
-  const backToTop = document.getElementById('backToTop');
-
-  if (backToTop) {
-    backToTop.addEventListener('click', () => {
-      const current = getCurrentSectionId();
-      const idx = SECTION_ORDER.indexOf(current);
-      if (idx > 0) {
-        const prev = document.getElementById(SECTION_ORDER[idx - 1]);
-        if (prev) prev.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
     });
   }
 
-  // ===== Toast notification =====
+  function toggleCompactItem(head) {
+    const item = head.closest('.acc');
+    const willOpen = !item.classList.contains('is-open');
+    item.closest('[data-compact]').querySelectorAll('.acc').forEach(other => {
+      const isOpen = other === item && willOpen;
+      other.classList.toggle('is-open', isOpen);
+      other.querySelector('.acc__head').setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const head = e.target.closest?.('[data-compact] .acc__head');
+    if (head && mobileQuery.matches) toggleCompactItem(head);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const head = e.target.closest?.('[data-compact] .acc__head');
+    if (head && mobileQuery.matches) {
+      e.preventDefault();
+      toggleCompactItem(head);
+    }
+  });
+
+  mobileQuery.addEventListener('change', syncCompactLists);
+  syncCompactLists();
+
+  // ===== Un écran par section =====
+  // Réduit le rem tant qu'une section dépasse de l'écran, dans son état le plus long
+  // (élément le plus long ouvert dans chaque liste dépliable).
+  const screenPanels = Array.from(document.querySelectorAll('.panel, .hero, .page-hero'));
+
+  function openLongestItems() {
+    const restore = [];
+    const textLength = el => (el ? el.textContent.length : 0);
+
+    function forceOpen(items, bodySelector, setState) {
+      const longest = items.reduce((a, b) => (textLength(b.querySelector(bodySelector)) > textLength(a.querySelector(bodySelector)) ? b : a));
+      items.forEach(item => {
+        const wasOpen = setState(item);
+        restore.push(() => setState(item, wasOpen));
+      });
+      items.forEach(item => setState(item, item === longest));
+    }
+
+    const classState = (item, value) => {
+      const current = item.classList.contains('is-open');
+      if (value !== undefined) item.classList.toggle('is-open', value);
+      return current;
+    };
+    const detailsState = (item, value) => {
+      const current = item.open;
+      if (value !== undefined) item.open = value;
+      return current;
+    };
+
+    document.querySelectorAll('.faq__list').forEach(list => {
+      forceOpen(Array.from(list.querySelectorAll('.faq__item')), '.faq__answer', detailsState);
+    });
+    if (mobileQuery.matches) {
+      document.querySelectorAll('[data-browser]').forEach(list => {
+        forceOpen(Array.from(list.querySelectorAll('.browser__item')), '.browser__body', classState);
+      });
+      document.querySelectorAll('[data-compact]').forEach(list => {
+        forceOpen(Array.from(list.querySelectorAll('.acc')), '.acc__body', classState);
+      });
+    }
+    return () => restore.forEach(fn => fn());
+  }
+
+  function fitPanels() {
+    if (!screenPanels.length) return;
+    const root = document.documentElement;
+    root.style.removeProperty('font-size');
+    const restoreItems = openLongestItems();
+    const overflows = () => screenPanels.some(panel => panel.offsetHeight > parseFloat(getComputedStyle(panel).minHeight) + 1);
+    // Plancher de lisibilité : en dessous, la section grandit plutôt que le texte ne rétrécit
+    const minSize = mobileQuery.matches ? 12.5 : 11;
+    let size = parseFloat(getComputedStyle(root).fontSize);
+    while (overflows() && size > minSize) {
+      size = Math.max(minSize, size - 0.25);
+      root.style.fontSize = size + 'px';
+    }
+    restoreItems();
+  }
+
+  let fitTimer;
+  function scheduleFit() {
+    clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitPanels, 120);
+  }
+
+  fitPanels();
+  window.addEventListener('resize', scheduleFit);
+  window.addEventListener('load', fitPanels);
+  document.fonts?.ready.then(fitPanels);
+  window.I18N?.onLanguageChange(() => requestAnimationFrame(fitPanels));
+
+  // ===== Lien actif au défilement =====
+  const navLinkItems = document.querySelectorAll('.nav__link');
+  const sections = document.querySelectorAll('section[id]');
+
+  if (navLinkItems.length && sections.length) {
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinkItems.forEach(link => link.classList.remove('active'));
+        document.querySelector(`.nav__link[href="#${entry.target.id}"]`)?.classList.add('active');
+      });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    sections.forEach(section => sectionObserver.observe(section));
+  }
+
+  // ===== Indicateurs =====
+  const kpiNumbers = document.querySelectorAll('.kpi__num');
+
+  function formatKpi(value, decimals) {
+    const lang = window.I18N?.currentLang === 'en' ? 'en-GB' : 'fr-FR';
+    return value.toLocaleString(lang, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  }
+
+  function animateKpi(el) {
+    const target = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimal, 10) || 0;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = formatKpi(target, decimals);
+      return;
+    }
+    const start = performance.now();
+    const duration = 1500;
+    function frame(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = formatKpi(target * eased, decimals);
+      if (progress < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  window.I18N?.onLanguageChange(() => {
+    kpiNumbers.forEach(el => {
+      el.textContent = formatKpi(parseFloat(el.dataset.target), parseInt(el.dataset.decimal, 10) || 0);
+    });
+  });
+
+  // ===== Apparition au défilement =====
+  const observed = document.querySelectorAll('.reveal, [data-observe]');
+
+  // Décale légèrement les éléments d'une même grille
+  document.querySelectorAll('.kpis, .steps, .pillars, .commitments, .quotes, .tools, .reasons').forEach(grid => {
+    Array.from(grid.children).forEach((child, i) => child.style.setProperty('--i', Math.min(i, 5)));
+  });
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll?.('.kpi__num').forEach(animateKpi);
+        revealObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    observed.forEach(el => revealObserver.observe(el));
+  } else {
+    observed.forEach(el => el.classList.add('visible'));
+  }
+
+  // ===== Toast =====
   function showToast(message, type) {
-    const existing = document.querySelector('.toast');
-    if (existing) existing.remove();
+    document.querySelector('.toast')?.remove();
     const toast = document.createElement('div');
     toast.className = 'toast toast--' + type;
+    toast.setAttribute('role', 'alert');
     toast.textContent = message;
     document.body.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add('toast--visible'));
@@ -314,7 +273,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // ===== Contact form =====
+  // ===== GA — liens de contact =====
+  document.querySelectorAll('.contact__links a').forEach(el => {
+    el.addEventListener('click', function () {
+      if (typeof gtag !== 'function') return;
+      const href = this.getAttribute('href') || '';
+      if (href.startsWith('tel:+221')) {
+        gtag('event', 'phone_click_sn', { event_category: 'Contact', event_label: 'Téléphone Sénégal' });
+      } else if (href.startsWith('tel:+33')) {
+        gtag('event', 'phone_click_fr', { event_category: 'Contact', event_label: 'Téléphone France' });
+      } else if (href.startsWith('mailto:')) {
+        gtag('event', 'email_click', { event_category: 'Contact', event_label: 'Email cliqué' });
+      }
+    });
+  });
+
+  // ===== Formulaire de contact =====
   const form = document.getElementById('contactForm');
   if (!form) return;
 
@@ -331,20 +305,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const subjectError = document.getElementById('subjectError');
   const messageError = document.getElementById('messageError');
   const submitBtn = document.getElementById('submitBtn');
+  const submitLabel = submitBtn.querySelector('.btn__text');
 
   const charCounter = document.getElementById('charCounter');
   const MAX_CHARS = 2000;
 
   updateCharCounter();
-  if (messageInput) autoResize(messageInput);
 
   function setFieldState(input, errorEl, isValid, message) {
     input.classList.remove('error', 'success');
+    input.removeAttribute('aria-invalid');
     errorEl.textContent = '';
     if (isValid === true) {
       input.classList.add('success');
     } else if (isValid === false) {
       input.classList.add('error');
+      input.setAttribute('aria-invalid', 'true');
       errorEl.textContent = message;
     }
   }
@@ -402,102 +378,64 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  prenomInput.addEventListener('blur', validatePrenom);
-  prenomInput.addEventListener('input', function () {
-    if (this.classList.contains('error') || this.classList.contains('success')) validatePrenom();
+  [
+    [prenomInput, validatePrenom],
+    [nomInput, validateNom],
+    [emailInput, validateEmail],
+    [telephoneInput, validateTelephone],
+    [subjectInput, validateSubject],
+    [messageInput, validateMessage],
+  ].forEach(([input, validate]) => {
+    input.addEventListener('blur', validate);
+    input.addEventListener('input', function () {
+      if (this.classList.contains('error') || this.classList.contains('success')) validate();
+    });
   });
 
-  nomInput.addEventListener('blur', validateNom);
-  nomInput.addEventListener('input', function () {
-    if (this.classList.contains('error') || this.classList.contains('success')) validateNom();
-  });
-
-  emailInput.addEventListener('blur', validateEmail);
-  emailInput.addEventListener('input', function () {
-    if (this.classList.contains('error') || this.classList.contains('success')) validateEmail();
-  });
-
-  telephoneInput.addEventListener('blur', validateTelephone);
-  telephoneInput.addEventListener('input', function () {
-    if (this.classList.contains('error') || this.classList.contains('success')) validateTelephone();
-  });
-
-  subjectInput.addEventListener('blur', validateSubject);
-  subjectInput.addEventListener('input', function () {
-    if (this.classList.contains('error') || this.classList.contains('success')) validateSubject();
-  });
-
-  messageInput.addEventListener('blur', validateMessage);
   messageInput.addEventListener('input', function () {
-    if (this.classList.contains('error') || this.classList.contains('success')) validateMessage();
     updateCharCounter();
-    autoResize(this);
+    if (mobileQuery.matches) autoResize(this);
   });
 
   function updateCharCounter() {
     if (!charCounter) return;
-    const len = messageInput.value.length;
-    const remaining = MAX_CHARS - len;
+    const remaining = MAX_CHARS - messageInput.value.length;
     charCounter.textContent = remaining;
     charCounter.classList.remove('form__char-counter--warn', 'form__char-counter--danger');
     if (remaining <= 20) charCounter.classList.add('form__char-counter--danger');
     else if (remaining <= 100) charCounter.classList.add('form__char-counter--warn');
   }
 
-  // ===== Auto-resize textarea =====
   function autoResize(el) {
     el.style.height = 'auto';
-    el.style.height = Math.max(60, el.scrollHeight) + 'px';
-  }
-
-  // ===== Confetti =====
-  function fireConfetti() {
-    const colors = ['#C99A3E', '#1F538C', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
-    for (let i = 0; i < 40; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      piece.style.left = Math.random() * 100 + 'vw';
-      piece.style.top = '-10px';
-      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-      piece.style.width = (Math.random() * 6 + 4) + 'px';
-      piece.style.height = (Math.random() * 6 + 4) + 'px';
-      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-      piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
-      piece.style.animationDelay = (Math.random() * 0.5) + 's';
-      document.body.appendChild(piece);
-      setTimeout(() => piece.remove(), 4000);
-    }
+    el.style.height = el.scrollHeight + 'px';
   }
 
   function setLoading(loading) {
-    if (loading) {
-      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-spinner fa-spin"></i> ' + (window.I18N?.__('form.sending') || 'Envoi en cours...') + '</span><span class="btn__shimmer"></span>';
-      submitBtn.disabled = true;
-    } else {
-      submitBtn.innerHTML = '<span class="btn__text"><i class="fas fa-paper-plane"></i> ' + (window.I18N?.__('form.send') || 'Envoyer') + '</span><span class="btn__shimmer"></span>';
-      submitBtn.disabled = false;
-    }
+    submitLabel.textContent = loading
+      ? (window.I18N?.__('form.sending') || 'Envoi en cours...')
+      : (window.I18N?.__('form.send') || 'Envoyer');
+    submitBtn.disabled = loading;
   }
 
   function clearForm() {
     form.reset();
-    [prenomInput, nomInput, emailInput, telephoneInput, subjectInput, messageInput].forEach(el => el.classList.remove('success', 'error'));
+    [prenomInput, nomInput, emailInput, telephoneInput, subjectInput, messageInput].forEach(el => {
+      el.classList.remove('success', 'error');
+      el.removeAttribute('aria-invalid');
+    });
     [prenomError, nomError, emailError, telephoneError, subjectError, messageError].forEach(el => el.textContent = '');
     updateCharCounter();
-    if (messageInput) {
-      messageInput.style.height = 'auto';
-    }
+    messageInput.style.height = '';
   }
 
   function showConfirmation(bannerHtml) {
     const banner = document.createElement('div');
-    banner.className = 'form-banner form-banner--' + (bannerHtml.includes('check-circle') ? 'success' : 'error');
+    banner.className = 'form-banner';
+    banner.setAttribute('role', 'status');
     banner.innerHTML = bannerHtml;
-    submitBtn.parentNode.insertBefore(banner, submitBtn);
-    if (bannerHtml.includes('check-circle')) {
-      fireConfetti();
-    }
-    setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 5000);
+    submitBtn.closest('.form__foot').before(banner);
+    setTimeout(() => { banner.classList.add('form-banner--hide'); setTimeout(() => banner.remove(), 400); }, 8000);
   }
 
   form.addEventListener('submit', async (e) => {
@@ -534,20 +472,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const req = __t('toast.required', 'Veuillez remplir tous les champs obligatoires');
         if (!prenomInput.value.trim()) {
           prenomInput.focus();
-          showToast(req, 'error');
         } else if (!nomInput.value.trim()) {
           nomInput.focus();
-          showToast(req, 'error');
         } else if (!emailInput.value.trim()) {
           emailInput.focus();
-          showToast(req, 'error');
         } else if (!subjectInput.value.trim()) {
           subjectInput.focus();
-          showToast(req, 'error');
         } else {
           messageInput.focus();
-          showToast(req, 'error');
         }
+        showToast(req, 'error');
       }
       form.classList.add('shake');
       setTimeout(() => form.classList.remove('shake'), 500);
@@ -623,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (ok) {
       setLoading(false);
-      showConfirmation('<i class="fas fa-check-circle"></i> ' + (window.I18N?.__('toast.success') || 'Message envoyé avec succès ! Nous vous répondrons sous 24h.'));
+      showConfirmation(window.I18N?.__('toast.success') || 'Message envoyé avec succès ! Nous vous répondrons sous 24h.');
       clearForm();
       if (typeof gtag === 'function') gtag('event', 'generate_lead', { value: 1, currency: 'EUR', event_category: 'Contact', event_label: sujet, subject: sujet, lead_source: 'Formulaire site web' });
       return;
@@ -636,27 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
       + '&body='   + encodeURIComponent(mailBody);
 
     setLoading(false);
-    showConfirmation('<i class="fas fa-info-circle"></i> ' + (window.I18N?.__('toast.fallback') || 'Votre logiciel de messagerie va s\'ouvrir avec le message pré-rempli. Sinon, écrivez-nous à ') + '<a href="mailto:contact@immeit.com">contact@immeit.com</a>');
-  });
-
-  // ===== GA tracking — contact links =====
-  document.querySelectorAll('.contact__links a').forEach(el => {
-    el.addEventListener('click', function () {
-      if (typeof gtag !== 'function') return;
-      const href = this.getAttribute('href') || '';
-      if (href.startsWith('tel:+221')) {
-        gtag('event', 'phone_click_sn', { event_category: 'Contact', event_label: 'Téléphone Sénégal' });
-      } else if (href.startsWith('tel:+33')) {
-        gtag('event', 'phone_click_fr', { event_category: 'Contact', event_label: 'Téléphone France' });
-      } else if (href.startsWith('mailto:')) {
-        gtag('event', 'email_click', { event_category: 'Contact', event_label: 'Email cliqué' });
-      }
-    });
+    showConfirmation((window.I18N?.__('toast.fallback') || 'Votre logiciel de messagerie va s\'ouvrir avec le message pré-rempli. Sinon, écrivez-nous à ') + '<a href="mailto:contact@immeit.com">contact@immeit.com</a>');
   });
 
 });
-
-// ===== FAQ toggle =====
-function toggleFaq(el) {
-  el.classList.toggle('open');
-}

@@ -5,10 +5,17 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
    <meta name="robots" content="index, follow">
    <meta name="description" content="Vente, installation et maintenance de climatiseurs pour particuliers, PME et industries. Intervention sous 24h. Expertise IMMEIT Sénégal et France." />
-   <meta name="theme-color" content="#111927" />
+   <meta name="theme-color" content="#0A1626" />
     <meta name="author" content="IMMEIT">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Installation &amp; Maintenance Climatisation — IMMEIT | Dakar Sénégal</title>
+  <link rel="icon" type="image/jpeg" href="/logo-immeit.jpeg">
+  <link rel="apple-touch-icon" href="/logo-immeit.jpeg">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=52">
     <link rel="canonical" href="https://www.immeit.com/climatisation.html">
 
     <!-- Open Graph -->
@@ -61,261 +68,196 @@
     ]
   }
   </script>
-  <link rel="icon" type="image/jpeg" href="logo-immeit.jpeg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="style.css?v=38" />
-  <link rel="stylesheet" href="immeit-responsive.css?v=16" />
 </head>
 <body>
-  <a href="#main-content" class="skip-link" style="position:absolute;top:-999px;left:-999px;z-index:9999" data-i18n="skipLink">Aller au contenu principal</a>
-  <style>*:focus-visible{outline:2px solid #C99A3E;outline-offset:2px}*:focus:not(:focus-visible){outline:none}.skip-link:focus{top:0;left:0;padding:0.75rem 1.5rem;background:#fff;color:#111927;font-weight:600;text-decoration:none}</style>
-  <nav class="navbar" id="navbar">
+  <a href="#main-content" class="skip-link" data-i18n="skipLink">Aller au contenu principal</a>
+
+  <nav class="navbar on-ink" id="navbar">
     <div class="nav__inner">
-      <a href="/" class="nav__logo">
-        <span class="nav__logo-frame">
-           <picture>
-              <source srcset="logo-immeit.webp" type="image/webp">
-              <source srcset="logo-immeit.jpeg" type="image/jpeg">
-              <img src="logo-immeit.jpeg" alt="IMMEIT" width="120" height="40" loading="lazy">
-            </picture>
-        </span>
-        <div class="nav__logo-text">
-          <span>IMMEIT</span>
-          <small data-i18n="nav.tagline">Installation, Méthodes et Maintenance<br>des Equipements Industriels et Tertiaires</small>
-        </div>
+      <a href="/" class="nav__logo" aria-label="IMMEIT">
+        <span class="logo-badge"><picture><source srcset="/logo-immeit.webp" type="image/webp"><img src="/logo-immeit.jpeg" alt="" width="200" height="200"></picture></span>
+        <span class="nav__name">IMMEIT</span>
       </a>
       <ul class="nav__links" id="navLinks">
-        <li><a href="/#hero" class="nav__link" data-i18n="nav.home">Accueil</a></li>
         <li><a href="/#about" class="nav__link" data-i18n="nav.about">À propos</a></li>
         <li><a href="/#services" class="nav__link" data-i18n="nav.services">Services</a></li>
         <li><a href="/#methodo" class="nav__link" data-i18n="nav.methodology">Méthodologie</a></li>
         <li><a href="/#piliers" class="nav__link" data-i18n="nav.pillars">Piliers</a></li>
         <li><a href="/#engagement" class="nav__link" data-i18n="nav.commitments">Engagements</a></li>
-        <li><a href="/#why" class="nav__link" data-i18n="nav.whyUs">Pourquoi choisir IMMEIT ?</a></li>
-        <li><a href="/#contact" class="nav__link" data-i18n="nav.contact">Contact</a></li>
+        <li><a href="/#why" class="nav__link" data-i18n="nav.whyUs">Pourquoi IMMEIT</a></li>
+        <li><a href="/#contact" class="nav__link nav__link--cta" data-i18n="nav.contact">Contact</a></li>
       </ul>
       <div class="nav__actions">
-        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+        <button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span></button>
       </div>
     </div>
-    <div class="nav-overlay" id="navOverlay"></div>
   </nav>
 
   <main id="main-content">
-    <section class="service-detail__hero">
-      <div class="container">
-        <div class="section__header reveal">
-          <span class="section__tag" data-i18n="clim.hero.tag">Climatisation</span>
-           <h1 class="section__title" data-i18n="clim.hero.title"><span class="text--accent">Climatisation</span></h1>
-          <p class="section__text" data-i18n="clim.hero.p">Vente, installation, maintenance préventive et corrective de systèmes de climatisation pour les secteurs industriel, tertiaire et résidentiel.</p>
-        </div>
+<section class="page-hero on-ink">
+  <div class="page-hero__text">
+    <p class="crumb"><a href="/" data-i18n="crumb.home">Accueil</a><span>/</span><a href="/#services" data-i18n="crumb.services">Services</a><span>/</span><span aria-current="page" data-i18n="clim.hero.tag">Climatisation</span></p>
+    <div class="page-hero__body">
+      <h1 class="page-hero__title" data-i18n="clim.hero.title">Climatisation</h1>
+      <p class="page-hero__lead" data-i18n="clim.hero.p">Vente, installation, maintenance préventive et corrective de systèmes de climatisation pour les secteurs industriel, tertiaire et résidentiel.</p>
+      <div class="page-hero__actions">
+        <a href="/#contact" class="btn btn--primary"><span data-i18n="clim.quote.cta">Demander un devis</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
+        <a href="tel:+221710338809" class="btn btn--ghost" data-i18n="contact.phoneSN">+221 71 033 88 09</a>
       </div>
-    </section>
+    </div>
+  </div>
+  <picture class="page-hero__media page-hero__media--right">
+    <source media="(max-width: 760px)" srcset="/img/climatisation-toit-860.webp" type="image/webp">
+    <source srcset="/img/climatisation-toit.webp" type="image/webp">
+    <img src="/img/climatisation-toit.jpg" alt="" width="1536" height="864" fetchpriority="high">
+  </picture>
+</section>
 
-    <section class="section service-detail__section">
-      <div class="container">
-        <div class="section__header reveal">
-          <h2 class="section__title" data-i18n="clim.services.title">Nos <span class="text--accent">services</span> en climatisation</h2>
-          <p class="section__text" data-i18n="clim.services.subtitle">Des solutions complètes pour tous vos besoins en climatisation : vente, installation et maintenance.</p>
-        </div>
-        <div class="flip-grid">
-          <div class="flip-card reveal">
-            <div class="flip-card__inner">
-              <div class="flip-card__front">
-                <div class="flip-card__icon"><i class="fas fa-snowflake"></i></div>
-                <h3 data-i18n="clim.card1.title">Vente</h3>
-              </div>
-              <div class="flip-card__back">
-                <ul style="list-style: none; padding: 0; margin: 0; align-self: stretch; text-align: left; font-size: 0.72rem; line-height: 1.4; color: var(--text-light);">
-                  <li style="margin-bottom: 4px; display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card1.l1">Climatiseurs adaptés à vos besoins</span>
-                  </li>
-                  <li style="display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card1.l2">Solutions adaptées à votre environnement</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="flip-card reveal">
-            <div class="flip-card__inner">
-              <div class="flip-card__front">
-                <div class="flip-card__icon"><i class="fas fa-tools"></i></div>
-                <h3 data-i18n="clim.card2.title">Installation <span style="color:var(--text)">&amp;</span> Mise en service</h3>
-              </div>
-              <div class="flip-card__back">
-                <ul style="list-style: none; padding: 0; margin: 0; align-self: stretch; text-align: left; font-size: 0.72rem; line-height: 1.4; color: var(--text-light);">
-                  <li style="margin-bottom: 4px; display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card2.l1">Pose professionnelle et mise en service</span>
-                  </li>
-                  <li style="margin-bottom: 4px; display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card2.l2">Tests de performance et optimisation énergétique</span>
-                  </li>
-                  <li style="display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card2.l3">Respect des normes en vigueur</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="flip-card reveal">
-            <div class="flip-card__inner">
-              <div class="flip-card__front">
-                <div class="flip-card__icon"><i class="fas fa-clipboard-check"></i></div>
-                <h3 data-i18n="clim.card3.title">Maintenance Préventive</h3>
-              </div>
-              <div class="flip-card__back">
-                <ul style="list-style: none; padding: 0; margin: 0; align-self: stretch; text-align: left; font-size: 0.72rem; line-height: 1.4; color: var(--text-light);">
-                  <li style="margin-bottom: 4px; display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card3.l1">Entretien régulier et nettoyage des unités</span>
-                  </li>
-                  <li style="margin-bottom: 4px; display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card3.l2">Contrôle des fluides et vérification des performances</span>
-                  </li>
-                  <li style="display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card3.l3">Prolongation de la durée de vie des équipements</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="flip-card reveal">
-            <div class="flip-card__inner">
-              <div class="flip-card__front">
-                <div class="flip-card__icon"><i class="fas fa-wrench"></i></div>
-                <h3 data-i18n="clim.card4.title">Maintenance Corrective</h3>
-              </div>
-              <div class="flip-card__back">
-                <ul style="list-style: none; padding: 0; margin: 0; align-self: stretch; text-align: left; font-size: 0.72rem; line-height: 1.4; color: var(--text-light);">
-                  <li style="margin-bottom: 4px; display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card4.l1">Dépannage rapide et réparation</span>
-                  </li>
-                  <li style="margin-bottom: 4px; display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card4.l2">Service après-vente (SAV) inclus</span>
-                  </li>
-                  <li style="display: flex; align-items: flex-start;">
-                    <span style="min-width: 0; flex: 1;" data-i18n="clim.card4.l3">Intervention sous 24h</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+<section class="panel" id="prestations">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">01</span><span data-i18n="crumb.services">Services</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="clim.services.title">Nos services en climatisation</h2>
+      <p class="section__text" data-i18n="clim.services.subtitle">Des solutions complètes pour tous vos besoins en climatisation : vente, installation et maintenance.</p>
+    </div>
+    <div class="panel__body">
+      <div class="browser reveal" data-browser>
+                <article class="browser__item is-open">
+          <h3 class="browser__heading"><button class="browser__head" type="button" aria-expanded="true" aria-controls="clim-01"><span class="item__num">01</span><span data-i18n="clim.card1.title">Vente</span><svg class="browser__mark icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button></h3>
+          <div class="browser__body" id="clim-01"><p class="browser__body-title" aria-hidden="true" data-i18n="clim.card1.title">Vente</p><ul>
+            <li data-i18n="clim.card1.l1">Climatiseurs adaptés à vos besoins</li>
+            <li data-i18n="clim.card1.l2">Solutions adaptées à votre environnement</li>
+          </ul></div>
+        </article>
+        <article class="browser__item">
+          <h3 class="browser__heading"><button class="browser__head" type="button" aria-expanded="false" aria-controls="clim-02"><span class="item__num">02</span><span data-i18n="clim.card2.title">Installation &amp; Mise en service</span><svg class="browser__mark icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button></h3>
+          <div class="browser__body" id="clim-02"><p class="browser__body-title" aria-hidden="true" data-i18n="clim.card2.title">Installation &amp; Mise en service</p><ul>
+            <li data-i18n="clim.card2.l1">Pose professionnelle et mise en service</li>
+            <li data-i18n="clim.card2.l2">Tests de performance et optimisation énergétique</li>
+            <li data-i18n="clim.card2.l3">Respect des normes en vigueur</li>
+          </ul></div>
+        </article>
+        <article class="browser__item">
+          <h3 class="browser__heading"><button class="browser__head" type="button" aria-expanded="false" aria-controls="clim-03"><span class="item__num">03</span><span data-i18n="clim.card3.title">Maintenance Préventive</span><svg class="browser__mark icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button></h3>
+          <div class="browser__body" id="clim-03"><p class="browser__body-title" aria-hidden="true" data-i18n="clim.card3.title">Maintenance Préventive</p><ul>
+            <li data-i18n="clim.card3.l1">Entretien régulier et nettoyage des unités</li>
+            <li data-i18n="clim.card3.l2">Contrôle des fluides et vérification des performances</li>
+            <li data-i18n="clim.card3.l3">Prolongation de la durée de vie des équipements</li>
+          </ul></div>
+        </article>
+        <article class="browser__item">
+          <h3 class="browser__heading"><button class="browser__head" type="button" aria-expanded="false" aria-controls="clim-04"><span class="item__num">04</span><span data-i18n="clim.card4.title">Maintenance Corrective</span><svg class="browser__mark icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></button></h3>
+          <div class="browser__body" id="clim-04"><p class="browser__body-title" aria-hidden="true" data-i18n="clim.card4.title">Maintenance Corrective</p><ul>
+            <li data-i18n="clim.card4.l1">Dépannage rapide et réparation</li>
+            <li data-i18n="clim.card4.l2">Service après-vente (SAV) inclus</li>
+            <li data-i18n="clim.card4.l3">Intervention sous 24h</li>
+          </ul></div>
+        </article>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section__header reveal" style="margin-bottom:2rem">
-          <h2 class="section__title" data-i18n="clim.advantages.title"><span class="text--accent">Les</span> avantages</h2>
+<section class="panel on-ink grid-lines" id="avantages">
+  <div class="container panel__inner">
+    <p class="section__tag"><span class="section__num">02</span><span data-i18n="clim.hero.tag">Climatisation</span></p>
+    <div class="section__head reveal">
+      <h2 class="section__title" data-i18n="clim.advantages.title">Les avantages</h2>
+    </div>
+    <div class="climate">
+      <ul class="advantages reveal">
+        <li><span class="item__num">01</span><span data-i18n="clim.advantages.l1">Confort thermique optimal toute l'année.</span></li>
+        <li><span class="item__num">02</span><span data-i18n="clim.advantages.l2">Réduction des consommations énergétiques.</span></li>
+        <li><span class="item__num">03</span><span data-i18n="clim.advantages.l3">Amélioration de la fiabilité des équipements.</span></li>
+        <li><span class="item__num">04</span><span data-i18n="clim.advantages.l4">Diminution des coûts de maintenance.</span></li>
+        <li><span class="item__num">05</span><span data-i18n="clim.advantages.l5">Accompagnement technique personnalisé.</span></li>
+      </ul>
+      <div class="approach reveal" data-compact>
+        <div class="acc">
+          <div class="acc__head"><h3 data-i18n="clim.cta.title1">Une approche orientée performance</h3></div>
+          <div class="acc__body"><p data-i18n="clim.cta.desc1">Notre expertise en maintenance et performance des équipements techniques permet de proposer des solutions durables, adaptées aux exigences des environnements tertiaires, industriels et résidentiels.</p></div>
         </div>
-        <div class="reveal" style="max-width:700px;margin:0 auto 0.25rem">
-          <ul style="list-style:none;padding:0;margin:0;font-size:1rem;line-height:1.8;color:var(--text-light)">
-            <li style="margin-bottom:12px;display:flex;align-items:flex-start">
-              <span style="color:var(--accent);margin-right:12px;flex-shrink:0;font-size:1.2rem;">▸</span>
-              <span data-i18n="clim.advantages.l1">Confort thermique optimal toute l'année.</span>
-            </li>
-            <li style="margin-bottom:12px;display:flex;align-items:flex-start">
-              <span style="color:var(--accent);margin-right:12px;flex-shrink:0;font-size:1.2rem;">▸</span>
-              <span data-i18n="clim.advantages.l2">Réduction des consommations énergétiques.</span>
-            </li>
-            <li style="margin-bottom:12px;display:flex;align-items:flex-start">
-              <span style="color:var(--accent);margin-right:12px;flex-shrink:0;font-size:1.2rem;">▸</span>
-              <span data-i18n="clim.advantages.l3">Amélioration de la fiabilité des équipements.</span>
-            </li>
-            <li style="margin-bottom:12px;display:flex;align-items:flex-start">
-              <span style="color:var(--accent);margin-right:12px;flex-shrink:0;font-size:1.2rem;">▸</span>
-              <span data-i18n="clim.advantages.l4">Diminution des coûts de maintenance.</span>
-            </li>
-            <li style="display:flex;align-items:flex-start">
-              <span style="color:var(--accent);margin-right:12px;flex-shrink:0;font-size:1.2rem;">▸</span>
-              <span data-i18n="clim.advantages.l5">Accompagnement technique personnalisé.</span>
-            </li>
-          </ul>
-        </div>
-        <div class="service-detail__cta reveal">
-          <h3 data-i18n="clim.cta.title1">Une approche orientée performance</h3>
-          <p data-i18n="clim.cta.desc1">Notre expertise en maintenance et performance des équipements techniques permet de proposer des solutions durables, adaptées aux exigences des environnements tertiaires, industriels et résidentiels.</p>
-          <h3 style="margin-top:1.5rem" data-i18n="clim.cta.title2">Contactez-nous</h3>
-          <p data-i18n="clim.cta.desc2">Donnez de la valeur à vos installations de climatisation avec une solution fiable, performante et maîtrisée.</p>
-          <p data-i18n="clim.cta.desc3">IMMEIT est votre partenaire pour un confort durable et une performance optimale.</p>
+        <div class="acc">
+          <div class="acc__head"><h3 data-i18n="clim.cta.title2">Contactez-nous</h3></div>
+          <div class="acc__body"><p data-i18n="clim.cta.desc2">Donnez de la valeur à vos installations de climatisation avec une solution fiable, performante et maîtrisée.</p><p data-i18n="clim.cta.desc3">IMMEIT est votre partenaire pour un confort durable et une performance optimale.</p></div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+<section class="band panel">
+  <div class="band__content reveal">
+    <h2 class="band__title" data-i18n="clim.quote.title">Demandez un devis climatisation gratuit</h2>
+    <p class="band__text" data-i18n="clim.quote.desc">Nos experts IMMEIT évaluent vos besoins en climatisation et CVC et vous contactent sous 24h ouvrées.</p>
+    <div class="band__actions">
+      <a href="/#contact" class="btn btn--dark"><span data-i18n="clim.quote.cta">Demander un devis</span><svg class="icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13M11 5l5 5-5 5"/></svg></a>
+      <a href="tel:+221710338809" class="btn btn--ghost" data-i18n="contact.phoneSN">+221 71 033 88 09</a>
+    </div>
+  </div>
+  <picture class="band__media band__media--right">
+    <source srcset="/img/climatisation-toit.webp" type="image/webp">
+    <img src="/img/climatisation-toit.jpg" alt="" width="1536" height="864" loading="lazy">
+  </picture>
+</section>
+
   </main>
 
-  <!-- CTA Devis climatisation -->
-  <section class="cta-section" style="text-align:center; padding:4rem 1.5rem; background: var(--color-bg-alt, #1a2535);">
-    <h2 style="font-size:1.75rem; margin-bottom:1rem;">Demandez un devis climatisation gratuit</h2>
-    <p style="max-width:480px; margin:0 auto 2rem; opacity:.8;">
-      Nos experts IMMEIT évaluent vos besoins en climatisation et CVC
-      et vous contactent sous 24h ouvrées.
-    </p>
-    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-      <a href="/#contact" class="btn-primary">Demander un devis</a>
-      <a href="tel:+221710338809" class="btn-secondary">+221 71 033 88 09</a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
+  <footer class="footer on-ink">
     <div class="container">
-      <div class="footer__inner">
-        <div class="footer__group">
-          <div class="footer__brand">
-            <span class="footer__logo-frame">
-              <picture>
-                <source srcset="/logo-immeit.webp" type="image/webp">
-                <source srcset="/logo-immeit.jpeg" type="image/jpeg">
-                <img src="/logo-immeit.jpeg" alt="IMMEIT" width="120" height="40" loading="lazy">
-              </picture>
-            </span>
-          </div>
-          <div class="footer__links">
-            <a href="/#about">À propos</a>
-            <a href="/#services">Services</a>
-            <a href="/#methodo">Méthodologie</a>
-            <a href="/#piliers">Piliers</a>
-            <a href="/#engagement">Engagements</a>
-            <a href="/#why">Pourquoi choisir IMMEIT ?</a>
-          </div>
-          <div class="footer__legal">
-            <a href="/mentions-legales.html">Mentions légales</a>
-            <a href="/politique-confidentialite.html">Politique de confidentialité</a>
-          </div>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="/" class="nav__logo" aria-label="IMMEIT"><span class="logo-badge"><picture><source srcset="/logo-immeit.webp" type="image/webp"><img src="/logo-immeit.jpeg" alt="" width="200" height="200"></picture></span><span class="nav__name">IMMEIT</span></a>
+          <p data-i18n="nav.tagline">Installation, Méthodes et Maintenance<br>des Equipements Industriels et Tertiaires</p>
         </div>
-        <div class="footer__bottom">
-          <a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer__social-link footer__social-link--linkedin">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <span class="footer__copy">&copy; 2026 IMMEIT</span>
-          <a href="https://wa.me/221710338809" target="_blank" rel="noopener" aria-label="WhatsApp Sénégal" class="footer__social-link footer__social-link--whatsapp">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <span>&#127480;&#127475;</span>
-          </a>
-          <a href="https://wa.me/33754011945"
-            target="_blank" rel="noopener" aria-label="WhatsApp France"
-            class="footer__social-link footer__social-link--whatsapp">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <span>&#127467;&#127479;</span>
-          </a>
+        <div>
+          <p class="footer__title" data-i18n="footer.navigation">Navigation</p>
+          <ul class="footer__list">
+            <li><a href="/#about" data-i18n="footer.about">À propos</a></li>
+            <li><a href="/#services" data-i18n="footer.services">Services</a></li>
+            <li><a href="/#methodo" data-i18n="footer.methodology">Méthodologie</a></li>
+            <li><a href="/#piliers" data-i18n="footer.pillars">Piliers</a></li>
+            <li><a href="/#engagement" data-i18n="footer.commitments">Engagements</a></li>
+            <li><a href="/#why" data-i18n="footer.whyUs">Pourquoi choisir IMMEIT ?</a></li>
+          </ul>
         </div>
+        <div>
+          <p class="footer__title" data-i18n="footer.expertise">Expertise</p>
+          <ul class="footer__list">
+            <li><a href="/methodes-maintenance.html" data-i18n="services.card1.title">Méthodes Maintenance &amp; Performance Industrielle</a></li>
+            <li><a href="/climatisation.html" data-i18n="services.card2.title">Climatisation</a></li>
+          </ul>
+          <p class="footer__title footer__title--spaced" data-i18n="footer.legalTitle">Légal</p>
+          <ul class="footer__list">
+            <li><a href="/mentions-legales.html" data-i18n="footer.legal">Mentions légales</a></li>
+            <li><a href="/politique-confidentialite.html" data-i18n="footer.privacy">Politique de confidentialité</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__title" data-i18n="footer.contactTitle">Contact</p>
+          <ul class="footer__list">
+            <li><a href="tel:+221710338809" data-i18n="contact.phoneSN">+221 71 033 88 09</a></li>
+            <li><a href="tel:+33754011945" data-i18n="contact.phoneFR">+33 7 54 01 19 45</a></li>
+            <li><a href="mailto:contact@immeit.com" data-i18n="contact.email">contact@immeit.com</a></li>
+            <li><a href="https://wa.me/221710338809" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp Sénégal</a></li>
+            <li><a href="https://wa.me/33754011945" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-1.101-1.01-1.83-2.1-2.044-2.455-.213-.356-.022-.548.16-.725.161-.158.362-.396.543-.594.182-.198.242-.33.363-.55.121-.22.061-.413-.03-.578-.092-.165-.67-1.615-.92-2.212-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.738 1.462h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp France</a></li>
+            <li><a href="https://www.linkedin.com/company/immeit-installation-m%C3%A9thodes-maintenance-des-%C3%A9quipements-industriels-et-tertiaires/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__wordmark" aria-hidden="true">IMMEIT</div>
+      <div class="footer__bottom">
+        <span data-i18n="footer.copyright">© 2026 IMMEIT</span>
+        <span>Dakar · Paris</span>
       </div>
     </div>
   </footer>
 
-  <!-- BACK TO TOP -->
-  <button class="back-to-top" id="backToTop" aria-label="Retour en haut" data-i18n-attr="aria-label" data-i18n="backToTop.label">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2l-8 9h5v11h6V11h5z"/></svg>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Retour en haut" data-i18n-attr="aria-label" data-i18n="backToTop.label">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 17V4M5 9l5-5 5 5"/></svg>
   </button>
 
-   <script src="i18n.js?v=3"></script>
-   <script src="script.js?v=40"></script>
-   <script src="immeit-responsive.js?v=2"></script>
+  <script src="/i18n.js?v=5"></script>
+  <script src="/script.js?v=52"></script>
 </body>
 </html>
