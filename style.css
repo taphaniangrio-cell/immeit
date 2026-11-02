@@ -954,6 +954,7 @@ html[lang="en"] .quote::before { content: "“"; }
 .contact__links a:hover { color: var(--signal); }
 
 .contact__form { display: flex; flex-direction: column; }
+.form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form__row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

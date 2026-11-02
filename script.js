@@ -514,9 +514,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let ok = false;
 
-    // 0) PHP send_mail — uniquement si l'hôte exécute du PHP (hébergement AMEN).
-    //    Sur un hébergeur statique la réponse n'est pas du JSON : ignorée sans erreur.
-    if (!ok) {
+    // 0) PHP send_mail — uniquement si aucun service n'est configuré et si l'hôte exécute du PHP
+    //    (hébergement AMEN). Sur un hébergeur statique la réponse n'est pas du JSON : ignorée sans erreur.
+    if (!WORKER_API && !FORMSPREE_ID) {
       try {
         const fd = new FormData();
         fd.append('prenom', prenom);
@@ -548,10 +548,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const r = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(buildApiPayload())
+          body: JSON.stringify({
+            prenom, nom, email, telephone, sujet, message,
+            _subject: '[IMMEIT - Demande] ' + sujet,
+            _gotcha: form.querySelector('[name="_gotcha"]')?.value || ''
+          }),
+          signal: AbortSignal.timeout(15000)
         });
-        const d = await readJson(r);
-        if (d && d.success) ok = true;
+        if (r.ok) ok = true;
+        else console.warn('Formspree failed:', r.status);
       } catch (e) { console.warn('Formspree failed:', e); }
     }
 
